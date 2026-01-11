@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  MDWriter
+*/
+
+/* Sidebar */
+"Outline" = "Outline";
+
+/* Toolbar */
+"Style" = "Style";
+"Preview" = "Preview";
+"Theme" = "Theme";
+"Export" = "Export";
+"Insert Image" = "Insert Image";
+
+/* Export Menu */
+"PDF" = "PDF Document";
+"Rich Text (Word)" = "Rich Text (Word)";
+"Markdown" = "Markdown Document";
+
+/* Theme Menu */
+"System" = "System";
+"Light" = "Light";
+"Dark" = "Dark";
+
+/* Typography Panel */
+"Typography" = "Typography";
+"Font" = "Font";
+"Size" = "Size";
+"Line Height" = "Line Height";
+"Para Spacing" = "Para Spacing";
+"First Line" = "First Line";
+"Width" = "Width";
+
+/* Font Presets */
+"Presets" = "Presets";
+"Installed Fonts" = "Installed Fonts";
+"System UI" = "System UI";
+"System Serif" = "System Serif";
+"Monospaced" = "Monospaced";
+
+/* Stats */
+"%d words" = "%d words";
+"%d chars" = "%d chars";
+"%d min read" = "%d min read";
+
+/* App Updater */
+"Check for Updates..." = "Check for Updates...";

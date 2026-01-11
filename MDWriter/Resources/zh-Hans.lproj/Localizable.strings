@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  MDWriter
+*/
+
+/* Sidebar */
+"Outline" = "大纲";
+
+/* Toolbar */
+"Style" = "样式";
+"Preview" = "预览";
+"Theme" = "主题";
+"Export" = "导出";
+"Insert Image" = "插入图片";
+
+/* Export Menu */
+"PDF" = "PDF 文档";
+"Rich Text (Word)" = "富文本 (Word)";
+"Markdown" = "Markdown 文档";
+
+/* Theme Menu */
+"System" = "跟随系统";
+"Light" = "浅色模式";
+"Dark" = "深色模式";
+
+/* Typography Panel */
+"Typography" = "排版设置";
+"Font" = "字体";
+"Size" = "字号";
+"Line Height" = "行高";
+"Para Spacing" = "段落间距";
+"First Line" = "首行缩进";
+"Width" = "内容宽度";
+
+/* Font Presets */
+"Presets" = "预设字体";
+"Installed Fonts" = "已安装字体";
+"System UI" = "系统默认";
+"System Serif" = "系统衬线体";
+"Monospaced" = "等宽字体";
+
+/* Stats */
+"%d words" = "%d 字";
+"%d chars" = "%d 字符";
+"%d min read" = "%d 分钟阅读";
+
+/* App Updater */
+"Check for Updates..." = "检查更新...";
