@@ -13,7 +13,7 @@ struct MDWriterApp: App {
     // 初始化 AppUpdater
     // 注意：请将 'owner' 和 'repo' 替换为您实际的 GitHub 用户名和仓库名
     @StateObject var appUpdater = AppUpdater(
-        owner: "steve", // 替换为您的 GitHub 用户名
+        owner: "lpgneg19", // 替换为您的 GitHub 用户名
         repo: "MDWriter",      // 替换为您的仓库名
         interval: 86400      // 自动检查频率 (每天)
     )
