@@ -10,24 +10,48 @@ import AppUpdater
 
 @main
 struct MDWriterApp: App {
-    // 初始化 AppUpdater
-    // 注意：请将 'owner' 和 'repo' 替换为您实际的 GitHub 用户名和仓库名
+    // 保持更新器
     @StateObject var appUpdater = AppUpdater(
-        owner: "lpgneg19", // 替换为您的 GitHub 用户名
-        repo: "MDWriter",      // 替换为您的仓库名
-        interval: 86400      // 自动检查频率 (每天)
+        owner: "steve",
+        repo: "MDWriter",
+        interval: 86400
     )
+    
+    // 全局文件系统模型
+    @StateObject var fileSystem = FileSystemModel()
 
     var body: some Scene {
-        DocumentGroup(newDocument: MDWriterDocument()) { file in
-            ContentView(document: file.$document)
+        // 使用 WindowGroup 替代 DocumentGroup
+        WindowGroup {
+            LibraryView()
+                .environmentObject(fileSystem)
         }
         .commands {
-            // 在应用菜单 (MDWriter) 中添加 "Check for Updates..."
+            // 添加菜单命令
             CommandGroup(after: .appInfo) {
                 Button("Check for Updates...") {
                     appUpdater.check()
                 }
+            }
+            
+            CommandGroup(replacing: .newItem) {
+                Button("New Document") {
+                    if let selectedFolder = fileSystem.selectedFolder {
+                        fileSystem.createNewFile(in: selectedFolder)
+                    } else {
+                        fileSystem.createNewFile(in: fileSystem.rootURL)
+                    }
+                }
+                .keyboardShortcut("n")
+                
+                Button("New Group") {
+                     if let selectedFolder = fileSystem.selectedFolder {
+                         fileSystem.createNewFolder(in: selectedFolder)
+                     } else {
+                         fileSystem.createNewFolder(in: fileSystem.rootURL)
+                     }
+                }
+                .keyboardShortcut("n", modifiers: [.command, .shift])
             }
         }
     }
