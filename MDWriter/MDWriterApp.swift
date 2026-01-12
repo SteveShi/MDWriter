@@ -58,7 +58,8 @@ struct MDWriterApp: App {
                 textZoom: Binding(
                     get: { CGFloat(textZoom) },
                     set: { textZoom = Double($0) }
-                )
+                ),
+                currentTheme: $currentTheme
             )
 
             // Format Commands

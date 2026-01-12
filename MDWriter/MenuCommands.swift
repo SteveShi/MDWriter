@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -89,8 +90,10 @@ struct ViewCommands: Commands {
     @Binding var showOutline: Bool
     @Binding var textZoom: CGFloat
 
+    @Binding var currentTheme: AppTheme
+
     var body: some Commands {
-        CommandMenu(LocalizedStringKey("View")) {
+        CommandGroup(replacing: .sidebar) {
             Button(
                 showLibrary
                     ? LocalizedStringKey("Hide Library") : LocalizedStringKey("Show Library")
@@ -124,7 +127,20 @@ struct ViewCommands: Commands {
                 withAnimation { showOutline.toggle() }
             }
             .keyboardShortcut("o", modifiers: [.command, .option])
+        }
 
+        CommandGroup(replacing: .toolbar) {
+            Menu(LocalizedStringKey("Theme")) {
+                Button(action: { currentTheme = .light }) {
+                    Label(LocalizedStringKey("Light"), systemImage: "sun.max")
+                }
+                Button(action: { currentTheme = .dark }) {
+                    Label(LocalizedStringKey("Dark"), systemImage: "moon")
+                }
+            }
+        }
+
+        CommandGroup(after: .toolbar) {
             Divider()
 
             Button(LocalizedStringKey("Zoom In")) {
