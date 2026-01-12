@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <b>A professional, native Markdown editor for macOS, inspired by Ulysses.</b>
+  <b>A professional, native Markdown editor for macOS.</b>
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@
 
 ## 📖 Introduction
 
-**MDWriter** is a native Markdown editor designed for focused writing and efficient organization on macOS. Version 1.1 introduces a complete UI overhaul inspired by high-end writing tools like Ulysses, featuring an immersive three-column library and a professional typography engine.
+**MDWriter** is a native Markdown editor designed for focused writing and efficient organization on macOS. Version 1.1 introduces a complete UI overhaul inspired by high-end writing tools, featuring an immersive three-column library and a professional typography engine.
 
 ## ✨ Features (v1.1)
 
@@ -46,10 +46,6 @@
 
 ### 🌍 Localization
 *   Full support for **English** and **Simplified Chinese (简体中文)**.
-
-## 📸 Screenshots
-
-*(Add your beautiful screenshots here)*
 
 ## 🚀 Installation
 
