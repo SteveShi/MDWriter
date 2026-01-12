@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AA0476372F052A86002D5D25 /* AppUpdater in Frameworks */ = {isa = PBXBuildFile; productRef = AA0476362F052A86002D5D25 /* AppUpdater */; };
 		AAC648DF2F13159600C58071 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = AAC648DE2F13159600C58071 /* MarkdownUI */; };
+		AADFCC342F135D4E00086778 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = AADFCC332F135D4E00086778 /* Ink */; };
+		AADFCC362F135D4E00086778 /* ink-cli in Frameworks */ = {isa = PBXBuildFile; productRef = AADFCC352F135D4E00086778 /* ink-cli */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +59,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AADFCC342F135D4E00086778 /* Ink in Frameworks */,
 				AA0476372F052A86002D5D25 /* AppUpdater in Frameworks */,
+				AADFCC362F135D4E00086778 /* ink-cli in Frameworks */,
 				AAC648DF2F13159600C58071 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +125,8 @@
 			packageProductDependencies = (
 				AA0476362F052A86002D5D25 /* AppUpdater */,
 				AAC648DE2F13159600C58071 /* MarkdownUI */,
+				AADFCC332F135D4E00086778 /* Ink */,
+				AADFCC352F135D4E00086778 /* ink-cli */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -208,6 +214,7 @@
 			packageReferences = (
 				AA0476352F052A86002D5D25 /* XCRemoteSwiftPackageReference "AppUpdater" */,
 				AAC648DD2F13159600C58071 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -413,6 +420,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MDWriter;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -460,6 +469,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MDWriter;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -653,6 +664,14 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/Ink";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -665,6 +684,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AAC648DD2F13159600C58071 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
+		};
+		AADFCC332F135D4E00086778 /* Ink */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */;
+			productName = Ink;
+		};
+		AADFCC352F135D4E00086778 /* ink-cli */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */;
+			productName = "ink-cli";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

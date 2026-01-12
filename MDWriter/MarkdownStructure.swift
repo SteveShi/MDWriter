@@ -14,7 +14,7 @@ struct DocumentHeader: Identifiable, Hashable {
     let lineIndex: Int
 }
 
-class MarkdownParser {
+class MDHeaderParser {
     static func parseHeaders(from text: String) -> [DocumentHeader] {
         var headers: [DocumentHeader] = []
         let lines = text.components(separatedBy: .newlines)

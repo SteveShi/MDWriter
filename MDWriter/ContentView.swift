@@ -280,7 +280,7 @@ struct ContentView: View {
 
     private func updateInfo() {
         DispatchQueue.global(qos: .userInitiated).async {
-            let newHeaders = MarkdownParser.parseHeaders(from: document.text)
+            let newHeaders = MDHeaderParser.parseHeaders(from: document.text)
             let newStats = DocumentStatistics.calculate(from: document.text)
             DispatchQueue.main.async {
                 self.headers = newHeaders

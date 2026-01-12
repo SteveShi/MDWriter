@@ -54,7 +54,7 @@ Designed with a focus on typography and aesthetics, MDWriter offers a "paper-lik
 ## 🚀 Installation
 
 ### Download
-Check the [Releases](https://github.com/steve/MDWriter/releases) page for the latest compiled binary.
+Check the [Releases](https://github.com/lpgneg19/MDWriter/releases) page for the latest compiled binary.
 
 ### Build from Source
 
@@ -64,7 +64,7 @@ Check the [Releases](https://github.com/steve/MDWriter/releases) page for the la
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/steve/MDWriter.git
+    git clone https://github.com/lpgneg19/MDWriter.git
     cd MDWriter
     ```
 2.  Open `MDWriter.xcodeproj` in Xcode.
@@ -88,7 +88,7 @@ Contributions are welcome! Feel free to submit a Pull Request.
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MPL License. See `LICENSE` for more information.
 
 ---
 Built with ❤️ using SwiftUI & AppKit.

@@ -12,7 +12,7 @@ import AppUpdater
 struct MDWriterApp: App {
     // 保持更新器
     @StateObject var appUpdater = AppUpdater(
-        owner: "steve",
+        owner: "lpgneg19",
         repo: "MDWriter",
         interval: 86400
     )
