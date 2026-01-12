@@ -12,29 +12,46 @@ struct LibraryView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var searchText: String = ""
     
+    // 重命名状态
+    @State private var renamingItem: FileItem?
+    @State private var newName: String = ""
+    @State private var isRenaming: Bool = false
+    
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            // 第一栏：文件夹列表
+            // 第一栏：文件夹列表 (层级结构)
             List(selection: $fileSystem.selectedFolder) {
-                Section("Locations") {
-                    Label("Documents", systemImage: "folder")
+                Section("Library") {
+                    Label("All Documents", systemImage: "tray.full")
                         .tag(fileSystem.rootURL)
                 }
                 
-                let subfolders = fileSystem.subfolders(in: fileSystem.rootURL)
-                if !subfolders.isEmpty {
-                    Section("Folders") {
-                        ForEach(subfolders) { folder in
-                            Label(folder.name, systemImage: "folder")
-                                .tag(folder.url)
-                        }
+                Section("Folders") {
+                    // 使用 OutlineGroup 展示层级 (如果 FileItem 遵循 Identifiable 且有 children)
+                    OutlineGroup(fileSystem.items, children: \.children) { item in
+                        Label(item.name, systemImage: "folder")
+                            .contextMenu {
+                                Button("Rename") { startRenaming(item) }
+                                Button("Delete", role: .destructive) { fileSystem.deleteItem(item) }
+                                Button("New Group inside") { fileSystem.createNewFolder(in: item.url) }
+                            }
+                            .tag(item.url)
                     }
                 }
             }
             .listStyle(.sidebar)
             .navigationTitle("Library")
+            .alert("Rename", isPresented: $isRenaming) {
+                TextField("New Name", text: $newName)
+                Button("Rename") {
+                    if let item = renamingItem {
+                        fileSystem.renameItem(item, to: newName)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            }
         } content: {
-            // 第二栏：文件列表
+            // 第二栏：文件列表 (带摘要)
             Group {
                 if let selectedFolder = fileSystem.selectedFolder {
                     let files = fileSystem.files(in: selectedFolder).filter {
@@ -43,41 +60,79 @@ struct LibraryView: View {
                     
                     List(selection: $fileSystem.selectedFile) {
                         ForEach(files) { file in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(file.name.replacingOccurrences(of: ".md", with: "").replacingOccurrences(of: ".markdown", with: ""))
-                                    .font(.headline)
-                                Text(file.modificationDate, style: .date)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .tag(file.url)
+                            FileRowView(file: file, preview: fileSystem.readFile(file.url))
+                                .tag(file.url)
+                                .contextMenu {
+                                    Button("Rename") { startRenaming(file) }
+                                    Button("Delete", role: .destructive) { fileSystem.deleteItem(file) }
+                                }
                         }
                     }
+                    .listStyle(.inset)
                     .searchable(text: $searchText, placement: .sidebar)
                 } else {
                     Text("Select a folder")
                         .foregroundColor(.secondary)
                 }
             }
-            .navigationTitle("Notes")
+            .navigationTitle(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
         } detail: {
             // 第三栏：编辑器
             if let selectedFile = fileSystem.selectedFile {
                 EditorWrapper(fileURL: selectedFile)
-                    .id(selectedFile) // 强制刷新
+                    .id(selectedFile)
             } else {
-                VStack(spacing: 20) {
-                    Image(systemName: "doc.text")
-                        .font(.system(size: 64))
-                        .foregroundColor(.secondary.opacity(0.3))
-                    Text("Select a document to start writing")
-                        .font(.title3)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(nsColor: .windowBackgroundColor))
+                ContentUnavailableView("No Selection", systemImage: "doc.text", description: Text("Select a document to start writing."))
             }
         }
+    }
+    
+    private func startRenaming(_ item: FileItem) {
+        renamingItem = item
+        newName = item.name.replacingOccurrences(of: ".md", with: "")
+        isRenaming = true
+    }
+}
+
+// 独立的行视图，用于显示标题和摘要
+struct FileRowView: View {
+    let file: FileItem
+    let preview: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(file.name.replacingOccurrences(of: ".md", with: "").replacingOccurrences(of: ".markdown", with: ""))
+                .font(.headline)
+                .lineLimit(1)
+            
+            // 提取摘要：去掉标题符号，取前两行
+            Text(summary(from: preview))
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+                .frame(maxHeight: 35, alignment: .topLeading)
+            
+            Text(file.modificationDate, style: .date)
+                .font(.caption2)
+                .foregroundColor(.tertiaryLabel)
+        }
+        .padding(.vertical, 4)
+    }
+    
+    private func summary(from text: String) -> String {
+        let lines = text.split(separator: "\n")
+        let contentLines = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#") }
+        return contentLines.prefix(2).joined(separator: " ")
+    }
+}
+
+extension Color {
+    static var tertiaryLabel: Color {
+        #if os(macOS)
+        return Color(nsColor: .tertiaryLabelColor)
+        #else
+        return .gray
+        #endif
     }
 }
 
@@ -103,3 +158,4 @@ struct EditorWrapper: View {
             }
     }
 }
+

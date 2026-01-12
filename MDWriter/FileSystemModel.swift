@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 // 代表文件或文件夹的节点
 struct FileItem: Identifiable, Hashable {
@@ -42,66 +43,79 @@ class FileSystemModel: ObservableObject {
     }
     
     func loadRoot() {
-        self.items = loadContents(of: rootURL)
+        // 重新构建目录树
+        if let rootItem = loadFolderTree(from: rootURL) {
+            self.items = rootItem.children ?? []
+        }
     }
     
-    // 递归或单层加载内容
-    private func loadContents(of url: URL) -> [FileItem] {
-        guard let contents = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isDirectoryKey, .contentModificationDateKey], options: [.skipsHiddenFiles]) else {
-            return []
+    // 递归加载文件夹结构
+    func loadFolderTree(from url: URL) -> FileItem? {
+        var item = FileItem(url: url, isDirectory: true, children: [])
+        
+        guard let contents = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles]) else {
+            return item
         }
         
-        var fileItems: [FileItem] = []
-        
-        for itemURL in contents {
-            let isDir = (try? itemURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
-            
-            // 如果是文件夹，我们可以选择是否递归加载。为了性能，通常懒加载。
-            // 这里为了简单，我们只构建一层，或者构建树。
-            // 针对“三栏布局”，通常左侧只显示文件夹。
-            
+        var children: [FileItem] = []
+        for fileURL in contents {
+            let isDir = (try? fileURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
             if isDir {
-                fileItems.append(FileItem(url: itemURL, isDirectory: true))
-            } else {
-                if itemURL.pathExtension == "md" || itemURL.pathExtension == "markdown" {
-                    fileItems.append(FileItem(url: itemURL, isDirectory: false))
+                if let childDir = loadFolderTree(from: fileURL) {
+                    children.append(childDir)
                 }
             }
         }
         
-        // 排序：文件夹在前，然后按修改时间
-        return fileItems.sorted {
-            if $0.isDirectory != $1.isDirectory {
-                return $0.isDirectory
-            }
-            return $0.name < $1.name
-        }
+        // 排序
+        item.children = children.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        return item
     }
     
-    // 获取指定文件夹内的所有 MD 文件
+    // 获取指定文件夹内的文件（非递归，用于中间栏）
     func files(in folder: URL) -> [FileItem] {
-        let allItems = loadContents(of: folder)
-        return allItems.filter { !$0.isDirectory }
+        guard let contents = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) else {
+            return []
+        }
+        
+        return contents
+            .filter { url in
+                let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+                return !isDir && (url.pathExtension == "md" || url.pathExtension == "markdown")
+            }
+            .map { FileItem(url: $0, isDirectory: false) }
+            .sorted { $0.modificationDate > $1.modificationDate }
     }
     
-    // 获取子文件夹
-    func subfolders(in folder: URL) -> [FileItem] {
-        let allItems = loadContents(of: folder)
-        return allItems.filter { $0.isDirectory }
+    // 重命名
+    func renameItem(_ item: FileItem, to newName: String) {
+        let newURL = item.url.deletingLastPathComponent().appendingPathComponent(newName + (item.isDirectory ? "" : ".md"))
+        try? FileManager.default.moveItem(at: item.url, to: newURL)
+        loadRoot()
     }
     
+    // 删除
+    func deleteItem(_ item: FileItem) {
+        try? FileManager.default.removeItem(at: item.url)
+        
+        // 如果删除的是当前选中的文件/文件夹，清除选中状态
+        if selectedFile == item.url { selectedFile = nil }
+        if selectedFolder == item.url { selectedFolder = nil }
+        loadRoot()
+    }
+
     // 创建新文件
     func createNewFile(in folder: URL) {
         let newURL = folder.appendingPathComponent("Untitled \(Int(Date().timeIntervalSince1970)).md")
-        try? "# New Document".write(to: newURL, atomically: true, encoding: .utf8)
-        self.objectWillChange.send() // 刷新 UI
+        try? "# New Document\n".write(to: newURL, atomically: true, encoding: .utf8)
+        loadRoot()
     }
     
     // 创建新文件夹
     func createNewFolder(in folder: URL) {
         let newURL = folder.appendingPathComponent("New Group")
         try? FileManager.default.createDirectory(at: newURL, withIntermediateDirectories: true)
-        self.objectWillChange.send()
+        loadRoot()
     }
     
     // 读取文件内容
