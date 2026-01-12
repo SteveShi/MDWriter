@@ -10,12 +10,18 @@
 "Rename" = "Rename";
 "Delete" = "Delete";
 "New Name" = "New Name";
+"All Documents" = "All Documents";
+"Folders" = "Folders";
+"Inbox" = "Inbox";
+"Cancel" = "Cancel";
+"Search" = "Search";
 
 /* Files List */
 "Files" = "Files";
 "Select a folder" = "Select a folder";
 "New Note" = "New Note";
 "New Document" = "New Document";
+"Untitled Document" = "Untitled Document";
 
 /* Editor */
 "No Selection" = "No Selection";
@@ -54,6 +60,13 @@
 "System Serif" = "System Serif";
 "Monospaced" = "Monospaced";
 
+/* Tooltips */
+"Typography Settings" = "Typography Settings";
+"Toggle Preview" = "Toggle Preview";
+"Toggle Outline" = "Toggle Outline";
+"Theme Selection" = "Theme Selection";
+"Export Document" = "Export Document";
+
 /* Stats */
 "%d words" = "%d words";
 "%d chars" = "%d chars";
@@ -61,3 +74,63 @@
 
 /* App Updater */
 "Check for Updates..." = "Check for Updates...";
+
+/* File Menu */
+"New Sheet" = "New Sheet";
+"Import..." = "Import...";
+"Print..." = "Print...";
+
+/* Edit Menu */
+"Find..." = "Find...";
+"Find & Replace..." = "Find & Replace...";
+"Find Next" = "Find Next";
+"Find Previous" = "Find Previous";
+
+/* View Menu */
+"View" = "View";
+"Show Library" = "Show Library";
+"Hide Library" = "Hide Library";
+"Show Sheet List" = "Show Sheet List";
+"Hide Sheet List" = "Hide Sheet List";
+"Show Dashboard" = "Show Dashboard";
+"Hide Dashboard" = "Hide Dashboard";
+"Show Preview" = "Show Preview";
+"Hide Preview" = "Hide Preview";
+"Show Outline" = "Show Outline";
+"Hide Outline" = "Hide Outline";
+"Zoom In" = "Zoom In";
+"Zoom Out" = "Zoom Out";
+"Actual Size" = "Actual Size";
+
+/* Format Menu */
+"Format" = "Format";
+"Heading" = "Heading";
+"Heading 1" = "Heading 1";
+"Heading 2" = "Heading 2";
+"Heading 3" = "Heading 3";
+"Heading 4" = "Heading 4";
+"Bold" = "Bold";
+"Italic" = "Italic";
+"Strikethrough" = "Strikethrough";
+"Highlight" = "Highlight";
+"List" = "List";
+"Bulleted List" = "Bulleted List";
+"Numbered List" = "Numbered List";
+"Task List" = "Task List";
+"Blockquote" = "Blockquote";
+"Code Block" = "Code Block";
+"Inline Code" = "Inline Code";
+"Link..." = "Link...";
+"Image..." = "Image...";
+"Horizontal Rule" = "Horizontal Rule";
+
+/* Help Menu */
+"MDWriter Help" = "MDWriter Help";
+"Keyboard Shortcuts" = "Keyboard Shortcuts";
+
+/* Settings */
+"Settings..." = "Settings...";
+"General" = "General";
+"Appearance" = "Appearance";
+"Editor" = "Editor";
+"Font Size" = "Font Size";

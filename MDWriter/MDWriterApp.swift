@@ -5,8 +5,8 @@
 //  Created by 石屿 on 2025/12/31.
 //
 
-import SwiftUI
 import AppUpdater
+import SwiftUI
 
 @main
 struct MDWriterApp: App {
@@ -16,9 +16,16 @@ struct MDWriterApp: App {
         repo: "MDWriter",
         interval: 86400
     )
-    
+
     // 全局文件系统模型
     @StateObject var fileSystem = FileSystemModel()
+
+    // 全局视图状态 (用于菜单命令)
+    @AppStorage("showLibrary") var showLibrary: Bool = true
+    @AppStorage("showDashboard") var showDashboard: Bool = false
+    @AppStorage("showPreview") var showPreview: Bool = false
+    @AppStorage("showOutline") var showOutline: Bool = false
+    @AppStorage("textZoom") var textZoom: Double = 1.0
 
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
@@ -28,32 +35,114 @@ struct MDWriterApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
-            // 添加菜单命令
+            // App Menu
             CommandGroup(after: .appInfo) {
                 Button(LocalizedStringKey("Check for Updates...")) {
                     appUpdater.check()
                 }
             }
-            
-            CommandGroup(replacing: .newItem) {
-                Button(LocalizedStringKey("New Document")) {
-                    if let selectedFolder = fileSystem.selectedFolder {
-                        fileSystem.createNewFile(in: selectedFolder)
-                    } else {
-                        fileSystem.createNewFile(in: fileSystem.rootURL)
+
+            // File Commands
+            FileCommands(fileSystem: fileSystem)
+
+            // Edit Commands (Find/Replace)
+            EditCommands()
+
+            // View Commands
+            ViewCommands(
+                showLibrary: $showLibrary,
+                showDashboard: $showDashboard,
+                showPreview: $showPreview,
+                showOutline: $showOutline,
+                textZoom: Binding(
+                    get: { CGFloat(textZoom) },
+                    set: { textZoom = Double($0) }
+                )
+            )
+
+            // Format Commands
+            FormatCommands()
+
+            // Help Commands
+            HelpCommands()
+        }
+
+        // Settings Window
+        #if os(macOS)
+            Settings {
+                SettingsView()
+            }
+        #endif
+    }
+}
+
+// MARK: - Settings View (Placeholder)
+struct SettingsView: View {
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @StateObject private var typography = TypographySettings()
+
+    var body: some View {
+        TabView {
+            GeneralSettingsView(typography: typography)
+                .tabItem {
+                    Label(LocalizedStringKey("General"), systemImage: "gear")
+                }
+
+            AppearanceSettingsView(currentTheme: $currentTheme)
+                .tabItem {
+                    Label(LocalizedStringKey("Appearance"), systemImage: "paintbrush")
+                }
+        }
+        .frame(width: 450, height: 300)
+    }
+}
+
+struct GeneralSettingsView: View {
+    @ObservedObject var typography: TypographySettings
+
+    var body: some View {
+        Form {
+            Section(LocalizedStringKey("Editor")) {
+                Picker(LocalizedStringKey("Font"), selection: $typography.fontName) {
+                    ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
+                        Text(font).tag(font)
                     }
                 }
-                .keyboardShortcut("n")
-                
-                Button(LocalizedStringKey("New Group")) {
-                     if let selectedFolder = fileSystem.selectedFolder {
-                         fileSystem.createNewFolder(in: selectedFolder)
-                     } else {
-                         fileSystem.createNewFolder(in: fileSystem.rootURL)
-                     }
+
+                HStack {
+                    Text(LocalizedStringKey("Font Size"))
+                    Slider(value: $typography.fontSize, in: 12...24, step: 1)
+                    Text("\(Int(typography.fontSize))")
+                        .frame(width: 30)
                 }
-                .keyboardShortcut("n", modifiers: [.command, .shift])
+
+                HStack {
+                    Text(LocalizedStringKey("Line Height"))
+                    Slider(value: $typography.lineHeightMultiple, in: 1.2...2.0, step: 0.1)
+                    Text(String(format: "%.1f", typography.lineHeightMultiple))
+                        .frame(width: 30)
+                }
             }
         }
+        .padding()
+    }
+}
+
+struct AppearanceSettingsView: View {
+    @Binding var currentTheme: AppTheme
+
+    var body: some View {
+        Form {
+            Section(LocalizedStringKey("Theme")) {
+                Picker(LocalizedStringKey("Appearance"), selection: $currentTheme) {
+                    ForEach(AppTheme.allCases) { theme in
+                        Label(LocalizedStringKey(theme.rawValue), systemImage: theme.icon)
+                            .tag(theme)
+                    }
+                }
+                .pickerStyle(.radioGroup)
+            }
+        }
+        .padding()
     }
 }

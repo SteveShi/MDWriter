@@ -10,12 +10,18 @@
 "Rename" = "重命名";
 "Delete" = "删除";
 "New Name" = "新名称";
+"All Documents" = "所有文档";
+"Folders" = "文件夹";
+"Inbox" = "收件箱";
+"Cancel" = "取消";
+"Search" = "搜索";
 
 /* Files List */
 "Files" = "文件";
 "Select a folder" = "请选择文件夹";
 "New Note" = "新建笔记";
 "New Document" = "新建文档";
+"Untitled Document" = "未命名文档";
 
 /* Editor */
 "No Selection" = "未选择";
@@ -35,8 +41,8 @@
 
 /* Theme Menu */
 "System" = "跟随系统";
-"Light" = "浅色模式";
-"Dark" = "深色模式";
+"Light" = "明亮模式";
+"Dark" = "黑暗模式";
 
 /* Typography Panel */
 "Typography" = "排版设置";
@@ -54,6 +60,13 @@
 "System Serif" = "系统衬线体";
 "Monospaced" = "等宽字体";
 
+/* Tooltips */
+"Typography Settings" = "排版设置";
+"Toggle Preview" = "预切换预览";
+"Toggle Outline" = "切换大纲";
+"Theme Selection" = "主题选择";
+"Export Document" = "导出文档";
+
 /* Stats */
 "%d words" = "%d 字";
 "%d chars" = "%d 字符";
@@ -61,3 +74,63 @@
 
 /* App Updater */
 "Check for Updates..." = "检查更新...";
+
+/* File Menu */
+"New Sheet" = "新建文稿";
+"Import..." = "导入...";
+"Print..." = "打印...";
+
+/* Edit Menu */
+"Find..." = "查找...";
+"Find & Replace..." = "查找与替换...";
+"Find Next" = "查找下一个";
+"Find Previous" = "查找上一个";
+
+/* View Menu */
+"View" = "显示";
+"Show Library" = "显示资料库";
+"Hide Library" = "隐藏资料库";
+"Show Sheet List" = "显示文稿列表";
+"Hide Sheet List" = "隐藏文稿列表";
+"Show Dashboard" = "显示仪表盘";
+"Hide Dashboard" = "隐藏仪表盘";
+"Show Preview" = "显示预览";
+"Hide Preview" = "隐藏预览";
+"Show Outline" = "显示大纲";
+"Hide Outline" = "隐藏大纲";
+"Zoom In" = "放大";
+"Zoom Out" = "缩小";
+"Actual Size" = "实际大小";
+
+/* Format Menu */
+"Format" = "格式";
+"Heading" = "标题";
+"Heading 1" = "一级标题";
+"Heading 2" = "二级标题";
+"Heading 3" = "三级标题";
+"Heading 4" = "四级标题";
+"Bold" = "粗体";
+"Italic" = "斜体";
+"Strikethrough" = "删除线";
+"Highlight" = "高亮";
+"List" = "列表";
+"Bulleted List" = "无序列表";
+"Numbered List" = "有序列表";
+"Task List" = "任务列表";
+"Blockquote" = "引用";
+"Code Block" = "代码块";
+"Inline Code" = "行内代码";
+"Link..." = "链接...";
+"Image..." = "图片...";
+"Horizontal Rule" = "分隔线";
+
+/* Help Menu */
+"MDWriter Help" = "MDWriter 帮助";
+"Keyboard Shortcuts" = "键盘快捷键";
+
+/* Settings */
+"Settings..." = "设置...";
+"General" = "通用";
+"Appearance" = "外观";
+"Editor" = "编辑器";
+"Font Size" = "字号";

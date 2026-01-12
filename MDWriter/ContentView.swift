@@ -5,9 +5,9 @@
 //  Created by 石屿 on 2025/12/31.
 //
 
-import SwiftUI
-import MarkdownUI
 import AppKit
+import MarkdownUI
+import SwiftUI
 import UniformTypeIdentifiers
 
 // 主题枚举
@@ -15,9 +15,9 @@ enum AppTheme: String, CaseIterable, Identifiable {
     case system = "System"
     case light = "Light"
     case dark = "Dark"
-    
+
     var id: String { rawValue }
-    
+
     var colorScheme: ColorScheme? {
         switch self {
         case .system: return nil
@@ -25,7 +25,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
         case .dark: return .dark
         }
     }
-    
+
     var icon: String {
         switch self {
         case .system: return "gear"
@@ -33,7 +33,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
         case .dark: return "moon"
         }
     }
-    
+
     var paperColor: Color {
         switch self {
         case .light: return Color(red: 0.97, green: 0.97, blue: 0.96)
@@ -46,7 +46,9 @@ enum AppTheme: String, CaseIterable, Identifiable {
 extension AppTheme {
     func resolvePaperColor(scheme: ColorScheme) -> Color {
         if self == .system {
-            return scheme == .dark ? Color(red: 0.11, green: 0.11, blue: 0.11) : Color(red: 0.97, green: 0.97, blue: 0.96)
+            return scheme == .dark
+                ? Color(red: 0.11, green: 0.11, blue: 0.11)
+                : Color(red: 0.97, green: 0.97, blue: 0.96)
         }
         return paperColor
     }
@@ -61,75 +63,99 @@ struct ExportItem: Identifiable {
 struct ContentView: View {
     @Binding var document: MDWriterDocument
     @State private var headers: [DocumentHeader] = []
-    @State private var stats: DocumentStatistics = DocumentStatistics(characters: 0, words: 0, readingTime: 0)
-    
-    // UI 状态
-    @State private var showPreview: Bool = false
-    @State private var showOutline: Bool = false
+    @State private var stats: DocumentStatistics = DocumentStatistics(
+        characters: 0, words: 0, readingTime: 0)
+
+    // Search Bindings
+    @Binding var searchText: String
+    @Binding var isSearching: Bool
+
+    // View states (synced with menu commands)
+    @Binding var showPreview: Bool
+    @Binding var showOutline: Bool
+    @Binding var textZoom: CGFloat
+
+    // UI 状态 (local only)
     @State private var showTypographyPanel: Bool = false
-    
+    @State private var showShortcutsSheet: Bool = false
+
     // 导出状态
     @State private var exportItem: ExportItem? = nil
     @State private var showExporter: Bool = false
-    
+
     @StateObject private var editorController = EditorController()
     @StateObject private var typographySettings = TypographySettings()
-    
+
     @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @AppStorage("showDashboard") private var showDashboard: Bool = false
     @Environment(\.colorScheme) var systemScheme
 
+    // Animation namespace
+
+    // Animation namespace
+    @Namespace private var animation
+
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            HSplitView {
-                // MARK: - Editor Area
-                ZStack {
-                    currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
-                        .ignoresSafeArea()
-                    
-                    MacEditorView(
-                        text: $document.text,
-                        configuration: typographySettings.configuration,
-                        controller: editorController
-                    )
-                    // 使用 if #available 在构建阶段已被验证为 14.0+
-                    .onChange(of: document.text) {
-                        updateInfo()
-                    }
-                }
-                .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+        HSplitView {
+            // MARK: - Pane 1: Editor Area (with Search & Dashboard)
+            ZStack(alignment: .topTrailing) {
+                currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
+                    .ignoresSafeArea()
 
-                // MARK: - Preview Area
-                if showPreview {
-                    ScrollView {
-                        Markdown(document.text)
-                            .padding(40)
-                            .markdownTheme(.docC)
-                    }
-                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(nsColor: .windowBackgroundColor))
+                MacEditorView(
+                    text: $document.text,
+                    configuration: typographySettings.configuration,
+                    controller: editorController
+                )
+                .onChange(of: document.text) {
+                    updateInfo()
                 }
-                
-                // MARK: - Right Sidebar (Outline)
-                if showOutline {
-                    outlineView
-                        .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+
+                // Dashboard (Counter) - Attached to Editor Pane
+
+                // Dashboard (Counter) - Attached to Editor Pane
+                // Positioned at Bottom Center of THIS pane
+                if showDashboard {
+                    VStack {
+                        Spacer()
+                        HStack(spacing: 16) {
+                            Label(
+                                title: { Text("\(stats.words) words") },
+                                icon: { Image(systemName: "doc.text") })
+                            Label(
+                                title: { Text("\(stats.readingTime) min read") },
+                                icon: { Image(systemName: "clock") })
+                        }
+                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .foregroundColor(.secondary.opacity(0.8))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(.regularMaterial)
+                        .clipShape(Capsule())
+                        .padding(20)
+                        .opacity(0.8)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
+            .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
 
-            // MARK: - Dashboard
-            HStack(spacing: 16) {
-                // 使用 LocalizedStringKey 进行格式化
-                Label(title: { Text("\(stats.words) words") }, icon: { Image(systemName: "doc.text") })
-                Label(title: { Text("\(stats.readingTime) min read") }, icon: { Image(systemName: "clock") })
+            // MARK: - Pane 2: Preview Area (Conditional)
+            if showPreview {
+                ScrollView {
+                    Markdown(document.text)
+                        .padding(40)
+                        .markdownTheme(.docC)
+                }
+                .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(nsColor: .windowBackgroundColor))
             }
-            .font(.system(size: 11, weight: .medium, design: .rounded))
-            .foregroundColor(.secondary.opacity(0.8))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(.regularMaterial)
-            .clipShape(Capsule())
-            .padding(20)
-            .opacity(0.8)
+
+            // MARK: - Pane 3: Right Sidebar (Outline)
+            if showOutline {
+                outlineView
+                    .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+            }
         }
         .preferredColorScheme(currentTheme.colorScheme)
         .onAppear {
@@ -137,64 +163,102 @@ struct ContentView: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
+                // Search
+                if isSearching {
+                    HStack {
+                        TextField(LocalizedStringKey("Search"), text: $searchText)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 200)
+
+                        Button(action: {
+                            withAnimation {
+                                isSearching = false
+                                searchText = ""
+                            }
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                } else {
+                    Button(action: {
+                        withAnimation {
+                            isSearching = true
+                        }
+                    }) {
+                        Label(LocalizedStringKey("Search"), systemImage: "magnifyingglass")
+                    }
+                    .help(LocalizedStringKey("Search"))
+                }
+
                 // Style
                 Button(action: { showTypographyPanel.toggle() }) {
-                    Label("Style", systemImage: "textformat.size")
+                    Label(LocalizedStringKey("Style"), systemImage: "textformat.size")
                 }
                 .popover(isPresented: $showTypographyPanel, arrowEdge: .bottom) {
                     TypographyPanel(settings: typographySettings)
                 }
-                .help(Text("Style"))
-                
+                .help(LocalizedStringKey("Typography Settings"))
+
                 // Preview
                 Button(action: { withAnimation { showPreview.toggle() } }) {
-                    Label("Preview", systemImage: "eye")
+                    Label(LocalizedStringKey("Preview"), systemImage: "eye")
                         .foregroundColor(showPreview ? .accentColor : .secondary)
                 }
-                .help(Text("Preview"))
-                
-                // Outline
+                .help(LocalizedStringKey("Toggle Preview"))
+
+                // Outline (使用 sidebar.right 图标)
                 Button(action: { withAnimation { showOutline.toggle() } }) {
-                    Label("Outline", systemImage: "sidebar.right")
+                    Label(LocalizedStringKey("Outline"), systemImage: "sidebar.right")
                         .foregroundColor(showOutline ? .accentColor : .secondary)
                 }
-                .help(Text("Outline"))
+                .help(LocalizedStringKey("Toggle Outline"))
 
                 // Theme
                 Menu {
-                    Picker("Theme", selection: $currentTheme) {
-                        ForEach(AppTheme.allCases) { theme in
-                            Label(LocalizedStringKey(theme.rawValue), systemImage: theme.icon)
-                                .tag(theme)
-                        }
+                    Button(action: { currentTheme = .system }) {
+                        Label(LocalizedStringKey("System"), systemImage: "gear")
+                    }
+                    Button(action: { currentTheme = .light }) {
+                        Label(LocalizedStringKey("Light"), systemImage: "sun.max")
+                    }
+                    Button(action: { currentTheme = .dark }) {
+                        Label(LocalizedStringKey("Dark"), systemImage: "moon")
                     }
                 } label: {
-                    Label("Theme", systemImage: currentTheme.icon)
+                    Label(LocalizedStringKey("Theme"), systemImage: currentTheme.icon)
                 }
-                .help(Text("Theme"))
+                .help(LocalizedStringKey("Theme Selection"))
 
                 // Export
                 Menu {
                     Button(action: { export(as: .pdf) }) {
-                        Label("PDF", systemImage: "doc.text")
+                        Label(LocalizedStringKey("PDF"), systemImage: "doc.text")
                     }
                     Button(action: { export(as: .rtf) }) {
-                        Label("Rich Text (Word)", systemImage: "doc.richtext")
+                        Label(LocalizedStringKey("Rich Text (Word)"), systemImage: "doc.richtext")
                     }
                     Button(action: { export(as: .markdownDocument) }) {
-                        Label("Markdown", systemImage: "text.alignleft")
+                        Label(LocalizedStringKey("Markdown"), systemImage: "text.alignleft")
                     }
                 } label: {
-                    Label("Export", systemImage: "square.and.arrow.up")
+                    Label(LocalizedStringKey("Export"), systemImage: "square.and.arrow.up")
                 }
-                .help(Text("Export"))
-                
+                .help(LocalizedStringKey("Export Document"))
+
                 // Insert Image
                 Button(action: insertImage) {
-                    Label("Insert Image", systemImage: "photo")
+                    Label(LocalizedStringKey("Insert Image"), systemImage: "photo")
                 }
-                .help(Text("Insert Image"))
+                .help(LocalizedStringKey("Insert Image"))
             }
+        }
+        .sheet(isPresented: $showShortcutsSheet) {
+            KeyboardShortcutsView()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in
+            showShortcutsSheet = true
         }
     }
 
@@ -206,11 +270,11 @@ struct ContentView: View {
             Text("Outline")
                 .font(.headline)
                 .padding()
-            
+
             List(headers, selection: .constant(nil as DocumentHeader.ID?)) { header in
                 HStack {
                     Spacer().frame(width: CGFloat(header.level - 1) * 12)
-                    
+
                     if header.level == 1 {
                         Image(systemName: "number")
                             .font(.caption)
@@ -220,7 +284,7 @@ struct ContentView: View {
                             .fill(.tertiary)
                             .frame(width: 4, height: 4)
                     }
-                    
+
                     Text(header.title)
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(.primary.opacity(0.8))
@@ -235,70 +299,6 @@ struct ContentView: View {
         .background(Color(nsColor: .controlBackgroundColor))
     }
 
-    @ToolbarContentBuilder
-    private var toolbarContent: some ToolbarContent {
-        // 使用 primaryAction 强制右对齐
-        ToolbarItemGroup(placement: .primaryAction) {
-            // Style
-            Button(action: { showTypographyPanel.toggle() }) {
-                Label("Style", systemImage: "textformat.size")
-            }
-            .popover(isPresented: $showTypographyPanel, arrowEdge: .bottom) {
-                TypographyPanel(settings: typographySettings)
-            }
-            .help("Typography Settings")
-            
-            // Preview
-            Button(action: { withAnimation { showPreview.toggle() } }) {
-                Label("Preview", systemImage: "eye")
-                    .foregroundColor(showPreview ? .accentColor : .secondary)
-            }
-            .help("Toggle Preview")
-            
-            // Outline (使用 sidebar.right 图标)
-            Button(action: { withAnimation { showOutline.toggle() } }) {
-                Label("Outline", systemImage: "sidebar.right")
-                    .foregroundColor(showOutline ? .accentColor : .secondary)
-            }
-            .help("Toggle Outline")
-
-            // Theme
-            Menu {
-                Picker("Theme", selection: $currentTheme) {
-                    ForEach(AppTheme.allCases) { theme in
-                        Label(theme.rawValue, systemImage: theme.icon)
-                            .tag(theme)
-                    }
-                }
-            } label: {
-                Label("Theme", systemImage: currentTheme.icon)
-            }
-            .help("Theme Selection")
-
-            // Export
-            Menu {
-                Button(action: { export(as: .pdf) }) {
-                    Label("PDF", systemImage: "doc.text")
-                }
-                Button(action: { export(as: .rtf) }) {
-                    Label("Rich Text (Word)", systemImage: "doc.richtext")
-                }
-                Button(action: { export(as: .markdownDocument) }) {
-                    Label("Markdown", systemImage: "text.alignleft")
-                }
-            } label: {
-                Label("Export", systemImage: "square.and.arrow.up")
-            }
-            .help("Export Document")
-            
-            // Insert Image
-            Button(action: insertImage) {
-                Label("Insert Image", systemImage: "photo")
-            }
-            .help("Insert Image")
-        }
-    }
-
     // MARK: - Actions
 
     private func insertImage() {
@@ -307,22 +307,22 @@ struct ContentView: View {
         panel.canChooseDirectories = false
         panel.canCreateDirectories = false
         panel.allowedContentTypes = [.image]
-        
+
         panel.begin { response in
             if response == .OK, let url = panel.url {
-                let imageMarkdown = "![Image](\(url.path))" 
+                let imageMarkdown = "![Image](\(url.path))"
                 editorController.insert(imageMarkdown)
             }
         }
     }
-    
+
     private func export(as type: UTType) {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [type]
         panel.canCreateDirectories = true
         panel.isExtensionHidden = false
         panel.nameFieldStringValue = "Untitled"
-        
+
         panel.begin { response in
             if response == .OK, let url = panel.url {
                 do {

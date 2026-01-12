@@ -1,0 +1,342 @@
+//
+//  MenuCommands.swift
+//  MDWriter
+//
+//  Menu bar commands for MDWriter, inspired by Ulysses.
+//
+
+import AppKit
+import SwiftUI
+import UniformTypeIdentifiers
+
+// MARK: - App Commands (Settings)
+struct AppCommands: Commands {
+    var body: some Commands {
+        CommandGroup(after: .appSettings) {
+            Button(LocalizedStringKey("Settings...")) {
+                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+            }
+            .keyboardShortcut(",", modifiers: .command)
+        }
+    }
+}
+
+// MARK: - File Commands
+struct FileCommands: Commands {
+    @ObservedObject var fileSystem: FileSystemModel
+
+    var body: some Commands {
+        CommandGroup(replacing: .newItem) {
+            Button(LocalizedStringKey("New Sheet")) {
+                if let folder = fileSystem.selectedFolder {
+                    fileSystem.createNewFile(in: folder)
+                } else {
+                    fileSystem.createNewFile(in: fileSystem.rootURL)
+                }
+            }
+            .keyboardShortcut("n", modifiers: .command)
+
+            Button(LocalizedStringKey("New Group")) {
+                if let folder = fileSystem.selectedFolder {
+                    fileSystem.createNewFolder(in: folder)
+                } else {
+                    fileSystem.createNewFolder(in: fileSystem.rootURL)
+                }
+            }
+            .keyboardShortcut("n", modifiers: [.command, .shift])
+
+            Divider()
+
+            Button(LocalizedStringKey("Import...")) {
+                importDocument()
+            }
+            .keyboardShortcut("i", modifiers: [.command, .shift])
+        }
+
+        CommandGroup(after: .importExport) {
+            Button(LocalizedStringKey("Print...")) {
+                NotificationCenter.default.post(name: .printDocument, object: nil)
+            }
+            .keyboardShortcut("p", modifiers: .command)
+        }
+    }
+
+    private func importDocument() {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.allowedContentTypes = [.text, .plainText]
+
+        panel.begin { response in
+            if response == .OK {
+                for url in panel.urls {
+                    if let content = try? String(contentsOf: url, encoding: .utf8) {
+                        let targetFolder = fileSystem.selectedFolder ?? fileSystem.rootURL
+                        let newURL = targetFolder.appendingPathComponent(url.lastPathComponent)
+                        try? content.write(to: newURL, atomically: true, encoding: .utf8)
+                    }
+                }
+                fileSystem.loadRoot()
+            }
+        }
+    }
+}
+
+// MARK: - Edit Commands (Find/Replace)
+struct EditCommands: Commands {
+    var body: some Commands {
+        CommandGroup(after: .pasteboard) {
+            Divider()
+
+            Button(LocalizedStringKey("Find...")) {
+                NotificationCenter.default.post(name: .showFind, object: nil)
+            }
+            .keyboardShortcut("f", modifiers: .command)
+
+            Button(LocalizedStringKey("Find & Replace...")) {
+                NotificationCenter.default.post(name: .showFindReplace, object: nil)
+            }
+            .keyboardShortcut("f", modifiers: [.command, .option])
+
+            Button(LocalizedStringKey("Find Next")) {
+                NotificationCenter.default.post(name: .findNext, object: nil)
+            }
+            .keyboardShortcut("g", modifiers: .command)
+
+            Button(LocalizedStringKey("Find Previous")) {
+                NotificationCenter.default.post(name: .findPrevious, object: nil)
+            }
+            .keyboardShortcut("g", modifiers: [.command, .shift])
+        }
+    }
+}
+
+// MARK: - View Commands
+struct ViewCommands: Commands {
+    @Binding var showLibrary: Bool
+    @Binding var showDashboard: Bool
+    @Binding var showPreview: Bool
+    @Binding var showOutline: Bool
+    @Binding var textZoom: CGFloat
+
+    var body: some Commands {
+        CommandMenu(LocalizedStringKey("View")) {
+            Button(
+                showLibrary
+                    ? LocalizedStringKey("Hide Library") : LocalizedStringKey("Show Library")
+            ) {
+                withAnimation { showLibrary.toggle() }
+            }
+            .keyboardShortcut("1", modifiers: .command)
+
+            Button(
+                showDashboard
+                    ? LocalizedStringKey("Hide Dashboard") : LocalizedStringKey("Show Dashboard")
+            ) {
+                withAnimation { showDashboard.toggle() }
+            }
+            .keyboardShortcut("4", modifiers: .command)
+
+            Divider()
+
+            Button(
+                showPreview
+                    ? LocalizedStringKey("Hide Preview") : LocalizedStringKey("Show Preview")
+            ) {
+                withAnimation { showPreview.toggle() }
+            }
+            .keyboardShortcut("p", modifiers: [.command, .shift])
+
+            Button(
+                showOutline
+                    ? LocalizedStringKey("Hide Outline") : LocalizedStringKey("Show Outline")
+            ) {
+                withAnimation { showOutline.toggle() }
+            }
+            .keyboardShortcut("o", modifiers: [.command, .option])
+
+            Divider()
+
+            Button(LocalizedStringKey("Zoom In")) {
+                textZoom = min(textZoom + 0.1, 2.0)
+            }
+            .keyboardShortcut("+", modifiers: .command)
+
+            Button(LocalizedStringKey("Zoom Out")) {
+                textZoom = max(textZoom - 0.1, 0.5)
+            }
+            .keyboardShortcut("-", modifiers: .command)
+
+            Button(LocalizedStringKey("Actual Size")) {
+                textZoom = 1.0
+            }
+            .keyboardShortcut("0", modifiers: .command)
+        }
+    }
+}
+
+// MARK: - Format Commands
+struct FormatCommands: Commands {
+    var body: some Commands {
+        CommandMenu(LocalizedStringKey("Format")) {
+            // Headings
+            Menu(LocalizedStringKey("Heading")) {
+                Button(LocalizedStringKey("Heading 1")) {
+                    NotificationCenter.default.post(name: .formatHeading, object: 1)
+                }
+                .keyboardShortcut("1", modifiers: [.command, .control])
+
+                Button(LocalizedStringKey("Heading 2")) {
+                    NotificationCenter.default.post(name: .formatHeading, object: 2)
+                }
+                .keyboardShortcut("2", modifiers: [.command, .control])
+
+                Button(LocalizedStringKey("Heading 3")) {
+                    NotificationCenter.default.post(name: .formatHeading, object: 3)
+                }
+                .keyboardShortcut("3", modifiers: [.command, .control])
+
+                Button(LocalizedStringKey("Heading 4")) {
+                    NotificationCenter.default.post(name: .formatHeading, object: 4)
+                }
+                .keyboardShortcut("4", modifiers: [.command, .control])
+            }
+
+            Divider()
+
+            // Text Styling
+            Button(LocalizedStringKey("Bold")) {
+                NotificationCenter.default.post(name: .formatBold, object: nil)
+            }
+            .keyboardShortcut("b", modifiers: .command)
+
+            Button(LocalizedStringKey("Italic")) {
+                NotificationCenter.default.post(name: .formatItalic, object: nil)
+            }
+            .keyboardShortcut("i", modifiers: .command)
+
+            Button(LocalizedStringKey("Strikethrough")) {
+                NotificationCenter.default.post(name: .formatStrikethrough, object: nil)
+            }
+            .keyboardShortcut("u", modifiers: [.command, .control])
+
+            Button(LocalizedStringKey("Highlight")) {
+                NotificationCenter.default.post(name: .formatHighlight, object: nil)
+            }
+            .keyboardShortcut("h", modifiers: [.command, .control])
+
+            Divider()
+
+            // Lists
+            Menu(LocalizedStringKey("List")) {
+                Button(LocalizedStringKey("Bulleted List")) {
+                    NotificationCenter.default.post(name: .formatBulletList, object: nil)
+                }
+                .keyboardShortcut("l", modifiers: .command)
+
+                Button(LocalizedStringKey("Numbered List")) {
+                    NotificationCenter.default.post(name: .formatNumberedList, object: nil)
+                }
+                .keyboardShortcut("l", modifiers: [.command, .shift])
+
+                Button(LocalizedStringKey("Task List")) {
+                    NotificationCenter.default.post(name: .formatTaskList, object: nil)
+                }
+                .keyboardShortcut("l", modifiers: [.command, .option])
+            }
+
+            Divider()
+
+            // Block Elements
+            Button(LocalizedStringKey("Blockquote")) {
+                NotificationCenter.default.post(name: .formatBlockquote, object: nil)
+            }
+            .keyboardShortcut("'", modifiers: .command)
+
+            Button(LocalizedStringKey("Code Block")) {
+                NotificationCenter.default.post(name: .formatCodeBlock, object: nil)
+            }
+            .keyboardShortcut("k", modifiers: .command)
+
+            Button(LocalizedStringKey("Inline Code")) {
+                NotificationCenter.default.post(name: .formatInlineCode, object: nil)
+            }
+            .keyboardShortcut("k", modifiers: [.command, .shift])
+
+            Divider()
+
+            // Links & Media
+            Button(LocalizedStringKey("Link...")) {
+                NotificationCenter.default.post(name: .insertLink, object: nil)
+            }
+            .keyboardShortcut("k", modifiers: [.command, .option])
+
+            Button(LocalizedStringKey("Image...")) {
+                NotificationCenter.default.post(name: .insertImage, object: nil)
+            }
+            .keyboardShortcut("i", modifiers: [.command, .shift])
+
+            Divider()
+
+            Button(LocalizedStringKey("Horizontal Rule")) {
+                NotificationCenter.default.post(name: .insertHorizontalRule, object: nil)
+            }
+            .keyboardShortcut("-", modifiers: [.command, .shift])
+        }
+    }
+}
+
+// MARK: - Help Commands
+struct HelpCommands: Commands {
+    var body: some Commands {
+        CommandGroup(replacing: .help) {
+            Button(LocalizedStringKey("MDWriter Help")) {
+                if let url = URL(string: "https://github.com/lpgneg19/MDWriter") {
+                    NSWorkspace.shared.open(url)
+                }
+            }
+
+            Button(LocalizedStringKey("Keyboard Shortcuts")) {
+                NotificationCenter.default.post(name: .showKeyboardShortcuts, object: nil)
+            }
+            .keyboardShortcut("/", modifiers: .command)
+        }
+    }
+}
+
+// MARK: - Notification Names
+extension Notification.Name {
+    // Edit
+    static let showFind = Notification.Name("showFind")
+    static let showFindReplace = Notification.Name("showFindReplace")
+    static let findNext = Notification.Name("findNext")
+    static let findPrevious = Notification.Name("findPrevious")
+
+    // Format - Headings
+    static let formatHeading = Notification.Name("formatHeading")
+
+    // Format - Text
+    static let formatBold = Notification.Name("formatBold")
+    static let formatItalic = Notification.Name("formatItalic")
+    static let formatStrikethrough = Notification.Name("formatStrikethrough")
+    static let formatHighlight = Notification.Name("formatHighlight")
+
+    // Format - Lists
+    static let formatBulletList = Notification.Name("formatBulletList")
+    static let formatNumberedList = Notification.Name("formatNumberedList")
+    static let formatTaskList = Notification.Name("formatTaskList")
+
+    // Format - Blocks
+    static let formatBlockquote = Notification.Name("formatBlockquote")
+    static let formatCodeBlock = Notification.Name("formatCodeBlock")
+    static let formatInlineCode = Notification.Name("formatInlineCode")
+
+    // Insert
+    static let insertLink = Notification.Name("insertLink")
+    static let insertImage = Notification.Name("insertImage")
+    static let insertHorizontalRule = Notification.Name("insertHorizontalRule")
+
+    // Other
+    static let printDocument = Notification.Name("printDocument")
+    static let showKeyboardShortcuts = Notification.Name("showKeyboardShortcuts")
+}
