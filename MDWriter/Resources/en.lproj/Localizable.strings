@@ -4,7 +4,22 @@
 */
 
 /* Sidebar */
+"Library" = "Library";
 "Outline" = "Outline";
+"New Group" = "New Group";
+"Rename" = "Rename";
+"Delete" = "Delete";
+"New Name" = "New Name";
+
+/* Files List */
+"Files" = "Files";
+"Select a folder" = "Select a folder";
+"New Note" = "New Note";
+"New Document" = "New Document";
+
+/* Editor */
+"No Selection" = "No Selection";
+"Select a document to start writing." = "Select a document to start writing.";
 
 /* Toolbar */
 "Style" = "Style";

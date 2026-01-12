@@ -79,53 +79,99 @@ struct ContentView: View {
     @Environment(\.colorScheme) var systemScheme
 
     var body: some View {
-        VStack(spacing: 0) {
-            // MARK: - Custom Editor Header
-            HStack(spacing: 12) {
-                Spacer() // 将按钮推向右侧
-                
-                // Insert Image
-                Button(action: insertImage) {
-                    Image(systemName: "photo")
+        ZStack(alignment: .bottomTrailing) {
+            HSplitView {
+                // MARK: - Editor Area
+                ZStack {
+                    currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
+                        .ignoresSafeArea()
+                    
+                    MacEditorView(
+                        text: $document.text,
+                        configuration: typographySettings.configuration,
+                        controller: editorController
+                    )
+                    // 使用 if #available 在构建阶段已被验证为 14.0+
+                    .onChange(of: document.text) {
+                        updateInfo()
+                    }
                 }
-                .help("Insert Image")
+                .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+
+                // MARK: - Preview Area
+                if showPreview {
+                    ScrollView {
+                        Markdown(document.text)
+                            .padding(40)
+                            .markdownTheme(.docC)
+                    }
+                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(nsColor: .windowBackgroundColor))
+                }
                 
+                // MARK: - Right Sidebar (Outline)
+                if showOutline {
+                    outlineView
+                        .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+                }
+            }
+
+            // MARK: - Dashboard
+            HStack(spacing: 16) {
+                // 使用 LocalizedStringKey 进行格式化
+                Label(title: { Text("\(stats.words) words") }, icon: { Image(systemName: "doc.text") })
+                Label(title: { Text("\(stats.readingTime) min read") }, icon: { Image(systemName: "clock") })
+            }
+            .font(.system(size: 11, weight: .medium, design: .rounded))
+            .foregroundColor(.secondary.opacity(0.8))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(.regularMaterial)
+            .clipShape(Capsule())
+            .padding(20)
+            .opacity(0.8)
+        }
+        .preferredColorScheme(currentTheme.colorScheme)
+        .onAppear {
+            updateInfo()
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
                 // Style
                 Button(action: { showTypographyPanel.toggle() }) {
-                    Image(systemName: "textformat.size")
+                    Label("Style", systemImage: "textformat.size")
                 }
                 .popover(isPresented: $showTypographyPanel, arrowEdge: .bottom) {
                     TypographyPanel(settings: typographySettings)
                 }
-                .help("Typography Settings")
+                .help(Text("Style"))
                 
                 // Preview
                 Button(action: { withAnimation { showPreview.toggle() } }) {
-                    Image(systemName: "eye")
+                    Label("Preview", systemImage: "eye")
                         .foregroundColor(showPreview ? .accentColor : .secondary)
                 }
-                .help("Toggle Preview")
+                .help(Text("Preview"))
                 
                 // Outline
                 Button(action: { withAnimation { showOutline.toggle() } }) {
-                    Image(systemName: "sidebar.right")
+                    Label("Outline", systemImage: "sidebar.right")
                         .foregroundColor(showOutline ? .accentColor : .secondary)
                 }
-                .help("Toggle Outline")
+                .help(Text("Outline"))
 
                 // Theme
                 Menu {
                     Picker("Theme", selection: $currentTheme) {
                         ForEach(AppTheme.allCases) { theme in
-                            Label(theme.rawValue, systemImage: theme.icon)
+                            Label(LocalizedStringKey(theme.rawValue), systemImage: theme.icon)
                                 .tag(theme)
                         }
                     }
                 } label: {
-                    Image(systemName: currentTheme.icon)
+                    Label("Theme", systemImage: currentTheme.icon)
                 }
-                .menuStyle(.borderlessButton)
-                .help("Theme Selection")
+                .help(Text("Theme"))
 
                 // Export
                 Menu {
@@ -139,73 +185,16 @@ struct ContentView: View {
                         Label("Markdown", systemImage: "text.alignleft")
                     }
                 } label: {
-                    Image(systemName: "square.and.arrow.up")
+                    Label("Export", systemImage: "square.and.arrow.up")
                 }
-                .menuStyle(.borderlessButton)
-                .help("Export Document")
+                .help(Text("Export"))
+                
+                // Insert Image
+                Button(action: insertImage) {
+                    Label("Insert Image", systemImage: "photo")
+                }
+                .help(Text("Insert Image"))
             }
-            .buttonStyle(.plain)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(Color(nsColor: .windowBackgroundColor)) // 使用窗口背景色区分
-            .overlay(Divider(), alignment: .bottom)
-            
-            ZStack(alignment: .bottomTrailing) {
-                HSplitView {
-                    // MARK: - Editor Area
-                    ZStack {
-                        currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
-                            .ignoresSafeArea()
-                        
-                        MacEditorView(
-                            text: $document.text,
-                            configuration: typographySettings.configuration,
-                            controller: editorController
-                        )
-                        // 使用 if #available 在构建阶段已被验证为 14.0+
-                        .onChange(of: document.text) {
-                            updateInfo()
-                        }
-                    }
-                    .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-
-                    // MARK: - Preview Area
-                    if showPreview {
-                        ScrollView {
-                            Markdown(document.text)
-                                .padding(40)
-                                .markdownTheme(.docC)
-                        }
-                        .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color(nsColor: .windowBackgroundColor))
-                    }
-                    
-                    // MARK: - Right Sidebar (Outline)
-                    if showOutline {
-                        outlineView
-                            .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
-                    }
-                }
-
-                // MARK: - Dashboard
-                HStack(spacing: 16) {
-                    // 使用 LocalizedStringKey 进行格式化
-                    Label(title: { Text("\(stats.words) words") }, icon: { Image(systemName: "doc.text") })
-                    Label(title: { Text("\(stats.readingTime) min read") }, icon: { Image(systemName: "clock") })
-                }
-                .font(.system(size: 11, weight: .medium, design: .rounded))
-                .foregroundColor(.secondary.opacity(0.8))
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.regularMaterial)
-                .clipShape(Capsule())
-                .padding(20)
-                .opacity(0.8)
-            }
-        }
-        .preferredColorScheme(currentTheme.colorScheme)
-        .onAppear {
-            updateInfo()
         }
     }
 

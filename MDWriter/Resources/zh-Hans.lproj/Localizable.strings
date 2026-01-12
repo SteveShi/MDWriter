@@ -4,7 +4,22 @@
 */
 
 /* Sidebar */
+"Library" = "文库";
 "Outline" = "大纲";
+"New Group" = "新建组";
+"Rename" = "重命名";
+"Delete" = "删除";
+"New Name" = "新名称";
+
+/* Files List */
+"Files" = "文件";
+"Select a folder" = "请选择文件夹";
+"New Note" = "新建笔记";
+"New Document" = "新建文档";
+
+/* Editor */
+"No Selection" = "未选择";
+"Select a document to start writing." = "选择一个文档开始写作。";
 
 /* Toolbar */
 "Style" = "样式";

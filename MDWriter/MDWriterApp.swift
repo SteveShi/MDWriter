@@ -26,16 +26,17 @@ struct MDWriterApp: App {
             LibraryView()
                 .environmentObject(fileSystem)
         }
+        .windowStyle(.hiddenTitleBar)
         .commands {
             // 添加菜单命令
             CommandGroup(after: .appInfo) {
-                Button("Check for Updates...") {
+                Button(LocalizedStringKey("Check for Updates...")) {
                     appUpdater.check()
                 }
             }
             
             CommandGroup(replacing: .newItem) {
-                Button("New Document") {
+                Button(LocalizedStringKey("New Document")) {
                     if let selectedFolder = fileSystem.selectedFolder {
                         fileSystem.createNewFile(in: selectedFolder)
                     } else {
@@ -44,7 +45,7 @@ struct MDWriterApp: App {
                 }
                 .keyboardShortcut("n")
                 
-                Button("New Group") {
+                Button(LocalizedStringKey("New Group")) {
                      if let selectedFolder = fileSystem.selectedFolder {
                          fileSystem.createNewFolder(in: selectedFolder)
                      } else {

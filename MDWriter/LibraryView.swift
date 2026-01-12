@@ -21,106 +21,103 @@ struct LibraryView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             // 第一栏：文件夹列表 (层级结构)
             List(selection: $fileSystem.selectedFolder) {
-                Section("Library") {
-                    Label("All Documents", systemImage: "tray.full")
+                Section(LocalizedStringKey("Library")) {
+                    Label(LocalizedStringKey("All Documents"), systemImage: "tray.full")
                         .tag(fileSystem.rootURL)
                 }
                 
-                Section("Folders") {
-                    // 使用 OutlineGroup 展示层级 (如果 FileItem 遵循 Identifiable 且有 children)
+                Section(LocalizedStringKey("Folders")) {
+                    // 使用 OutlineGroup 展示层级
                     OutlineGroup(fileSystem.items, children: \.children) { item in
                         Label(item.name, systemImage: "folder")
                             .contextMenu {
-                                Button("Rename") { startRenaming(item) }
-                                Button("Delete", role: .destructive) { fileSystem.deleteItem(item) }
-                                Button("New Group inside") { fileSystem.createNewFolder(in: item.url) }
+                                Button { startRenaming(item) } label: { Label(LocalizedStringKey("Rename"), systemImage: "pencil") }
+                                Button(role: .destructive) { fileSystem.deleteItem(item) } label: { Label(LocalizedStringKey("Delete"), systemImage: "trash") }
+                                Button { fileSystem.createNewFolder(in: item.url) } label: { Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus") }
                             }
                             .tag(item.url)
                     }
                 }
             }
             .listStyle(.sidebar)
-            // 移除系统标题和工具栏，改用自定义 Header 以实现视觉分离
-            .alert("Rename", isPresented: $isRenaming) {
-                TextField("New Name", text: $newName)
-                Button("Rename") {
+            .navigationTitle(LocalizedStringKey("Library"))
+            .alert(LocalizedStringKey("Rename"), isPresented: $isRenaming) {
+                TextField(LocalizedStringKey("New Name"), text: $newName)
+                Button(LocalizedStringKey("Rename")) {
                     if let item = renamingItem {
                         fileSystem.renameItem(item, to: newName)
                     }
                 }
-                Button("Cancel", role: .cancel) {}
+                Button(LocalizedStringKey("Cancel"), role: .cancel) {}
             }
-            // 1. Sidebar Custom Header
-            .safeAreaInset(edge: .top) {
-                HStack {
-                    Text("Library")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    Spacer()
+            // 1. Sidebar Toolbar
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
                     Button(action: {
                         if let selected = fileSystem.selectedFolder {
                             fileSystem.createNewFolder(in: selected)
+                        } else {
+                            fileSystem.createNewFolder(in: fileSystem.rootURL)
                         }
                     }) {
-                        Image(systemName: "folder.badge.plus")
+                        Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus")
                     }
-                    .buttonStyle(.plain)
-                    .help("New Group")
+                    .help(LocalizedStringKey("New Group"))
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                .background(Color(nsColor: .controlBackgroundColor))
-                .overlay(Divider(), alignment: .bottom)
             }
         } content: {
             // 第二栏：文件列表
-            VStack(spacing: 0) {
-                // 2. Content Custom Header
-                HStack {
-                    Text(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Button(action: {
-                        if let folder = fileSystem.selectedFolder {
-                            fileSystem.createNewFile(in: folder)
-                        }
-                    }) {
-                        Image(systemName: "square.and.pencil")
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(fileSystem.selectedFolder == nil)
-                    .help("New Note")
-                    .foregroundColor(fileSystem.selectedFolder == nil ? .secondary.opacity(0.3) : .primary)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                .background(Color(nsColor: .controlBackgroundColor))
-                .overlay(Divider(), alignment: .bottom)
-
+            Group {
                 if let selectedFolder = fileSystem.selectedFolder {
                     let files = fileSystem.files(in: selectedFolder).filter {
                         searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(searchText)
                     }
                     
                     List(selection: $fileSystem.selectedFile) {
-                        ForEach(files) { file in
+                        ForEach(files) {
+                            file in
                             FileRowView(file: file, preview: fileSystem.readFile(file.url))
                                 .tag(file.url)
                                 .contextMenu {
-                                    Button("Rename", systemImage: "pencil") { startRenaming(file) }
-                                    Button("Delete", systemImage: "trash", role: .destructive) { fileSystem.deleteItem(file) }
+                                    Button { startRenaming(file) } label: { Label(LocalizedStringKey("Rename"), systemImage: "pencil") }
+                                    Button(role: .destructive) { fileSystem.deleteItem(file) } label: { Label(LocalizedStringKey("Delete"), systemImage: "trash") }
                                 }
                         }
                     }
                     .listStyle(.inset)
                     .searchable(text: $searchText, placement: .sidebar)
+                    .navigationTitle(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(action: {
+                                fileSystem.createNewFile(in: selectedFolder)
+                            }) {
+                                Label(LocalizedStringKey("New Note"), systemImage: "square.and.pencil")
+                            }
+                            .help(LocalizedStringKey("New Note"))
+                        }
+                    }
                 } else {
                     // 空状态占位
-                    Text("Select a folder")
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color(nsColor: .controlBackgroundColor))
+                    VStack {
+                        Spacer()
+                        Image(systemName: "folder")
+                            .font(.system(size: 40))
+                            .foregroundColor(.secondary.opacity(0.2))
+                        Text(LocalizedStringKey("Select a folder"))
+                            .foregroundColor(.secondary)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(action: {}) {
+                                Label(LocalizedStringKey("New Note"), systemImage: "square.and.pencil")
+                            }
+                            .disabled(true)
+                        }
+                    }
                 }
             }
         } detail: {
@@ -133,11 +130,14 @@ struct LibraryView: View {
                 Group {
                     if let selectedFile = fileSystem.selectedFile {
                         EditorWrapper(fileURL: selectedFile)
-                            .id(selectedFile)
                     } else {
-                        ContentUnavailableView("No Selection", systemImage: "doc.text", description: Text("Select a document to start writing."))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color(nsColor: .windowBackgroundColor))
+                        ContentUnavailableView {
+                            Label(LocalizedStringKey("No Selection"), systemImage: "doc.text")
+                        } description: {
+                            Text(LocalizedStringKey("Select a document to start writing."))
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(nsColor: .windowBackgroundColor))
                     }
                 }
             }
@@ -162,7 +162,7 @@ struct FileRowView: View {
                 .font(.headline)
                 .lineLimit(1)
             
-            // 提取摘要：去掉标题符号，取前两行
+            // 提取摘要
             Text(summary(from: preview))
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -193,7 +193,7 @@ extension Color {
     }
 }
 
-// 包装 ContentView 以适配新的 FileSystemModel
+// 包装 ContentView
 struct EditorWrapper: View {
     let fileURL: URL
     @EnvironmentObject var fileSystem: FileSystemModel
@@ -207,6 +207,9 @@ struct EditorWrapper: View {
     
     var body: some View {
         ContentView(document: $document)
+            .onChange(of: fileURL) { newURL in
+                loadContent(from: newURL)
+            }
             .onChange(of: document.text) { 
                 fileSystem.saveFile(fileURL, content: document.text)
             }
@@ -214,5 +217,9 @@ struct EditorWrapper: View {
                 fileSystem.saveFile(fileURL, content: document.text)
             }
     }
+    
+    private func loadContent(from url: URL) {
+        let content = (try? String(contentsOf: url)) ?? ""
+        self.document = MDWriterDocument(text: content)
+    }
 }
-

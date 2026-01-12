@@ -123,7 +123,7 @@ struct TypographyPanel: View {
                 GridRow {
                     Label("Line Height", systemImage: "arrow.up.and.down.text.horizontal")
                         .labelStyle(.iconOnly)
-                        .help("Line Height")
+                        .help(Text("Line Height"))
                     HStack {
                         Slider(value: $settings.lineHeightMultiple, in: 1.0...3.0, step: 0.1)
                         Text(String(format: "%.1f", settings.lineHeightMultiple))
@@ -136,7 +136,7 @@ struct TypographyPanel: View {
                 GridRow {
                     Label("Para Spacing", systemImage: "paragraphsign")
                         .labelStyle(.iconOnly)
-                        .help("Paragraph Spacing")
+                        .help(Text("Paragraph Spacing"))
                     HStack {
                         Slider(value: $settings.paragraphSpacing, in: 0...50, step: 2)
                         Text("\(Int(settings.paragraphSpacing))")
@@ -149,7 +149,7 @@ struct TypographyPanel: View {
                 GridRow {
                     Label("First Line", systemImage: "arrow.forward.to.line")
                         .labelStyle(.iconOnly)
-                        .help("First Line Indent")
+                        .help(Text("First Line Indent"))
                     HStack {
                         Slider(value: $settings.firstLineIndent, in: 0...50, step: 5)
                         Text("\(Int(settings.firstLineIndent))")
@@ -162,7 +162,7 @@ struct TypographyPanel: View {
                 GridRow {
                     Label("Width", systemImage: "arrow.left.and.right.square")
                         .labelStyle(.iconOnly)
-                        .help("Editor Width")
+                        .help(Text("Editor Width"))
                     HStack {
                         Slider(value: $settings.contentWidth, in: 400...1200, step: 50)
                         Text("\(Int(settings.contentWidth))")

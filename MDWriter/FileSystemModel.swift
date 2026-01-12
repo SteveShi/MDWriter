@@ -84,7 +84,7 @@ class FileSystemModel: ObservableObject {
                 return !isDir && (url.pathExtension == "md" || url.pathExtension == "markdown")
             }
             .map { FileItem(url: $0, isDirectory: false) }
-            .sorted { $0.modificationDate > $1.modificationDate }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
     
     // 重命名

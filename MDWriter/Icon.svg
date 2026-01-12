@@ -1,41 +1,29 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- macOS Squircle Background -->
-  <rect x="50" y="50" width="924" height="924" rx="200" fill="url(#bg_gradient)" stroke="#E0E0E0" stroke-width="2"/>
-  
-  <!-- Paper Stack Effect -->
-  <rect x="150" y="150" width="724" height="724" rx="20" fill="#FDFBF7" fill-opacity="0.9" filter="url(#dropShadow)"/>
-  <rect x="150" y="150" width="724" height="724" rx="20" fill="url(#paper_texture)" fill-opacity="0.1"/>
-
-  <!-- Stylized Pen / Markdown Symbol -->
-  <g transform="translate(512, 512) scale(1.2)">
-    <!-- Pen Nib Shape -->
-    <path d="M-120 -180 C -120 -250, 0 -300, 0 -300 C 0 -300, 120 -250, 120 -180 C 120 0, 0 200, 0 200 C 0 200, -120 0, -120 -180 Z" fill="url(#metal_gradient)"/>
-    <!-- Center Slit -->
-    <path d="M0 -220 L0 100" stroke="#333" stroke-width="8" stroke-linecap="round"/>
-    <!-- Breathe Hole -->
-    <circle cx="0" cy="-140" r="15" fill="#FDFBF7" stroke="#333" stroke-width="4"/>
+    <defs>
+        <linearGradient id="bg_grad" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#2C3E50"/>
+            <stop offset="100%" stop-color="#000000"/>
+        </linearGradient>
+        <filter id="shadow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feDropShadow dx="0" dy="20" stdDeviation="30" flood-opacity="0.3"/>
+        </filter>
+    </defs>
     
-    <!-- Markdown 'M' woven into the pen design (Abstract) -->
-    <path d="M-160 100 L-160 -50 L0 50 L160 -50 L160 100" stroke="#FF9500" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(0, 100)"/>
-  </g>
-
-  <!-- Gradients & Filters -->
-  <defs>
-    <linearGradient id="bg_gradient" x1="50" y1="50" x2="974" y2="974" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FAFAFA"/>
-      <stop offset="1" stop-color="#E0E0E0"/>
-    </linearGradient>
-    <linearGradient id="metal_gradient" x1="-100" y1="-200" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#555"/>
-      <stop offset="0.5" stop-color="#999"/>
-      <stop offset="1" stop-color="#333"/>
-    </linearGradient>
-    <filter id="dropShadow" x="100" y="100" width="824" height="824" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-opacity="0.15"/>
-    </filter>
-    <pattern id="paper_texture" patternUnits="userSpaceOnUse" width="100" height="100">
-       <rect width="100" height="100" fill="#fff"/>
-       <!-- Simple noise simulation could go here -->
-    </pattern>
-  </defs>
+    <!-- Squircle Background -->
+    <rect x="128" y="128" width="768" height="768" rx="180" fill="url(#bg_grad)" filter="url(#shadow)"/>
+    
+    <!-- Stylized Paper Sheet -->
+    <rect x="256" y="256" width="512" height="512" rx="40" fill="white" fill-opacity="0.1"/>
+    <rect x="280" y="280" width="464" height="464" rx="30" fill="white" fill-opacity="0.05"/>
+    
+    <!-- Markdown Symbol (M↓) -->
+    <g transform="translate(362, 412) scale(1.5)">
+        <!-- M -->
+        <path d="M0 60V0H15L30 25L45 0H60V60H45V25L30 50L15 25V60H0Z" fill="white"/>
+        <!-- Arrow Down -->
+        <path d="M80 0V40H70L90 60L110 40H100V0H80Z" fill="#3498DB"/>
+    </g>
+    
+    <!-- Accent Line -->
+    <rect x="256" y="740" width="512" height="4" rx="2" fill="#3498DB" fill-opacity="0.5"/>
 </svg>
