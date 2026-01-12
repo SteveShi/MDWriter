@@ -32,24 +32,41 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Package App
+      - name: Package App (ZIP and DMG)
         run: |
           # 找到编译好的 .app 文件
           APP_PATH=$(find build/Build/Products/Release -name "*.app" -type d | head -n 1)
           APP_NAME=$(basename "$APP_PATH")
-          ZIP_NAME="MDWriter-Universal.zip"
+          APP_DIR=$(dirname "$APP_PATH")
           
-          # 进入目录打包
-          cd "$(dirname "$APP_PATH")"
-          zip -r "../../../$ZIP_NAME" "$APP_NAME"
+          VERSION=${{ github.ref_name }}
+          # 去掉前面的 v 如果存在
+          VERSION_CLEAN=${VERSION#v}
+          
+          ZIP_NAME="MDWriter-${VERSION_CLEAN}-Universal.zip"
+          DMG_NAME="MDWriter-${VERSION_CLEAN}-Universal.dmg"
+          
+          # 打包 ZIP
+          cd "$APP_DIR"
+          zip -r "../../$ZIP_NAME" "$APP_NAME"
+          cd -
+          
+          # 打包 DMG
+          # 创建一个临时目录放 app
+          mkdir -p dmg_root
+          cp -R "$APP_PATH" dmg_root/
+          
+          hdiutil create -volname "MDWriter" -srcfolder dmg_root -ov -format UDZO "$DMG_NAME"
           
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
-          echo "ZIP_PATH=./$ZIP_NAME" >> $GITHUB_ENV
+          echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.ZIP_NAME }}
+          files: |
+            ${{ env.ZIP_NAME }}
+            ${{ env.DMG_NAME }}
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false

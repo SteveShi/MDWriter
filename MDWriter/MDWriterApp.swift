@@ -27,11 +27,14 @@ struct MDWriterApp: App {
     @AppStorage("showOutline") var showOutline: Bool = false
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
         WindowGroup {
             LibraryView()
                 .environmentObject(fileSystem)
+                .preferredColorScheme(currentTheme.colorScheme)
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
@@ -71,6 +74,7 @@ struct MDWriterApp: App {
         #if os(macOS)
             Settings {
                 SettingsView()
+                    .preferredColorScheme(currentTheme.colorScheme)
             }
         #endif
     }

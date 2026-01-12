@@ -23,6 +23,7 @@ struct MacEditorView: NSViewControllerRepresentable {
     // 修改：只接收纯数据的配置结构体
     var configuration: TypographyConfiguration
     @ObservedObject var controller: EditorController
+    @Environment(\.colorScheme) var colorScheme
 
     class Coordinator: NSObject, NSTextViewDelegate {
         var parent: MacEditorView
@@ -95,6 +96,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
         textView = CenteredTextView(frame: .zero, textContainer: textContainer)
         textView.delegate = coordinator
         textView.autoresizingMask = [.width, .height]
+
+        if let centeredTextView = textView as? CenteredTextView {
+            centeredTextView.appearanceChanged = { [weak self] in
+                if let config = self?.coordinator?.parent.configuration {
+                    self?.updateTypography(config: config)
+                }
+            }
+        }
 
         // 关键样式设置
         textView.drawsBackground = false
@@ -302,7 +311,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
         textView.font = font
 
         // 确保颜色适配深色/浅色模式
-        let textColor = NSColor.labelColor.withAlphaComponent(0.9)
+        let textColor = NSColor.labelColor
         textView.textColor = textColor
 
         // 设置 typingAttributes，保证新输入的文字遵循这些样式
@@ -314,7 +323,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
         // 注意：如果要实时更新**已存在**的文本样式，我们需要重置整个 storage 的属性
         if textView.textStorage?.length ?? 0 > 0 {
-            textView.textStorage?.addAttributes(
+            textView.textStorage?.setAttributes(
                 [
                     .font: font,
                     .paragraphStyle: paragraphStyle,
@@ -340,7 +349,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
 // 一个小的辅助类，确保点击空白处也能聚焦编辑器
 class CenteredTextView: NSTextView {
+    var appearanceChanged: (() -> Void)?
+
     override func hitTest(_ point: NSPoint) -> NSView? {
         return super.hitTest(point) ?? self
+    }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        appearanceChanged?()
     }
 }

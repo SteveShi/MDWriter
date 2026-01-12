@@ -5,9 +5,9 @@
 //  Created by Gemini on 2026/01/11.
 //
 
-import SwiftUI
 import AppKit
 import Combine
+import SwiftUI
 
 // 1. 定义纯数据的配置结构体 (Value Type)
 struct TypographyConfiguration: Equatable {
@@ -17,15 +17,18 @@ struct TypographyConfiguration: Equatable {
     var paragraphSpacing: Double
     var firstLineIndent: Double
     var contentWidth: Double
-    
+
     // 辅助方法：生成 NSFont
     var nsFont: NSFont {
         switch fontName {
         case "System":
             return .systemFont(ofSize: fontSize)
         case "System Serif":
-            if let descriptor = NSFontDescriptor.preferredFontDescriptor(forTextStyle: .body).withDesign(.serif) {
-                return NSFont(descriptor: descriptor, size: fontSize) ?? .systemFont(ofSize: fontSize)
+            if let descriptor = NSFontDescriptor.preferredFontDescriptor(forTextStyle: .body)
+                .withDesign(.serif)
+            {
+                return NSFont(descriptor: descriptor, size: fontSize)
+                    ?? .systemFont(ofSize: fontSize)
             }
             return .systemFont(ofSize: fontSize)
         case "Monospaced":
@@ -38,22 +41,25 @@ struct TypographyConfiguration: Equatable {
 
 // 2. 设置管理器 (ObservableObject)
 class TypographySettings: ObservableObject {
-    @Published var fontName: String { didSet { UserDefaults.standard.set(fontName, forKey: "editorFontName") } }
-    @Published var fontSize: Double { didSet { UserDefaults.standard.set(fontSize, forKey: "editorFontSize") } }
-    @Published var lineHeightMultiple: Double { didSet { UserDefaults.standard.set(lineHeightMultiple, forKey: "lineHeightMultiple") } }
-    @Published var paragraphSpacing: Double { didSet { UserDefaults.standard.set(paragraphSpacing, forKey: "paragraphSpacing") } }
-    @Published var firstLineIndent: Double { didSet { UserDefaults.standard.set(firstLineIndent, forKey: "firstLineIndent") } }
-    @Published var contentWidth: Double { didSet { UserDefaults.standard.set(contentWidth, forKey: "contentWidth") } }
-    
+    private var cancellables = Set<AnyCancellable>()
+
+    @AppStorage("editorFontName") var fontName: String = "System Serif"
+    @AppStorage("editorFontSize") var fontSize: Double = 17.0
+    @AppStorage("lineHeightMultiple") var lineHeightMultiple: Double = 1.6
+    @AppStorage("paragraphSpacing") var paragraphSpacing: Double = 18.0
+    @AppStorage("firstLineIndent") var firstLineIndent: Double = 0.0
+    @AppStorage("contentWidth") var contentWidth: Double = 700.0
+
     init() {
-        self.fontName = UserDefaults.standard.string(forKey: "editorFontName") ?? "System Serif"
-        self.fontSize = UserDefaults.standard.double(forKey: "editorFontSize") == 0 ? 17.0 : UserDefaults.standard.double(forKey: "editorFontSize")
-        self.lineHeightMultiple = UserDefaults.standard.double(forKey: "lineHeightMultiple") == 0 ? 1.6 : UserDefaults.standard.double(forKey: "lineHeightMultiple")
-        self.paragraphSpacing = UserDefaults.standard.object(forKey: "paragraphSpacing") == nil ? 18.0 : UserDefaults.standard.double(forKey: "paragraphSpacing")
-        self.firstLineIndent = UserDefaults.standard.double(forKey: "firstLineIndent")
-        self.contentWidth = UserDefaults.standard.double(forKey: "contentWidth") == 0 ? 700.0 : UserDefaults.standard.double(forKey: "contentWidth")
+        // 监听 UserDefaults 变化，确保跨窗口同步时触发 UI 刷新
+        NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
     }
-    
+
     // 生成当前配置快照
     var configuration: TypographyConfiguration {
         TypographyConfiguration(
@@ -70,15 +76,15 @@ class TypographySettings: ObservableObject {
 // 3. 设置面板 UI
 struct TypographyPanel: View {
     @ObservedObject var settings: TypographySettings
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Typography")
                 .font(.headline)
                 .foregroundStyle(.secondary)
-            
+
             Divider()
-            
+
             // 字体选择
             Grid(alignment: .leading, verticalSpacing: 10) {
                 GridRow {
@@ -90,20 +96,21 @@ struct TypographyPanel: View {
                             Text("System Serif").tag("System Serif")
                             Text("Monospaced").tag("Monospaced")
                         }
-                        
+
                         // 系统字体组
                         Section("Installed Fonts") {
-                            ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { family in
+                            ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) {
+                                family in
                                 // 简单的去重逻辑：如果预设里有了就不显示（可选），这里直接全显示也无妨
                                 Text(family).tag(family)
-                                    .font(.custom(family, size: 12)) // 让用户能预览字体样式
+                                    .font(.custom(family, size: 12))  // 让用户能预览字体样式
                             }
                         }
                     }
                     .labelsHidden()
                     .frame(width: 140)
                 }
-                
+
                 GridRow {
                     Text("Size")
                     HStack {
@@ -115,9 +122,9 @@ struct TypographyPanel: View {
                     }
                 }
             }
-            
+
             Divider()
-            
+
             // 排版细节
             Grid(alignment: .leading, verticalSpacing: 10) {
                 GridRow {
@@ -132,7 +139,7 @@ struct TypographyPanel: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 GridRow {
                     Label("Para Spacing", systemImage: "paragraphsign")
                         .labelStyle(.iconOnly)
@@ -145,7 +152,7 @@ struct TypographyPanel: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 GridRow {
                     Label("First Line", systemImage: "arrow.forward.to.line")
                         .labelStyle(.iconOnly)
@@ -158,7 +165,7 @@ struct TypographyPanel: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 GridRow {
                     Label("Width", systemImage: "arrow.left.and.right.square")
                         .labelStyle(.iconOnly)
