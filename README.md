@@ -1,63 +1,62 @@
 # MDWriter
 
 <p align="center">
-  <img src="MDWriter/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png" alt="MDWriter Icon" width="128" />
+  <img src="MDWriter/Assets.xcassets/AppIcon.appiconset/icon_1024x1024@2x.png" alt="MDWriter Icon" width="128" />
 </p>
 
 <p align="center">
-  <b>An elegant, native Markdown editor for macOS, inspired by Ulysses.</b>
+  <b>A professional, native Markdown editor for macOS, inspired by Ulysses.</b>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Platform-macOS-000000.svg?style=flat-square&logo=apple" alt="Platform macOS" />
+  <img src="https://img.shields.io/badge/Platform-macOS%2014.0+-000000.svg?style=flat-square&logo=apple" alt="Platform macOS" />
   <img src="https://img.shields.io/badge/Language-Swift-F05138.svg?style=flat-square&logo=swift" alt="Language Swift" />
-  <img src="https://img.shields.io/badge/License-MPL-blue.svg?style=flat-square" alt="License MPL" />
+  <img src="https://img.shields.io/badge/Architecture-Universal-blue.svg?style=flat-square" alt="Universal Binary" />
+  <img src="https://img.shields.io/badge/License-MPL%202.0-green.svg?style=flat-square" alt="License MPL" />
 </p>
 
 ---
 
 ## 📖 Introduction
 
-**MDWriter** is a document-based Markdown editor built specifically for macOS. It combines the modern declarative UI of **SwiftUI** with the powerful text handling capabilities of **AppKit (NSTextView)** to provide a distraction-free writing experience.
+**MDWriter** is a native Markdown editor designed for focused writing and efficient organization on macOS. Version 1.1 introduces a complete UI overhaul inspired by high-end writing tools like Ulysses, featuring an immersive three-column library and a professional typography engine.
 
-Designed with a focus on typography and aesthetics, MDWriter offers a "paper-like" writing environment similar to high-end writing tools like Ulysses, but fully open-source.
+## ✨ Features (v1.1)
 
-## ✨ Features
+### ✍️ Immersive Writing Experience
+*   **Immersive UI**: Hidden system title bar allows your content to flow to the very top of the window.
+*   **Native Performance**: Powered by a custom `NSTextView` wrapper for buttery smooth typing and precise control.
+*   **Custom Typography**: Precise control over fonts (System UI, System Serif, Monospaced), line height, paragraph spacing, and content width.
+*   **Dashboard**: Real-time word count, character count, and estimated reading time in a beautiful floating capsule.
 
-### ✍️ Professional Writing Experience
-*   **Native Performance**: Powered by a custom `NSTextView` wrapper for buttery smooth typing and precise cursor control.
-*   **Distraction-Free**: Minimalist interface with a centered writing column.
-*   **Custom Typography**: precise control over fonts (System, Serif, Mono), line height, paragraph spacing, and content width.
-*   **Themes**: Light, Dark, and System modes with carefully tuned "Paper" background colors.
+### 📚 Powerful Organization
+*   **Three-Column Library**: Effortlessly manage your library (Folders → Document List → Editor) in a single unified view.
+*   **Rich Previews**: The document list shows titles, 2-line content summaries, and modification dates.
+*   **Instant Sync**: All changes are saved automatically as you type.
 
-### 📚 Structure & Organization
-*   **Auto Outline**: Sidebar automatically generates a table of contents based on your headers (`#`).
-*   **Document-Based**: Native macOS file handling (Versions, Auto-save, Rename, Move).
-
-### 🛠 Powerful Tools
-*   **Live Preview**: Toggleable side-by-side Markdown preview with syntax highlighting (powered by `MarkdownUI`).
-*   **Statistics**: Real-time word count, character count, and estimated reading time.
-*   **Image Support**: Drag and drop or insert local images directly into your document.
+### 🛠 Professional Tools
+*   **Live Preview**: Toggleable side-by-side Markdown rendering with syntax highlighting.
+*   **Right-side Outline**: Navigate complex documents easily with a toggleable structure panel on the right.
+*   **Image Support**: Seamlessly insert local images into your Markdown documents.
 
 ### 📤 Export & Sharing
-*   **PDF**: Export beautifully rendered PDFs with styled layouts.
-*   **Word (RTF)**: Export rich text for compatibility with Microsoft Word.
-*   **Markdown**: Share raw `.md` files.
+*   **Styled PDF**: Export beautifully rendered PDFs optimized for A4 paper.
+*   **Word (RTF)**: Export rich text compatible with Microsoft Word.
+*   **Markdown**: Share or backup raw `.md` files.
 
 ### 🌍 Localization
-*   **English** & **Simplified Chinese (简体中文)** support out of the box.
+*   Full support for **English** and **Simplified Chinese (简体中文)**.
 
 ## 📸 Screenshots
 
-*(Add your screenshots here)*
+*(Add your beautiful screenshots here)*
 
 ## 🚀 Installation
 
 ### Download
-Check the [Releases](https://github.com/lpgneg19/MDWriter/releases) page for the latest compiled binary.
+Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
 
 ### Build from Source
-
 **Requirements:**
 *   macOS 14.0+
 *   Xcode 15.0+
@@ -68,27 +67,17 @@ Check the [Releases](https://github.com/lpgneg19/MDWriter/releases) page for the
     cd MDWriter
     ```
 2.  Open `MDWriter.xcodeproj` in Xcode.
-3.  Wait for Swift Package Manager to resolve dependencies.
-4.  Press `Cmd + R` to run.
+3.  Build and Run (`Cmd + R`).
 
 ## 📦 Dependencies
 
-*   [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui): For rendering the beautiful Markdown preview.
-*   [AppUpdater](https://github.com/s1ntoneli/AppUpdater): For automatic updates via GitHub Releases.
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to submit a Pull Request.
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+*   [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui): Elegant Markdown rendering.
+*   [Ink](https://github.com/JohnSundell/Ink): Markdown to HTML conversion for high-quality exports.
+*   [AppUpdater](https://github.com/s1ntoneli/AppUpdater): Automatic update checking via GitHub.
 
 ## 📄 License
 
-Distributed under the MPL License. See `LICENSE` for more information.
+Distributed under the Mozilla Public License 2.0. See `LICENSE` for more information.
 
 ---
 Built with ❤️ using SwiftUI & AppKit.
