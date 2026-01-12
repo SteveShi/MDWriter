@@ -61,6 +61,13 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
+      - name: Extract Release Notes
+        run: |
+          VERSION=${{ github.ref_name }}
+          VERSION_CLEAN=${VERSION#v}
+          # Extract content between current version header and next version header
+          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -68,8 +75,8 @@ jobs:
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
           name: Release ${{ github.ref_name }}
+          body_path: release_notes.md
           draft: false
           prerelease: false
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
