@@ -62,8 +62,10 @@ struct ContentView: View {
     @Binding var document: MDWriterDocument
     @State private var headers: [DocumentHeader] = []
     @State private var stats: DocumentStatistics = DocumentStatistics(characters: 0, words: 0, readingTime: 0)
+    
+    // UI 状态
     @State private var showPreview: Bool = false
-    @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var showOutline: Bool = false
     @State private var showTypographyPanel: Bool = false
     
     // 导出状态
@@ -77,75 +79,6 @@ struct ContentView: View {
     @Environment(\.colorScheme) var systemScheme
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            sidebarContent
-        } detail: {
-            detailContent
-        }
-        .preferredColorScheme(currentTheme.colorScheme)
-        .onAppear {
-            updateInfo()
-        }
-        .toolbar {
-            toolbarContent
-        }
-        .scrollContentBackground(.hidden)
-        // 文件导出处理
-        .fileExporter(
-            isPresented: $showExporter,
-            document: TextDocument(exportItem?.content ?? ""),
-            contentType: exportItem?.contentType ?? .plainText,
-            defaultFilename: "Exported"
-        ) { result in
-            switch result {
-            case .success(let url):
-                print("Saved to \(url)")
-                // 特殊处理 PDF 和 RTF，因为 fileExporter 默认只写文本
-                // 如果我们选择的是 PDF/RTF，我们需要重新用 ExportService 生成
-                // 但 TextDocument 只能处理纯文本。
-                // 修正：我们应该直接使用 NSSavePanel 或者自定义 Document 类型
-                // 这里的 fileExporter 对于二进制生成 (PDF) 比较麻烦。
-                // 让我们改回在 Action 里直接调用 NSSavePanel 更灵活。
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
-    // MARK: - Subviews
-
-    @ViewBuilder
-    private var sidebarContent: some View {
-        List(headers, selection: .constant(nil as DocumentHeader.ID?)) { header in
-            HStack {
-                Spacer().frame(width: CGFloat(header.level - 1) * 12)
-                
-                if header.level == 1 {
-                    Image(systemName: "number")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                } else {
-                    Circle()
-                        .fill(.tertiary)
-                        .frame(width: 4, height: 4)
-                }
-                
-                Text(header.title)
-                    .font(.system(.subheadline, design: .rounded))
-                    .foregroundStyle(.primary.opacity(0.8))
-                    .lineLimit(1)
-            }
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-            .padding(.vertical, 2)
-        }
-        .listStyle(.sidebar)
-        .navigationTitle("Outline")
-        .background(Color(nsColor: .controlBackgroundColor))
-    }
-
-    @ViewBuilder
-    private var detailContent: some View {
         ZStack(alignment: .bottomTrailing) {
             HSplitView {
                 // MARK: - Editor Area
@@ -158,6 +91,7 @@ struct ContentView: View {
                         configuration: typographySettings.configuration,
                         controller: editorController
                     )
+                    // 使用 if #available 在构建阶段已被验证为 14.0+
                     .onChange(of: document.text) {
                         updateInfo()
                     }
@@ -173,6 +107,12 @@ struct ContentView: View {
                     }
                     .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(nsColor: .windowBackgroundColor))
+                }
+                
+                // MARK: - Right Sidebar (Outline)
+                if showOutline {
+                    outlineView
+                        .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
                 }
             }
 
@@ -191,6 +131,50 @@ struct ContentView: View {
             .padding(20)
             .opacity(0.8)
         }
+        .preferredColorScheme(currentTheme.colorScheme)
+        .onAppear {
+            updateInfo()
+        }
+        .toolbar {
+            toolbarContent
+        }
+    }
+
+    // MARK: - Subviews
+
+    @ViewBuilder
+    private var outlineView: some View {
+        VStack(alignment: .leading) {
+            Text("Outline")
+                .font(.headline)
+                .padding()
+            
+            List(headers, selection: .constant(nil as DocumentHeader.ID?)) { header in
+                HStack {
+                    Spacer().frame(width: CGFloat(header.level - 1) * 12)
+                    
+                    if header.level == 1 {
+                        Image(systemName: "number")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Circle()
+                            .fill(.tertiary)
+                            .frame(width: 4, height: 4)
+                    }
+                    
+                    Text(header.title)
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(.primary.opacity(0.8))
+                        .lineLimit(1)
+                }
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .padding(.vertical, 2)
+            }
+            .listStyle(.plain)
+        }
+        .background(Color(nsColor: .controlBackgroundColor))
     }
 
     @ToolbarContentBuilder
@@ -205,10 +189,16 @@ struct ContentView: View {
             .help("Typography Settings")
             
             Button(action: { withAnimation { showPreview.toggle() } }) {
-                Label("Preview", systemImage: showPreview ? "sidebar.right" : "sidebar.right")
+                Label("Preview", systemImage: "eye")
                     .foregroundColor(showPreview ? .accentColor : .secondary)
             }
             .help("Toggle Preview")
+            
+            Button(action: { withAnimation { showOutline.toggle() } }) {
+                Label("Outline", systemImage: "list.bullet.sidebar")
+                    .foregroundColor(showOutline ? .accentColor : .secondary)
+            }
+            .help("Toggle Outline")
 
             Menu {
                 Picker("Theme", selection: $currentTheme) {

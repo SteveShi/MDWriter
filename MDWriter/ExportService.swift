@@ -39,26 +39,57 @@ class ExportService: NSObject {
     // MARK: - PDF Generation via WebKit
     private func createPDF(from text: String, to url: URL) {
         let html = markdownToHTML(text)
-        let webView = WKWebView()
-        // 隐藏窗口，仅用于渲染
-        webView.frame = CGRect(x: 0, y: 0, width: 800, height: 1100) 
+        let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 595, height: 842)) // A4 Size approx
         
-        webView.loadHTMLString(html, baseURL: nil)
-        
-        // 监听加载完成 (简单起见，这里用稍微 hack 的延时，实际应使用 Delegate)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let config = WKPDFConfiguration()
+        // 必须在主线程操作 UI 组件
+        DispatchQueue.main.async {
+            webView.loadHTMLString(html, baseURL: nil)
             
-            webView.createPDF(configuration: config) { result in
-                switch result {
-                case .success(let data):
-                    try? data.write(to: url)
-                    print("PDF saved to: \(url.path)")
-                case .failure(let error):
-                    print("PDF Generation Error: \(error)")
+            // 延时以等待资源加载 (Images, Fonts)
+            // 更严谨的做法是实现 WKNavigationDelegate
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                let config = WKPDFConfiguration()
+                config.rect = CGRect(x: 0, y: 0, width: 595, height: 842)
+                
+                webView.createPDF(configuration: config) { result in
+                    switch result {
+                    case .success(let data):
+                        do {
+                            try data.write(to: url)
+                            print("PDF saved successfully to: \(url.path)")
+                        } catch {
+                            print("Error writing PDF data: \(error)")
+                        }
+                    case .failure(let error):
+                        print("PDF Generation Error: \(error)")
+                        // Fallback: Try classic printing if createPDF fails
+                        self.printToPDF(webView: webView, to: url)
+                    }
                 }
             }
         }
+    }
+    
+    // Fallback using NSPrintOperation
+    private func printToPDF(webView: WKWebView, to url: URL) {
+        let printInfo = NSPrintInfo.shared
+        printInfo.horizontalPagination = .fit
+        printInfo.verticalPagination = .automatic
+        printInfo.paperSize = CGSize(width: 595, height: 842)
+        printInfo.topMargin = 50
+        printInfo.leftMargin = 50
+        printInfo.rightMargin = 50
+        printInfo.bottomMargin = 50
+        
+        let printOperation = webView.printOperation(with: printInfo)
+        printOperation.showsPrintPanel = false
+        printOperation.showsProgressPanel = false
+        
+        // Redirect printing to PDF file
+        printInfo.jobDisposition = .save
+        printInfo.dictionary().setObject(url, forKey: NSPrintInfo.AttributeKey.jobSavingURL.rawValue as NSString)
+        
+        printOperation.run()
     }
     
     // MARK: - RTF Generation
