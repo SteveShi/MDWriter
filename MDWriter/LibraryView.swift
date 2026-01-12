@@ -40,7 +40,7 @@ struct LibraryView: View {
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle("Library")
+            // 移除系统标题和工具栏，改用自定义 Header 以实现视觉分离
             .alert("Rename", isPresented: $isRenaming) {
                 TextField("New Name", text: $newName)
                 Button("Rename") {
@@ -50,9 +50,54 @@ struct LibraryView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             }
+            // 1. Sidebar Custom Header
+            .safeAreaInset(edge: .top) {
+                HStack {
+                    Text("Library")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Button(action: {
+                        if let selected = fileSystem.selectedFolder {
+                            fileSystem.createNewFolder(in: selected)
+                        }
+                    }) {
+                        Image(systemName: "folder.badge.plus")
+                    }
+                    .buttonStyle(.plain)
+                    .help("New Group")
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(Color(nsColor: .controlBackgroundColor))
+                .overlay(Divider(), alignment: .bottom)
+            }
         } content: {
-            // 第二栏：文件列表 (带摘要)
-            Group {
+            // 第二栏：文件列表
+            VStack(spacing: 0) {
+                // 2. Content Custom Header
+                HStack {
+                    Text(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Button(action: {
+                        if let folder = fileSystem.selectedFolder {
+                            fileSystem.createNewFile(in: folder)
+                        }
+                    }) {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(fileSystem.selectedFolder == nil)
+                    .help("New Note")
+                    .foregroundColor(fileSystem.selectedFolder == nil ? .secondary.opacity(0.3) : .primary)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(Color(nsColor: .controlBackgroundColor))
+                .overlay(Divider(), alignment: .bottom)
+
                 if let selectedFolder = fileSystem.selectedFolder {
                     let files = fileSystem.files(in: selectedFolder).filter {
                         searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(searchText)
@@ -63,26 +108,38 @@ struct LibraryView: View {
                             FileRowView(file: file, preview: fileSystem.readFile(file.url))
                                 .tag(file.url)
                                 .contextMenu {
-                                    Button("Rename") { startRenaming(file) }
-                                    Button("Delete", role: .destructive) { fileSystem.deleteItem(file) }
+                                    Button("Rename", systemImage: "pencil") { startRenaming(file) }
+                                    Button("Delete", systemImage: "trash", role: .destructive) { fileSystem.deleteItem(file) }
                                 }
                         }
                     }
                     .listStyle(.inset)
                     .searchable(text: $searchText, placement: .sidebar)
                 } else {
+                    // 空状态占位
                     Text("Select a folder")
                         .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(nsColor: .controlBackgroundColor))
                 }
             }
-            .navigationTitle(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
         } detail: {
-            // 第三栏：编辑器
-            if let selectedFile = fileSystem.selectedFile {
-                EditorWrapper(fileURL: selectedFile)
-                    .id(selectedFile)
-            } else {
-                ContentUnavailableView("No Selection", systemImage: "doc.text", description: Text("Select a document to start writing."))
+            // 第三栏：编辑器 + 分割线
+            HStack(spacing: 0) {
+                // 3. 永久存在的分割线
+                Divider()
+                    .ignoresSafeArea()
+                
+                Group {
+                    if let selectedFile = fileSystem.selectedFile {
+                        EditorWrapper(fileURL: selectedFile)
+                            .id(selectedFile)
+                    } else {
+                        ContentUnavailableView("No Selection", systemImage: "doc.text", description: Text("Select a document to start writing."))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color(nsColor: .windowBackgroundColor))
+                    }
+                }
             }
         }
     }

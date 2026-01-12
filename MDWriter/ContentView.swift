@@ -79,64 +79,133 @@ struct ContentView: View {
     @Environment(\.colorScheme) var systemScheme
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            HSplitView {
-                // MARK: - Editor Area
-                ZStack {
-                    currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
-                        .ignoresSafeArea()
-                    
-                    MacEditorView(
-                        text: $document.text,
-                        configuration: typographySettings.configuration,
-                        controller: editorController
-                    )
-                    // 使用 if #available 在构建阶段已被验证为 14.0+
-                    .onChange(of: document.text) {
-                        updateInfo()
-                    }
-                }
-                .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-
-                // MARK: - Preview Area
-                if showPreview {
-                    ScrollView {
-                        Markdown(document.text)
-                            .padding(40)
-                            .markdownTheme(.docC)
-                    }
-                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(nsColor: .windowBackgroundColor))
-                }
+        VStack(spacing: 0) {
+            // MARK: - Custom Editor Header
+            HStack(spacing: 12) {
+                Spacer() // 将按钮推向右侧
                 
-                // MARK: - Right Sidebar (Outline)
-                if showOutline {
-                    outlineView
-                        .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+                // Insert Image
+                Button(action: insertImage) {
+                    Image(systemName: "photo")
                 }
-            }
+                .help("Insert Image")
+                
+                // Style
+                Button(action: { showTypographyPanel.toggle() }) {
+                    Image(systemName: "textformat.size")
+                }
+                .popover(isPresented: $showTypographyPanel, arrowEdge: .bottom) {
+                    TypographyPanel(settings: typographySettings)
+                }
+                .help("Typography Settings")
+                
+                // Preview
+                Button(action: { withAnimation { showPreview.toggle() } }) {
+                    Image(systemName: "eye")
+                        .foregroundColor(showPreview ? .accentColor : .secondary)
+                }
+                .help("Toggle Preview")
+                
+                // Outline
+                Button(action: { withAnimation { showOutline.toggle() } }) {
+                    Image(systemName: "sidebar.right")
+                        .foregroundColor(showOutline ? .accentColor : .secondary)
+                }
+                .help("Toggle Outline")
 
-            // MARK: - Dashboard
-            HStack(spacing: 16) {
-                // 使用 LocalizedStringKey 进行格式化
-                Label(title: { Text("\(stats.words) words") }, icon: { Image(systemName: "doc.text") })
-                Label(title: { Text("\(stats.readingTime) min read") }, icon: { Image(systemName: "clock") })
+                // Theme
+                Menu {
+                    Picker("Theme", selection: $currentTheme) {
+                        ForEach(AppTheme.allCases) { theme in
+                            Label(theme.rawValue, systemImage: theme.icon)
+                                .tag(theme)
+                        }
+                    }
+                } label: {
+                    Image(systemName: currentTheme.icon)
+                }
+                .menuStyle(.borderlessButton)
+                .help("Theme Selection")
+
+                // Export
+                Menu {
+                    Button(action: { export(as: .pdf) }) {
+                        Label("PDF", systemImage: "doc.text")
+                    }
+                    Button(action: { export(as: .rtf) }) {
+                        Label("Rich Text (Word)", systemImage: "doc.richtext")
+                    }
+                    Button(action: { export(as: .markdownDocument) }) {
+                        Label("Markdown", systemImage: "text.alignleft")
+                    }
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .menuStyle(.borderlessButton)
+                .help("Export Document")
             }
-            .font(.system(size: 11, weight: .medium, design: .rounded))
-            .foregroundColor(.secondary.opacity(0.8))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(.regularMaterial)
-            .clipShape(Capsule())
-            .padding(20)
-            .opacity(0.8)
+            .buttonStyle(.plain)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(Color(nsColor: .windowBackgroundColor)) // 使用窗口背景色区分
+            .overlay(Divider(), alignment: .bottom)
+            
+            ZStack(alignment: .bottomTrailing) {
+                HSplitView {
+                    // MARK: - Editor Area
+                    ZStack {
+                        currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
+                            .ignoresSafeArea()
+                        
+                        MacEditorView(
+                            text: $document.text,
+                            configuration: typographySettings.configuration,
+                            controller: editorController
+                        )
+                        // 使用 if #available 在构建阶段已被验证为 14.0+
+                        .onChange(of: document.text) {
+                            updateInfo()
+                        }
+                    }
+                    .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+
+                    // MARK: - Preview Area
+                    if showPreview {
+                        ScrollView {
+                            Markdown(document.text)
+                                .padding(40)
+                                .markdownTheme(.docC)
+                        }
+                        .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(nsColor: .windowBackgroundColor))
+                    }
+                    
+                    // MARK: - Right Sidebar (Outline)
+                    if showOutline {
+                        outlineView
+                            .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+                    }
+                }
+
+                // MARK: - Dashboard
+                HStack(spacing: 16) {
+                    // 使用 LocalizedStringKey 进行格式化
+                    Label(title: { Text("\(stats.words) words") }, icon: { Image(systemName: "doc.text") })
+                    Label(title: { Text("\(stats.readingTime) min read") }, icon: { Image(systemName: "clock") })
+                }
+                .font(.system(size: 11, weight: .medium, design: .rounded))
+                .foregroundColor(.secondary.opacity(0.8))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.regularMaterial)
+                .clipShape(Capsule())
+                .padding(20)
+                .opacity(0.8)
+            }
         }
         .preferredColorScheme(currentTheme.colorScheme)
         .onAppear {
             updateInfo()
-        }
-        .toolbar {
-            toolbarContent
         }
     }
 
@@ -179,7 +248,9 @@ struct ContentView: View {
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        ToolbarItemGroup(placement: .automatic) {
+        // 使用 primaryAction 强制右对齐
+        ToolbarItemGroup(placement: .primaryAction) {
+            // Style
             Button(action: { showTypographyPanel.toggle() }) {
                 Label("Style", systemImage: "textformat.size")
             }
@@ -188,18 +259,21 @@ struct ContentView: View {
             }
             .help("Typography Settings")
             
+            // Preview
             Button(action: { withAnimation { showPreview.toggle() } }) {
                 Label("Preview", systemImage: "eye")
                     .foregroundColor(showPreview ? .accentColor : .secondary)
             }
             .help("Toggle Preview")
             
+            // Outline (使用 sidebar.right 图标)
             Button(action: { withAnimation { showOutline.toggle() } }) {
-                Label("Outline", systemImage: "list.bullet.sidebar")
+                Label("Outline", systemImage: "sidebar.right")
                     .foregroundColor(showOutline ? .accentColor : .secondary)
             }
             .help("Toggle Outline")
 
+            // Theme
             Menu {
                 Picker("Theme", selection: $currentTheme) {
                     ForEach(AppTheme.allCases) { theme in
@@ -210,8 +284,9 @@ struct ContentView: View {
             } label: {
                 Label("Theme", systemImage: currentTheme.icon)
             }
+            .help("Theme Selection")
 
-            // Export Menu
+            // Export
             Menu {
                 Button(action: { export(as: .pdf) }) {
                     Label("PDF", systemImage: "doc.text")
@@ -225,10 +300,13 @@ struct ContentView: View {
             } label: {
                 Label("Export", systemImage: "square.and.arrow.up")
             }
+            .help("Export Document")
             
+            // Insert Image
             Button(action: insertImage) {
                 Label("Insert Image", systemImage: "photo")
             }
+            .help("Insert Image")
         }
     }
 
