@@ -17,7 +17,7 @@ struct ExportItem: Identifiable {
 }
 
 struct ContentView: View {
-    @Binding var document: MDWriterDocument
+    @Bindable var note: Note
     @State private var headers: [DocumentHeader] = []
     @State private var stats: DocumentStatistics = DocumentStatistics(
         characters: 0, words: 0, readingTime: 0)
@@ -42,7 +42,7 @@ struct ContentView: View {
     @StateObject private var editorController = EditorController()
     @StateObject private var typographySettings = TypographySettings()
 
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
     @AppStorage("showDashboard") private var showDashboard: Bool = false
     @Environment(\.colorScheme) var systemScheme
 
@@ -55,15 +55,15 @@ struct ContentView: View {
         HSplitView {
             // MARK: - Pane 1: Editor Area (with Search & Dashboard)
             ZStack(alignment: .topTrailing) {
-                currentTheme.resolvePaperColor(scheme: systemScheme == .dark ? .dark : .light)
+                currentTheme.paperColor
                     .ignoresSafeArea()
 
                 MacEditorView(
-                    text: $document.text,
+                    text: $note.content,
                     configuration: typographySettings.configuration,
                     controller: editorController
                 )
-                .onChange(of: document.text) {
+                .onChange(of: note.content) {
                     updateInfo()
                 }
 
@@ -99,7 +99,7 @@ struct ContentView: View {
             // MARK: - Pane 2: Preview Area (Conditional)
             if showPreview {
                 ScrollView {
-                    Markdown(document.text)
+                    Markdown(note.content)
                         .padding(40)
                         .markdownTheme(.docC)
                 }
@@ -173,9 +173,6 @@ struct ContentView: View {
 
                 // Theme
                 Menu {
-                    Button(action: { currentTheme = .system }) {
-                        Label(LocalizedStringKey("System"), systemImage: "gear")
-                    }
                     Button(action: { currentTheme = .light }) {
                         Label(LocalizedStringKey("Light"), systemImage: "sun.max")
                     }
@@ -282,7 +279,7 @@ struct ContentView: View {
         panel.begin { response in
             if response == .OK, let url = panel.url {
                 do {
-                    try ExportService.shared.export(text: document.text, to: url, format: type)
+                    try ExportService.shared.export(text: note.content, to: url, format: type)
                 } catch {
                     print("Export Error: \(error.localizedDescription)")
                     // 在实际应用中，这里可以弹出一个 Alert
@@ -293,8 +290,8 @@ struct ContentView: View {
 
     private func updateInfo() {
         DispatchQueue.global(qos: .userInitiated).async {
-            let newHeaders = MDHeaderParser.parseHeaders(from: document.text)
-            let newStats = DocumentStatistics.calculate(from: document.text)
+            let newHeaders = MDHeaderParser.parseHeaders(from: note.content)
+            let newStats = DocumentStatistics.calculate(from: note.content)
             DispatchQueue.main.async {
                 self.headers = newHeaders
                 self.stats = newStats

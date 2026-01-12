@@ -5,10 +5,25 @@
 //  Created by Gemini on 2026/01/12.
 //
 
+import SwiftData
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct LibraryView: View {
-    @EnvironmentObject var fileSystem: FileSystemModel
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Folder.name) private var folders: [Folder]
+    @Query(sort: \Note.modifiedAt, order: .reverse) private var allNotes: [Note]
+
+    @State private var selectedFolder: Folder?
+    @State private var selectedNote: Note?
+    @State private var selectionMode: SelectionMode = .all
+
+    enum SelectionMode: Hashable {
+        case all
+        case inbox
+        case folder(Folder)
+    }
+
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var searchText: String = ""
     @State private var isSearching: Bool = false
@@ -20,46 +35,30 @@ struct LibraryView: View {
     @AppStorage("textZoom") private var textZoom: Double = 1.0
 
     // 重命名状态
-    @State private var renamingItem: FileItem?
+    @State private var renamingFolder: Folder?
+    @State private var renamingNote: Note?
     @State private var newName: String = ""
     @State private var isRenaming: Bool = false
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             // 第一栏：文件夹列表 (层级结构)
-            List(selection: $fileSystem.selectedFolder) {
+            List(selection: $selectionMode) {
                 Section(LocalizedStringKey("Library")) {
                     Label(LocalizedStringKey("All Documents"), systemImage: "tray.full")
-                        .tag(fileSystem.rootURL)
+                        .tag(SelectionMode.all)
 
                     Label(LocalizedStringKey("Inbox"), systemImage: "tray")
-                        .tag(fileSystem.inboxURL)
+                        .tag(SelectionMode.inbox)
                 }
 
                 Section(LocalizedStringKey("Folders")) {
-                    // 使用 OutlineGroup 展示层级
-                    OutlineGroup(fileSystem.items, children: \.children) { item in
-                        Label(item.name, systemImage: "folder")
-                            .contextMenu {
-                                Button {
-                                    startRenaming(item)
-                                } label: {
-                                    Label(LocalizedStringKey("Rename"), systemImage: "pencil")
-                                }
-                                Button(role: .destructive) {
-                                    fileSystem.deleteItem(item)
-                                } label: {
-                                    Label(LocalizedStringKey("Delete"), systemImage: "trash")
-                                }
-                                Button {
-                                    fileSystem.createNewFolder(in: item.url)
-                                } label: {
-                                    Label(
-                                        LocalizedStringKey("New Group"),
-                                        systemImage: "folder.badge.plus")
-                                }
-                            }
-                            .tag(item.url)
+                    // 使用 OutlineGroup 展示层级 (SwiftData 无级联暂用 flat)
+                    ForEach(folders.filter { $0.parent == nil }) { folder in
+                        FolderRow(
+                            folder: folder, selection: $selectionMode,
+                            renamingFolder: $renamingFolder, isRenaming: $isRenaming,
+                            newName: $newName)
                     }
                 }
             }
@@ -68,21 +67,27 @@ struct LibraryView: View {
             .alert(LocalizedStringKey("Rename"), isPresented: $isRenaming) {
                 TextField(LocalizedStringKey("New Name"), text: $newName)
                 Button(LocalizedStringKey("Rename")) {
-                    if let item = renamingItem {
-                        fileSystem.renameItem(item, to: newName)
+                    if let folder = renamingFolder {
+                        folder.name = newName
+                    } else if let note = renamingNote {
+                        note.title = newName
                     }
+                    try? modelContext.save()
+                    isRenaming = false
                 }
-                Button(LocalizedStringKey("Cancel"), role: .cancel) {}
+                Button(LocalizedStringKey("Cancel"), role: .cancel) {
+                    isRenaming = false
+                }
             }
             .toolbar {
                 // New Group Button
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: {
-                        if let selected = fileSystem.selectedFolder {
-                            fileSystem.createNewFolder(in: selected)
-                        } else {
-                            fileSystem.createNewFolder(in: fileSystem.rootURL)
+                        let folder = Folder(name: String(localized: "New Group"))
+                        if case .folder(let parent) = selectionMode {
+                            folder.parent = parent
                         }
+                        modelContext.insert(folder)
                     }) {
                         Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus")
                     }
@@ -92,84 +97,47 @@ struct LibraryView: View {
         } content: {
             // 第二栏：文件列表
             Group {
-                if let selectedFolder = fileSystem.selectedFolder {
-                    VStack {
+                let filteredNotes = getNotes()
 
-                        let files = getFiles(in: selectedFolder)
-
-                        List(selection: $fileSystem.selectedFile) {
-                            ForEach(files) {
-                                file in
-                                FileRowView(file: file, preview: fileSystem.readFile(file.url))
-                                    .tag(file.url)
-                                    .contextMenu {
-                                        Button {
-                                            startRenaming(file)
-                                        } label: {
-                                            Label(
-                                                LocalizedStringKey("Rename"), systemImage: "pencil")
-                                        }
-                                        Button(role: .destructive) {
-                                            fileSystem.deleteItem(file)
-                                        } label: {
-                                            Label(
-                                                LocalizedStringKey("Delete"), systemImage: "trash")
-                                        }
-                                    }
-                            }
-                        }
-                        .listStyle(.inset)
-                        // .searchable removed
-                        .navigationTitle(fileSystem.selectedFolder?.lastPathComponent ?? "Files")
-                        .toolbar {
-                            ToolbarItem(placement: .primaryAction) {
-                                Button(action: {
-                                    fileSystem.createNewFile(in: selectedFolder)
-                                }) {
-                                    Label(
-                                        LocalizedStringKey("New Note"),
-                                        systemImage: "square.and.pencil")
+                List(selection: $selectedNote) {
+                    ForEach(filteredNotes) { note in
+                        NoteRowView(note: note, searchText: searchText)
+                            .tag(note)
+                            .contextMenu {
+                                Button {
+                                    startRenamingNote(note)
+                                } label: {
+                                    Label(LocalizedStringKey("Rename"), systemImage: "pencil")
                                 }
-                                .help(LocalizedStringKey("New Note"))
+                                Button(role: .destructive) {
+                                    deleteNote(note)
+                                } label: {
+                                    Label(LocalizedStringKey("Delete"), systemImage: "trash")
+                                }
                             }
-                        }
                     }
-                } else {
-                    // 空状态占位
-                    VStack {
-                        Spacer()
-                        Image(systemName: "folder")
-                            .font(.system(size: 40))
-                            .foregroundColor(.secondary.opacity(0.2))
-                        Text(LocalizedStringKey("Select a folder"))
-                            .foregroundColor(.secondary)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(nsColor: .controlBackgroundColor))
-                    .toolbar {
-                        ToolbarItem(placement: .primaryAction) {
-                            Button(action: {}) {
-                                Label(
-                                    LocalizedStringKey("New Note"), systemImage: "square.and.pencil"
-                                )
-                            }
-                            .disabled(true)
+                }
+                .listStyle(.inset)
+                .navigationTitle(navigationTitle)
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button(action: createNewNote) {
+                            Label(LocalizedStringKey("New Note"), systemImage: "square.and.pencil")
                         }
+                        .help(LocalizedStringKey("New Note"))
                     }
                 }
             }
         } detail: {
             // 第三栏：编辑器 + 分割线
             HStack(spacing: 0) {
-                // 3. 永久存在的分割线
                 Divider()
                     .ignoresSafeArea()
 
                 Group {
-                    if let selectedFile = fileSystem.selectedFile {
+                    if let selectedNote = selectedNote {
                         EditorWrapper(
-                            fileURL: selectedFile, searchText: $searchText,
+                            note: selectedNote, searchText: $searchText,
                             isSearching: $isSearching,
                             showPreview: $showPreview, showOutline: $showOutline,
                             textZoom: Binding(
@@ -194,60 +162,174 @@ struct LibraryView: View {
             }
         }
         .onChange(of: columnVisibility) { newValue in
-            // Update showLibrary based on visibility state
-            // .all means sidebar is visible
-            // .doubleColumn or .detailOnly means sidebar is hidden
             if newValue == .all {
                 showLibrary = true
             } else {
                 showLibrary = false
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .newNote)) { _ in
+            createNewNote()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .newFolder)) { _ in
+            let folder = Folder(name: String(localized: "New Group"))
+            if case .folder(let parent) = selectionMode {
+                folder.parent = parent
+            }
+            modelContext.insert(folder)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .importNote)) { _ in
+            importNotes()
+        }
     }
 
-    private func startRenaming(_ item: FileItem) {
-        renamingItem = item
-        newName = item.name.replacingOccurrences(of: ".md", with: "")
+    private var navigationTitle: String {
+        switch selectionMode {
+        case .all: return String(localized: "All Documents")
+        case .inbox: return String(localized: "Inbox")
+        case .folder(let folder): return folder.name
+        }
+    }
+
+    private func getNotes() -> [Note] {
+        let baseNotes: [Note]
+        switch selectionMode {
+        case .all:
+            baseNotes = allNotes
+        case .inbox:
+            baseNotes = allNotes.filter { $0.folder == nil }
+        case .folder(let folder):
+            baseNotes = folder.notes.sorted(by: { $0.modifiedAt > $1.modifiedAt })
+        }
+
+        if searchText.isEmpty {
+            return baseNotes
+        } else {
+            return baseNotes.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText)
+                    || $0.content.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+
+    private func createNewNote() {
+        let newTitle = String(localized: "New Note")
+        let newNote = Note(title: newTitle)
+        if case .folder(let folder) = selectionMode {
+            newNote.folder = folder
+        }
+        modelContext.insert(newNote)
+        try? modelContext.save()
+        selectedNote = newNote
+    }
+
+    private func deleteNote(_ note: Note) {
+        modelContext.delete(note)
+        try? modelContext.save()
+        if selectedNote == note {
+            selectedNote = nil
+        }
+    }
+
+    private func startRenamingFolder(_ folder: Folder) {
+        renamingFolder = folder
+        newName = folder.name
         isRenaming = true
     }
 
-    private func getFiles(in folder: URL) -> [FileItem] {
-        let allFiles: [FileItem]
-        if folder == fileSystem.rootURL {
-            allFiles = fileSystem.allFiles()
-        } else {
-            allFiles = fileSystem.files(in: folder)
-        }
+    private func startRenamingNote(_ note: Note) {
+        renamingNote = note
+        newName = note.title
+        isRenaming = true
+    }
 
-        return allFiles.filter {
-            searchText.isEmpty
-                || $0.name.localizedCaseInsensitiveContains(searchText)
+    private func importNotes() {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.allowedContentTypes = [.plainText, .text]
+
+        panel.begin { response in
+            if response == .OK {
+                for url in panel.urls {
+                    if let content = try? String(contentsOf: url, encoding: .utf8) {
+                        let title = url.deletingPathExtension().lastPathComponent
+                        let newNote = Note(title: title, content: content)
+                        if case .folder(let folder) = selectionMode {
+                            newNote.folder = folder
+                        }
+                        modelContext.insert(newNote)
+                    }
+                }
+                try? modelContext.save()
+            }
         }
     }
 }
 
-// 独立的行视图，用于显示标题和摘要
-struct FileRowView: View {
-    let file: FileItem
-    let preview: String
+struct FolderRow: View {
+    let folder: Folder
+    @Binding var selection: LibraryView.SelectionMode
+    @Binding var renamingFolder: Folder?
+    @Binding var isRenaming: Bool
+    @Binding var newName: String
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        Label(folder.name, systemImage: folder.icon)
+            .contextMenu {
+                Button {
+                    renamingFolder = folder
+                    newName = folder.name
+                    isRenaming = true
+                } label: {
+                    Label(LocalizedStringKey("Rename"), systemImage: "pencil")
+                }
+                Button(role: .destructive) {
+                    modelContext.delete(folder)
+                } label: {
+                    Label(LocalizedStringKey("Delete"), systemImage: "trash")
+                }
+                Button {
+                    let sub = Folder(name: String(localized: "New Group"))
+                    sub.parent = folder
+                    modelContext.insert(sub)
+                } label: {
+                    Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus")
+                }
+            }
+            .tag(LibraryView.SelectionMode.folder(folder))
+
+        // 递归显示子文件夹
+        if !folder.subfolders.isEmpty {
+            ForEach(folder.subfolders.sorted(by: { $0.name < $1.name })) { sub in
+                FolderRow(
+                    folder: sub, selection: $selection, renamingFolder: $renamingFolder,
+                    isRenaming: $isRenaming, newName: $newName
+                )
+                .padding(.leading, 10)
+            }
+        }
+    }
+}
+
+struct NoteRowView: View {
+    let note: Note
+    let searchText: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(
-                file.name.replacingOccurrences(of: ".md", with: "").replacingOccurrences(
-                    of: ".markdown", with: "")
-            )
-            .font(.headline)
-            .lineLimit(1)
+            Text(note.title)
+                .font(.headline)
+                .lineLimit(1)
 
-            // 提取摘要
-            Text(summary(from: preview))
+            Text(summary(from: note.content))
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .lineLimit(2)
                 .frame(maxHeight: 35, alignment: .topLeading)
 
-            Text(file.modificationDate, style: .date)
+            Text(note.modifiedAt, style: .date)
                 .font(.caption2)
                 .foregroundColor(.tertiaryLabel)
         }
@@ -263,6 +345,22 @@ struct FileRowView: View {
     }
 }
 
+struct EditorWrapper: View {
+    @Bindable var note: Note
+    @Binding var searchText: String
+    @Binding var isSearching: Bool
+    @Binding var showPreview: Bool
+    @Binding var showOutline: Bool
+    @Binding var textZoom: CGFloat
+
+    var body: some View {
+        ContentView(
+            note: note, searchText: $searchText, isSearching: $isSearching,
+            showPreview: $showPreview, showOutline: $showOutline, textZoom: $textZoom
+        )
+    }
+}
+
 extension Color {
     static var tertiaryLabel: Color {
         #if os(macOS)
@@ -270,52 +368,5 @@ extension Color {
         #else
             return .gray
         #endif
-    }
-}
-
-// 包装 ContentView
-struct EditorWrapper: View {
-    let fileURL: URL
-    @EnvironmentObject var fileSystem: FileSystemModel
-    @State private var document: MDWriterDocument
-    @Binding var searchText: String
-    @Binding var isSearching: Bool
-    @Binding var showPreview: Bool
-    @Binding var showOutline: Bool
-    @Binding var textZoom: CGFloat
-
-    init(
-        fileURL: URL, searchText: Binding<String>, isSearching: Binding<Bool>,
-        showPreview: Binding<Bool>, showOutline: Binding<Bool>, textZoom: Binding<CGFloat>
-    ) {
-        self.fileURL = fileURL
-        _searchText = searchText
-        _isSearching = isSearching
-        _showPreview = showPreview
-        _showOutline = showOutline
-        _textZoom = textZoom
-        let content = (try? String(contentsOf: fileURL)) ?? ""
-        _document = State(initialValue: MDWriterDocument(text: content))
-    }
-
-    var body: some View {
-        ContentView(
-            document: $document, searchText: $searchText, isSearching: $isSearching,
-            showPreview: $showPreview, showOutline: $showOutline, textZoom: $textZoom
-        )
-        .onChange(of: fileURL) { newURL in
-            loadContent(from: newURL)
-        }
-        .onChange(of: document.text) {
-            fileSystem.saveFile(fileURL, content: document.text)
-        }
-        .onDisappear {
-            fileSystem.saveFile(fileURL, content: document.text)
-        }
-    }
-
-    private func loadContent(from url: URL) {
-        let content = (try? String(contentsOf: url)) ?? ""
-        self.document = MDWriterDocument(text: content)
     }
 }

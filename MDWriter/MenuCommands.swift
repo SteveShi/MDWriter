@@ -23,32 +23,22 @@ struct AppCommands: Commands {
 
 // MARK: - File Commands
 struct FileCommands: Commands {
-    @ObservedObject var fileSystem: FileSystemModel
-
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Button(LocalizedStringKey("New Sheet")) {
-                if let folder = fileSystem.selectedFolder {
-                    fileSystem.createNewFile(in: folder)
-                } else {
-                    fileSystem.createNewFile(in: fileSystem.rootURL)
-                }
+                NotificationCenter.default.post(name: .newNote, object: nil)
             }
             .keyboardShortcut("n", modifiers: .command)
 
             Button(LocalizedStringKey("New Group")) {
-                if let folder = fileSystem.selectedFolder {
-                    fileSystem.createNewFolder(in: folder)
-                } else {
-                    fileSystem.createNewFolder(in: fileSystem.rootURL)
-                }
+                NotificationCenter.default.post(name: .newFolder, object: nil)
             }
             .keyboardShortcut("n", modifiers: [.command, .shift])
 
             Divider()
 
             Button(LocalizedStringKey("Import...")) {
-                importDocument()
+                NotificationCenter.default.post(name: .importNote, object: nil)
             }
             .keyboardShortcut("i", modifiers: [.command, .shift])
         }
@@ -58,26 +48,6 @@ struct FileCommands: Commands {
                 NotificationCenter.default.post(name: .printDocument, object: nil)
             }
             .keyboardShortcut("p", modifiers: .command)
-        }
-    }
-
-    private func importDocument() {
-        let panel = NSOpenPanel()
-        panel.allowsMultipleSelection = true
-        panel.canChooseDirectories = false
-        panel.allowedContentTypes = [.text, .plainText]
-
-        panel.begin { response in
-            if response == .OK {
-                for url in panel.urls {
-                    if let content = try? String(contentsOf: url, encoding: .utf8) {
-                        let targetFolder = fileSystem.selectedFolder ?? fileSystem.rootURL
-                        let newURL = targetFolder.appendingPathComponent(url.lastPathComponent)
-                        try? content.write(to: newURL, atomically: true, encoding: .utf8)
-                    }
-                }
-                fileSystem.loadRoot()
-            }
         }
     }
 }
@@ -339,4 +309,9 @@ extension Notification.Name {
     // Other
     static let printDocument = Notification.Name("printDocument")
     static let showKeyboardShortcuts = Notification.Name("showKeyboardShortcuts")
+
+    // File
+    static let newNote = Notification.Name("newNote")
+    static let newFolder = Notification.Name("newFolder")
+    static let importNote = Notification.Name("importNote")
 }

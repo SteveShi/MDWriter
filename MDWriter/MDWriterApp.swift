@@ -6,6 +6,7 @@
 //
 
 import AppUpdater
+import SwiftData
 import SwiftUI
 
 @main
@@ -17,9 +18,6 @@ struct MDWriterApp: App {
         interval: 86400
     )
 
-    // 全局文件系统模型
-    @StateObject var fileSystem = FileSystemModel()
-
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
     @AppStorage("showDashboard") var showDashboard: Bool = false
@@ -27,14 +25,14 @@ struct MDWriterApp: App {
     @AppStorage("showOutline") var showOutline: Bool = false
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
 
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
         WindowGroup {
             LibraryView()
-                .environmentObject(fileSystem)
                 .preferredColorScheme(currentTheme.colorScheme)
+                .modelContainer(for: [Folder.self, Note.self])
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
@@ -46,7 +44,7 @@ struct MDWriterApp: App {
             }
 
             // File Commands
-            FileCommands(fileSystem: fileSystem)
+            FileCommands()
 
             // Edit Commands (Find/Replace)
             EditCommands()
@@ -82,7 +80,7 @@ struct MDWriterApp: App {
 
 // MARK: - Settings View (Placeholder)
 struct SettingsView: View {
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
     @StateObject private var typography = TypographySettings()
 
     var body: some View {
