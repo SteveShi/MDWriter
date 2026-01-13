@@ -57,7 +57,6 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 ### Download
 Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
 
-** Updates are managed automatically via the built-in Sparkle framework.**
 
 ### Build from Source
 **Requirements:**
@@ -70,7 +69,7 @@ Download the latest **Universal Binary** (supports both Apple Silicon and Intel)
     cd MDWriter
     ```
 2.  Open `MDWriter.xcodeproj` in Xcode.
-3.  Ensure package dependencies (`swift-markdown`, `Sparkle`) resolve.
+3.  Ensure package dependencies (`swift-markdown`) resolve.
 4.  Build and Run (`Cmd + R`).
 
 ## 📦 Dependencies
@@ -78,7 +77,6 @@ Download the latest **Universal Binary** (supports both Apple Silicon and Intel)
 MDWriter stands on the shoulders of giants:
 
 *   [swift-markdown](https://github.com/apple/swift-markdown): Apple's robust Markdown parsing library.
-*   [Sparkle 2](https://github.com/sparkle-project/Sparkle): The industry standard for secure macOS software updates.
 
 ## 📄 License
 

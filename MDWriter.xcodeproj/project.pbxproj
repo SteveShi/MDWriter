@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
-		AAD195FB2F15B0A800D309E3 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AAD195FA2F15B0A800D309E3 /* Sparkle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +59,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAD195FB2F15B0A800D309E3 /* Sparkle in Frameworks */,
 				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,7 +119,6 @@
 			name = MDWriter;
 			packageProductDependencies = (
 				AABC57E12F15680800DF940F /* Markdown */,
-				AAD195FA2F15B0A800D309E3 /* Sparkle */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -202,7 +199,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */,
-				AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -426,7 +422,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.0;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -476,7 +472,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.0;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -646,14 +642,6 @@
 				minimumVersion = 0.7.3;
 			};
 		};
-		AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -661,11 +649,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */;
 			productName = Markdown;
-		};
-		AAD195FA2F15B0A800D309E3 /* Sparkle */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */;
-			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

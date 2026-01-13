@@ -61,36 +61,6 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
-      - name: Package with Sparkle
-        env:
-          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          # 1. Download Sparkle Tools
-          curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.6.4/Sparkle-2.6.4.tar.xz
-          tar -xf Sparkle-2.6.4.tar.xz
-
-          # 2. Prepare Directory for Appcast
-          mkdir -p sparkle_output
-          cp "$ZIP_NAME" sparkle_output/
-          
-          # 3. Define Download URL Prefix (Points to this GitHub Release)
-          DOWNLOAD_URL_PREFIX="https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/"
-          
-          # 4. Generate Appcast and Sign
-          if [ -n "$SPARKLE_PRIVATE_KEY" ]; then
-            echo "Sparkle private key found. Signing update..."
-            echo "$SPARKLE_PRIVATE_KEY" > sparkle_key.txt
-            ./bin/generate_appcast sparkle_output/ \
-              --download-url-prefix "$DOWNLOAD_URL_PREFIX" \
-              --ed-key-file sparkle_key.txt
-            rm sparkle_key.txt
-              
-            mv sparkle_output/appcast.xml .
-            echo "HAS_APPCAST=true" >> $GITHUB_ENV
-          else
-            echo "Warning: SPARKLE_PRIVATE_KEY not found in Secrets. Skipping Sparkle signature."
-            echo "HAS_APPCAST=false" >> $GITHUB_ENV
-          fi
 
       - name: Extract Release Notes
         run: |
