@@ -86,7 +86,6 @@ struct EditCommands: Commands {
 struct ViewCommands: Commands {
     @Binding var showLibrary: Bool
     @Binding var showDashboard: Bool
-    @Binding var showPreview: Bool
     @Binding var showOutline: Bool
     @Binding var textZoom: CGFloat
 
@@ -111,14 +110,6 @@ struct ViewCommands: Commands {
             .keyboardShortcut("4", modifiers: .command)
 
             Divider()
-
-            Button(
-                showPreview
-                    ? LocalizedStringKey("Hide Preview") : LocalizedStringKey("Show Preview")
-            ) {
-                withAnimation { showPreview.toggle() }
-            }
-            .keyboardShortcut("p", modifiers: [.command, .shift])
 
             Button(
                 showOutline

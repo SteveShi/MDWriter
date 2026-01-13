@@ -1,114 +1,74 @@
-/* 
-  Localizable.strings
-  MDWriter
-*/
-
-/* Sidebar */
-"Library" = "文库";
-"Outline" = "大纲";
-"New Group" = "新建组";
-"Rename" = "重命名";
-"Delete" = "删除";
-"New Name" = "新名称";
-"All Documents" = "所有文档";
-"Folders" = "文件夹";
-"Inbox" = "收件箱";
-"Cancel" = "取消";
-"Search" = "搜索";
-
-/* Files List */
-"Files" = "文件";
-"Select a folder" = "请选择文件夹";
-"New Note" = "新建笔记";
-"New Document" = "新建文档";
-"Untitled Document" = "未命名文档";
+/* General */
+"General" = "通用";
+"Appearance" = "外观";
+"Appearance:" = "外观:";
+"Choose the look and feel of the application interface." = "选择应用程序界面的外观和感觉。";
+"Sidebar & Panels" = "侧边栏与面板";
+"Show Library Sidebar by default" = "默认显示文档库侧边栏";
+"Show Statistics Dashboard" = "显示统计仪表盘";
+"Light" = "浅色";
+"Dark" = "深色";
 
 /* Editor */
-"No Selection" = "未选择";
-"Select a document to start writing." = "选择一个文档开始写作。";
+"Editor" = "编辑器";
+"Typography" = "排版";
+"Font:" = "字体:";
+"Size:" = "字号:";
+"Line Height:" = "行高:";
+"Layout" = "布局";
+"Line Width:" = "行宽:";
+"Par. Space:" = "段间距:";
+"Indent:" = "缩进:";
+"View Options" = "视图选项";
+"Typewriter Mode" = "打字机模式";
+"Keeps the cursor centered vertically in the editor." = "使光标始终保持在编辑器垂直居中位置。";
 
-/* Toolbar */
-"Style" = "样式";
-"Preview" = "预览";
-"Theme" = "主题";
-"Export" = "导出";
-"Insert Image" = "插入图片";
+/* Markdown */
+"Markdown" = "Markdown";
+"Color Scheme" = "配色方案";
+"Select a color scheme for syntax highlighting and preview." = "选择语法高亮和预览的配色方案。";
+"Pure" = "纯净";
+"Solarized Light" = "Solarized (浅色)";
+"Solarized Dark" = "Solarized (深色)";
+"GitHub" = "GitHub";
+"Dracula" = "Dracula";
+"Nord" = "Nord";
+"Monokai" = "Monokai";
+"Night Owl" = "Night Owl";
+"Formatting" = "格式化";
+"Syntax Standard:" = "语法标准:";
+"Markdown XL" = "Markdown XL";
+"Standard" = "标准 Markdown";
+"Markdown XL keeps headings at body size. Standard scales them." = "Markdown XL 保持标题与正文同字号。标准模式则会缩放标题。";
 
-/* Export Menu */
-"PDF" = "PDF 文档";
-"Rich Text (Word)" = "富文本 (Word)";
-"Markdown" = "Markdown 文档";
-
-/* Theme Menu */
-"System" = "跟随系统";
-"Light" = "明亮模式";
-"Dark" = "黑暗模式";
-
-/* Typography Panel */
-"Typography" = "排版设置";
-"Font" = "字体";
-"Size" = "字号";
-"Line Height" = "行高";
-"Para Spacing" = "段落间距";
-"First Line" = "首行缩进";
-"Width" = "内容宽度";
-
-/* Font Presets */
-"Presets" = "预设字体";
-"Installed Fonts" = "已安装字体";
-"System UI" = "系统默认";
-"System Serif" = "系统衬线体";
-"Monospaced" = "等宽字体";
-
-/* Tooltips */
-"Typography Settings" = "排版设置";
-"Toggle Preview" = "预切换预览";
-"Toggle Outline" = "切换大纲";
-"Theme Selection" = "主题选择";
-"Export Document" = "导出文档";
-
-/* Stats */
-"%d words" = "%d 字";
-"%d chars" = "%d 字符";
-"%d min read" = "%d 分钟阅读";
-
-/* App Updater */
-"Check for Updates..." = "检查更新...";
-
-/* File Menu */
+/* Menu Commands */
+"Settings..." = "设置...";
 "New Sheet" = "新建文稿";
+"New Group" = "新建分组";
 "Import..." = "导入...";
 "Print..." = "打印...";
-
-/* Edit Menu */
 "Find..." = "查找...";
 "Find & Replace..." = "查找与替换...";
 "Find Next" = "查找下一个";
 "Find Previous" = "查找上一个";
-
-/* View Menu */
-"View" = "显示";
-"Show Library" = "显示资料库";
-"Hide Library" = "隐藏资料库";
-"Show Sheet List" = "显示文稿列表";
-"Hide Sheet List" = "隐藏文稿列表";
-"Show Dashboard" = "显示仪表盘";
+"Hide Library" = "隐藏文稿库";
+"Show Library" = "显示文稿库";
 "Hide Dashboard" = "隐藏仪表盘";
-"Show Preview" = "显示预览";
+"Show Dashboard" = "显示仪表盘";
 "Hide Preview" = "隐藏预览";
-"Show Outline" = "显示大纲";
+"Show Preview" = "显示预览";
 "Hide Outline" = "隐藏大纲";
+"Show Outline" = "显示大纲";
+"Theme" = "主题";
 "Zoom In" = "放大";
 "Zoom Out" = "缩小";
 "Actual Size" = "实际大小";
-
-/* Format Menu */
 "Format" = "格式";
 "Heading" = "标题";
-"Heading 1" = "一级标题";
-"Heading 2" = "二级标题";
-"Heading 3" = "三级标题";
-"Heading 4" = "四级标题";
+"Heading 1" = "标题 1";
+"Heading 2" = "标题 2";
+"Heading 3" = "标题 3";
+"Heading 4" = "标题 4";
 "Bold" = "粗体";
 "Italic" = "斜体";
 "Strikethrough" = "删除线";
@@ -122,15 +82,40 @@
 "Inline Code" = "行内代码";
 "Link..." = "链接...";
 "Image..." = "图片...";
-"Horizontal Rule" = "分隔线";
-
-/* Help Menu */
+"Horizontal Rule" = "水平分割线";
 "MDWriter Help" = "MDWriter 帮助";
 "Keyboard Shortcuts" = "键盘快捷键";
+"Check for Updates..." = "检查更新...";
 
-/* Settings */
-"Settings..." = "设置...";
-"General" = "通用";
-"Appearance" = "外观";
-"Editor" = "编辑器";
-"Font Size" = "字号";
+/* Content View & Toolbar */
+"Search" = "搜索";
+"Style" = "样式";
+"Typography Settings" = "排版设置";
+"Preview" = "预览";
+"Toggle Preview" = "切换预览";
+"Outline" = "大纲";
+"Toggle Outline" = "切换大纲";
+"Theme Selection" = "主题选择";
+"Export" = "导出";
+"PDF" = "PDF文档";
+"Rich Text (Word)" = "富文本 (Word)";
+"Export Document" = "导出文档";
+"Insert Image" = "插入图片";
+
+/* Library View */
+"Library" = "文稿库";
+"All Documents" = "所有文稿";
+"Inbox" = "收件箱";
+"Folders" = "文件夹";
+"Rename" = "重命名";
+"New Name" = "新名称";
+"Cancel" = "取消";
+"Trash" = "废纸篓";
+"Move to Trash" = "移动到废纸篓";
+"Restore" = "还原";
+"Delete Permanently" = "彻底删除";
+"Empty Trash" = "清空废纸篓";
+"New Note" = "新建笔记";
+"Delete" = "删除";
+"No Selection" = "无选择";
+"Select a document to start writing." = "选择一个文档开始写作。";

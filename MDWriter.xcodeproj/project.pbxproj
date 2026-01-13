@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA0476372F052A86002D5D25 /* AppUpdater in Frameworks */ = {isa = PBXBuildFile; productRef = AA0476362F052A86002D5D25 /* AppUpdater */; };
-		AAC648DF2F13159600C58071 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = AAC648DE2F13159600C58071 /* MarkdownUI */; };
-		AADFCC342F135D4E00086778 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = AADFCC332F135D4E00086778 /* Ink */; };
-		AADFCC362F135D4E00086778 /* ink-cli in Frameworks */ = {isa = PBXBuildFile; productRef = AADFCC352F135D4E00086778 /* ink-cli */; };
+		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
+		AAD195FB2F15B0A800D309E3 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AAD195FA2F15B0A800D309E3 /* Sparkle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +48,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AADFCC342F135D4E00086778 /* Ink in Frameworks */,
+				AAD195FB2F15B0A800D309E3 /* Sparkle in Frameworks */,
 				AA0476372F052A86002D5D25 /* AppUpdater in Frameworks */,
-				AADFCC362F135D4E00086778 /* ink-cli in Frameworks */,
-				AAC648DF2F13159600C58071 /* MarkdownUI in Frameworks */,
+				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,9 +110,8 @@
 			name = MDWriter;
 			packageProductDependencies = (
 				AA0476362F052A86002D5D25 /* AppUpdater */,
-				AAC648DE2F13159600C58071 /* MarkdownUI */,
-				AADFCC332F135D4E00086778 /* Ink */,
-				AADFCC352F135D4E00086778 /* ink-cli */,
+				AABC57E12F15680800DF940F /* Markdown */,
+				AAD195FA2F15B0A800D309E3 /* Sparkle */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -195,8 +192,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				AA0476352F052A86002D5D25 /* XCRemoteSwiftPackageReference "AppUpdater" */,
-				AAC648DD2F13159600C58071 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
-				AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */,
+				AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */,
+				AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -397,10 +394,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = W7A747LNTR;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = MDWriter;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -446,10 +442,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = W7A747LNTR;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = MDWriter;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -638,20 +633,20 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		AAC648DD2F13159600C58071 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+		AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			repositoryURL = "https://github.com/swiftlang/swift-markdown";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.1;
+				minimumVersion = 0.7.3;
 			};
 		};
-		AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */ = {
+		AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/JohnSundell/Ink";
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.6.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -662,20 +657,15 @@
 			package = AA0476352F052A86002D5D25 /* XCRemoteSwiftPackageReference "AppUpdater" */;
 			productName = AppUpdater;
 		};
-		AAC648DE2F13159600C58071 /* MarkdownUI */ = {
+		AABC57E12F15680800DF940F /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AAC648DD2F13159600C58071 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
-			productName = MarkdownUI;
+			package = AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
 		};
-		AADFCC332F135D4E00086778 /* Ink */ = {
+		AAD195FA2F15B0A800D309E3 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */;
-			productName = Ink;
-		};
-		AADFCC352F135D4E00086778 /* ink-cli */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AADFCC322F135D4E00086778 /* XCRemoteSwiftPackageReference "Ink" */;
-			productName = "ink-cli";
+			package = AAD195F92F15B0A800D309E3 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

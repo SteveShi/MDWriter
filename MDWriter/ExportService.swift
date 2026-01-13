@@ -1,186 +1,390 @@
-//
-//  ExportService.swift
-//  MDWriter
-//
-//  Created by Gemini on 2026/01/11.
-//
-
+import Markdown
 import SwiftUI
-import WebKit
 import UniformTypeIdentifiers
-import Ink
+import WebKit
+import AppKit
 
 class ExportService: NSObject {
     static let shared = ExportService()
-    
-    // 使用 Ink 库进行 Markdown 解析
-    
+    private let renderer = MarkdownRenderer()
+
     func export(text: String, to url: URL, format: UTType) throws {
-        // 允许纯文本或 Markdown 类型
         if format.conforms(to: .plainText) || format == .markdownDocument {
             try text.write(to: url, atomically: true, encoding: .utf8)
             return
         }
         
+        // For export, we default to the currently selected theme, or a specific "Print" friendly theme if preferred.
+        // For now, let's use the user's selected theme but maybe force a light background for PDF if strictly needed.
+        // But user asked for Themes support, so we respect the selection.
+        let themeName = UserDefaults.standard.string(forKey: "markdownTheme") ?? "Pure"
+        let theme = MarkdownTheme(rawValue: themeName) ?? .pure
+
         switch format {
         case .pdf:
-            // 使用 WebKit 生成 PDF
-            createPDF(from: text, to: url)
-            
-        case .rtf, .rtfd:
-             // 导出为富文本 (Word 可读)
-            try createRTF(from: text, to: url)
-            
-        default:
-            break
-        }
-    }
-    
-    // MARK: - PDF Generation via WebKit
-    private func createPDF(from text: String, to url: URL) {
-        let html = markdownToHTML(text)
-        let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 595, height: 842)) // A4 Size approx
-        
-        // 必须在主线程操作 UI 组件
-        DispatchQueue.main.async {
-            webView.loadHTMLString(html, baseURL: nil)
-            
-            // 延时以等待资源加载 (Images, Fonts)
-            // 更严谨的做法是实现 WKNavigationDelegate
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                let config = WKPDFConfiguration()
-                config.rect = CGRect(x: 0, y: 0, width: 595, height: 842)
-                
-                webView.createPDF(configuration: config) { result in
+            createPDF(from: text, theme: theme) { result in
+                DispatchQueue.main.async {
                     switch result {
                     case .success(let data):
                         do {
                             try data.write(to: url)
-                            print("PDF saved successfully to: \(url.path)")
                         } catch {
-                            print("Error writing PDF data: \(error)")
+                            print("PDF Write Error: \(error)")
                         }
                     case .failure(let error):
-                        print("PDF Generation Error: \(error)")
-                        // Fallback: Try classic printing if createPDF fails
-                        self.printToPDF(webView: webView, to: url)
+                        print("PDF Creation Error: \(error)")
                     }
                 }
             }
+        case .rtf, .rtfd:
+            try createRTF(from: text, to: url, theme: theme)
+        default:
+            break
         }
     }
+
+    func renderHTML(from markdown: String, theme: MarkdownTheme = .pure) -> String {
+        return renderer.renderHTML(from: markdown, theme: theme)
+    }
     
-    // Fallback using NSPrintOperation
-    private func printToPDF(webView: WKWebView, to url: URL) {
-        let printInfo = NSPrintInfo.shared
-        printInfo.horizontalPagination = .fit
-        printInfo.verticalPagination = .automatic
-        printInfo.paperSize = CGSize(width: 595, height: 842)
-        printInfo.topMargin = 50
-        printInfo.leftMargin = 50
-        printInfo.rightMargin = 50
-        printInfo.bottomMargin = 50
-        
-        let printOperation = webView.printOperation(with: printInfo)
-        printOperation.showsPrintPanel = false
-        printOperation.showsProgressPanel = false
-        
-        // Redirect printing to PDF file
-        printInfo.jobDisposition = .save
-        printInfo.dictionary().setObject(url, forKey: NSPrintInfo.AttributeKey.jobSavingURL.rawValue as NSString)
-        
-        printOperation.run()
+    // MARK: - PDF Generation
+    func createPDF(from text: String, theme: MarkdownTheme = .pure, completion: @escaping (Result<Data, Error>) -> Void) {
+        let html = renderHTML(from: text, theme: theme)
+        let generator = PDFGenerator()
+        generator.generate(html: html, completion: completion)
     }
     
     // MARK: - RTF Generation
-    private func createRTF(from text: String, to url: URL) throws {
-        // 将 Markdown 转换为带属性的字符串
-        let html = markdownToHTML(text)
+    private func createRTF(from text: String, to url: URL, theme: MarkdownTheme) throws {
+        let html = renderHTML(from: text, theme: theme)
         guard let data = html.data(using: .utf8) else { return }
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue
+            .characterEncoding: String.Encoding.utf8.rawValue,
         ]
         
-        if let attributedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
-            let rtfData = try attributedString.data(from: NSRange(location: 0, length: attributedString.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
-            try rtfData.write(to: url)
+        DispatchQueue.main.async {
+            do {
+                if let attributedString = try? NSAttributedString(
+                    data: data, options: options, documentAttributes: nil)
+                {
+                    let rtfData = try attributedString.data(
+                        from: NSRange(location: 0, length: attributedString.length),
+                        documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
+                    try rtfData.write(to: url)
+                }
+            } catch {
+                print("RTF Generation Error: \(error)")
+            }
         }
-    }
-    
-    // 使用 Ink 将 Markdown 转换为 HTML (带 CSS)
-    private func markdownToHTML(_ markdown: String) -> String {
-        let parser = MarkdownParser()
-        let result = parser.parse(markdown)
-        let htmlBody = result.html
-        
-        let css = """
-        <style>
-            body { 
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-                font-size: 12pt; 
-                line-height: 1.6; 
-                color: #24292e; 
-                max-width: 800px; 
-                margin: 40px auto; 
-                padding: 20px; 
-            }
-            h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: .3em; margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
-            h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: .3em; margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
-            h3 { font-size: 1.25em; margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
-            code { 
-                font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
-                background-color: rgba(27,31,35,.05); 
-                padding: .2em .4em; 
-                border-radius: 3px; 
-                font-size: 85%;
-            }
-            pre { 
-                background-color: #f6f8fa; 
-                padding: 16px; 
-                border-radius: 6px; 
-                overflow: auto; 
-                line-height: 1.45;
-            }
-            pre code { 
-                background-color: transparent; 
-                padding: 0; 
-                font-size: 100%; 
-                word-break: normal;
-            }
-            img { max-width: 100%; box-sizing: content-box; background-color: #fff; }
-            blockquote { 
-                border-left: .25em solid #dfe2e5; 
-                padding: 0 1em; 
-                color: #6a737d; 
-                margin: 0 0 16px 0;
-            }
-            table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }
-            table th, table td { border: 1px solid #dfe2e5; padding: 6px 13px; }
-            table tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
-            table tr:nth-child(2n) { background-color: #f6f8fa; }
-            ul, ol { padding-left: 2em; }
-            li + li { margin-top: .25em; }
-        </style>
-        """
-        
-        return """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            \(css)
-        </head>
-        <body>
-            \(htmlBody)
-        </body>
-        </html>
-        """
     }
 }
 
+// Private helper to manage PDF generation lifecycle
+private class PDFGenerator: NSObject, WKNavigationDelegate {
+    private var webView: WKWebView?
+    private var completion: ((Result<Data, Error>) -> Void)?
+    private var selfRetain: PDFGenerator?
+
+    func generate(html: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        self.completion = completion
+        self.selfRetain = self
+
+        DispatchQueue.main.async {
+            let config = WKWebViewConfiguration()
+            // A4 Size: 595 x 842 points
+            let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: config)
+            webView.navigationDelegate = self
+            self.webView = webView
+            webView.loadHTMLString(html, baseURL: nil)
+        }
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let config = WKPDFConfiguration()
+        
+        // Wait a bit for rendering to finish (images, etc)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self = self else { return }
+            self.webView?.createPDF(configuration: config) { [weak self] result in
+                self?.completion?(result)
+                self?.cleanup()
+            }
+        }
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        completion?(.failure(error))
+        cleanup()
+    }
+
+    private func cleanup() {
+        webView = nil
+        completion = nil
+        selfRetain = nil
+    }
+}
+
+// MARK: - Markdown Renderer (Included here to avoid project file issues)
+
+struct MarkdownRenderer {
+    func renderHTML(from markdown: String, theme: MarkdownTheme) -> String {
+        let document = Document(parsing: markdown)
+        var visitor = HTMLVisitor()
+        let body = visitor.visit(document)
+        return wrapHTML(body: body, theme: theme)
+    }
+    
+    private func wrapHTML(body: String, theme: MarkdownTheme) -> String {
+        let css = themeCSS(for: theme)
+        
+        return """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                \(css)
+            </head>
+            <body>
+                \(body)
+            </body>
+            </html>
+            """
+    }
+    
+    private func themeCSS(for theme: MarkdownTheme) -> String {
+        let colors: (bg: String, text: String, link: String, codeBg: String, border: String)
+        
+        switch theme {
+        case .pure:
+            colors = (bg: "#ffffff", text: "#222222", link: "#007aff", codeBg: "#f6f8fa", border: "#eaecef")
+        case .solarizedLight:
+            colors = (bg: "#fdf6e3", text: "#657b83", link: "#268bd2", codeBg: "#eee8d5", border: "#93a1a1")
+        case .solarizedDark:
+            colors = (bg: "#002b36", text: "#839496", link: "#268bd2", codeBg: "#073642", border: "#586e75")
+        case .github:
+            colors = (bg: "#ffffff", text: "#24292e", link: "#0366d6", codeBg: "#f6f8fa", border: "#e1e4e8")
+        case .dracula:
+            colors = (bg: "#282a36", text: "#f8f8f2", link: "#8be9fd", codeBg: "#44475a", border: "#6272a4")
+        case .nord:
+            colors = (bg: "#2e3440", text: "#d8dee9", link: "#88c0d0", codeBg: "#3b4252", border: "#4c566a")
+        case .monokai:
+            colors = (bg: "#272822", text: "#f8f8f2", link: "#66d9ef", codeBg: "#3e3d32", border: "#49483e")
+        case .nightOwl:
+            colors = (bg: "#011627", text: "#d6deeb", link: "#82aaff", codeBg: "#0b2942", border: "#5f7e97")
+        }
+        
+        // Helper to determine if we need dark scrollbars/ui hints
+        let isDark = [MarkdownTheme.dracula, .nord, .monokai, .nightOwl, .solarizedDark].contains(theme)
+        
+        return """
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                    font-size: 11pt;
+                    line-height: 1.6;
+                    color: \(colors.text);
+                    background-color: \(colors.bg);
+                    max-width: 800px;
+                    margin: 40px auto;
+                    padding: 20px;
+                    word-wrap: break-word;
+                }
+                a { color: \(colors.link); text-decoration: none; }
+                a:hover { text-decoration: underline; }
+                
+                h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.25; margin-top: 24px; margin-bottom: 16px; color: \(colors.text); }
+                h1 { font-size: 2em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
+                h2 { font-size: 1.5em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
+                p { margin-top: 0; margin-bottom: 16px; }
+                code {
+                    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+                    background-color: \(colors.codeBg);
+                    padding: .2em .4em;
+                    border-radius: 3px;
+                    font-size: 85%;
+                }
+                pre {
+                    background-color: \(colors.codeBg);
+                    padding: 16px;
+                    border-radius: 6px;
+                    overflow: auto;
+                    line-height: 1.45;
+                }
+                pre code {
+                    background-color: transparent;
+                    padding: 0;
+                    font-size: 100%;
+                    word-break: normal;
+                    white-space: pre;
+                    color: inherit;
+                }
+                blockquote {
+                    border-left: .25em solid \(colors.border);
+                    padding: 0 1em;
+                    color: \(colors.text);
+                    opacity: 0.8;
+                    margin: 0;
+                }
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin-bottom: 16px;
+                    display: block;
+                    overflow: auto;
+                }
+                table th, table td {
+                    border: 1px solid \(colors.border);
+                    padding: 6px 13px;
+                }
+                table tr {
+                    background-color: \(colors.bg);
+                    border-top: 1px solid \(colors.border);
+                }
+                table tr:nth-child(2n) {
+                    background-color: \(isDark ? colors.codeBg : "#f6f8fa");
+                }
+                img { max-width: 100%; box-sizing: content-box; background-color: #fff; }
+                ul, ol { padding-left: 2em; margin-bottom: 16px; }
+                li + li { margin-top: .25em; }
+                hr {
+                    height: .25em;
+                    padding: 0;
+                    margin: 24px 0;
+                    background-color: \(colors.border);
+                    border: 0;
+                }
+            </style>
+            """
+    }
+}
+
+private struct HTMLVisitor: MarkupVisitor {
+    typealias Result = String
+
+    mutating func defaultVisit(_ markup: Markup) -> String {
+        return markup.children.map { visit($0) }.joined()
+    }
+
+    mutating func visitDocument(_ document: Document) -> String {
+        return document.children.map { visit($0) }.joined()
+    }
+
+    mutating func visitHeading(_ heading: Heading) -> String {
+        let tag = "h\(heading.level)"
+        return "<\(tag)>\(heading.children.map { visit($0) }.joined())</\(tag)>"
+    }
+
+    mutating func visitParagraph(_ paragraph: Paragraph) -> String {
+        return "<p>\(paragraph.children.map { visit($0) }.joined())</p>"
+    }
+
+    mutating func visitText(_ text: Markdown.Text) -> String {
+        return text.string.htmlEscaped()
+    }
+
+    mutating func visitEmphasis(_ emphasis: Emphasis) -> String {
+        return "<em>\(emphasis.children.map { visit($0) }.joined())</em>"
+    }
+
+    mutating func visitStrong(_ strong: Strong) -> String {
+        return "<strong>\(strong.children.map { visit($0) }.joined())</strong>"
+    }
+
+    mutating func visitLink(_ link: Markdown.Link) -> String {
+        let dest = link.destination ?? ""
+        return "<a href=\"\(dest)\">\(link.children.map { visit($0) }.joined())</a>"
+    }
+
+    mutating func visitImage(_ image: Markdown.Image) -> String {
+        var source = image.source ?? ""
+        // Fix for local images: ensure they are file URLs
+        if source.hasPrefix("/") {
+            source = "file://" + source
+        }
+        
+        let title = image.title ?? ""
+        return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(image.plainText)\" />"
+    }
+
+    mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> String {
+        let langClass = codeBlock.language.map { " class=\"language-\($0)\"" } ?? ""
+        return "<pre><code\(langClass)>\(codeBlock.code.htmlEscaped())</code></pre>"
+    }
+
+    mutating func visitInlineCode(_ inlineCode: InlineCode) -> String {
+        return "<code>\(inlineCode.code.htmlEscaped())</code>"
+    }
+
+    mutating func visitUnorderedList(_ list: Markdown.UnorderedList) -> String {
+        return "<ul>\(list.children.map { visit($0) }.joined())</ul>"
+    }
+
+    mutating func visitOrderedList(_ list: Markdown.OrderedList) -> String {
+        return "<ol>\(list.children.map { visit($0) }.joined())</ol>"
+    }
+
+    mutating func visitListItem(_ listItem: ListItem) -> String {
+        return "<li>\(listItem.children.map { visit($0) }.joined())</li>"
+    }
+
+    mutating func visitBlockQuote(_ blockQuote: BlockQuote) -> String {
+        return "<blockquote>\(blockQuote.children.map { visit($0) }.joined())</blockquote>"
+    }
+
+    mutating func visitThematicBreak(_ thematicBreak: ThematicBreak) -> String {
+        return "<hr />"
+    }
+    
+    mutating func visitSoftBreak(_ softBreak: SoftBreak) -> String {
+        return " "
+    }
+    
+    mutating func visitLineBreak(_ lineBreak: LineBreak) -> String {
+        return "<br />"
+    }
+    
+    mutating func visitInlineHTML(_ inlineHTML: InlineHTML) -> String {
+        return inlineHTML.rawHTML
+    }
+    
+    mutating func visitHTMLBlock(_ htmlBlock: HTMLBlock) -> String {
+        return htmlBlock.rawHTML
+    }
+    
+    mutating func visitTable(_ table: Markdown.Table) -> String {
+        return "<table>\(table.children.map { visit($0) }.joined())</table>"
+    }
+    
+    mutating func visitTableHead(_ tableHead: Markdown.Table.Head) -> String {
+        return "<thead>\(tableHead.children.map { visit($0) }.joined())</thead>"
+    }
+    
+    mutating func visitTableBody(_ tableBody: Markdown.Table.Body) -> String {
+        return "<tbody>\(tableBody.children.map { visit($0) }.joined())</tbody>"
+    }
+    
+    mutating func visitTableRow(_ tableRow: Markdown.Table.Row) -> String {
+        return "<tr>\(tableRow.children.map { visit($0) }.joined())</tr>"
+    }
+    
+    mutating func visitTableCell(_ tableCell: Markdown.Table.Cell) -> String {
+        let tag = tableCell.parent is Markdown.Table.Head ? "th" : "td"
+        return "<\(tag)>\(tableCell.children.map { visit($0) }.joined())</\(tag)>"
+    }
+}
+
+extension String {
+    func htmlEscaped() -> String {
+        return self.replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
+    }
+}
 
 // 扩展 UTType 以支持 Word
 extension UTType {
