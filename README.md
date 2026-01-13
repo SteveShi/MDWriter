@@ -19,38 +19,45 @@
 
 ## 📖 Introduction
 
-**MDWriter** is a native Markdown editor designed for focused writing and efficient organization on macOS. Version 1.1 introduces a complete UI overhaul inspired by high-end writing tools, featuring an immersive three-column library and a professional typography engine.
+**MDWriter** is a native Markdown editor designed for focused writing and efficient organization on macOS. It combines a beautiful, distraction-free writing environment with powerful library management and modern data safety features.
 
-## ✨ Features (v1.1)
+Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, seamless animations, and a robust database architecture.
 
-### ✍️ Immersive Writing Experience
-*   **Immersive UI**: Hidden system title bar allows your content to flow to the very top of the window.
-*   **Native Performance**: Powered by a custom `NSTextView` wrapper for buttery smooth typing and precise control.
-*   **Custom Typography**: Precise control over fonts (System UI, System Serif, Monospaced), line height, paragraph spacing, and content width.
-*   **Dashboard**: Real-time word count, character count, and estimated reading time in a beautiful floating capsule.
+## ✨ Features
 
-### 📚 Powerful Organization
-*   **Three-Column Library**: Effortlessly manage your library (Folders → Document List → Editor) in a single unified view.
-*   **Rich Previews**: The document list shows titles, 2-line content summaries, and modification dates.
-*   **Instant Sync**: All changes are saved automatically as you type.
+### ✍️ Professional Editor
+*   **Typography First**: Carefully tuned line heights, paragraph spacing, and margins for optimal readability (optimized for both English and Chinese/CJK).
+*   **Theme System**: Includes 8 professional themes (Pure, Solarized, GitHub, Dracula, Nord, Monokai, Night Owl) to match your environment.
+*   **Typewriter Mode**: Keeps your cursor vertically centered, allowing you to focus on the line you're writing.
+*   **MarkX**: A custom regex-based highlighting engine providing accurate, high-performance syntax highlighting without the webview overhead.
+*   **Distraction Free**: Hidden title bars and a clean UI let you focus solely on your content.
 
-### 🛠 Professional Tools
-*   **Live Preview**: Toggleable side-by-side Markdown rendering with syntax highlighting.
-*   **Right-side Outline**: Navigate complex documents easily with a toggleable structure panel on the right.
-*   **Image Support**: Seamlessly insert local images into your Markdown documents.
+### 📚 Library & Organization
+*   **SwiftData Integration**: A modern, database-driven architecture using SQLite ensures fast search and reliable data integrity.
+*   **Three-Column Layout**: Navigate Folders, Document Lists, and the Editor in a fluid, native macOS interface.
+*   **Drag & Drop**: Intuitive organization—drag notes between folders, to the Trash, or rearrange your hierarchy.
+*   **Smart Lists**: Built-in Inbox and Trash management.
+
+### � Versions & Backups (New in v1.7)
+*   **Snapshot History**: Manually save "Versions" of your document and browse them purely visually. View character counts, creation times, and restore previous states with one click.
+*   **Full Library Backup**: Export your entire database (Folders, Notes, Snapshots) to a single `.mdwbk` file.
+*   **One-Click Restore**: Easily migrate your library to a new machine or recover from accidental data loss.
 
 ### 📤 Export & Sharing
-*   **Styled PDF**: Export beautifully rendered PDFs optimized for A4 paper.
-*   **Word (RTF)**: Export rich text compatible with Microsoft Word.
-*   **Markdown**: Share or backup raw `.md` files.
+*   **PDF Export**: Generate clean, A4-optimized PDFs with styled headers and footers.
+*   **Word (RTF)**: Export broad-compatibility Rich Text files.
+*   **Standard Markdown**: Your data is yours. Export raw `.md` files at any time.
 
 ### 🌍 Localization
-*   Full support for **English** and **Simplified Chinese (简体中文)**.
+*   **Native English Support**
+*   **Simplified Chinese (简体中文)**: Fully localized UI, including menus, settings, and tooltips.
 
 ## 🚀 Installation
 
 ### Download
 Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
+
+** Updates are managed automatically via the built-in Sparkle framework.**
 
 ### Build from Source
 **Requirements:**
@@ -63,17 +70,19 @@ Download the latest **Universal Binary** (supports both Apple Silicon and Intel)
     cd MDWriter
     ```
 2.  Open `MDWriter.xcodeproj` in Xcode.
-3.  Build and Run (`Cmd + R`).
+3.  Ensure package dependencies (`swift-markdown`, `Sparkle`) resolve.
+4.  Build and Run (`Cmd + R`).
 
 ## 📦 Dependencies
 
-*   [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui): Elegant Markdown rendering.
-*   [Ink](https://github.com/JohnSundell/Ink): Markdown to HTML conversion for high-quality exports.
-*   [AppUpdater](https://github.com/s1ntoneli/AppUpdater): Automatic update checking via GitHub.
+MDWriter stands on the shoulders of giants:
+
+*   [swift-markdown](https://github.com/apple/swift-markdown): Apple's robust Markdown parsing library.
+*   [Sparkle 2](https://github.com/sparkle-project/Sparkle): The industry standard for secure macOS software updates.
 
 ## 📄 License
 
 Distributed under the Mozilla Public License 2.0. See `LICENSE` for more information.
 
 ---
-Built with ❤️ using SwiftUI & AppKit.
+Built with ❤️ using SwiftUI, SwiftData & AppKit.

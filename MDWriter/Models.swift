@@ -49,6 +49,9 @@ final class Note {
     var isTrashed: Bool = false
     var folder: Folder?
 
+    @Relationship(deleteRule: .cascade, inverse: \Snapshot.note)
+    var snapshots: [Snapshot] = []
+
     init(title: String, content: String = "", folder: Folder? = nil) {
         self.title = title
         self.content = content
@@ -56,6 +59,19 @@ final class Note {
         self.modifiedAt = Date()
         self.isTrashed = false
         self.folder = folder
+    }
+}
+
+@Model
+final class Snapshot {
+    var content: String
+    var createdAt: Date
+    var note: Note?
+
+    init(content: String, note: Note? = nil) {
+        self.content = content
+        self.createdAt = Date()
+        self.note = note
     }
 }
 

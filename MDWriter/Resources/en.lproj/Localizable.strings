@@ -86,6 +86,10 @@
 "MDWriter Help" = "MDWriter Help";
 "Keyboard Shortcuts" = "Keyboard Shortcuts";
 "Check for Updates..." = "Check for Updates...";
+"Save Version" = "Save Version";
+"Browse Versions..." = "Browse Versions...";
+"Backup Library..." = "Backup Library...";
+"Restore Library..." = "Restore Library...";
 
 /* Content View & Toolbar */
 "Search" = "Search";
@@ -115,7 +119,19 @@
 "Restore" = "Restore";
 "Delete Permanently" = "Delete Permanently";
 "Empty Trash" = "Empty Trash";
+"Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." = "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone.";
 "New Note" = "New Note";
 "Delete" = "Delete";
 "No Selection" = "No Selection";
 "Select a document to start writing." = "Select a document to start writing.";
+
+/* Snapshots & Backup */
+"Versions" = "Versions";
+"No versions saved" = "No versions saved";
+"chars" = "chars";
+"Delete Version" = "Delete Version";
+"Restore to this Version" = "Restore to this Version";
+"Select a version" = "Select a version";
+"Restore Library" = "Restore Library";
+"This will replace your current library with the backup. This action cannot be undone." = "This will replace your current library with the backup. This action cannot be undone.";
+"Close" = "Close";

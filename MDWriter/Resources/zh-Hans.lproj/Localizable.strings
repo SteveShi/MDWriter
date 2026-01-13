@@ -86,6 +86,10 @@
 "MDWriter Help" = "MDWriter 帮助";
 "Keyboard Shortcuts" = "键盘快捷键";
 "Check for Updates..." = "检查更新...";
+"Save Version" = "保存版本";
+"Browse Versions..." = "浏览版本...";
+"Backup Library..." = "备份文稿库...";
+"Restore Library..." = "还原文稿库...";
 
 /* Content View & Toolbar */
 "Search" = "搜索";
@@ -115,7 +119,19 @@
 "Restore" = "还原";
 "Delete Permanently" = "彻底删除";
 "Empty Trash" = "清空废纸篓";
+"Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." = "您确定要彻底删除废纸篓中的所有项目吗？该操作无法撤销。";
 "New Note" = "新建笔记";
 "Delete" = "删除";
 "No Selection" = "无选择";
 "Select a document to start writing." = "选择一个文档开始写作。";
+
+/* Snapshots & Backup */
+"Versions" = "版本";
+"No versions saved" = "暂无历史版本";
+"chars" = "字符";
+"Delete Version" = "删除版本";
+"Restore to this Version" = "还原此版本";
+"Select a version" = "选择一个版本";
+"Restore Library" = "还原文稿库";
+"This will replace your current library with the backup. This action cannot be undone." = "此操作将用备份文件替换您当前的文稿库。该操作无法撤销。";
+"Close" = "关闭";

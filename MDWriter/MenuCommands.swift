@@ -2,13 +2,25 @@
 //  MenuCommands.swift
 //  MDWriter
 //
-//  Menu bar commands for MDWriter, inspired by Ulysses.
+//  Menu bar commands for MDWriter.
 //
 
 import AppKit
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
+
+// MARK: - Focused Values
+struct SelectedNoteKey: FocusedValueKey {
+    typealias Value = Bool
+}
+
+extension FocusedValues {
+    var hasSelectedNote: Bool? {
+        get { self[SelectedNoteKey.self] }
+        set { self[SelectedNoteKey.self] = newValue }
+    }
+}
 
 // MARK: - App Commands (Settings)
 struct AppCommands: Commands {
@@ -24,6 +36,8 @@ struct AppCommands: Commands {
 
 // MARK: - File Commands
 struct FileCommands: Commands {
+    @FocusedValue(\.hasSelectedNote) var hasSelectedNote: Bool?
+
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Button(LocalizedStringKey("New Sheet")) {
@@ -35,6 +49,31 @@ struct FileCommands: Commands {
                 NotificationCenter.default.post(name: .newFolder, object: nil)
             }
             .keyboardShortcut("n", modifiers: [.command, .shift])
+
+            Divider()
+
+            Button(LocalizedStringKey("Save Version")) {
+                NotificationCenter.default.post(name: .createSnapshot, object: nil)
+            }
+            .keyboardShortcut("s", modifiers: [.command, .option])
+            .disabled(hasSelectedNote != true)
+
+            Button(LocalizedStringKey("Browse Versions...")) {
+                print("DEBUG: Menu item Browse Versions clicked")
+                NotificationCenter.default.post(name: .showSnapshotBrowser, object: nil)
+            }
+            .disabled(hasSelectedNote != true)
+            // Intentionally no shortcut, accessed via menu
+
+            Divider()
+
+            Button(LocalizedStringKey("Backup Library...")) {
+                NotificationCenter.default.post(name: .backupLibrary, object: nil)
+            }
+
+            Button(LocalizedStringKey("Restore Library...")) {
+                NotificationCenter.default.post(name: .restoreLibrary, object: nil)
+            }
 
             Divider()
 
@@ -321,4 +360,8 @@ extension Notification.Name {
     static let newNote = Notification.Name("newNote")
     static let newFolder = Notification.Name("newFolder")
     static let importNote = Notification.Name("importNote")
+    static let createSnapshot = Notification.Name("createSnapshot")
+    static let showSnapshotBrowser = Notification.Name("showSnapshotBrowser")
+    static let backupLibrary = Notification.Name("backupLibrary")
+    static let restoreLibrary = Notification.Name("restoreLibrary")
 }

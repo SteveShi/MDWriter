@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.7.0] - 2026-01-13
+### Added
+- **Document Snapshots**: Save versions of your document manually (File > Save Version or `Cmd+Opt+S`).
+- **Snapshot Browser**: View document history, compare character counts, and restore previous versions (File > Browse Versions...).
+- **Full Library Backup**: Export your entire library including folders, notes, and version history to a `.mdwbk` file (File > Backup Library...).
+- **Library Restore**: Restore your library from a backup file (File > Restore Library...).
+
 ## [1.6.1] - 2026-01-13
 
 ### Engineering & Infrastructure

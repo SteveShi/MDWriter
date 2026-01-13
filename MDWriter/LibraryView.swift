@@ -38,6 +38,7 @@ struct LibraryView: View {
     @State private var newName: String = ""
     @State private var isRenaming: Bool = false
     @State private var showEmptyTrashAlert: Bool = false
+    @State private var showSnapshotBrowser: Bool = false
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -198,7 +199,35 @@ struct LibraryView: View {
                 secondaryButton: .cancel()
             )
         }
+        .onReceive(NotificationCenter.default.publisher(for: .createSnapshot)) { _ in
+            if let note = selectedNote {
+                let snapshot = Snapshot(content: note.content, note: note)
+                modelContext.insert(snapshot)
+                try? modelContext.save()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showSnapshotBrowser)) { _ in
+            print("DEBUG: Received showSnapshotBrowser notification")
+            if let note = selectedNote {
+                print("DEBUG: Selected note found: \(note.id)")
+                showSnapshotBrowser = true
+            } else {
+                print("DEBUG: No note selected")
+            }
+        }
+        .sheet(isPresented: $showSnapshotBrowser) {
+            if let note = selectedNote {
+                SnapshotBrowserView(note: note, isPresented: $showSnapshotBrowser)
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .importNote)) { _ in importNotes() }
+        .onReceive(NotificationCenter.default.publisher(for: .backupLibrary)) { _ in
+            saveBackup()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .restoreLibrary)) { _ in
+            importBackup()
+        }
+        .focusedSceneValue(\.hasSelectedNote, selectedNote != nil)
     }
 
     private func handleNoteDrop(urls: [URL], to folder: Folder?, trash: Bool = false) {
@@ -308,6 +337,47 @@ struct LibraryView: View {
                     }
                 }
                 try? modelContext.save()
+            }
+        }
+    }
+
+    private func saveBackup() {
+        guard let data = try? BackupManager.shared.createBackupData(context: modelContext) else {
+            return
+        }
+        let savePanel = NSSavePanel()
+        savePanel.allowedContentTypes = [UTType(filenameExtension: "mdwbk")!]
+        savePanel.nameFieldStringValue =
+            "MDWriter_Backup_\(Date().formatted(date: .numeric, time: .omitted))"
+        savePanel.begin { response in
+            if response == .OK, let url = savePanel.url {
+                try? data.write(to: url)
+            }
+        }
+    }
+
+    private func importBackup() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowedContentTypes = [UTType(filenameExtension: "mdwbk")!]
+        openPanel.begin { response in
+            if response == .OK, let url = openPanel.url, let data = try? Data(contentsOf: url) {
+
+                // Alert confirm replace or merge?
+                // For simplified UX, let's ask: "Replace Library" or "Cancel" (since restore implies full restore usually)
+                let alert = NSAlert()
+                alert.messageText = String(localized: "Restore Library")
+                alert.informativeText =
+                    String(
+                        localized:
+                            "This will replace your current library with the backup. This action cannot be undone."
+                    )
+                alert.addButton(withTitle: String(localized: "Restore"))
+                alert.addButton(withTitle: String(localized: "Cancel"))
+
+                if alert.runModal() == .alertFirstButtonReturn {
+                    try? BackupManager.shared.restoreBackup(
+                        from: data, context: modelContext, replaceLibrary: true)
+                }
             }
         }
     }
