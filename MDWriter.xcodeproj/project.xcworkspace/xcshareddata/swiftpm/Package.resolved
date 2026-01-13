@@ -1,24 +1,6 @@
 {
-  "originHash" : "08d06551eb9fcdc67afd59daadf8741afeef5e8eb2bec004f0d4d43e2f00af6f",
+  "originHash" : "b08ed00e29c46b57a444efbd07d5a74605e29a435f773d84f2829673136c4bf3",
   "pins" : [
-    {
-      "identity" : "appupdater",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/s1ntoneli/AppUpdater.git",
-      "state" : {
-        "revision" : "0f280e4ecf2792f9be4bf4cbab76307d78024b3f",
-        "version" : "2.0.0"
-      }
-    },
-    {
-      "identity" : "path.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mxcl/Path.swift.git",
-      "state" : {
-        "revision" : "8e355c28e9393c42e58b18c54cace2c42c98a616",
-        "version" : "1.4.1"
-      }
-    },
     {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
@@ -44,15 +26,6 @@
       "state" : {
         "revision" : "7d9a5ce307528578dfa777d505496bd5f544ad94",
         "version" : "0.7.3"
-      }
-    },
-    {
-      "identity" : "version",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mxcl/Version.git",
-      "state" : {
-        "revision" : "67ce582bb9de70e1eb2ee41fd71aad3b5f86d97b",
-        "version" : "2.2.0"
       }
     }
   ],

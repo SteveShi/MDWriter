@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [1.6.1] - 2026-01-13
+
+### Engineering & Infrastructure
+- **Removed Deprecated Updater**: Removed the custom `AppUpdater` component in favor of the industry-standard **Sparkle** framework for more reliable and secure application updates.
+- **Codebase Clean-up**: Eliminated redundant view models and unused dependencies, resulting in a cleaner architecture and slightly reduced application size.
+- **Sparkle Integration Prep**: Added necessary configurations and dependencies to fully support Sparkle 2.0 for future updates.
+
+### Fixes
+- **Drag and Drop Reliability**: Fixed an issue where dragging documents could fail or cause data inconsistencies. Implemented a robust `NoteID` transfer mechanism to ensure seamless interaction between the library, sidebar, and trash.
+- **System Integrity**: Added proper `UTExportedTypeDeclarations` for `com.mdwriter.note` in Debug builds to fix drag-and-drop debugging issues.
+
 ## [1.6.0] - 2026-01-13
 
 ### New Features

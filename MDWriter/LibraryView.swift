@@ -37,6 +37,7 @@ struct LibraryView: View {
     @State private var renamingNote: Note?
     @State private var newName: String = ""
     @State private var isRenaming: Bool = false
+    @State private var showEmptyTrashAlert: Bool = false
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -45,65 +46,54 @@ struct LibraryView: View {
                     Label(LocalizedStringKey("All Documents"), systemImage: "tray.full")
                         .tag(SelectionMode.all)
 
-                                        Label(LocalizedStringKey("Inbox"), systemImage: "tray")
+                    Label(LocalizedStringKey("Inbox"), systemImage: "tray")
 
-                                            .tag(SelectionMode.inbox)
+                        .tag(SelectionMode.inbox)
 
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                                            .contentShape(Rectangle())
+                        .contentShape(Rectangle())
 
-                                            .dropDestination(for: Data.self) { datas, _ in
+                        .dropDestination(for: URL.self) { items, _ in
+                            handleNoteDrop(urls: items, to: nil)
+                            return true
+                        }
 
-                                                handleDataDrop(datas: datas, to: nil)
+                    Label(LocalizedStringKey("Trash"), systemImage: "trash")
 
-                                                return true
+                        .tag(SelectionMode.trash)
 
-                                            }
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                                        
+                        .contentShape(Rectangle())
 
-                                        Label(LocalizedStringKey("Trash"), systemImage: "trash")
+                        .dropDestination(for: URL.self) { items, _ in
+                            handleNoteDrop(urls: items, to: nil, trash: true)
+                            return true
+                        }
 
-                                            .tag(SelectionMode.trash)
+                }
 
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                Section(LocalizedStringKey("Folders")) {
 
-                                            .contentShape(Rectangle())
+                    ForEach(folders.filter { $0.parent == nil }) { folder in
 
-                                            .dropDestination(for: Data.self) { datas, _ in
+                        FolderRow(
 
-                                                handleDataDrop(datas: datas, to: nil, trash: true)
+                            folder: folder, selection: $selectionMode,
 
-                                                return true
+                            renamingFolder: $renamingFolder, isRenaming: $isRenaming,
 
-                                            }
+                            newName: $newName,
+                            onMoveNote: { urls, targetFolder in
+                                handleNoteDrop(urls: urls, to: targetFolder)
+                            })
 
-                                    }
+                    }
 
-                    
+                }
 
-                                    Section(LocalizedStringKey("Folders")) {
-
-                                        ForEach(folders.filter { $0.parent == nil }) { folder in
-
-                                            FolderRow(
-
-                                                folder: folder, selection: $selectionMode,
-
-                                                renamingFolder: $renamingFolder, isRenaming: $isRenaming,
-
-                                                newName: $newName, onMoveNote: { datas, targetFolder in
-
-                                                    handleDataDrop(datas: datas, to: targetFolder)
-
-                                                })
-
-                                        }
-
-                                    }
-
-                                }
+            }
             .listStyle(.sidebar)
             .navigationTitle(LocalizedStringKey("Library"))
             .toolbar {
@@ -126,14 +116,36 @@ struct LibraryView: View {
                         note in
                         NoteRowView(note: note, searchText: searchText)
                             .tag(note)
-                            .draggable(note) // 启用拖拽
+                            .draggable(note)  // 启用拖拽
                             .contextMenu {
                                 if note.isTrashed {
-                                    Button { restoreNote(note) } label: { Label(LocalizedStringKey("Restore"), systemImage: "arrow.uturn.backward") }
-                                    Button(role: .destructive) { deleteNotePermanently(note) } label: { Label(LocalizedStringKey("Delete Permanently"), systemImage: "trash") }
+                                    Button {
+                                        restoreNote(note)
+                                    } label: {
+                                        Label(
+                                            LocalizedStringKey("Restore"),
+                                            systemImage: "arrow.uturn.backward")
+                                    }
+                                    Button(role: .destructive) {
+                                        deleteNotePermanently(note)
+                                    } label: {
+                                        Label(
+                                            LocalizedStringKey("Delete Permanently"),
+                                            systemImage: "trash")
+                                    }
                                 } else {
-                                    Button { startRenamingNote(note) } label: { Label(LocalizedStringKey("Rename"), systemImage: "pencil") }
-                                    Button(role: .destructive) { moveNoteToTrash(note) } label: { Label(LocalizedStringKey("Move to Trash"), systemImage: "trash") }
+                                    Button {
+                                        startRenamingNote(note)
+                                    } label: {
+                                        Label(LocalizedStringKey("Rename"), systemImage: "pencil")
+                                    }
+                                    Button(role: .destructive) {
+                                        moveNoteToTrash(note)
+                                    } label: {
+                                        Label(
+                                            LocalizedStringKey("Move to Trash"),
+                                            systemImage: "trash")
+                                    }
                                 }
                             }
                     }
@@ -144,9 +156,14 @@ struct LibraryView: View {
                     ToolbarItem(placement: .primaryAction) {
                         HStack {
                             if case .trash = selectionMode {
-                                Button(action: emptyTrash) { Image(systemName: "trash.slash") }.disabled(filteredNotes.isEmpty)
+                                Button(action: { showEmptyTrashAlert = true }) {
+                                    Image(systemName: "trash.slash")
+                                }
+                                .disabled(filteredNotes.isEmpty)
                             } else {
-                                Button(action: createNewNote) { Image(systemName: "square.and.pencil") }
+                                Button(action: createNewNote) {
+                                    Image(systemName: "square.and.pencil")
+                                }
                             }
                         }
                     }
@@ -155,10 +172,13 @@ struct LibraryView: View {
         } detail: {
             EditorWrapper(
                 note: selectedNote, searchText: $searchText, isSearching: $isSearching,
-                showOutline: $showOutline, textZoom: Binding(get: { CGFloat(textZoom) }, set: { textZoom = Double($0) })
+                showOutline: $showOutline,
+                textZoom: Binding(get: { CGFloat(textZoom) }, set: { textZoom = Double($0) })
             )
         }
-        .onChange(of: showLibrary) { newValue in withAnimation { columnVisibility = newValue ? .all : .doubleColumn } }
+        .onChange(of: showLibrary) { newValue in
+            withAnimation { columnVisibility = newValue ? .all : .doubleColumn }
+        }
         .onChange(of: columnVisibility) { newValue in showLibrary = (newValue == .all) }
         .onReceive(NotificationCenter.default.publisher(for: .newNote)) { _ in createNewNote() }
         .onReceive(NotificationCenter.default.publisher(for: .newFolder)) { _ in
@@ -166,14 +186,29 @@ struct LibraryView: View {
             if case .folder(let parent) = selectionMode { folder.parent = parent }
             modelContext.insert(folder)
         }
+        .alert(isPresented: $showEmptyTrashAlert) {
+            Alert(
+                title: Text(LocalizedStringKey("Empty Trash")),
+                message: Text(
+                    LocalizedStringKey(
+                        "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone."
+                    )),
+                primaryButton: .destructive(
+                    Text(LocalizedStringKey("Empty Trash")), action: emptyTrash),
+                secondaryButton: .cancel()
+            )
+        }
         .onReceive(NotificationCenter.default.publisher(for: .importNote)) { _ in importNotes() }
     }
 
-    private func handleDataDrop(datas: [Data], to folder: Folder?, trash: Bool = false) {
-        let decoder = JSONDecoder()
-        for data in datas {
-            if let id = try? decoder.decode(PersistentIdentifier.self, from: data),
-               let note = modelContext.model(for: id) as? Note {
+    private func handleNoteDrop(urls: [URL], to folder: Folder?, trash: Bool = false) {
+        for url in urls {
+            guard url.scheme == "mdwriter", url.host == "note" else { continue }
+            let idString = url.lastPathComponent
+            if let data = Data(base64Encoded: idString),
+                let id = try? JSONDecoder().decode(PersistentIdentifier.self, from: data),
+                let note = modelContext.model(for: id) as? Note
+            {
                 executeMove(note: note, to: folder, trash: trash)
             }
         }
@@ -202,9 +237,17 @@ struct LibraryView: View {
         case .all: baseNotes = allNotes.filter { !$0.isTrashed }
         case .inbox: baseNotes = allNotes.filter { $0.folder == nil && !$0.isTrashed }
         case .trash: baseNotes = allNotes.filter { $0.isTrashed }
-        case .folder(let folder): baseNotes = folder.notes.filter { !$0.isTrashed }.sorted(by: { $0.modifiedAt > $1.modifiedAt })
+        case .folder(let folder):
+            baseNotes = folder.notes.filter { !$0.isTrashed }.sorted(by: {
+                $0.modifiedAt > $1.modifiedAt
+            })
         }
-        return searchText.isEmpty ? baseNotes : baseNotes.filter { $0.title.localizedCaseInsensitiveContains(searchText) || $0.content.localizedCaseInsensitiveContains(searchText) }
+        return searchText.isEmpty
+            ? baseNotes
+            : baseNotes.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText)
+                    || $0.content.localizedCaseInsensitiveContains(searchText)
+            }
     }
 
     private func createNewNote() {
@@ -258,7 +301,8 @@ struct LibraryView: View {
             if response == .OK {
                 for url in panel.urls {
                     if let content = try? String(contentsOf: url, encoding: .utf8) {
-                        let note = Note(title: url.deletingPathExtension().lastPathComponent, content: content)
+                        let note = Note(
+                            title: url.deletingPathExtension().lastPathComponent, content: content)
                         if case .folder(let folder) = selectionMode { note.folder = folder }
                         modelContext.insert(note)
                     }
@@ -275,32 +319,47 @@ struct FolderRow: View {
     @Binding var renamingFolder: Folder?
     @Binding var isRenaming: Bool
     @Binding var newName: String
-    var onMoveNote: ([Data], Folder) -> Void
+    var onMoveNote: ([URL], Folder) -> Void
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         Label(folder.name, systemImage: folder.icon)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
-            .dropDestination(for: Data.self) { datas, _ in
-                onMoveNote(datas, folder)
+            .dropDestination(for: URL.self) { items, _ in
+                onMoveNote(items, folder)
                 return true
             }
             .contextMenu {
-                Button { renamingFolder = folder; newName = folder.name; isRenaming = true } label: { Label(LocalizedStringKey("Rename"), systemImage: "pencil") }
-                Button(role: .destructive) { modelContext.delete(folder) } label: { Label(LocalizedStringKey("Delete"), systemImage: "trash") }
+                Button {
+                    renamingFolder = folder
+                    newName = folder.name
+                    isRenaming = true
+                } label: {
+                    Label(LocalizedStringKey("Rename"), systemImage: "pencil")
+                }
+                Button(role: .destructive) {
+                    modelContext.delete(folder)
+                } label: {
+                    Label(LocalizedStringKey("Delete"), systemImage: "trash")
+                }
                 Button {
                     let sub = Folder(name: String(localized: "New Group"))
                     sub.parent = folder
                     modelContext.insert(sub)
-                } label: { Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus") }
+                } label: {
+                    Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus")
+                }
             }
             .tag(LibraryView.SelectionMode.folder(folder))
 
         if !folder.subfolders.isEmpty {
             ForEach(folder.subfolders.sorted(by: { $0.name < $1.name })) { sub in
-                FolderRow(folder: sub, selection: $selection, renamingFolder: $renamingFolder, isRenaming: $isRenaming, newName: $newName, onMoveNote: onMoveNote)
-                    .padding(.leading, 10)
+                FolderRow(
+                    folder: sub, selection: $selection, renamingFolder: $renamingFolder,
+                    isRenaming: $isRenaming, newName: $newName, onMoveNote: onMoveNote
+                )
+                .padding(.leading, 10)
             }
         }
     }
@@ -312,12 +371,16 @@ struct NoteRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(note.title).font(.headline).lineLimit(1)
-            Text(summary(from: note.content)).font(.caption).foregroundColor(.secondary).lineLimit(2).frame(maxHeight: 35, alignment: .topLeading)
+            Text(summary(from: note.content)).font(.caption).foregroundColor(.secondary).lineLimit(
+                2
+            ).frame(maxHeight: 35, alignment: .topLeading)
             Text(note.modifiedAt, style: .date).font(.caption2).foregroundColor(.tertiaryLabel)
         }.padding(.vertical, 4)
     }
     private func summary(from text: String) -> String {
-        let contentLines = text.split(separator: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#") }
+        let contentLines = text.split(separator: "\n").filter {
+            !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#")
+        }
         return contentLines.prefix(2).joined(separator: " ")
     }
 }
@@ -329,7 +392,9 @@ struct EditorWrapper: View {
     @Binding var showOutline: Bool
     @Binding var textZoom: CGFloat
     var body: some View {
-        ContentView(note: note, searchText: $searchText, isSearching: $isSearching, showOutline: $showOutline, textZoom: $textZoom)
+        ContentView(
+            note: note, searchText: $searchText, isSearching: $isSearching,
+            showOutline: $showOutline, textZoom: $textZoom)
     }
 }
 

@@ -7,8 +7,8 @@
 
 import Foundation
 import SwiftData
-import UniformTypeIdentifiers
 import SwiftUI
+import UniformTypeIdentifiers
 
 extension UTType {
     static var markdownDocument: UTType {
@@ -59,18 +59,13 @@ final class Note {
     }
 }
 
-// 扩展 Note 以支持高可靠性的混合传输
 extension Note: Transferable {
     static var transferRepresentation: some TransferRepresentation {
-        // 1. 优先尝试 DataRepresentation (处理 ID)
-        DataRepresentation(exportedContentType: .noteIdentifier) { note in
-            try JSONEncoder().encode(note.persistentModelID)
-        }
-        // 2. 备选 URLRepresentation (处理跨组件传输)
         ProxyRepresentation(exporting: { note in
+            // 将 ID 编码为 Base64 字符串，封装在 URL 中
             let data = try! JSONEncoder().encode(note.persistentModelID)
             let base64 = data.base64EncodedString()
-            return URL(string: "mdwriter-note://handle?id=\(base64)")!
+            return URL(string: "mdwriter://note/\(base64)")!
         })
     }
 }

@@ -10,9 +10,6 @@ import SwiftUI
 
 @main
 struct MDWriterApp: App {
-    // Sparkle 2 Updater
-    @StateObject var updaterViewModel = UpdaterViewModel()
-
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
     @AppStorage("showDashboard") var showDashboard: Bool = false
@@ -30,14 +27,6 @@ struct MDWriterApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
-            // App Menu
-            CommandGroup(after: .appInfo) {
-                Button(LocalizedStringKey("Check for Updates...")) {
-                    updaterViewModel.checkForUpdates()
-                }
-                .disabled(!updaterViewModel.canCheckForUpdates)
-            }
-
             // File Commands
             FileCommands()
 
