@@ -79,9 +79,11 @@ jobs:
           # 4. Generate Appcast and Sign
           if [ -n "$SPARKLE_PRIVATE_KEY" ]; then
             echo "Sparkle private key found. Signing update..."
+            echo "$SPARKLE_PRIVATE_KEY" > sparkle_key.txt
             ./bin/generate_appcast sparkle_output/ \
               --download-url-prefix "$DOWNLOAD_URL_PREFIX" \
-              --ed-key-file <(echo "$SPARKLE_PRIVATE_KEY")
+              --ed-key-file sparkle_key.txt
+            rm sparkle_key.txt
               
             mv sparkle_output/appcast.xml .
             echo "HAS_APPCAST=true" >> $GITHUB_ENV
