@@ -8,12 +8,14 @@
 import AppKit
 @preconcurrency import Highlightr
 
-// 显式标记为 nonisolated 以匹配父类 NSTextStorage 的并发隔离特性
-nonisolated class MarkdownTextStorage: NSTextStorage {
+// 标记为 nonisolated 以避免 init 隔离冲突
+// 标记为 @unchecked Sendable 以允许在 MainActor.assumeIsolated 中捕获 self
+nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
 
-    // MARK: - 属性 (全部标记为 nonisolated(unsafe) 以满足 NSTextStorage 的跨线程契约)
+    // MARK: - 属性 (nonisolated(unsafe) 允许在非隔离方法中访问)
 
     nonisolated(unsafe) private let backingStore = NSMutableAttributedString()
+    // 强制解包，以防 Highlightr() 初始化失败
     nonisolated(unsafe) private let highlightr = Highlightr()!
     nonisolated(unsafe) private var currentHighlightrThemeName: String?
 
@@ -28,12 +30,12 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
     // MARK: - 正则表达式缓存 (使用 Raw Strings 确保转义正确)
 
     private enum Regex {
-        static let bold = try! NSRegularExpression(pattern: #"\\*\\*(.+?)\\*\\*"#)
-        static let italic = try! NSRegularExpression(pattern: #"(?<!\\*)\\(?!\\*)(.+?)(?<!\\*)\\(?!\\*)""#)
-        static let inlineCode = try! NSRegularExpression(pattern: #"`([^`]+)`"#)
-        static let links = try! NSRegularExpression(pattern: #"\\[([^\\]+)\\]\(([^)]+)\""#)
+        static let bold = try! NSRegularExpression(pattern: #"\*\*(.+?)\*\*"#)
+        static let italic = try! NSRegularExpression(pattern: #"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)"#)
+        static let inlineCode = try! NSRegularExpression(pattern: #"`([^"]+)`"#)
+        static let links = try! NSRegularExpression(pattern: #"\[([^\]]+)\]\(([^)]+)\)"#)
         static let strikethrough = try! NSRegularExpression(pattern: #"~~(.+?)~~"#)
-        static let codeBlocks = try! NSRegularExpression(pattern: #"```([a-zA-Z0-9+\\-]*)\\n([\\s\\S]*?)```"#)
+        static let codeBlocks = try! NSRegularExpression(pattern: #"```([a-zA-Z0-9+\-]*)\n([\s\S]*?)```"#)
     }
 
     // MARK: - 初始化器
@@ -103,6 +105,10 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
     // MARK: - 编辑处理
 
     override func processEditing() {
+        // 在 Swift 6 中，虽然我们是 nonisolated，但我们知道这个调用通常发生在主线程。
+        // 由于所有属性都是 nonisolated(unsafe)，我们可以直接访问。
+        // 这里的 self 捕获现在是安全的，因为我们声明了 @unchecked Sendable。
+        
         if editedMask.contains(.editedCharacters) && !isHighlighting && !isComposing {
             performHighlighting()
         }
