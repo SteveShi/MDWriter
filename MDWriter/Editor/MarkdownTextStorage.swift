@@ -6,12 +6,15 @@
 //
 
 import AppKit
+import Highlightr
 
 class MarkdownTextStorage: NSTextStorage {
 
     // MARK: - Properties
 
     private let backingStore = NSMutableAttributedString()
+    private let highlightr = Highlightr()
+    private var currentHighlightrThemeName: String?
 
     var theme: AppTheme = .light
     var baseFont: NSFont = NSFont(name: "PingFang SC", size: 17) ?? .systemFont(ofSize: 17)
@@ -132,6 +135,9 @@ class MarkdownTextStorage: NSTextStorage {
         styleInlineCode(text: text, range: wholeRange)
         styleLinks(text: text, range: wholeRange)
         styleStrikethrough(text: text, range: wholeRange)
+
+        // 5. 代码块高亮 (Highlightr)
+        styleCodeBlocks(text: text, range: wholeRange)
 
         isHighlighting = false
     }
@@ -323,6 +329,81 @@ class MarkdownTextStorage: NSTextStorage {
                 .strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: matchRange)
             self.backingStore.addAttribute(
                 .foregroundColor, value: self.markupColor, range: matchRange)
+        }
+    // MARK: - Code Block Styling (Highlightr)
+
+    private func styleCodeBlocks(text: NSString, range: NSRange) {
+        guard let highlightr = highlightr else { return }
+
+        // Update theme if needed
+        let targetTheme = (self.theme == .dark) ? "monokai-sublime" : "xcode"
+        if currentHighlightrThemeName != targetTheme {
+            if highlightr.setTheme(to: targetTheme) {
+                currentHighlightrThemeName = targetTheme
+            }
+        }
+
+        // Regex for code blocks: ```lang ... ```
+        let pattern = "```([a-zA-Z0-9+\\-]*)\\n([\\s\\S]*?)```"
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return }
+
+        regex.enumerateMatches(in: text as String, options: [], range: range) { match, _, _ in
+            guard let matchRange = match?.range,
+                let langRange = match?.range(at: 1),
+                let codeRange = match?.range(at: 2)
+            else { return }
+
+            let language = text.substring(with: langRange)
+            let code = text.substring(with: codeRange)
+
+            // Get highlighted string from Highlightr
+            let highlighted: NSAttributedString?
+            if language.isEmpty {
+                highlighted = highlightr.highlight(code)
+            } else {
+                highlighted = highlightr.highlight(code, as: language)
+            }
+
+            guard let highlightedCode = highlighted else { return }
+
+            // 1. Apply Syntax Highlighting Attributes (Foreground Color mostly)
+            highlightedCode.enumerateAttributes(
+                in: NSRange(location: 0, length: highlightedCode.length), options: []
+            ) { attrs, subRange, _ in
+                let targetRange = NSRange(
+                    location: codeRange.location + subRange.location, length: subRange.length)
+                
+                // We only want color attributes, as we want to enforce our own font
+                if let color = attrs[.foregroundColor] as? NSColor {
+                     self.backingStore.addAttribute(.foregroundColor, value: color, range: targetRange)
+                }
+            }
+
+            // 2. Style the block background and delimiters
+            // Header: ```lang
+            let headerLen = codeRange.location - matchRange.location
+            let headerRange = NSRange(location: matchRange.location, length: headerLen)
+
+            // Footer: ```
+            let footerStart = codeRange.location + codeRange.length
+            let footerLen = matchRange.location + matchRange.length - footerStart
+            let footerRange = NSRange(location: footerStart, length: footerLen)
+
+            // Color delimiters
+            self.backingStore.addAttribute(
+                .foregroundColor, value: self.markupColor, range: headerRange)
+            self.backingStore.addAttribute(
+                .foregroundColor, value: self.markupColor, range: footerRange)
+
+            // Background for the whole block
+            self.backingStore.addAttribute(
+                .backgroundColor, value: self.codeBackground, range: matchRange)
+
+            // Enforce Monospaced Font for the code content
+            // We use a slightly smaller font for code blocks
+            let monoFont = NSFont.monospacedSystemFont(
+                ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
+            self.backingStore.addAttribute(.font, value: monoFont, range: codeRange)
         }
     }
 }

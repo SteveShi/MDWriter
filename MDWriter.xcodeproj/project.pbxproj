@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = AA829F9B2F188FCD00F2F48C /* Highlightr */; };
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */,
 				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +121,7 @@
 			name = MDWriter;
 			packageProductDependencies = (
 				AABC57E12F15680800DF940F /* Markdown */,
+				AA829F9B2F188FCD00F2F48C /* Highlightr */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -199,6 +202,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */,
+				AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -634,6 +638,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raspu/Highlightr";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
 		AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftlang/swift-markdown";
@@ -645,6 +657,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA829F9B2F188FCD00F2F48C /* Highlightr */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */;
+			productName = Highlightr;
+		};
 		AABC57E12F15680800DF940F /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */;
