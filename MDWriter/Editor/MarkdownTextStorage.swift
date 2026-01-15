@@ -105,9 +105,8 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
     // MARK: - 编辑处理
 
     override func processEditing() {
-        // 在 Swift 6 中，虽然我们是 nonisolated，但我们知道这个调用通常发生在主线程。
-        // 由于所有属性都是 nonisolated(unsafe)，我们可以直接访问。
-        // 这里的 self 捕获现在是安全的，因为我们声明了 @unchecked Sendable。
+        // 由于所有属性都是 nonisolated(unsafe)，且我们假设 processEditing 在主线程调用
+        // 我们不需要显式的 assumeIsolated，直接执行逻辑。
         
         if editedMask.contains(.editedCharacters) && !isHighlighting && !isComposing {
             performHighlighting()
