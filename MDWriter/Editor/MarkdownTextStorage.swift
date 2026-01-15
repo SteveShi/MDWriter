@@ -6,23 +6,47 @@
 //
 
 import AppKit
-import Highlightr
+@preconcurrency import Highlightr
 
-class MarkdownTextStorage: NSTextStorage {
+// Explicitly mark the class as nonisolated to match NSTextStorage's non-isolated nature in Swift 6 view
+// This avoids MainActor inference and the need to override every single initializer.
+nonisolated class MarkdownTextStorage: NSTextStorage {
 
     // MARK: - Properties
 
-    private let backingStore = NSMutableAttributedString()
-    private let highlightr = Highlightr()
-    private var currentHighlightrThemeName: String?
+    nonisolated(unsafe) private let backingStore = NSMutableAttributedString()
+    // Force unwrap in case Highlightr() is failable/optional
+    nonisolated(unsafe) private let highlightr = Highlightr()!
+    nonisolated(unsafe) private var currentHighlightrThemeName: String?
 
-    var theme: AppTheme = .light
-    var baseFont: NSFont = NSFont(name: "PingFang SC", size: 17) ?? .systemFont(ofSize: 17)
-    var lineHeightMultiple: CGFloat = 1.7
-    var paragraphSpacing: CGFloat = 12.0
+    // Accessing AppTheme might be thread-unsafe if not careful, but it's a struct (Enum).
+    // We mark these as nonisolated(unsafe) to allow access from any thread (NSTextStorage contract).
+    // In practice, text storage is mostly accessed from Main Thread in UI apps.
+    nonisolated(unsafe) var theme: AppTheme = .light
+    nonisolated(unsafe) var baseFont: NSFont = NSFont(name: "PingFang SC", size: 17) ?? .systemFont(ofSize: 17)
+    nonisolated(unsafe) var lineHeightMultiple: CGFloat = 1.7
+    nonisolated(unsafe) var paragraphSpacing: CGFloat = 12.0
 
-    var isComposing: Bool = false
-    private var isHighlighting: Bool = false
+    nonisolated(unsafe) var isComposing: Bool = false
+    nonisolated(unsafe) private var isHighlighting: Bool = false
+
+    // MARK: - Initializers
+
+    override init() {
+        super.init()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    required init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
+        super.init(pasteboardPropertyList: propertyList, ofType: type)
+    }
+    
+    // We keep convenience overrides simple if needed, or remove them if inheritance handles it.
+    // Since we provided designated inits, convenience inits are NOT inherited by default unless we override all designated ones.
+    // But NSTextStorage has specific rules. Let's start with just the required ones.
 
     // MARK: - Colors
 
@@ -82,8 +106,15 @@ class MarkdownTextStorage: NSTextStorage {
     // MARK: - Processing
 
     override func processEditing() {
+        // Assume Main Thread for safe property access if needed, but here we access unsafe properties.
+        // For UI updates like highlighting, it's safer to ensure we are on Main Actor if we trigger UI side effects.
+        // However, NSTextStorage logic itself should run where it's called.
+        // Since we marked properties nonisolated(unsafe), we can access them directly.
+        
         if editedMask.contains(.editedCharacters) && !isHighlighting && !isComposing {
-            performHighlighting()
+            // Highlighting might involve complex logic, ideally run on background but TextView expects Main.
+            // For now, run directly.
+             performHighlighting()
         }
         super.processEditing()
     }
@@ -335,7 +366,7 @@ class MarkdownTextStorage: NSTextStorage {
     // MARK: - Code Block Styling (Highlightr)
 
     private func styleCodeBlocks(text: NSString, range: NSRange) {
-        guard let highlightr = highlightr else { return }
+        let highlightr = self.highlightr
 
         // Update theme if needed
         let targetTheme = (self.theme == .dark) ? "monokai-sublime" : "xcode"

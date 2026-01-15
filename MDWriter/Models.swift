@@ -75,7 +75,7 @@ final class Snapshot {
     }
 }
 
-extension Note: Transferable {
+extension Note: Transferable, @unchecked Sendable {
     static var transferRepresentation: some TransferRepresentation {
         ProxyRepresentation(exporting: { note in
             // 将 ID 编码为 Base64 字符串，封装在 URL 中
