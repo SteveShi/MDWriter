@@ -12,16 +12,16 @@ import SwiftUI
 
 struct UlyssesEditor: NSViewRepresentable {
 
-    // MARK: - Bindings & Props
+    // MARK: - 绑定与属性
 
     @Binding var text: String
     var noteID: PersistentIdentifier?  // 用于识别是否切换了文档
     var configuration: EditorConfiguration
-    @ObservedObject var controller: EditorController  // 外部控制 (插入文本等)
+    @ObservedObject var controller: EditorController  // 外部控制（插入文本等）
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("appTheme") private var appTheme: AppTheme = .light
 
-    // MARK: - Coordinator
+    // MARK: - 协调器 (Coordinator)
 
     class Coordinator: NSObject, NSTextViewDelegate {
         var parent: UlyssesEditor
@@ -34,7 +34,7 @@ struct UlyssesEditor: NSViewRepresentable {
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
 
-            // 避免循环：只有当内容真的不同时才更新 Binding
+            // 避免循环更新：只有当内容确实发生变化时才更新 Binding
             if !isUpdatingFromSwiftUI && textView.string != parent.text {
                 parent.text = textView.string
             }
@@ -49,16 +49,16 @@ struct UlyssesEditor: NSViewRepresentable {
         Coordinator(self)
     }
 
-    // MARK: - NSView Lifecycle
+    // MARK: - NSView 生命周期
 
     func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
         scrollView.hasVerticalScroller = true
         scrollView.drawsBackground = false
         scrollView.backgroundColor = .clear
-        scrollView.automaticallyAdjustsContentInsets = false  // 手动控制
+        scrollView.automaticallyAdjustsContentInsets = false  // 手动控制内边距
 
-        // Setup Text Storage Stack
+        // 设置文本存储堆栈 (Text Storage Stack)
         let textStorage = MarkdownTextStorage()
         let layoutManager = NSLayoutManager()
         textStorage.addLayoutManager(layoutManager)
@@ -66,11 +66,11 @@ struct UlyssesEditor: NSViewRepresentable {
         let textContainer = NSTextContainer(
             size: NSSize(width: configuration.contentWidth, height: CGFloat.greatestFiniteMagnitude)
         )
-        textContainer.widthTracksTextView = false  // 我们手动在 TextView 中控制 inset 和 centering
+        textContainer.widthTracksTextView = false  // 我们手动在 TextView 中控制 inset 和居中
         textContainer.lineFragmentPadding = 5
         layoutManager.addTextContainer(textContainer)
 
-        // Setup TextView
+        // 设置 TextView
         let textView = UlyssesTextView(frame: .zero, textContainer: textContainer)
         textView.delegate = context.coordinator
         textView.minSize = NSSize(width: 0, height: 0)
@@ -95,8 +95,8 @@ struct UlyssesEditor: NSViewRepresentable {
 
         context.coordinator.parent = self
 
-        // 1. 处理外部命令 (Insert Text)
-        // 重新绑定闭包，因为 controller 可能没变，但 view 重绘了
+        // 1. 处理外部命令 (插入文本)
+        // 重新绑定闭包，因为 controller 可能没变，但 view 重写渲染了
         controller.insertTextAction = { [weak textView] (textToInsert: String) in
             guard let tv = textView else { return }
             tv.insertText(textToInsert, replacementRange: tv.selectedRange())
@@ -115,28 +115,28 @@ struct UlyssesEditor: NSViewRepresentable {
             return (tv.string as NSString).substring(with: range)
         }
 
-        // 2. 更新配置 (Typography & Behavior)
+        // 2. 更新排版配置
         updateConfiguration(textView: textView, storage: textStorage)
 
-        // 3. 更新内容 (Text)
-        // 检查文档是否切换 (利用 currentNoteIDHash)
+        // 3. 更新文本内容
+        // 利用 currentNoteIDHash 检查文档是否切换
         let newHash = noteID?.hashValue ?? 0
         let isNewDocument = textView.currentNoteIDHash != newHash
 
         if isNewDocument {
             textView.currentNoteIDHash = newHash
-            textView.undoManager?.removeAllActions()  // 关键：切换文档清除撤销栈
+            textView.undoManager?.removeAllActions()  // 关键：切换文档时清除撤销栈
         }
 
         if textView.string != text || isNewDocument {
             context.coordinator.isUpdatingFromSwiftUI = true
 
-            // 替换文本
-            // 如果是全新文档，直接全量替换以避免动画瑕疵
+            // 替换文本内容
+            // 如果是全新文档，执行全量替换以避免渲染瑕疵
             textStorage.replaceCharacters(
                 in: NSRange(location: 0, length: textStorage.length), with: text)
 
-            // 恢复或重置选区
+            // 恢复或重置选区状态
             if isNewDocument {
                 textView.scroll(NSPoint.zero)  // 滚回顶部
                 textView.setSelectedRange(NSRange(location: 0, length: 0))
@@ -150,8 +150,7 @@ struct UlyssesEditor: NSViewRepresentable {
             context.coordinator.isUpdatingFromSwiftUI = false
         }
 
-        // 4. 强制刷新高亮 (Theme change check)
-        // 这里的逻辑可以优化：只有 theme 变了才 forceHighlight
+        // 4. 强制刷新高亮 (检测主题变化)
         if textStorage.theme != appTheme {
             textStorage.theme = appTheme
             textStorage.forceHighlight()
@@ -160,13 +159,13 @@ struct UlyssesEditor: NSViewRepresentable {
     }
 
     private func updateConfiguration(textView: UlyssesTextView, storage: MarkdownTextStorage) {
-        // TextView Props
+        // 更新 TextView 属性
         if textView.contentWidth != configuration.contentWidth {
             textView.contentWidth = configuration.contentWidth
         }
         textView.isTypewriterModeEnabled = configuration.typewriterMode
 
-        // Storage Props
+        // 更新 Storage 属性
         var storageChanged = false
         if storage.baseFont != configuration.nsFont {
             storage.baseFont = configuration.nsFont

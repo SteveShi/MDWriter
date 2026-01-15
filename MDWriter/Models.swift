@@ -78,7 +78,7 @@ final class Snapshot {
 extension Note: Transferable, @unchecked Sendable {
     static var transferRepresentation: some TransferRepresentation {
         ProxyRepresentation(exporting: { note in
-            // 将 ID 编码为 Base64 字符串，封装在 URL 中
+            // 将 ID 编码为 Base64 字符串，封装在自定义 URL 协议中，以便于拖拽或跨应用传输
             let data = try! JSONEncoder().encode(note.persistentModelID)
             let base64 = data.base64EncodedString()
             return URL(string: "mdwriter://note/\(base64)")!

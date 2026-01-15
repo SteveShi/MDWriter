@@ -11,27 +11,8 @@
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		AA0476192F05275F002D5D25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA0476032F05275E002D5D25 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA04760A2F05275E002D5D25;
-			remoteInfo = MDWriter;
-		};
-		AA0476232F05275F002D5D25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA0476032F05275E002D5D25 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA04760A2F05275E002D5D25;
-			remoteInfo = MDWriter;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		AA04760B2F05275E002D5D25 /* MDWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA0476182F05275F002D5D25 /* MDWriterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MDWriterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA0476222F05275F002D5D25 /* MDWriterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MDWriterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,20 +46,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AA0476152F05275F002D5D25 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA04761F2F05275F002D5D25 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -94,8 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				AA04760B2F05275E002D5D25 /* MDWriter.app */,
-				AA0476182F05275F002D5D25 /* MDWriterTests.xctest */,
-				AA0476222F05275F002D5D25 /* MDWriterUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,46 +92,6 @@
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AA0476172F05275F002D5D25 /* MDWriterTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AA04762F2F05275F002D5D25 /* Build configuration list for PBXNativeTarget "MDWriterTests" */;
-			buildPhases = (
-				AA0476142F05275F002D5D25 /* Sources */,
-				AA0476152F05275F002D5D25 /* Frameworks */,
-				AA0476162F05275F002D5D25 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AA04761A2F05275F002D5D25 /* PBXTargetDependency */,
-			);
-			name = MDWriterTests;
-			packageProductDependencies = (
-			);
-			productName = MDWriterTests;
-			productReference = AA0476182F05275F002D5D25 /* MDWriterTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		AA0476212F05275F002D5D25 /* MDWriterUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AA0476322F05275F002D5D25 /* Build configuration list for PBXNativeTarget "MDWriterUITests" */;
-			buildPhases = (
-				AA04761E2F05275F002D5D25 /* Sources */,
-				AA04761F2F05275F002D5D25 /* Frameworks */,
-				AA0476202F05275F002D5D25 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AA0476242F05275F002D5D25 /* PBXTargetDependency */,
-			);
-			name = MDWriterUITests;
-			packageProductDependencies = (
-			);
-			productName = MDWriterUITests;
-			productReference = AA0476222F05275F002D5D25 /* MDWriterUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -179,14 +104,6 @@
 				TargetAttributes = {
 					AA04760A2F05275E002D5D25 = {
 						CreatedOnToolsVersion = 26.2;
-					};
-					AA0476172F05275F002D5D25 = {
-						CreatedOnToolsVersion = 26.2;
-						TestTargetID = AA04760A2F05275E002D5D25;
-					};
-					AA0476212F05275F002D5D25 = {
-						CreatedOnToolsVersion = 26.2;
-						TestTargetID = AA04760A2F05275E002D5D25;
 					};
 				};
 			};
@@ -210,28 +127,12 @@
 			projectRoot = "";
 			targets = (
 				AA04760A2F05275E002D5D25 /* MDWriter */,
-				AA0476172F05275F002D5D25 /* MDWriterTests */,
-				AA0476212F05275F002D5D25 /* MDWriterUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA0476092F05275E002D5D25 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA0476162F05275F002D5D25 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA0476202F05275F002D5D25 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -248,34 +149,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AA0476142F05275F002D5D25 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA04761E2F05275F002D5D25 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AA04761A2F05275F002D5D25 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA04760A2F05275E002D5D25 /* MDWriter */;
-			targetProxy = AA0476192F05275F002D5D25 /* PBXContainerItemProxy */;
-		};
-		AA0476242F05275F002D5D25 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA04760A2F05275E002D5D25 /* MDWriter */;
-			targetProxy = AA0476232F05275F002D5D25 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AA04762A2F05275F002D5D25 /* Debug */ = {
@@ -426,7 +300,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -476,7 +350,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -490,108 +364,6 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				XROS_DEPLOYMENT_TARGET = 26.2;
-			};
-			name = Release;
-		};
-		AA0476302F05275F002D5D25 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = W7A747LNTR;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.2;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MDWriter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MDWriter";
-				XROS_DEPLOYMENT_TARGET = 26.2;
-			};
-			name = Debug;
-		};
-		AA0476312F05275F002D5D25 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = W7A747LNTR;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.2;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MDWriter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MDWriter";
-				XROS_DEPLOYMENT_TARGET = 26.2;
-			};
-			name = Release;
-		};
-		AA0476332F05275F002D5D25 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = W7A747LNTR;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriterUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.2;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = MDWriter;
-				XROS_DEPLOYMENT_TARGET = 26.2;
-			};
-			name = Debug;
-		};
-		AA0476342F05275F002D5D25 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = W7A747LNTR;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriterUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.2;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = MDWriter;
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -613,24 +385,6 @@
 			buildConfigurations = (
 				AA04762D2F05275F002D5D25 /* Debug */,
 				AA04762E2F05275F002D5D25 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AA04762F2F05275F002D5D25 /* Build configuration list for PBXNativeTarget "MDWriterTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA0476302F05275F002D5D25 /* Debug */,
-				AA0476312F05275F002D5D25 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AA0476322F05275F002D5D25 /* Build configuration list for PBXNativeTarget "MDWriterUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA0476332F05275F002D5D25 /* Debug */,
-				AA0476342F05275F002D5D25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

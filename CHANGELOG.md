@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## [1.8.0] - 2026-01-15
+### Engineering & Architecture
+- **Swift 6 Migration**: Fully migrated the codebase to **Swift 6** with strict concurrency checking to eliminate data races and enhance overall system stability.
+- **Improved Data Isolation**: Refactored `MarkdownTextStorage` and editor bindings to comply with modern Swift concurrency requirements, fixing a critical input-related crash.
+- **Regex Compatibility**: Resolved escape character issues in the syntax highlighting engine to ensure compatibility with the latest Swift compilers.
+
+### Editor & Performance
+- **Enhanced Code Highlighting**: Integrated the **Highlightr** engine to provide professional and accurate syntax highlighting for code blocks.
+- **Highlighting Optimization**: Implemented Regex object caching in the MarkX engine, significantly reducing typing latency and CPU usage during long-form writing.
+- **Typewriter Mode**: Refined the vertical scrolling logic in typewriter mode for a more fluid and natural writing experience.
+
+### Improvements
+- **Dependency Clean-up**: Optimized project dependencies and resolved several asset catalog warnings to ensure a cleaner build process.
+- **Documentation**: Synchronized and updated the project README to reflect the latest engineering standards.
+
 ## [1.7.0] - 2026-01-13
 ### Added
 - **Document Snapshots**: Save versions of your document manually (File > Save Version or `Cmd+Opt+S`).

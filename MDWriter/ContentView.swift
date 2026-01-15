@@ -334,13 +334,11 @@ struct ContentView: View {
             return
         }
 
-        DispatchQueue.global(qos: .userInitiated).async {
+        Task {
             let newHeaders = MDHeaderParser.parseHeaders(from: content)
             let newStats = DocumentStatistics.calculate(from: content)
-            DispatchQueue.main.async {
-                self.headers = newHeaders
-                self.stats = newStats
-            }
+            self.headers = newHeaders
+            self.stats = newStats
         }
     }
 }

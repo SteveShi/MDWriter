@@ -15,7 +15,7 @@ struct DocumentHeader: Identifiable, Hashable {
     let lineIndex: Int
 }
 
-class MDHeaderParser {
+struct MDHeaderParser {
     static func parseHeaders(from text: String) -> [DocumentHeader] {
         let document = Document(parsing: text)
         var visitor = HeaderVisitor()

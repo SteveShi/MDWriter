@@ -1,11 +1,11 @@
 # MDWriter
 
 <p align="center">
-  <img src="MDWriter/Assets.xcassets/AppIcon.appiconset/icon_1024x1024@2x.png" alt="MDWriter Icon" width="128" />
+  <img src="MDWriter/Assets.xcassets/AppIcon.appiconset/mac_1024x1024@1x.png" alt="MDWriter Icon" width="128" />
 </p>
 
 <p align="center">
-  <b>A professional, native Markdown editor for macOS.</b>
+  <b>A professional, native Markdown editor for macOS.</b><br/>
 </p>
 
 <p align="center">
