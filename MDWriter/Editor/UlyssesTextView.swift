@@ -9,7 +9,7 @@ import AppKit
 
 class UlyssesTextView: NSTextView {
 
-    // MARK: - Properties
+    // MARK: - 属性
 
     var currentNoteIDHash: Int = 0
 
@@ -23,7 +23,7 @@ class UlyssesTextView: NSTextView {
 
     var isTypewriterModeEnabled: Bool = false
 
-    // MARK: - Init
+    // MARK: - 初始化
 
     override init(frame frameRect: NSRect, textContainer container: NSTextContainer?) {
         super.init(frame: frameRect, textContainer: container)
@@ -45,10 +45,10 @@ class UlyssesTextView: NSTextView {
         self.isAutomaticTextReplacementEnabled = false
 
         // 视觉微调
-        self.drawsBackground = false  // 我们自己画背景（如果需要）或者让 ScrollView 画
+        self.drawsBackground = false  // 我们自己绘制背景（如果需要）或者让 ScrollView 绘制
         self.insertionPointColor = .systemBlue
 
-        // 监听 Frame 变化以调整居中
+        // 监听 Frame 变化以调整内容居中
         self.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(
             self, selector: #selector(frameDidChange), name: NSView.frameDidChangeNotification,
@@ -59,7 +59,7 @@ class UlyssesTextView: NSTextView {
         NotificationCenter.default.removeObserver(self)
     }
 
-    // MARK: - Layout & Centering
+    // MARK: - 布局与居中
 
     @objc private func frameDidChange(_ notification: Notification) {
         updateLayout()
@@ -81,11 +81,11 @@ class UlyssesTextView: NSTextView {
         if container.containerSize.width != contentWidth {
             container.containerSize = NSSize(
                 width: contentWidth, height: CGFloat.greatestFiniteMagnitude)
-            container.widthTracksTextView = false  // 关键：不随 View 宽度变化，而是我们手动控制 Inset
+            container.widthTracksTextView = false  // 关键：不随 View 宽度变化，而是手动控制 Inset
         }
     }
 
-    // MARK: - Typewriter Mode
+    // MARK: - 打字机模式
 
     func scrollToCenter() {
         guard isTypewriterModeEnabled,
@@ -113,7 +113,7 @@ class UlyssesTextView: NSTextView {
         }
     }
 
-    // 每次选区改变时，如果开启了打字机模式，尝试滚动
+    // 每次选区改变时，如果开启了打字机模式，尝试滚动到中心
     override func setSelectedRange(
         _ charRange: NSRange, affinity: NSSelectionAffinity, stillSelecting: Bool
     ) {
@@ -123,7 +123,7 @@ class UlyssesTextView: NSTextView {
         }
     }
 
-    // MARK: - Keyboard Shortcuts for Formatting
+    // MARK: - 快捷键处理
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         guard event.modifierFlags.contains(.command) else {
@@ -133,22 +133,22 @@ class UlyssesTextView: NSTextView {
         let key = event.charactersIgnoringModifiers?.lowercased() ?? ""
 
         switch key {
-        case "b":  // ⌘B: Bold
+        case "b":  // ⌘B: 加粗
             toggleWrap(prefix: "**", suffix: "**")
             return true
-        case "i":  // ⌘I: Italic
+        case "i":  // ⌘I: 斜体
             toggleWrap(prefix: "*", suffix: "*")
             return true
-        case "k":  // ⌘K: Link
+        case "k":  // ⌘K: 插入链接
             insertLink()
             return true
-        case "u":  // ⌘U: Strikethrough (Ulysses uses ⌘U for this)
+        case "u":  // ⌘U: 删除线
             toggleWrap(prefix: "~~", suffix: "~~")
             return true
-        case "`":  // ⌘`: Inline Code
+        case "`":  // ⌘`: 行内代码
             toggleWrap(prefix: "`", suffix: "`")
             return true
-        case "\\":  // ⌘\: Increase Heading Level
+        case "\\":  // ⌘\: 调整标题级别
             if event.modifierFlags.contains(.shift) {
                 decreaseHeadingLevel()
             } else {
@@ -162,7 +162,7 @@ class UlyssesTextView: NSTextView {
         return super.performKeyEquivalent(with: event)
     }
 
-    // MARK: - Formatting Helpers
+    // MARK: - 格式化辅助方法
 
     func toggleWrap(prefix: String, suffix: String) {
         let currentRange = selectedRange()
@@ -171,29 +171,29 @@ class UlyssesTextView: NSTextView {
         let text = (string as NSString)
 
         if currentRange.length == 0 {
-            // No selection: insert prefix+suffix and place cursor in middle
+            // 无选区：插入前后缀并将光标置于中间
             let insertion = prefix + suffix
             insertText(insertion, replacementRange: currentRange)
             setSelectedRange(
                 NSRange(location: currentRange.location + prefix.utf16.count, length: 0))
         } else {
-            // Has selection: check if already wrapped
+            // 有选区：检查是否已被包裹
             let selectedText = text.substring(with: currentRange)
 
             let prefixLength = prefix.utf16.count
             let suffixLength = suffix.utf16.count
 
-            // Check if the selected text is already wrapped
+            // 检查选中的文本是否已被指定的前后缀包裹
             if selectedText.hasPrefix(prefix) && selectedText.hasSuffix(suffix)
                 && selectedText.count >= prefixLength + suffixLength
             {
-                // Unwrap
+                // 解除包裹
                 let innerText = String(selectedText.dropFirst(prefixLength).dropLast(suffixLength))
                 insertText(innerText, replacementRange: currentRange)
                 setSelectedRange(
                     NSRange(location: currentRange.location, length: innerText.utf16.count))
             } else {
-                // Wrap
+                // 应用包裹
                 let wrapped = prefix + selectedText + suffix
                 insertText(wrapped, replacementRange: currentRange)
                 setSelectedRange(
@@ -211,17 +211,17 @@ class UlyssesTextView: NSTextView {
         let text = (string as NSString)
 
         if currentRange.length == 0 {
-            // No selection: insert placeholder
+            // 无选区：插入占位符
             let insertion = "[text](url)"
             insertText(insertion, replacementRange: currentRange)
-            // Select "text" part
+            // 选中 "text" 部分以便快速修改
             setSelectedRange(NSRange(location: currentRange.location + 1, length: 4))
         } else {
-            // Has selection: use it as the link text
+            // 有选区：使用选中内容作为链接文字
             let selectedText = text.substring(with: currentRange)
             let insertion = "[\(selectedText)](url)"
             insertText(insertion, replacementRange: currentRange)
-            // Select "url" part
+            // 选中 "url" 部分以便快速修改
             let urlStart = currentRange.location + 1 + selectedText.utf16.count + 2
             setSelectedRange(NSRange(location: urlStart, length: 3))
         }
@@ -233,18 +233,18 @@ class UlyssesTextView: NSTextView {
         let lineRange = text.lineRange(for: currentRange)
         let lineString = text.substring(with: lineRange)
 
-        // Count existing #
+        // 统计现有的 # 数量
         var hashCount = 0
         for char in lineString {
             if char == "#" { hashCount += 1 } else { break }
         }
 
         if hashCount < 6 {
-            // Insert a # at the beginning of the line
+            // 在行首插入一个 #
             let insertLocation = lineRange.location
             insertText("#", replacementRange: NSRange(location: insertLocation, length: 0))
 
-            // Add space if needed (if there was no space after #)
+            // 如果原本没有 # 且插入后紧跟文字（无空格），则补一个空格
             if hashCount == 0 && !lineString.hasPrefix(" ") {
                 insertText(" ", replacementRange: NSRange(location: insertLocation + 1, length: 0))
             }
@@ -257,18 +257,18 @@ class UlyssesTextView: NSTextView {
         let lineRange = text.lineRange(for: currentRange)
         let lineString = text.substring(with: lineRange)
 
-        // Count existing #
+        // 统计现有的 # 数量
         var hashCount = 0
         for char in lineString {
             if char == "#" { hashCount += 1 } else { break }
         }
 
         if hashCount > 0 {
-            // Remove one # from the beginning
+            // 从行首移除一个 #
             let removeRange = NSRange(location: lineRange.location, length: 1)
             insertText("", replacementRange: removeRange)
 
-            // If now no hashes and there's a lingering space, remove it too
+            // 如果原本只有一个 #，且后面跟着空格，则连空格一起移除
             if hashCount == 1 {
                 let newLineRange = text.lineRange(
                     for: NSRange(location: lineRange.location, length: 0))

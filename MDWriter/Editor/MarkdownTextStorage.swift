@@ -2,26 +2,21 @@
 //  MarkdownTextStorage.swift
 //  MDWriter
 //
-//  简化版 Markdown 渲染 - 使用正则表达式
+//  简化版 Markdown 渲染 - 使用正则表达式和 Highlightr
 //
 
 import AppKit
 @preconcurrency import Highlightr
 
-// Explicitly mark the class as nonisolated to match NSTextStorage's non-isolated nature in Swift 6 view
-// This avoids MainActor inference and the need to override every single initializer.
+// 显式标记为 nonisolated 以匹配父类 NSTextStorage 的并发隔离特性
 nonisolated class MarkdownTextStorage: NSTextStorage {
 
-    // MARK: - Properties
+    // MARK: - 属性 (全部标记为 nonisolated(unsafe) 以满足 NSTextStorage 的跨线程契约)
 
     nonisolated(unsafe) private let backingStore = NSMutableAttributedString()
-    // Force unwrap in case Highlightr() is failable/optional
     nonisolated(unsafe) private let highlightr = Highlightr()!
     nonisolated(unsafe) private var currentHighlightrThemeName: String?
 
-    // Accessing AppTheme might be thread-unsafe if not careful, but it's a struct (Enum).
-    // We mark these as nonisolated(unsafe) to allow access from any thread (NSTextStorage contract).
-    // In practice, text storage is mostly accessed from Main Thread in UI apps.
     nonisolated(unsafe) var theme: AppTheme = .light
     nonisolated(unsafe) var baseFont: NSFont = NSFont(name: "PingFang SC", size: 17) ?? .systemFont(ofSize: 17)
     nonisolated(unsafe) var lineHeightMultiple: CGFloat = 1.7
@@ -30,7 +25,18 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
     nonisolated(unsafe) var isComposing: Bool = false
     nonisolated(unsafe) private var isHighlighting: Bool = false
 
-    // MARK: - Initializers
+    // MARK: - 正则表达式缓存 (使用 Raw Strings 确保转义正确)
+
+    private enum Regex {
+        static let bold = try! NSRegularExpression(pattern: #"\\*\\*(.+?)\\*\\*"#)
+        static let italic = try! NSRegularExpression(pattern: #"(?<!\\*)\\(?!\\*)(.+?)(?<!\\*)\\(?!\\*)""#)
+        static let inlineCode = try! NSRegularExpression(pattern: #"`([^`]+)`"#)
+        static let links = try! NSRegularExpression(pattern: #"\\[([^\\]+)\\]\(([^)]+)\""#)
+        static let strikethrough = try! NSRegularExpression(pattern: #"~~(.+?)~~"#)
+        static let codeBlocks = try! NSRegularExpression(pattern: #"```([a-zA-Z0-9+\\-]*)\\n([\\s\\S]*?)```"#)
+    }
+
+    // MARK: - 初始化器
 
     override init() {
         super.init()
@@ -43,12 +49,8 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
     required init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
         super.init(pasteboardPropertyList: propertyList, ofType: type)
     }
-    
-    // We keep convenience overrides simple if needed, or remove them if inheritance handles it.
-    // Since we provided designated inits, convenience inits are NOT inherited by default unless we override all designated ones.
-    // But NSTextStorage has specific rules. Let's start with just the required ones.
 
-    // MARK: - Colors
+    // MARK: - 颜色
 
     private var textColor: NSColor {
         theme == .light ? NSColor(white: 0.15, alpha: 1.0) : NSColor(white: 0.88, alpha: 1.0)
@@ -59,7 +61,6 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
     }
 
     private var markupColor: NSColor {
-        // 深色模式下更亮，浅色模式下更淡
         theme == .light ? NSColor(white: 0.5, alpha: 1.0) : NSColor(white: 0.5, alpha: 1.0)
     }
 
@@ -77,44 +78,33 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         theme == .light ? NSColor(white: 0.95, alpha: 1.0) : NSColor(white: 0.15, alpha: 1.0)
     }
 
-    // MARK: - NSTextStorage Primitives
+    // MARK: - NSTextStorage 基本方法覆盖
 
     override var string: String { backingStore.string }
 
-    override func attributes(at location: Int, effectiveRange range: NSRangePointer?)
-        -> [NSAttributedString.Key: Any]
-    {
+    override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [NSAttributedString.Key : Any] {
         return backingStore.attributes(at: location, effectiveRange: range)
     }
 
     override func replaceCharacters(in range: NSRange, with str: String) {
         beginEditing()
         backingStore.replaceCharacters(in: range, with: str)
-        edited(
-            .editedCharacters, range: range, changeInLength: (str as NSString).length - range.length
-        )
+        edited(.editedCharacters, range: range, changeInLength: (str as NSString).length - range.length)
         endEditing()
     }
 
-    override func setAttributes(_ attrs: [NSAttributedString.Key: Any]?, range: NSRange) {
+    override func setAttributes(_ attrs: [NSAttributedString.Key : Any]?, range: NSRange) {
         beginEditing()
         backingStore.setAttributes(attrs, range: range)
         edited(.editedAttributes, range: range, changeInLength: 0)
         endEditing()
     }
 
-    // MARK: - Processing
+    // MARK: - 编辑处理
 
     override func processEditing() {
-        // Assume Main Thread for safe property access if needed, but here we access unsafe properties.
-        // For UI updates like highlighting, it's safer to ensure we are on Main Actor if we trigger UI side effects.
-        // However, NSTextStorage logic itself should run where it's called.
-        // Since we marked properties nonisolated(unsafe), we can access them directly.
-        
         if editedMask.contains(.editedCharacters) && !isHighlighting && !isComposing {
-            // Highlighting might involve complex logic, ideally run on background but TextView expects Main.
-            // For now, run directly.
-             performHighlighting()
+            performHighlighting()
         }
         super.processEditing()
     }
@@ -125,7 +115,7 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         }
     }
 
-    // MARK: - Highlighting (Regex-based)
+    // MARK: - 高亮处理
 
     private func performHighlighting() {
         guard length > 0 else { return }
@@ -134,7 +124,6 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         let wholeRange = NSRange(location: 0, length: length)
         let text = string as NSString
 
-        // 1. 重置所有属性
         backingStore.removeAttribute(.font, range: wholeRange)
         backingStore.removeAttribute(.foregroundColor, range: wholeRange)
         backingStore.removeAttribute(.paragraphStyle, range: wholeRange)
@@ -142,7 +131,6 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         backingStore.removeAttribute(.strikethroughStyle, range: wholeRange)
         backingStore.removeAttribute(.underlineStyle, range: wholeRange)
 
-        // 2. 应用基础样式
         let baseStyle = NSMutableParagraphStyle()
         baseStyle.lineHeightMultiple = lineHeightMultiple
         baseStyle.paragraphSpacing = paragraphSpacing
@@ -154,46 +142,36 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         ]
         backingStore.addAttributes(baseAttributes, range: wholeRange)
 
-        // 3. 逐行处理标题
         text.enumerateSubstrings(in: wholeRange, options: [.byLines, .substringNotRequired]) {
             _, lineRange, _, _ in
             self.styleHeading(in: lineRange, text: text)
         }
 
-        // 4. 处理内联样式
         styleBold(text: text, range: wholeRange)
         styleItalic(text: text, range: wholeRange)
         styleInlineCode(text: text, range: wholeRange)
         styleLinks(text: text, range: wholeRange)
         styleStrikethrough(text: text, range: wholeRange)
-
-        // 5. 代码块高亮 (Highlightr)
         styleCodeBlocks(text: text, range: wholeRange)
 
         isHighlighting = false
     }
 
-    // MARK: - Heading Styling (Ulysses-style)
+    // MARK: - 样式处理辅助方法
 
     private func styleHeading(in lineRange: NSRange, text: NSString) {
         let lineString = text.substring(with: lineRange)
-
-        // 匹配标题：# 开头
         guard lineString.hasPrefix("#") else { return }
 
-        // 计算标题级别
         var level = 0
         for char in lineString {
             if char == "#" { level += 1 } else { break }
         }
-
         guard level >= 1 && level <= 6 else { return }
 
-        // 检查 # 后是否有空格和内容
         let afterHash = String(lineString.dropFirst(level))
         guard afterHash.hasPrefix(" ") || afterHash.isEmpty else { return }
 
-        // 字体大小倍数 (Ulysses 风格：一级标题特别大)
         let sizeMultiplier: CGFloat
         switch level {
         case 1: sizeMultiplier = 2.0
@@ -203,8 +181,7 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         default: sizeMultiplier = 1.1
         }
 
-        // ===== 文字部分：大号粗体 =====
-        let contentStart = lineRange.location + level + 1  // 跳过 "# "
+        let contentStart = lineRange.location + level + 1
         let contentLength = lineRange.length - level - 1
 
         if contentLength > 0 {
@@ -220,19 +197,14 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
             backingStore.addAttribute(.foregroundColor, value: headingColor, range: contentRange)
         }
 
-        // ===== # 符号部分：固定大小、底部对齐、淡色 =====
         let hashRange = NSRange(location: lineRange.location, length: level + 1)
         if hashRange.location + hashRange.length <= length {
-            // 固定字体大小(与基础字体的 70%)
             let symbolSize = baseFont.pointSize * 0.7
             let symbolFont = NSFont.systemFont(ofSize: symbolSize, weight: .regular)
             backingStore.addAttribute(.font, value: symbolFont, range: hashRange)
-            // 淡色但可见
             backingStore.addAttribute(.foregroundColor, value: markupColor, range: hashRange)
-            // 不设置 baselineOffset，保持底部对齐
         }
 
-        // 段落样式
         let style = NSMutableParagraphStyle()
         style.lineHeightMultiple = 1.4
         style.paragraphSpacingBefore = CGFloat(24 - level * 3)
@@ -240,135 +212,68 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
         backingStore.addAttribute(.paragraphStyle, value: style, range: lineRange)
     }
 
-    // MARK: - Bold Styling (**text**)
-
     private func styleBold(text: NSString, range: NSRange) {
-        let pattern = "\\*\\*(.+?)\\*\\*"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        regex.enumerateMatches(in: text as String, range: range) { match, _, _ in
+        Regex.bold.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
-
-            // 粗体字体
             let boldFont = NSFontManager.shared.convert(self.baseFont, toHaveTrait: .boldFontMask)
             self.backingStore.addAttribute(.font, value: boldFont, range: matchRange)
-
-            // 淡化 ** 符号
             let openRange = NSRange(location: matchRange.location, length: 2)
-            let closeRange = NSRange(
-                location: matchRange.location + matchRange.length - 2, length: 2)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: openRange)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: closeRange)
+            let closeRange = NSRange(location: matchRange.location + matchRange.length - 2, length: 2)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: openRange)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
         }
     }
-
-    // MARK: - Italic Styling (*text*)
 
     private func styleItalic(text: NSString, range: NSRange) {
-        // 使用负向前瞻排除 ** 的情况
-        let pattern = "(?<!\\*)\\*(?!\\*)(.+?)(?<!\\*)\\*(?!\\*)"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        regex.enumerateMatches(in: text as String, range: range) { match, _, _ in
+        Regex.italic.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
-
-            // 斜体字体
-            let italicFont = NSFontManager.shared.convert(
-                self.baseFont, toHaveTrait: .italicFontMask)
+            let italicFont = NSFontManager.shared.convert(self.baseFont, toHaveTrait: .italicFontMask)
             self.backingStore.addAttribute(.font, value: italicFont, range: matchRange)
-
-            // 淡化 * 符号
             let openRange = NSRange(location: matchRange.location, length: 1)
-            let closeRange = NSRange(
-                location: matchRange.location + matchRange.length - 1, length: 1)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: openRange)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: closeRange)
+            let closeRange = NSRange(location: matchRange.location + matchRange.length - 1, length: 1)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: openRange)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
         }
     }
-
-    // MARK: - Inline Code Styling (`code`)
 
     private func styleInlineCode(text: NSString, range: NSRange) {
-        let pattern = "`([^`]+)`"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        regex.enumerateMatches(in: text as String, range: range) { match, _, _ in
+        Regex.inlineCode.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
-
-            // 等宽字体
-            let monoFont = NSFont.monospacedSystemFont(
-                ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
+            let monoFont = NSFont.monospacedSystemFont(ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
             self.backingStore.addAttribute(.font, value: monoFont, range: matchRange)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.codeColor, range: matchRange)
-            self.backingStore.addAttribute(
-                .backgroundColor, value: self.codeBackground, range: matchRange)
+            self.backingStore.addAttribute(.foregroundColor, value: self.codeColor, range: matchRange)
+            self.backingStore.addAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
         }
     }
 
-    // MARK: - Link Styling [text](url)
-
     private func styleLinks(text: NSString, range: NSRange) {
-        let pattern = "\\[([^\\]]+)\\]\\(([^)]+)\\)"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        regex.enumerateMatches(in: text as String, range: range) { match, _, _ in
-            guard let matchRange = match?.range,
-                let textRange = match?.range(at: 1)
-            else { return }
-
-            // 链接文本着色
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.linkColor, range: textRange)
-            self.backingStore.addAttribute(
-                .underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
-
-            // 淡化 []() 部分
+        Regex.links.enumerateMatches(in: text as String, range: range) { match, _, _ in
+            guard let matchRange = match?.range, let textRange = match?.range(at: 1) else { return }
+            self.backingStore.addAttribute(.foregroundColor, value: self.linkColor, range: textRange)
+            self.backingStore.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
             let bracketOpen = NSRange(location: matchRange.location, length: 1)
             let bracketClose = NSRange(location: textRange.location + textRange.length, length: 1)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: bracketOpen)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: bracketClose)
-
-            // URL 部分完全淡化
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: bracketOpen)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: bracketClose)
             let urlStart = textRange.location + textRange.length + 1
             let urlLength = matchRange.location + matchRange.length - urlStart
             if urlLength > 0 {
                 let urlRange = NSRange(location: urlStart, length: urlLength)
-                self.backingStore.addAttribute(
-                    .foregroundColor, value: self.markupColor.withAlphaComponent(0.6),
-                    range: urlRange)
+                self.backingStore.addAttribute(.foregroundColor, value: self.markupColor.withAlphaComponent(0.6), range: urlRange)
             }
         }
     }
 
-    // MARK: - Strikethrough Styling (~~text~~)
-
     private func styleStrikethrough(text: NSString, range: NSRange) {
-        let pattern = "~~(.+?)~~"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        regex.enumerateMatches(in: text as String, range: range) { match, _, _ in
+        Regex.strikethrough.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
-
-            self.backingStore.addAttribute(
-                .strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: matchRange)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: matchRange)
+            self.backingStore.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: matchRange)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: matchRange)
         }
     }
 
-    // MARK: - Code Block Styling (Highlightr)
-
     private func styleCodeBlocks(text: NSString, range: NSRange) {
         let highlightr = self.highlightr
-
-        // Update theme if needed
         let targetTheme = (self.theme == .dark) ? "monokai-sublime" : "xcode"
         if currentHighlightrThemeName != targetTheme {
             if highlightr.setTheme(to: targetTheme) {
@@ -376,66 +281,30 @@ nonisolated class MarkdownTextStorage: NSTextStorage {
             }
         }
 
-        // Regex for code blocks: ```lang ... ```
-        let pattern = "```([a-zA-Z0-9+\\-]*)\\n([\\s\\S]*?)```"
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return }
-
-        regex.enumerateMatches(in: text as String, options: [], range: range) { match, _, _ in
-            guard let matchRange = match?.range,
-                let langRange = match?.range(at: 1),
-                let codeRange = match?.range(at: 2)
-            else { return }
-
+        Regex.codeBlocks.enumerateMatches(in: text as String, options: [], range: range) { match, _, _ in
+            guard let matchRange = match?.range, let langRange = match?.range(at: 1), let codeRange = match?.range(at: 2) else { return }
             let language = text.substring(with: langRange)
             let code = text.substring(with: codeRange)
-
-            // Get highlighted string from Highlightr
-            let highlighted: NSAttributedString?
-            if language.isEmpty {
-                highlighted = highlightr.highlight(code)
-            } else {
-                highlighted = highlightr.highlight(code, as: language)
-            }
-
+            let highlighted = language.isEmpty ? highlightr.highlight(code) : highlightr.highlight(code, as: language)
             guard let highlightedCode = highlighted else { return }
 
-            // 1. Apply Syntax Highlighting Attributes (Foreground Color mostly)
-            highlightedCode.enumerateAttributes(
-                in: NSRange(location: 0, length: highlightedCode.length), options: []
-            ) { attrs, subRange, _ in
-                let targetRange = NSRange(
-                    location: codeRange.location + subRange.location, length: subRange.length)
-                
-                // We only want color attributes, as we want to enforce our own font
+            highlightedCode.enumerateAttributes(in: NSRange(location: 0, length: highlightedCode.length), options: []) { attrs, subRange, _ in
+                let targetRange = NSRange(location: codeRange.location + subRange.location, length: subRange.length)
                 if let color = attrs[.foregroundColor] as? NSColor {
                      self.backingStore.addAttribute(.foregroundColor, value: color, range: targetRange)
                 }
             }
 
-            // 2. Style the block background and delimiters
-            // Header: ```lang
             let headerLen = codeRange.location - matchRange.location
             let headerRange = NSRange(location: matchRange.location, length: headerLen)
-
-            // Footer: ```
             let footerStart = codeRange.location + codeRange.length
             let footerLen = matchRange.location + matchRange.length - footerStart
             let footerRange = NSRange(location: footerStart, length: footerLen)
 
-            // Color delimiters
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: headerRange)
-            self.backingStore.addAttribute(
-                .foregroundColor, value: self.markupColor, range: footerRange)
-
-            // Background for the whole block
-            self.backingStore.addAttribute(
-                .backgroundColor, value: self.codeBackground, range: matchRange)
-
-            // Enforce Monospaced Font for the code content
-            // We use a slightly smaller font for code blocks
-            let monoFont = NSFont.monospacedSystemFont(
-                ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: headerRange)
+            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: footerRange)
+            self.backingStore.addAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
+            let monoFont = NSFont.monospacedSystemFont(ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
             self.backingStore.addAttribute(.font, value: monoFont, range: codeRange)
         }
     }
