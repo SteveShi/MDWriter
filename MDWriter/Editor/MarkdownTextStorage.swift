@@ -163,7 +163,13 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
         isHighlighting = false
     }
 
-    // MARK: - 样式处理辅助方法
+    // MARK: - 样式处理辅助方法 (添加了 Range 检查以防止崩溃)
+
+    private func safeAddAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
+        if NSMaxRange(range) <= length {
+            backingStore.addAttribute(name, value: value, range: range)
+        }
+    }
 
     private func styleHeading(in lineRange: NSRange, text: NSString) {
         let lineString = text.substring(with: lineRange)
@@ -199,34 +205,34 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
             } else {
                 headingFont = NSFont.boldSystemFont(ofSize: fontSize)
             }
-            backingStore.addAttribute(.font, value: headingFont, range: contentRange)
-            backingStore.addAttribute(.foregroundColor, value: headingColor, range: contentRange)
+            safeAddAttribute(.font, value: headingFont, range: contentRange)
+            safeAddAttribute(.foregroundColor, value: headingColor, range: contentRange)
         }
 
         let hashRange = NSRange(location: lineRange.location, length: level + 1)
         if hashRange.location + hashRange.length <= length {
             let symbolSize = baseFont.pointSize * 0.7
             let symbolFont = NSFont.systemFont(ofSize: symbolSize, weight: .regular)
-            backingStore.addAttribute(.font, value: symbolFont, range: hashRange)
-            backingStore.addAttribute(.foregroundColor, value: markupColor, range: hashRange)
+            safeAddAttribute(.font, value: symbolFont, range: hashRange)
+            safeAddAttribute(.foregroundColor, value: markupColor, range: hashRange)
         }
 
         let style = NSMutableParagraphStyle()
         style.lineHeightMultiple = 1.4
         style.paragraphSpacingBefore = CGFloat(24 - level * 3)
         style.paragraphSpacing = 6
-        backingStore.addAttribute(.paragraphStyle, value: style, range: lineRange)
+        safeAddAttribute(.paragraphStyle, value: style, range: lineRange)
     }
 
     private func styleBold(text: NSString, range: NSRange) {
         Regex.bold.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
             let boldFont = NSFontManager.shared.convert(self.baseFont, toHaveTrait: .boldFontMask)
-            self.backingStore.addAttribute(.font, value: boldFont, range: matchRange)
+            safeAddAttribute(.font, value: boldFont, range: matchRange)
             let openRange = NSRange(location: matchRange.location, length: 2)
             let closeRange = NSRange(location: matchRange.location + matchRange.length - 2, length: 2)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: openRange)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: openRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
         }
     }
 
@@ -234,11 +240,11 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
         Regex.italic.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
             let italicFont = NSFontManager.shared.convert(self.baseFont, toHaveTrait: .italicFontMask)
-            self.backingStore.addAttribute(.font, value: italicFont, range: matchRange)
+            safeAddAttribute(.font, value: italicFont, range: matchRange)
             let openRange = NSRange(location: matchRange.location, length: 1)
             let closeRange = NSRange(location: matchRange.location + matchRange.length - 1, length: 1)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: openRange)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: openRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: closeRange)
         }
     }
 
@@ -246,26 +252,26 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
         Regex.inlineCode.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
             let monoFont = NSFont.monospacedSystemFont(ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
-            self.backingStore.addAttribute(.font, value: monoFont, range: matchRange)
-            self.backingStore.addAttribute(.foregroundColor, value: self.codeColor, range: matchRange)
-            self.backingStore.addAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
+            safeAddAttribute(.font, value: monoFont, range: matchRange)
+            safeAddAttribute(.foregroundColor, value: self.codeColor, range: matchRange)
+            safeAddAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
         }
     }
 
     private func styleLinks(text: NSString, range: NSRange) {
         Regex.links.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range, let textRange = match?.range(at: 1) else { return }
-            self.backingStore.addAttribute(.foregroundColor, value: self.linkColor, range: textRange)
-            self.backingStore.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
+            safeAddAttribute(.foregroundColor, value: self.linkColor, range: textRange)
+            safeAddAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
             let bracketOpen = NSRange(location: matchRange.location, length: 1)
             let bracketClose = NSRange(location: textRange.location + textRange.length, length: 1)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: bracketOpen)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: bracketClose)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: bracketOpen)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: bracketClose)
             let urlStart = textRange.location + textRange.length + 1
             let urlLength = matchRange.location + matchRange.length - urlStart
             if urlLength > 0 {
                 let urlRange = NSRange(location: urlStart, length: urlLength)
-                self.backingStore.addAttribute(.foregroundColor, value: self.markupColor.withAlphaComponent(0.6), range: urlRange)
+                safeAddAttribute(.foregroundColor, value: self.markupColor.withAlphaComponent(0.6), range: urlRange)
             }
         }
     }
@@ -273,8 +279,8 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
     private func styleStrikethrough(text: NSString, range: NSRange) {
         Regex.strikethrough.enumerateMatches(in: text as String, range: range) { match, _, _ in
             guard let matchRange = match?.range else { return }
-            self.backingStore.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: matchRange)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: matchRange)
+            safeAddAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: matchRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: matchRange)
         }
     }
 
@@ -291,13 +297,17 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
             guard let matchRange = match?.range, let langRange = match?.range(at: 1), let codeRange = match?.range(at: 2) else { return }
             let language = text.substring(with: langRange)
             let code = text.substring(with: codeRange)
+            
+            // 安全检查：如果 Highlightr 返回 nil，或者长度不匹配（可能发生了 HTML 转义），则跳过语法高亮，只渲染背景
             let highlighted = language.isEmpty ? highlightr.highlight(code) : highlightr.highlight(code, as: language)
-            guard let highlightedCode = highlighted else { return }
-
-            highlightedCode.enumerateAttributes(in: NSRange(location: 0, length: highlightedCode.length), options: []) { attrs, subRange, _ in
-                let targetRange = NSRange(location: codeRange.location + subRange.location, length: subRange.length)
-                if let color = attrs[.foregroundColor] as? NSColor {
-                     self.backingStore.addAttribute(.foregroundColor, value: color, range: targetRange)
+            
+            // 只有当高亮后的文本长度与原始内容一致时，才应用颜色，否则会导致 Range 越界崩溃
+            if let highlightedCode = highlighted, highlightedCode.length == (code as NSString).length {
+                highlightedCode.enumerateAttributes(in: NSRange(location: 0, length: highlightedCode.length), options: []) { attrs, subRange, _ in
+                    let targetRange = NSRange(location: codeRange.location + subRange.location, length: subRange.length)
+                    if let color = attrs[.foregroundColor] as? NSColor {
+                         self.safeAddAttribute(.foregroundColor, value: color, range: targetRange)
+                    }
                 }
             }
 
@@ -307,11 +317,11 @@ nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
             let footerLen = matchRange.location + matchRange.length - footerStart
             let footerRange = NSRange(location: footerStart, length: footerLen)
 
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: headerRange)
-            self.backingStore.addAttribute(.foregroundColor, value: self.markupColor, range: footerRange)
-            self.backingStore.addAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: headerRange)
+            safeAddAttribute(.foregroundColor, value: self.markupColor, range: footerRange)
+            safeAddAttribute(.backgroundColor, value: self.codeBackground, range: matchRange)
             let monoFont = NSFont.monospacedSystemFont(ofSize: self.baseFont.pointSize * 0.9, weight: .regular)
-            self.backingStore.addAttribute(.font, value: monoFont, range: codeRange)
+            safeAddAttribute(.font, value: monoFont, range: codeRange)
         }
     }
 }
