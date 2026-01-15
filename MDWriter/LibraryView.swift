@@ -12,7 +12,8 @@ import UniformTypeIdentifiers
 struct LibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Folder.name) private var folders: [Folder]
-    @Query(sort: \Note.modifiedAt, order: .reverse) private var allNotes: [Note]
+    // 移除 @Query allNotes 以避免一次性加载所有笔记，提高性能。
+    // 笔记列表现在由 NoteListView 管理，它使用带谓词的 @Query 按需加载。
 
     @State private var selectedFolder: Folder?
     @State private var selectedNote: Note?
@@ -111,47 +112,17 @@ struct LibraryView: View {
             }
         } content: {
             Group {
-                let filteredNotes = getNotes()
-                List(selection: $selectedNote) {
-                    ForEach(filteredNotes) {
-                        note in
-                        NoteRowView(note: note, searchText: searchText)
-                            .tag(note)
-                            .draggable(note)  // 启用拖拽
-                            .contextMenu {
-                                if note.isTrashed {
-                                    Button {
-                                        restoreNote(note)
-                                    } label: {
-                                        Label(
-                                            LocalizedStringKey("Restore"),
-                                            systemImage: "arrow.uturn.backward")
-                                    }
-                                    Button(role: .destructive) {
-                                        deleteNotePermanently(note)
-                                    } label: {
-                                        Label(
-                                            LocalizedStringKey("Delete Permanently"),
-                                            systemImage: "trash")
-                                    }
-                                } else {
-                                    Button {
-                                        startRenamingNote(note)
-                                    } label: {
-                                        Label(LocalizedStringKey("Rename"), systemImage: "pencil")
-                                    }
-                                    Button(role: .destructive) {
-                                        moveNoteToTrash(note)
-                                    } label: {
-                                        Label(
-                                            LocalizedStringKey("Move to Trash"),
-                                            systemImage: "trash")
-                                    }
-                                }
-                            }
-                    }
-                }
-                .listStyle(.inset)
+                // 使用优化后的 NoteListView 替代原来的 List
+                NoteListView(
+                    selectionMode: selectionMode,
+                    searchText: searchText,
+                    selectedNote: $selectedNote,
+                    onRestore: restoreNote,
+                    onDeletePermanently: deleteNotePermanently,
+                    onRename: startRenamingNote,
+                    onMoveToTrash: moveNoteToTrash,
+                    onEmptyTrash: emptyTrash
+                )
                 .navigationTitle(navigationTitle)
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
@@ -160,7 +131,6 @@ struct LibraryView: View {
                                 Button(action: { showEmptyTrashAlert = true }) {
                                     Image(systemName: "trash.slash")
                                 }
-                                .disabled(filteredNotes.isEmpty)
                             } else {
                                 Button(action: createNewNote) {
                                     Image(systemName: "square.and.pencil")
@@ -260,25 +230,6 @@ struct LibraryView: View {
         }
     }
 
-    private func getNotes() -> [Note] {
-        let baseNotes: [Note]
-        switch selectionMode {
-        case .all: baseNotes = allNotes.filter { !$0.isTrashed }
-        case .inbox: baseNotes = allNotes.filter { $0.folder == nil && !$0.isTrashed }
-        case .trash: baseNotes = allNotes.filter { $0.isTrashed }
-        case .folder(let folder):
-            baseNotes = folder.notes.filter { !$0.isTrashed }.sorted(by: {
-                $0.modifiedAt > $1.modifiedAt
-            })
-        }
-        return searchText.isEmpty
-            ? baseNotes
-            : baseNotes.filter {
-                $0.title.localizedCaseInsensitiveContains(searchText)
-                    || $0.content.localizedCaseInsensitiveContains(searchText)
-            }
-    }
-
     private func createNewNote() {
         let newNote = Note(title: String(localized: "New Note"))
         if case .folder(let folder) = selectionMode { newNote.folder = folder }
@@ -311,8 +262,12 @@ struct LibraryView: View {
     }
 
     private func emptyTrash() {
-        allNotes.filter { $0.isTrashed }.forEach { modelContext.delete($0) }
-        try? modelContext.save()
+        // 使用 FetchDescriptor 手动获取废纸篓中的笔记，避免在视图中保留所有笔记的引用
+        let descriptor = FetchDescriptor<Note>(predicate: #Predicate { $0.isTrashed })
+        if let trashedNotes = try? modelContext.fetch(descriptor) {
+            trashedNotes.forEach { modelContext.delete($0) }
+            try? modelContext.save()
+        }
         selectedNote = nil
     }
 
@@ -438,15 +393,32 @@ struct FolderRow: View {
 struct NoteRowView: View {
     let note: Note
     let searchText: String
+    
+    // 使用 AttributedString 进行高保真 Markdown 解析
+    private var summaryAttributedString: AttributedString {
+        let rawSummary = summary(from: note.content)
+        do {
+            // 尝试将摘要解析为 AttributedString，支持内联 Markdown 样式
+            return try AttributedString(markdown: rawSummary, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
+        } catch {
+            // 如果解析失败（例如 Markdown 语法不完整），回退到纯文本
+            return AttributedString(rawSummary)
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(note.title).font(.headline).lineLimit(1)
-            Text(summary(from: note.content)).font(.caption).foregroundColor(.secondary).lineLimit(
-                2
-            ).frame(maxHeight: 35, alignment: .topLeading)
+            // 渲染解析后的 AttributedString
+            Text(summaryAttributedString)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+                .frame(maxHeight: 35, alignment: .topLeading)
             Text(note.modifiedAt, style: .date).font(.caption2).foregroundColor(.tertiaryLabel)
         }.padding(.vertical, 4)
     }
+    
     private func summary(from text: String) -> String {
         let contentLines = text.split(separator: "\n").filter {
             !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#")

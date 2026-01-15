@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [1.8.1] - 2026-01-15
+### Editor & Performance
+- **Highlighting Cache**: Introduced an `NSCache` for code block highlighting, eliminating redundant computations and significantly improving typing fluidness in documents with multiple code blocks.
+- **Database-Level Filtering**: Refactored the note list to use dynamic SwiftData predicates. Filtering and searching are now handled at the database layer, greatly reducing memory overhead and UI lag for large libraries.
+
+### Visual Styling
+- **Unified Syntax Symbols**: All Markdown markers (headers, bold, italic, etc.) now use a consistent, lightweight font weight and fixed size.
+- **Improved Block Rendering**: Enhanced visual distinction for blockquotes with subtle backgrounds and refined list item alignment with proper hanging indents for multi-line entries.
+- **List Preview Fidelity**: Restored "What You See Is What You Get" rendering for note summaries in the sidebar, supporting inline Markdown styles.
+
+### Engineering
+- **Predicate Stability**: Fixed compilation errors caused by complex SwiftData predicate expressions.
+- **Chinese Documentation**: Fully localized internal code comments to Chinese for better maintainability.
+
 ## [1.8.0] - 2026-01-15
 ### Engineering & Architecture
 - **Swift 6 Migration**: Fully migrated the codebase to **Swift 6** with strict concurrency checking to eliminate data races and enhance overall system stability.
