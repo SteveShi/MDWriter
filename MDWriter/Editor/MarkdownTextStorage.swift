@@ -330,6 +330,8 @@ class MarkdownTextStorage: NSTextStorage {
             self.backingStore.addAttribute(
                 .foregroundColor, value: self.markupColor, range: matchRange)
         }
+    }
+
     // MARK: - Code Block Styling (Highlightr)
 
     private func styleCodeBlocks(text: NSString, range: NSRange) {
