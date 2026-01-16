@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = AA829F9B2F188FCD00F2F48C /* Highlightr */; };
+		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */,
 				AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */,
 				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
 			);
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				AABC57E12F15680800DF940F /* Markdown */,
 				AA829F9B2F188FCD00F2F48C /* Highlightr */,
+				AA8881CC2F19ED8D00E36C21 /* Sparkle */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -120,6 +123,7 @@
 			packageReferences = (
 				AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */,
+				AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -275,7 +279,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MDWriter/MDWriter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = W7A747LNTR;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -296,11 +300,11 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UTExportedTypeDeclarations = "{\n    UTTypeConformsTo =     (\n        \"public.data\"\n    );\n    UTTypeDescription = \"MDWriter Note ID\";\n    UTTypeIdentifier = \"com.mdwriter.note\";\n}";
 				INFOPLIST_KEY_UTImportedTypeDeclarations = "{\n    UTTypeConformsTo =     (\n        \"public.plain-text\",\n        \"public.content\"\n    );\n    UTTypeDescription = \"Markdown Document\";\n    UTTypeIcons =     {\n        UTTypeIconBadgeName = AppIcon;\n    };\n    UTTypeIdentifier = \"net.daringfireball.markdown\";\n    UTTypeTagSpecification =     {\n        \"public.filename-extension\" =         (\n            md,\n            markdown\n        );\n    };\n}";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -325,7 +329,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MDWriter/MDWriter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = W7A747LNTR;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -346,11 +350,11 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UTExportedTypeDeclarations = "{\n    UTTypeConformsTo =     (\n        \"public.data\"\n    );\n    UTTypeDescription = \"MDWriter Note ID\";\n    UTTypeIdentifier = \"com.mdwriter.note\";\n}";
 				INFOPLIST_KEY_UTImportedTypeDeclarations = "{\n    UTTypeConformsTo =     (\n        \"public.plain-text\",\n        \"public.content\"\n    );\n    UTTypeDescription = \"Markdown Document\";\n    UTTypeIcons =     {\n        UTTypeIconBadgeName = AppIcon;\n    };\n    UTTypeIdentifier = \"net.daringfireball.markdown\";\n    UTTypeTagSpecification =     {\n        \"public.filename-extension\" =         (\n            md,\n            markdown\n        );\n    };\n}";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -400,6 +404,14 @@
 				minimumVersion = 2.3.0;
 			};
 		};
+		AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.8.1;
+			};
+		};
 		AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftlang/swift-markdown";
@@ -415,6 +427,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */;
 			productName = Highlightr;
+		};
+		AA8881CC2F19ED8D00E36C21 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		AABC57E12F15680800DF940F /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
