@@ -117,6 +117,54 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
+      - name: Generate Sparkle Appcast
+        env:
+          SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          # 1. 下载并解压 Sparkle 工具 (确保环境中有签名工具)
+          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
+          mkdir -p sparkle_tools
+          tar -xf sparkle.tar.xz -C sparkle_tools
+
+          # 2. 定位工具和框架路径
+          GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
+          FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
+          
+          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_DIR" ]; then
+            echo "ERROR: Could not find Sparkle tools or framework."
+            exit 1
+          fi
+
+          # 3. 准备签名环境
+          if [ -z "$SPARKLE_SECRET" ]; then
+            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
+            exit 1
+          fi
+          
+          # 清理私钥 (移除可能的前缀和空格)
+          CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
+          export SUPrivateEDKey="$CLEAN_KEY"
+          
+          # 4. 准备发布目录
+          mkdir -p deploy
+          cp "${{ env.ZIP_NAME }}" deploy/
+          
+          # 5. 执行签名并生成 Appcast
+          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
+          
+          echo "Running generate_appcast..."
+          SUPrivateEDKey="$CLEAN_KEY" "$GENERATE_APPCAST" \
+            --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
+            deploy/
+          
+          if [ -f "deploy/appcast.xml" ]; then
+            mv deploy/appcast.xml .
+            echo "Appcast generated successfully."
+          else
+            echo "ERROR: generate_appcast failed to produce appcast.xml."
+            exit 1
+          fi
+
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
@@ -132,6 +180,7 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
+            appcast.xml
           name: Release ${{ env.VERSION_TAG }}
           tag_name: ${{ env.VERSION_TAG }}
           body_path: release_notes.md
