@@ -26,9 +26,22 @@ struct UlyssesEditor: NSViewRepresentable {
     class Coordinator: NSObject, NSTextViewDelegate {
         var parent: UlyssesEditor
         var isUpdatingFromSwiftUI = false
+        weak var textView: NSTextView?
+        private var cancellables = Set<AnyCancellable>()
 
         init(_ parent: UlyssesEditor) {
             self.parent = parent
+            super.init()
+            setupNotificationHandlers()
+        }
+
+        private func setupNotificationHandlers() {
+            NotificationCenter.default.publisher(for: NSNotification.Name("printDocument"))
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in
+                    self?.textView?.printView(nil)
+                }
+                .store(in: &cancellables)
         }
 
         func textDidChange(_ notification: Notification) {
@@ -73,6 +86,7 @@ struct UlyssesEditor: NSViewRepresentable {
         // 设置 TextView
         let textView = UlyssesTextView(frame: .zero, textContainer: textContainer)
         textView.delegate = context.coordinator
+        context.coordinator.textView = textView
         textView.minSize = NSSize(width: 0, height: 0)
         textView.maxSize = NSSize(
             width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
