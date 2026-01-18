@@ -20,7 +20,7 @@ struct EditorSettingsView: View {
                         Text(LocalizedStringKey("Font:"))
                             .gridColumnAlignment(.trailing)
                         Picker("", selection: $settings.fontName) {
-                            Text("System Font").tag("System")
+                            Text(LocalizedStringKey("System Font")).tag("System")
                             Divider()
                             ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
                                 Text(font).tag(font)

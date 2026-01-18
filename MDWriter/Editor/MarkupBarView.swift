@@ -15,10 +15,10 @@ struct MarkupBarView: View {
         HStack(spacing: 2) {
             // Headings
             Menu {
-                Button("Heading 1") { controller.insertMarkup("# ") }
-                Button("Heading 2") { controller.insertMarkup("## ") }
-                Button("Heading 3") { controller.insertMarkup("### ") }
-                Button("Heading 4") { controller.insertMarkup("#### ") }
+                Button(LocalizedStringKey("Heading 1")) { controller.insertMarkup("# ") }
+                Button(LocalizedStringKey("Heading 2")) { controller.insertMarkup("## ") }
+                Button(LocalizedStringKey("Heading 3")) { controller.insertMarkup("### ") }
+                Button(LocalizedStringKey("Heading 4")) { controller.insertMarkup("#### ") }
             } label: {
                 MarkupBarButton(icon: "number", label: "H")
             }
@@ -57,9 +57,9 @@ struct MarkupBarView: View {
             }
 
             Menu {
-                Button("Unordered List") { controller.insertMarkup("- ") }
-                Button("Ordered List") { controller.insertMarkup("1. ") }
-                Button("Task List") { controller.insertMarkup("- [ ] ") }
+                Button(LocalizedStringKey("Unordered List")) { controller.insertMarkup("- ") }
+                Button(LocalizedStringKey("Ordered List")) { controller.insertMarkup("1. ") }
+                Button(LocalizedStringKey("Task List")) { controller.insertMarkup("- [ ] ") }
             } label: {
                 MarkupBarButton(icon: "list.bullet", label: nil)
             }

@@ -89,7 +89,7 @@ struct NoteListView: View {
             ForEach(notes) { note in
                 NoteRowView(note: note, searchText: searchText)
                     .tag(note)
-                    .draggable(note)
+                    .draggable(NoteTransfer(id: note.persistentModelID))
                     .contextMenu {
                         if note.isTrashed {
                             Button {

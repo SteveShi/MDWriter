@@ -10,7 +10,7 @@ import AppKit
 
 // 标记为 nonisolated 以避免 init 隔离冲突
 // 标记为 @unchecked Sendable 以允许在 MainActor.assumeIsolated 中捕获 self
-nonisolated class MarkdownTextStorage: NSTextStorage, @unchecked Sendable {
+nonisolated class MarkdownTextStorage: NSTextStorage {
 
     // MARK: - 属性 (nonisolated(unsafe) 允许在非隔离方法中访问)
 

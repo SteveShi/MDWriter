@@ -7,9 +7,16 @@
 
 import SwiftData
 import SwiftUI
+import WhatsNewKit
 
 @main
 struct MDWriterApp: App {
+    // Sparkle Updater
+    @StateObject private var updater = Updater()
+    
+    // Manual WhatsNew State
+    @State private var manualWhatsNew: WhatsNew?
+    
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
     @AppStorage("showDashboard") var showDashboard: Bool = false
@@ -20,15 +27,40 @@ struct MDWriterApp: App {
 
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
-        WindowGroup {
+        WindowGroup("MDWriter", id: "main") {
             LibraryView()
+                .frame(minWidth: 800, minHeight: 600)
                 .preferredColorScheme(currentTheme.colorScheme)
                 .modelContainer(for: [Folder.self, Note.self])
+                .environment(
+                    \.whatsNew,
+                    WhatsNewEnvironment(
+                        currentVersion: WhatsNewConfiguration.current.version,
+                        whatsNewCollection: [WhatsNewConfiguration.current]
+                    )
+                )
+                .whatsNewSheet()
+                .sheet(item: $manualWhatsNew) { whatsNew in
+                    WhatsNewView(whatsNew: whatsNew)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .showWhatsNew)) { _ in
+                    manualWhatsNew = WhatsNewConfiguration.current
+                }
         }
         .windowStyle(.hiddenTitleBar)
+        .handlesExternalEvents(matching: ["*"])
         .commands {
+            // App Info Commands (Updates)
+            CommandGroup(after: .appInfo) {
+                Button(LocalizedStringKey("Check for Updates...")) {
+                    updater.checkForUpdates()
+                }
+                .disabled(!updater.canCheckForUpdates)
+            }
+            
             // File Commands
             FileCommands()
+
 
             // Edit Commands (Find/Replace)
             EditCommands()

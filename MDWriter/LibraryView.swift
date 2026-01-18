@@ -26,7 +26,24 @@ struct LibraryView: View {
         case folder(Folder)
     }
 
-    @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @SceneStorage("columnVisibility") private var columnVisibilityRaw: String = "all"
+    private var columnVisibility: Binding<NavigationSplitViewVisibility> {
+        Binding {
+            switch columnVisibilityRaw {
+            case "all": return .all
+            case "doubleColumn": return .doubleColumn
+            case "detailOnly": return .detailOnly
+            default: return .automatic
+            }
+        } set: { newValue in
+            switch newValue {
+            case .all: columnVisibilityRaw = "all"
+            case .doubleColumn: columnVisibilityRaw = "doubleColumn"
+            case .detailOnly: columnVisibilityRaw = "detailOnly"
+            default: columnVisibilityRaw = "automatic"
+            }
+        }
+    }
     @State private var searchText: String = ""
     @State private var isSearching: Bool = false
 
@@ -42,7 +59,7 @@ struct LibraryView: View {
     @State private var showSnapshotBrowser: Bool = false
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
+        NavigationSplitView(columnVisibility: columnVisibility) {
             List(selection: $selectionMode) {
                 Section(LocalizedStringKey("Library")) {
                     Label(LocalizedStringKey("All Documents"), systemImage: "tray.full")
@@ -148,9 +165,24 @@ struct LibraryView: View {
             )
         }
         .onChange(of: showLibrary) { newValue in
-            withAnimation { columnVisibility = newValue ? .all : .doubleColumn }
+            if (newValue && columnVisibility.wrappedValue == .doubleColumn) || (!newValue && columnVisibility.wrappedValue == .all) {
+                withAnimation { columnVisibility.wrappedValue = newValue ? .all : .doubleColumn }
+            }
         }
-        .onChange(of: columnVisibility) { newValue in showLibrary = (newValue == .all) }
+        .onChange(of: columnVisibility.wrappedValue) { newValue in 
+            let isVisible = (newValue == .all)
+            if showLibrary != isVisible {
+                showLibrary = isVisible 
+            }
+        }
+        .onAppear {
+            // Sync initial state
+            if showLibrary {
+                columnVisibility.wrappedValue = .all
+            } else {
+                columnVisibility.wrappedValue = .doubleColumn
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .newNote)) { _ in createNewNote() }
         .onReceive(NotificationCenter.default.publisher(for: .newFolder)) { _ in
             let folder = Folder(name: String(localized: "New Group"))

@@ -40,7 +40,6 @@ jobs:
           APP_DIR=$(dirname "$APP_PATH")
           
           VERSION=${{ github.ref_name }}
-          # 去掉前面的 v 如果存在
           VERSION_CLEAN=${VERSION#v}
           
           ZIP_NAME="MDWriter-${VERSION_CLEAN}-Universal.zip"
@@ -52,21 +51,36 @@ jobs:
           cd -
           
           # 打包 DMG
-          # 创建一个临时目录放 app
           mkdir -p dmg_root
           cp -R "$APP_PATH" dmg_root/
-          
           hdiutil create -volname "MDWriter" -srcfolder dmg_root -ov -format UDZO "$DMG_NAME"
           
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
+      - name: Generate Sparkle Appcast
+        run: |
+          # 下载 Sparkle 工具
+          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
+          mkdir -p sparkle_bin
+          tar -xf sparkle.tar.xz -C sparkle_bin
+          
+          # 准备发布目录
+          mkdir -p deploy
+          cp "${{ env.ZIP_NAME }}" deploy/
+          
+          # 使用私钥签名并生成 appcast.xml
+          export SUPrivateEDKey="${{ secrets.SPARKLE_PRIVATE_KEY }}"
+          # -u 参数指定下载基础 URL，确保 appcast.xml 里的链接是绝对路径
+          ./sparkle_bin/bin/generate_appcast -u "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
+          
+          # 将生成的 appcast 移动到根目录以便发布
+          mv deploy/appcast.xml .
 
       - name: Extract Release Notes
         run: |
           VERSION=${{ github.ref_name }}
           VERSION_CLEAN=${VERSION#v}
-          # Extract content between current version header and next version header
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
 
       - name: Create GitHub Release
@@ -75,6 +89,7 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
+            appcast.xml
           name: Release ${{ github.ref_name }}
           body_path: release_notes.md
           draft: false

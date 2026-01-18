@@ -316,6 +316,12 @@ struct HelpCommands: Commands {
                 NotificationCenter.default.post(name: .showKeyboardShortcuts, object: nil)
             }
             .keyboardShortcut("/", modifiers: .command)
+
+            Divider()
+
+            Button(LocalizedStringKey("What's New")) {
+                NotificationCenter.default.post(name: .showWhatsNew, object: nil)
+            }
         }
     }
 }
@@ -355,6 +361,7 @@ extension Notification.Name {
     // Other
     static let printDocument = Notification.Name("printDocument")
     static let showKeyboardShortcuts = Notification.Name("showKeyboardShortcuts")
+    static let showWhatsNew = Notification.Name("showWhatsNew")
 
     // File
     static let newNote = Notification.Name("newNote")

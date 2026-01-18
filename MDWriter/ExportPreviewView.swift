@@ -23,7 +23,7 @@ struct ExportPreviewView: View {
             .navigationTitle("") 
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(LocalizedStringKey("Cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -32,7 +32,7 @@ struct ExportPreviewView: View {
                         if isExporting {
                             ProgressView().controlSize(.small)
                         } else {
-                            Text("Save as PDF...")
+                            Text(LocalizedStringKey("Save as PDF..."))
                         }
                     }
                     .disabled(isExporting)

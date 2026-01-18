@@ -220,7 +220,7 @@ struct ContentView: View {
     private var fontSettingsView: some View {
         VStack(spacing: 12) {
             Picker(LocalizedStringKey("Font:"), selection: $editorSettings.fontName) {
-                Text("System Font").tag("System")
+                Text(LocalizedStringKey("System Font")).tag("System")
                 Divider()
                 ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
                     Text(font).tag(font)
@@ -258,7 +258,7 @@ struct ContentView: View {
     @ViewBuilder
     private var outlineView: some View {
         VStack(alignment: .leading) {
-            Text("Outline")
+            Text(LocalizedStringKey("Outline"))
                 .font(.headline)
                 .padding()
 

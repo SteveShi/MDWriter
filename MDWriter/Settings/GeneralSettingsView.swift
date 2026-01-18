@@ -11,6 +11,7 @@ struct GeneralSettingsView: View {
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
     @AppStorage("showDashboard") private var showDashboard: Bool = false
     @AppStorage("showLibrary") private var showLibrary: Bool = true
+    @AppStorage("SUEnableAutomaticChecks") private var automaticallyCheckForUpdates: Bool = true
     
     var body: some View {
         Form {
@@ -34,6 +35,11 @@ struct GeneralSettingsView: View {
             Section(header: Text(LocalizedStringKey("Sidebar & Panels"))) {
                 Toggle(LocalizedStringKey("Show Library Sidebar by default"), isOn: $showLibrary)
                 Toggle(LocalizedStringKey("Show Statistics Dashboard"), isOn: $showDashboard)
+            }
+
+            // Section 3: Updates
+            Section(header: Text(LocalizedStringKey("Updates"))) {
+                Toggle(LocalizedStringKey("Automatically check for updates"), isOn: $automaticallyCheckForUpdates)
             }
         }
         .formStyle(.grouped)

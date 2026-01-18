@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */ = {isa = PBXBuildFile; productRef = AA5406062F1C869A006F7597 /* xcstrings-tool */; };
 		AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = AA829F9B2F188FCD00F2F48C /* Highlightr */; };
 		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
+		AAE55F462F1B714F00104F58 /* WhatsNewKit in Frameworks */ = {isa = PBXBuildFile; productRef = AAE55F452F1B714F00104F58 /* WhatsNewKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAE55F462F1B714F00104F58 /* WhatsNewKit in Frameworks */,
+				AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */,
 				AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */,
 				AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */,
 				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
@@ -90,6 +94,8 @@
 				AABC57E12F15680800DF940F /* Markdown */,
 				AA829F9B2F188FCD00F2F48C /* Highlightr */,
 				AA8881CC2F19ED8D00E36C21 /* Sparkle */,
+				AAE55F452F1B714F00104F58 /* WhatsNewKit */,
+				AA5406062F1C869A006F7597 /* xcstrings-tool */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -124,6 +130,8 @@
 				AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */,
 				AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				AAE55F442F1B714F00104F58 /* XCRemoteSwiftPackageReference "WhatsNewKit" */,
+				AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -214,6 +222,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -269,6 +278,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
@@ -304,7 +314,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -354,7 +364,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -396,6 +406,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liamnichols/xcstrings-tool";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/raspu/Highlightr";
@@ -420,9 +438,22 @@
 				minimumVersion = 0.7.3;
 			};
 		};
+		AAE55F442F1B714F00104F58 /* XCRemoteSwiftPackageReference "WhatsNewKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/WhatsNewKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.2.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA5406062F1C869A006F7597 /* xcstrings-tool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */;
+			productName = "xcstrings-tool";
+		};
 		AA829F9B2F188FCD00F2F48C /* Highlightr */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */;
@@ -437,6 +468,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */;
 			productName = Markdown;
+		};
+		AAE55F452F1B714F00104F58 /* WhatsNewKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAE55F442F1B714F00104F58 /* XCRemoteSwiftPackageReference "WhatsNewKit" */;
+			productName = WhatsNewKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
