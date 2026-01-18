@@ -1,4 +1,4 @@
-# MDWriter (中文版)
+# <img src="images/icon.png" width="48" height="48" style="vertical-align:middle"> MDWriter (中文版)
 
 [English](./README.md)
 

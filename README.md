@@ -1,4 +1,4 @@
-# MDWriter
+# <img src="images/icon.png" width="48" height="48" style="vertical-align:middle"> MDWriter
 
 [中文版](./README_ZH.md)
 
