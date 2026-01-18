@@ -20,7 +20,25 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
-
+      - name: Resolve Swift Packages
+        run: |
+            # Resolve Swift packages into the derived data path so we can patch checked-out packages
+            xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -derivedDataPath build || true
+      - name: Patch xcstrings-tool retroactive attribute
+        run: |
+          file="build/SourcePackages/checkouts/xcstrings-tool/Sources/xcstrings-tool/Utilities/AccessLevel+Resolution.swift"
+          if [ -f "$file" ]; then
+            # 用 perl 做安全的多行替换（兼容 macOS）
+            perl -0777 -pe 's/extension\s+AccessLevel\s*:\s*@retroactive\s+ArgumentParser\.ExpressibleByArgument\s*\{\s*\}/extension AccessLevel: ArgumentParser.ExpressibleByArgument {}/s' -i "$file"
+            # 若文件中没有 import ArgumentParser，则在文件头添加（避免重复）
+            if ! grep -q "^import ArgumentParser" "$file"; then
+              sed -i '' '1s;^;import ArgumentParser\n;' "$file"
+            fi
+            echo "Patched $file"
+          else
+            echo "File not found: $file"
+            exit 1
+          fi
       - name: Build Universal Binary
         run: |
           xcodebuild -scheme MDWriter \
