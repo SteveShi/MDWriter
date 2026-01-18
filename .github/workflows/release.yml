@@ -161,7 +161,43 @@ except ImportError:
             exit 1
           fi
           
-          # 3. 准备签名环境 (使用环境变量方式，这是 Sparkle 2.x 推荐的 CI 做法)
+      - name: Generate Sparkle Appcast
+        env:
+          RAW_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          # 1. 下载并准备 Sparkle 工具
+          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
+          mkdir -p sparkle_tools
+          tar -xf sparkle.tar.xz -C sparkle_tools
+          cp sparkle_tools/bin/generate_appcast sparkle_tools/
+          chmod +x sparkle_tools/generate_appcast
+
+          # 2. 检查私钥
+          if [ -z "$RAW_PRIVATE_KEY" ]; then
+            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing in GitHub Settings!"
+            exit 1
+          fi
+          
+          # 3. 准备签名环境
+          CLEAN_KEY=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
+          export SUPrivateEDKey="$CLEAN_KEY"
+          
+          # 4. 组织发布目录并生成 Appcast
+          mkdir -p deploy
+          cp "${{ env.ZIP_NAME }}" deploy/
+          
+          export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
+          
+          echo "Running generate_appcast..."
+          ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" deploy/
+          
+          if [ -f "deploy/appcast.xml" ]; then
+            mv deploy/appcast.xml .
+            echo "Appcast generated successfully."
+          else
+            echo "ERROR: generate_appcast failed."
+            exit 1
+          fi
           CLEAN_KEY=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
           export SUPrivateEDKey="$CLEAN_KEY"
           
