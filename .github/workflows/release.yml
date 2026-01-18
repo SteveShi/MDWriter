@@ -4,15 +4,18 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'CHANGELOG.md'
   workflow_dispatch: # 允许手动触发
 
 jobs:
-  build:
-    name: Build Universal App
-    runs-on: macos-latest
-    permissions:
-      contents: write
-
+  inspect:
+    name: Inspect Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.VERSION }}
+      version_tag: ${{ steps.get_version.outputs.VERSION_TAG }}
+      skipped: ${{ steps.check_version.outputs.skipped }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,9 +29,40 @@ jobs:
             echo "Error: Could not extract version from CHANGELOG.md"
             exit 1
           fi
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION_TAG=v$VERSION" >> $GITHUB_OUTPUT
           echo "Detected Version: $VERSION"
+
+      - name: Check If Version Already Released
+        id: check_version
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.get_version.outputs.VERSION }}"
+          if gh release view "$TAG" >/dev/null 2>&1 && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            echo "Version $TAG already exists. Skipping release."
+            echo "skipped=true" >> $GITHUB_OUTPUT
+          else
+            echo "skipped=false" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    name: Build and Release
+    needs: inspect
+    if: needs.inspect.outputs.skipped != 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Prepare Environment
+        run: |
+          echo "VERSION=${{ needs.inspect.outputs.version }}" >> $GITHUB_ENV
+          echo "VERSION_TAG=${{ needs.inspect.outputs.version_tag }}" >> $GITHUB_ENV
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
