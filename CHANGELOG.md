@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [1.9.7] - 2026-01-18
+### Bug Fixes
+- **Sparkle CI Fix**: Corrected the `generate-appcast` command and options in the release workflow to resolve "Unknown option '-u'" errors.
+
 ## [1.9.6] - 2026-01-18
 ### New Features
 - **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.

@@ -106,8 +106,8 @@ jobs:
           
           # 使用私钥签名并生成 appcast.xml
           export SUPrivateEDKey="${{ secrets.SPARKLE_PRIVATE_KEY }}"
-          # -u 参数指定下载基础 URL，确保 appcast.xml 里的链接是绝对路径
-          ./sparkle_bin/bin/generate_appcast -u "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
+          # 使用 --download-url-prefix 参数指定下载基础 URL
+          ./sparkle_bin/bin/generate-appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
           
           # 将生成的 appcast 移动到根目录以便发布
           mv deploy/appcast.xml .
