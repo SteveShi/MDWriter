@@ -2,8 +2,9 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*' # 当推送以 v 开头的标签时触发，例如 v1.1
+    branches:
+      - main
+  workflow_dispatch: # 允许手动触发
 
 jobs:
   build:
@@ -15,9 +16,20 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          # 若仓库使用 submodules，请启用
-          submodules: true
+
+      - name: Extract Version from Changelog
+        id: get_version
+        run: |
+          # 提取最新的版本号 (匹配 ## [1.9.9] 格式)
+          VERSION=$(sed -n '/## \[/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not extract version from CHANGELOG.md"
+            head -n 20 CHANGELOG.md
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
+          echo "Detected Version: $VERSION"
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -30,47 +42,31 @@ jobs:
           mkdir -p build
           xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -scheme MDWriter -derivedDataPath build
           
-      - name: Patch xcstrings-tool retroactive attribute (robust)
+      - name: Patch xcstrings-tool retroactive attribute
         run: |
-          echo "Searching for AccessLevel+Resolution.swift in common locations..."
-          # 在多个可能的路径中查找（工作区、SwiftPM checkouts、derived data）
-          file=""
-          # 搜索 xcstrings-tool 子目录下的文件（优先）
-          file=$(find . -path "*/xcstrings-tool/*" -name "AccessLevel+Resolution.swift" -print -quit || true)
-          # 如果没找到，再搜索 SwiftPM checkouts、SourcePackages、.build 等常见位置
-          if [ -z "$file" ]; then
-            file=$(find . -path "*/SourcePackages/checkouts/*" -name "AccessLevel+Resolution.swift" -print -quit || true)
-          fi
-          if [ -z "$file" ]; then
-            file=$(find . -path "*/.build/checkouts/*" -name "AccessLevel+Resolution.swift" -print -quit || true)
-          fi
-          if [ -z "$file" ]; then
-            file=$(find build -path "*/SourcePackages/checkouts/*" -name "AccessLevel+Resolution.swift" -print -quit || true)
-          fi
-
+          # 在整个工作区搜索文件，因为路径可能因 Xcode 版本或配置而异
+          echo "Searching for AccessLevel+Resolution.swift..."
+          file=$(find . -name "AccessLevel+Resolution.swift" | grep "xcstrings-tool" | head -n 1)
+          
           if [ -n "$file" ] && [ -f "$file" ]; then
             echo "Found file at: $file"
             # 移除导致 Swift 6 编译错误的 @retroactive 属性
             perl -pi -e 's/\@retroactive\s+//g' "$file"
             # 确保导入了 ArgumentParser
             if ! grep -q "^import ArgumentParser" "$file"; then
-              # macOS sed -i 需要一个空扩展名参数 ''
-              sed -i '' '1s;^;import ArgumentParser\n;' "$file"
+              sed -i '' '1s;^;import ArgumentParser\n;'
             fi
             echo "Successfully patched $file"
           else
-            echo "Warning: AccessLevel+Resolution.swift not found. This patch is optional; continuing."
-            echo "You can inspect repository for xcstrings-tool or add it as a dependency if needed."
-            echo "Current directory structure (top 200 lines):"
-            ls -R | sed -n '1,200p'
-            # 如果你希望在文件缺失时强制失败，把下一行的注释去掉
-            # exit 1
+            echo "Error: AccessLevel+Resolution.swift not found."
+            echo "Current directory structure:"
+            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/  /' | head -n 50
+            exit 1
           fi
 
       - name: Build Universal Binary
         run: |
-          VERSION=${{ github.ref_name }}
-          VERSION_CLEAN=${VERSION#v}
+          VERSION_CLEAN=${{ env.VERSION }}
           
           echo "Building version $VERSION_CLEAN (Build ${{ github.run_number }})"
           
@@ -103,8 +99,7 @@ jobs:
           APP_NAME=$(basename "$APP_PATH")
           APP_DIR=$(dirname "$APP_PATH")
           
-          VERSION_CLEAN=${{ github.ref_name }}
-          VERSION_CLEAN=${VERSION_CLEAN#v}
+          VERSION_CLEAN=${{ env.VERSION }}
           
           ZIP_NAME="MDWriter-${VERSION_CLEAN}-Universal.zip"
           DMG_NAME="MDWriter-${VERSION_CLEAN}-Universal.dmg"
@@ -188,15 +183,14 @@ jobs:
           echo "Cleaning up temporary keychain..."
           security delete-keychain "$KEYCHAIN_NAME" || true
           shred -u spark_private.pem || rm -f spark_private.pem || true
-
+          
       - name: Extract Release Notes
         run: |
-          VERSION=${{ github.ref_name }}
-          VERSION_CLEAN=${VERSION#v}
+          VERSION_CLEAN=${{ env.VERSION }}
           # 提取日志，如果没有找到，则生成一个基础日志以免发布中断
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
-            echo "Release for version $VERSION. Check CHANGELOG.md for details." > release_notes.md
+            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
           fi
 
       - name: Create GitHub Release
@@ -206,7 +200,8 @@ jobs:
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
             appcast.xml
-          name: Release ${{ github.ref_name }}
+          name: Release ${{ env.VERSION_TAG }}
+          tag_name: ${{ env.VERSION_TAG }}
           body_path: release_notes.md
           draft: false
           prerelease: false
