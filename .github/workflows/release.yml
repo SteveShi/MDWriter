@@ -119,41 +119,53 @@ jobs:
 
       - name: Generate Sparkle Appcast
         env:
-          RAW_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并准备 Sparkle 工具
+          # 1. 下载并解压 Sparkle 工具
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           mkdir -p sparkle_tools
           tar -xf sparkle.tar.xz -C sparkle_tools
-          cp sparkle_tools/bin/generate_appcast sparkle_tools/
-          chmod +x sparkle_tools/generate_appcast
 
-          # 2. 检查私钥
-          if [ -z "$RAW_PRIVATE_KEY" ]; then
-            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing in GitHub Settings!"
+          # 2. 自动定位工具和框架路径
+          GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
+          FRAMEWORK_PATH=$(find sparkle_tools -name Sparkle.framework -type d | xargs dirname | head -n 1)
+          
+          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_PATH" ]; then
+            echo "ERROR: Could not find Sparkle tools or framework in the downloaded archive."
             exit 1
           fi
           
-          # 3. 准备签名环境
-          # 清理换行、空格及可能的前缀
-          CLEAN_KEY=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
-          export SUPrivateEDKey="$CLEAN_KEY"
+          echo "Found generate_appcast at: $GENERATE_APPCAST"
+          echo "Found Sparkle framework dir: $FRAMEWORK_PATH"
+
+          # 3. 准备私钥 (清理所有不可见字符和可能的前缀)
+          if [ -z "$SPARKLE_SECRET" ]; then
+            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
+            exit 1
+          fi
           
-          # 4. 组织发布目录并生成 Appcast
+          CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
+          export SUPrivateEDKey="$CLEAN_KEY"
+          echo "SUPrivateEDKey is set (Length: ${#SUPrivateEDKey} characters)"
+
+          # 4. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
+          # 5. 生成 Appcast
+          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_PATH:$DYLD_FRAMEWORK_PATH"
           
           echo "Running generate_appcast..."
-          # 显式传递变量确保签名工具识别
-          SUPrivateEDKey="$CLEAN_KEY" ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" deploy/
+          # 再次显式传递变量
+          SUPrivateEDKey="$CLEAN_KEY" "$GENERATE_APPCAST" \
+            --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
+            deploy/
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
             echo "Appcast generated successfully."
           else
-            echo "ERROR: generate_appcast failed."
+            echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
           fi
           
