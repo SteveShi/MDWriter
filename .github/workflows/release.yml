@@ -135,6 +135,7 @@ jobs:
           fi
           
           # 3. 准备签名环境
+          # 清理换行、空格及可能的前缀
           CLEAN_KEY=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
           export SUPrivateEDKey="$CLEAN_KEY"
           
@@ -145,7 +146,8 @@ jobs:
           export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
           
           echo "Running generate_appcast..."
-          ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" deploy/
+          # 显式传递变量确保签名工具识别
+          SUPrivateEDKey="$CLEAN_KEY" ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" deploy/
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
