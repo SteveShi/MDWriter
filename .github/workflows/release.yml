@@ -69,8 +69,19 @@ jobs:
 
       - name: Package App (ZIP and DMG)
         run: |
-          # 找到编译好的 .app 文件
-          APP_PATH=$(find build/Build/Products/Release -name "*.app" -type d | head -n 1)
+          # 确保清理旧产物
+          rm -rf dmg_root deploy
+          
+          # 查找主程序，排除 Sparkle 的干扰
+          APP_PATH=$(find build/Build/Products/Release -name "MDWriter.app" -type d | head -n 1)
+          
+          if [ -z "$APP_PATH" ]; then
+            echo "CRITICAL ERROR: MDWriter.app not found!"
+            ls -R build/Build/Products/Release
+            exit 1
+          fi
+          
+          echo "Found app at: $APP_PATH"
           APP_NAME=$(basename "$APP_PATH")
           APP_DIR=$(dirname "$APP_PATH")
           
@@ -94,32 +105,43 @@ jobs:
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
       - name: Generate Sparkle Appcast
+        env:
+          # 通过 env 块注入 Secret 是最安全且能处理特殊字符的方式
+          RAW_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 下载并解压 Sparkle 工具
+          # 1. 检查并清理私钥格式
+          if [ -z "$RAW_PRIVATE_KEY" ]; then
+            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
+            exit 1
+          fi
+          # 去掉可能误粘贴的空格、换行或前缀
+          export SUPrivateEDKey=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
+
+          # 2. 下载并准备 Sparkle 环境
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
-          mkdir -p sparkle_bin
-          tar -xf sparkle.tar.xz -C sparkle_bin
+          mkdir -p sparkle_tools
+          tar -xf sparkle.tar.xz -C sparkle_tools
           
-          # 确保二进制文件具有执行权限
-          chmod +x ./sparkle_bin/bin/generate_appcast
+          # 3. 组织工具链结构
+          cp sparkle_tools/bin/generate_appcast sparkle_tools/
+          chmod +x sparkle_tools/generate_appcast
           
-          # 准备发布目录
+          # 4. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          # 使用私钥签名并生成 appcast.xml
-          export SUPrivateEDKey="${{ secrets.SPARKLE_PRIVATE_KEY }}"
+          # 5. 生成 Appcast (显式设置库路径并执行)
+          # 设置 DYLD_FRAMEWORK_PATH 确保 generate_appcast 能找到同级的 Sparkle.framework
+          export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
           
-          # 使用 Sparkle 2.x 标准命令生成 appcast
-          # 注意：generate_appcast 会自动寻找同级目录下的 Sparkle.framework
-          ./sparkle_bin/bin/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
+          echo "Running generate_appcast..."
+          ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
           
-          # 检查生成是否成功
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            echo "Successfully generated appcast.xml"
+            echo "Appcast generated successfully."
           else
-            echo "Error: appcast.xml was not generated."
+            echo "ERROR: generate_appcast failed to produce appcast.xml. Check the private key format."
             exit 1
           fi
 
@@ -127,7 +149,11 @@ jobs:
         run: |
           VERSION=${{ github.ref_name }}
           VERSION_CLEAN=${VERSION#v}
+          # 提取日志，如果没有找到，则生成一个基础日志以免发布中断
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
+          if [ ! -s release_notes.md ]; then
+            echo "Release for version $VERSION. Check CHANGELOG.md for details." > release_notes.md
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

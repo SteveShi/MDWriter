@@ -1,18 +1,19 @@
 # CHANGELOG
 
-## [1.9.8] - 2026-01-18
+## [1.9.9] - 2026-01-18
 ### New Features
 - **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.
 - **What's New**: Introduced a "What's New" welcome screen powered by **WhatsNewKit** to highlight key changes upon updating.
 - **Localization**: Achieved full interface localization for English and Simplified Chinese, including all menus, toolbars, and settings.
 
 ### Bug Fixes
+- **Release Automation**: Final hardening of Sparkle private key injection and appcast generation to resolve Keychain and path issues.
+- **Build System**: Fixed incorrect app bundle selection (Sparkle's Updater.app vs MDWriter.app).
 - **Window State Restoration**: Implemented window frame and sidebar state persistence. The application now correctly remembers its size, position, and sidebar visibility across launches.
 - **WhatsNewKit Persistence**: Fixed an issue where the "What's New" screen would not automatically appear on the first launch after an update by explicitly syncing version identifiers.
 - **Swift 6 Concurrency**: Resolved `ObservableObject` and `@MainActor` isolation conflicts in the `Updater` component.
 - **Sendable Model Transfers**: Re-engineered the note drag-and-drop mechanism using a `NoteTransfer` proxy struct to comply with Swift 6 strict concurrency requirements for non-sendable SwiftData models.
 - **Redundant Conformance**: Removed redundant `Sendable` declarations in `MarkdownTextStorage` and `Note` model to eliminate compiler warnings.
-- **Sparkle CI Fix**: Corrected the Sparkle tool filename from `generate-appcast` to `generate_appcast` and updated options in the release workflow to resolve "No such file or directory" and previous "Unknown option" errors.
 
 ### Improvements
 - **Menu Integration**: Added dedicated menu items for "Check for Updates" and "What's New" in the application and help menus.
