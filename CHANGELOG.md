@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## [1.9.1] - 2026-01-18
+## [1.9.2] - 2026-01-18
+### New Features
+- **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.
+- **What's New**: Introduced a "What's New" welcome screen powered by **WhatsNewKit** to highlight key changes upon updating.
+- **Localization**: Achieved full interface localization for English and Simplified Chinese, including all menus, toolbars, and settings.
+
 ### Bug Fixes
 - **Window State Restoration**: Implemented window frame and sidebar state persistence. The application now correctly remembers its size, position, and sidebar visibility across launches.
 - **WhatsNewKit Persistence**: Fixed an issue where the "What's New" screen would not automatically appear on the first launch after an update by explicitly syncing version identifiers.
@@ -9,21 +14,13 @@
 - **Redundant Conformance**: Removed redundant `Sendable` declarations in `MarkdownTextStorage` and `Note` model to eliminate compiler warnings.
 
 ### Improvements
+- **Menu Integration**: Added dedicated menu items for "Check for Updates" and "What's New" in the application and help menus.
+- **Hardcoded String Cleanup**: Audited the codebase to replace hardcoded strings with localized keys, ensuring a consistent experience across languages.
+- **Development Tooling**: Prepared support for **XCStringsTool** to streamline future localization workflows.
 - **Automatic Update Settings**: Added a new "Updates" section in General Settings with a toggle to control automatic update checking.
 - **Sparkle Integration**: Optimized the Sparkle updater with better state handling and added the necessary EdDSA public key for secure update verification.
 - **Help Menu**: Added a "What's New" item to the Help menu for manual access to version highlights.
 - **Dependency Patching**: Applied source-level fixes to the `XCStringsTool` dependency to resolve `@retroactive` attribute conflicts during compilation.
-
-## [1.9.0] - 2026-01-18
-### New Features
-- **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.
-- **What's New**: Introduced a "What's New" welcome screen powered by **WhatsNewKit** to highlight key changes upon updating.
-- **Localization**: Achieved full interface localization for English and Simplified Chinese, including all menus, toolbars, and settings.
-
-### Improvements
-- **Menu Integration**: Added dedicated menu items for "Check for Updates" and "What's New" in the application and help menus.
-- **Hardcoded String Cleanup**: Audited the codebase to replace hardcoded strings with localized keys, ensuring a consistent experience across languages.
-- **Development Tooling**: Prepared support for **XCStringsTool** to streamline future localization workflows.
 
 ## [1.8.1] - 2026-01-15
 ### Editor & Performance
