@@ -20,10 +20,12 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
+          
       - name: Resolve Swift Packages
         run: |
             # Resolve Swift packages into the derived data path so we can patch checked-out packages
             xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -derivedDataPath build || true
+          
       - name: Patch xcstrings-tool retroactive attribute
         run: |
           file="build/SourcePackages/checkouts/xcstrings-tool/Sources/xcstrings-tool/Utilities/AccessLevel+Resolution.swift"
@@ -39,6 +41,7 @@ jobs:
             echo "File not found: $file"
             exit 1
           fi
+
       - name: Build Universal Binary
         run: |
           xcodebuild -scheme MDWriter \
