@@ -20,10 +20,11 @@ jobs:
       - name: Extract Version from Changelog
         id: get_version
         run: |
-          # 从 CHANGELOG.md 中提取最新的版本号 (例如 [1.9.9])
-          VERSION=$(grep -m 1 -oE '^\[[0-9]+\.[0-9]+\.[0-9]+\]' CHANGELOG.md | tr -d '[]')
+          # 提取最新的版本号 (匹配 ## [1.9.9] 格式)
+          VERSION=$(sed -n '/## \[/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
           if [ -z "$VERSION" ]; then
             echo "Error: Could not extract version from CHANGELOG.md"
+            head -n 20 CHANGELOG.md
             exit 1
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
