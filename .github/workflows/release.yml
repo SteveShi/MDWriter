@@ -21,7 +21,7 @@ jobs:
         id: get_version
         run: |
           # 提取最新的版本号 (匹配 ## [1.9.9] 格式)
-          VERSION=$(sed -n '/## \[/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
+          VERSION=$(sed -n '/## \[ /p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
           if [ -z "$VERSION" ]; then
             echo "Error: Could not extract version from CHANGELOG.md"
             head -n 20 CHANGELOG.md
@@ -121,12 +121,12 @@ jobs:
         env:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并解压 Sparkle 工具 (确保环境中有签名工具)
+          # 1. 下载并解压 Sparkle 工具
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           mkdir -p sparkle_tools
           tar -xf sparkle.tar.xz -C sparkle_tools
 
-          # 2. 定位工具和框架路径
+          # 2. 定位工具路径
           GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
           FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
           
@@ -141,15 +141,27 @@ jobs:
             exit 1
           fi
           
-          # 清理私钥 (移除可能的前缀和空格)
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
-          export SUPrivateEDKey="$CLEAN_KEY"
           
-          # 4. 准备发布目录
+          # 4. 创建并设置临时 Keychain (双重保险)
+          KC_NAME="sparkle_ci.keychain"
+          KC_PASS="sparkle_password"
+          security create-keychain -p "$KC_PASS" "$KC_NAME"
+          security unlock-keychain -p "$KC_PASS" "$KC_NAME"
+          security set-keychain-settings -t 3600 -u "$KC_NAME"
+          # 将新 keychain 加入搜索列表
+          security list-keychains -d user -s "$KC_NAME" $(security list-keychains -d user | tr -d '"')
+          # 存入私钥
+          security add-generic-password -a "ed25519" -s "https://sparkle-project.org/account" -w "$CLEAN_KEY" "$KC_NAME"
+          
+          # 同时导出环境变量
+          export SUPrivateEDKey="$CLEAN_KEY"
+
+          # 5. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          # 5. 执行签名并生成 Appcast
+          # 6. 执行生成
           export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
           
           echo "Running generate_appcast..."
@@ -157,11 +169,14 @@ jobs:
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
+          # 清理 Keychain
+          security delete-keychain "$KC_NAME" || true
+
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
             echo "Appcast generated successfully."
           else
-            echo "ERROR: generate_appcast failed to produce appcast.xml."
+            echo "ERROR: generate_appcast failed."
             exit 1
           fi
 
