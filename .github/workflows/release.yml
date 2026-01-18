@@ -17,31 +17,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-            - name: Extract Version from Changelog
-
-              id: get_version
-
-              run: |
-
-                # 提取最新的版本号 (匹配 ## [x.y.z] 格式，忽略空行)
-
-                VERSION=$(grep -m 1 "## \[" CHANGELOG.md | sed -E 's/.*\[([^]]+)\].*/\1/')
-
-                if [ -z "$VERSION" ]; then
-
-                  echo "Error: Could not extract version from CHANGELOG.md"
-
-                  cat CHANGELOG.md | head -n 20
-
-                  exit 1
-
-                fi
-
-                echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-                echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
-
-                echo "Detected Version: $VERSION"
+      - name: Extract Version from Changelog
+        id: get_version
+        run: |
+          # 提取最新的版本号 (匹配 ## [x.y.z] 格式，忽略空行)
+          VERSION=$(grep -m 1 "^## \[" CHANGELOG.md | sed -E 's/^## \[(.*)\].*/\1/')
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not extract version from CHANGELOG.md"
+            cat CHANGELOG.md | head -n 20
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
+          echo "Detected Version: $VERSION"
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -71,15 +59,12 @@ jobs:
             echo "Successfully patched $file"
           else
             echo "Error: AccessLevel+Resolution.swift not found."
-            echo "Current directory structure:"
-            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/  /' | head -n 50
             exit 1
           fi
 
       - name: Build Universal Binary
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          
           echo "Building version $VERSION_CLEAN (Build ${{ github.run_number }})"
           
           xcodebuild -scheme MDWriter \
@@ -95,33 +80,22 @@ jobs:
 
       - name: Package App (ZIP and DMG)
         run: |
-          # 确保清理旧产物
           rm -rf dmg_root deploy
-          
-          # 查找主程序，排除 Sparkle 的干扰
           APP_PATH=$(find build/Build/Products/Release -name "MDWriter.app" -type d | head -n 1)
-          
           if [ -z "$APP_PATH" ]; then
             echo "CRITICAL ERROR: MDWriter.app not found!"
-            ls -R build/Build/Products/Release
             exit 1
           fi
-          
-          echo "Found app at: $APP_PATH"
           APP_NAME=$(basename "$APP_PATH")
           APP_DIR=$(dirname "$APP_PATH")
-          
           VERSION_CLEAN=${{ env.VERSION }}
-          
           ZIP_NAME="MDWriter-${VERSION_CLEAN}-Universal.zip"
           DMG_NAME="MDWriter-${VERSION_CLEAN}-Universal.dmg"
           
-          # 打包 ZIP
           cd "$APP_DIR"
           zip -r "$GITHUB_WORKSPACE/$ZIP_NAME" "$APP_NAME"
           cd -
           
-          # 打包 DMG
           mkdir -p dmg_root
           cp -R "$APP_PATH" dmg_root/
           hdiutil create -volname "MDWriter" -srcfolder dmg_root -ov -format UDZO "$DMG_NAME"
@@ -133,12 +107,9 @@ jobs:
         env:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并解压 Sparkle 工具
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           mkdir -p sparkle_tools
           tar -xf sparkle.tar.xz -C sparkle_tools
-
-          # 2. 定位工具路径
           GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
           FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
           
@@ -147,7 +118,6 @@ jobs:
             exit 1
           fi
 
-          # 3. 准备签名环境
           if [ -z "$SPARKLE_SECRET" ]; then
             echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
             exit 1
@@ -155,25 +125,17 @@ jobs:
           
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
           
-          # 4. 创建并设置临时 Keychain (双重保险)
           KC_NAME="sparkle_ci.keychain"
           KC_PASS="sparkle_password"
           security create-keychain -p "$KC_PASS" "$KC_NAME"
           security unlock-keychain -p "$KC_PASS" "$KC_NAME"
           security set-keychain-settings -t 3600 -u "$KC_NAME"
-          # 将新 keychain 加入搜索列表
           security list-keychains -d user -s "$KC_NAME" $(security list-keychains -d user | tr -d '"')
-          # 存入私钥
           security add-generic-password -a "ed25519" -s "https://sparkle-project.org/account" -w "$CLEAN_KEY" "$KC_NAME"
           
-          # 同时导出环境变量
           export SUPrivateEDKey="$CLEAN_KEY"
-
-          # 5. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
-          
-          # 6. 执行生成
           export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
           
           echo "Running generate_appcast..."
@@ -181,12 +143,9 @@ jobs:
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
-          # 清理 Keychain
           security delete-keychain "$KC_NAME" || true
-
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            echo "Appcast generated successfully."
           else
             echo "ERROR: generate_appcast failed."
             exit 1
@@ -195,10 +154,9 @@ jobs:
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          # 提取日志：匹配 ## [1.9.9] 到下一个 ## [ 之间的内容
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
-            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
+            echo "Release for version $VERSION_CLEAN." > release_notes.md
           fi
 
       - name: Create GitHub Release
