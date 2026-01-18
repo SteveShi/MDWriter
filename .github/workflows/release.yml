@@ -17,19 +17,31 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Extract Version from Changelog
-        id: get_version
-        run: |
-          # 提取最新的版本号 (匹配 ## [1.9.9] 格式)
-          VERSION=$(sed -n '/## \[ /p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
-          if [ -z "$VERSION" ]; then
-            echo "Error: Could not extract version from CHANGELOG.md"
-            head -n 20 CHANGELOG.md
-            exit 1
-          fi
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
-          echo "Detected Version: $VERSION"
+            - name: Extract Version from Changelog
+
+              id: get_version
+
+              run: |
+
+                # 提取最新的版本号 (匹配 ## [x.y.z] 格式，忽略空行)
+
+                VERSION=$(grep -m 1 "## \[" CHANGELOG.md | sed -E 's/.*\[([^]]+)\].*/\1/')
+
+                if [ -z "$VERSION" ]; then
+
+                  echo "Error: Could not extract version from CHANGELOG.md"
+
+                  cat CHANGELOG.md | head -n 20
+
+                  exit 1
+
+                fi
+
+                echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+                echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
+
+                echo "Detected Version: $VERSION"
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
