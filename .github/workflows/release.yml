@@ -125,50 +125,6 @@ jobs:
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           mkdir -p sparkle_tools
           tar -xf sparkle.tar.xz -C sparkle_tools
-          cp sparkle_tools/bin/generate_keys sparkle_tools/
-          cp sparkle_tools/bin/generate_appcast sparkle_tools/
-          chmod +x sparkle_tools/generate_keys sparkle_tools/generate_appcast
-
-          # 2. 检查私钥，如果缺失则自动生成（确保在日志中打印出字符串）
-          if [ -z "$RAW_PRIVATE_KEY" ]; then
-            echo "-------------------------------------------------------"
-            echo "🔑 NO SPARKLE_PRIVATE_KEY FOUND. GENERATING NEW KEYS..."
-            echo ""
-            # 使用 Python 生成 Ed25519 密钥对，确保打印出私钥字符串
-            python3 -c "
-import base64, os
-try:
-    from cryptography.hazmat.primitives.asymmetric import ed25519
-    priv = ed25519.Ed25519PrivateKey.generate()
-    pub = priv.public_key()
-    priv_bytes = priv.private_bytes_raw()
-    pub_bytes = pub.public_bytes_raw()
-    print(f'Private Key: {base64.b64encode(priv_bytes).decode()}')
-    print(f'Public Key: {base64.b64encode(pub_bytes).decode()}')
-except ImportError:
-    # 如果没有 cryptography 库，使用更原始的方法
-    print('Error: cryptography library not found. Please install it or use the Sparkle tool manually.')
-    exit(1)
-" || {
-              echo "Falling back to Sparkle tool (might save to keychain)..."
-              ./sparkle_tools/generate_keys
-            }
-            echo ""
-            echo "ACTION REQUIRED:"
-            echo "1. Copy the 'Private Key' above and add it to GitHub Secrets as SPARKLE_PRIVATE_KEY"
-            echo "2. Copy the 'Public Key' above and update SUPublicEDKey in your Info.plist"
-            echo "-------------------------------------------------------"
-            exit 1
-          fi
-          
-      - name: Generate Sparkle Appcast
-        env:
-          RAW_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          # 1. 下载并准备 Sparkle 工具
-          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
-          mkdir -p sparkle_tools
-          tar -xf sparkle.tar.xz -C sparkle_tools
           cp sparkle_tools/bin/generate_appcast sparkle_tools/
           chmod +x sparkle_tools/generate_appcast
 
@@ -186,26 +142,6 @@ except ImportError:
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
-          
-          echo "Running generate_appcast..."
-          ./sparkle_tools/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" deploy/
-          
-          if [ -f "deploy/appcast.xml" ]; then
-            mv deploy/appcast.xml .
-            echo "Appcast generated successfully."
-          else
-            echo "ERROR: generate_appcast failed."
-            exit 1
-          fi
-          CLEAN_KEY=$(echo "$RAW_PRIVATE_KEY" | tr -d '\n\r ' | sed 's/EdDSAPrivateKey://g')
-          export SUPrivateEDKey="$CLEAN_KEY"
-          
-          # 4. 组织发布目录并生成 Appcast
-          mkdir -p deploy
-          cp "${{ env.ZIP_NAME }}" deploy/
-          
-          # 设置框架路径
           export DYLD_FRAMEWORK_PATH="$PWD/sparkle_tools:$DYLD_FRAMEWORK_PATH"
           
           echo "Running generate_appcast..."
