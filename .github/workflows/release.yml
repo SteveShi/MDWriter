@@ -117,70 +117,10 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
-      - name: Generate Sparkle Appcast
-        env:
-          SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          # 1. 下载并解压 Sparkle 工具
-          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
-          mkdir -p sparkle_tools
-          tar -xf sparkle.tar.xz -C sparkle_tools
-
-          # 2. 定位工具路径
-          GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
-          FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
-          
-          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_DIR" ]; then
-            echo "ERROR: Could not find Sparkle tools or framework."
-            exit 1
-          fi
-
-          # 3. 准备 Keychain 签名环境
-          if [ -z "$SPARKLE_SECRET" ]; then
-            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
-            exit 1
-          fi
-          
-          CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
-          
-          # 创建临时 Keychain
-          KC_NAME="sparkle.keychain"
-          KC_PASS="sparkle_password"
-          security create-keychain -p "$KC_PASS" "$KC_NAME"
-          security unlock-keychain -p "$KC_PASS" "$KC_NAME"
-          security set-keychain-settings -t 3600 -u "$KC_NAME"
-          security list-keychains -d user -s "$KC_NAME" $(security list-keychains -d user | tr -d '"')
-          
-          # 将私钥存入 Keychain (Sparkle 寻找的特定服务和账号)
-          security add-generic-password -a "ed25519" -s "https://sparkle-project.org/account" -w "$CLEAN_KEY" "$KC_NAME"
-          
-          # 4. 准备发布目录
-          mkdir -p deploy
-          cp "${{ env.ZIP_NAME }}" deploy/
-          
-          # 5. 执行生成 (此时工具会自动从 Keychain 中读取密钥)
-          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
-          
-          echo "Running generate_appcast (using Keychain)..."
-          "$GENERATE_APPCAST" \
-            --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
-            deploy/
-          
-          # 6. 清理 Keychain
-          security delete-keychain "$KC_NAME"
-
-          if [ -f "deploy/appcast.xml" ]; then
-            mv deploy/appcast.xml .
-            echo "Appcast generated successfully."
-          else
-            echo "ERROR: generate_appcast failed."
-            exit 1
-          fi
-          
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          # 提取日志，如果没有找到，则生成一个基础日志以免发布中断
+          # 提取日志：匹配 ## [1.9.9] 到下一个 ## [ 之间的内容
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
             echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
@@ -192,7 +132,6 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
-            appcast.xml
           name: Release ${{ env.VERSION_TAG }}
           tag_name: ${{ env.VERSION_TAG }}
           body_path: release_notes.md
