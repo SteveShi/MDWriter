@@ -20,13 +20,14 @@ jobs:
       - name: Extract Version from Changelog
         id: get_version
         run: |
-          # 提取最新的版本号 (匹配 ## [x.y.z] 格式)
-          VERSION=$(grep -m 1 "## [" CHANGELOG.md | sed -E 's/.*[([^]]+)].*/\1/')
-          if [ -z "$VERSION" ]; then
-            echo "Error: Could not extract version from CHANGELOG.md"
+          # 使用最稳健的 cut 方式提取版本号
+          VERSION_LINE=$(grep -m 1 "## [" CHANGELOG.md || true)
+          if [ -z "$VERSION_LINE" ]; then
+            echo "Error: Could not find version line starting with ## [ in CHANGELOG.md"
             cat CHANGELOG.md | head -n 20
             exit 1
           fi
+          VERSION=$(echo "$VERSION_LINE" | cut -d'[' -f2 | cut -d']' -f1)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
           echo "Detected Version: $VERSION"
@@ -49,7 +50,7 @@ jobs:
           if [ -n "$file" ] && [ -f "$file" ]; then
             perl -pi -e 's/\@retroactive\s+//g' "$file"
             if ! grep -q "^import ArgumentParser" "$file"; then
-              sed -i '' '1s;^;import ArgumentParser\n;' "$file"
+              sed -i '' '1s;^;import ArgumentParser\n;'
             fi
           fi
 
@@ -106,7 +107,7 @@ jobs:
             exit 1
           fi
           
-          # 清理私钥 (移除可能的前缀和空格)
+          # 清理私钥
           CLEAN_KEY=$(echo "$MY_RAW_KEY" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
           export SUPrivateEDKey="$CLEAN_KEY"
           
@@ -115,12 +116,9 @@ jobs:
           cp "${{ env.ZIP_NAME }}" deploy/
           
           # 4. 执行签名并生成 Appcast
-          # 强制将当前目录加入 Framework 搜索路径 (bin/generate_appcast 需要它)
           export DYLD_FRAMEWORK_PATH="$PWD"
           
-          echo "Running generate_appcast with key length ${#CLEAN_KEY}..."
-          
-          # 终极调用：在同一行显式定义变量，确保子进程能识别
+          echo "Running generate_appcast..."
           SUPrivateEDKey="$CLEAN_KEY" ./bin/generate_appcast \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
@@ -136,7 +134,8 @@ jobs:
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## [^ ]/{flag=0} flag" CHANGELOG.md > release_notes.md
+          # 修正 awk 正则表达，匹配 ## [1.9.9]
+          awk "/^## \\$VERSION_CLEAN\\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
             echo "Release for version $VERSION_CLEAN." > release_notes.md
           fi
