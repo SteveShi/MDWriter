@@ -20,11 +20,10 @@ jobs:
       - name: Extract Version from Changelog
         id: get_version
         run: |
-          # 使用 awk 字段分隔符提取版本号，这是跨平台最稳健的方案
-          VERSION=$(awk -F'[][]' '/^## \[ / {print $2; exit}' CHANGELOG.md)
+          # 恢复为最初工作的 sed + cut 逻辑
+          VERSION=$(sed -n '/## [/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
           if [ -z "$VERSION" ]; then
-            echo "Error: Could not find version in CHANGELOG.md"
-            cat CHANGELOG.md | head -n 20
+            echo "Error: Could not extract version from CHANGELOG.md"
             exit 1
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -49,7 +48,7 @@ jobs:
           if [ -n "$file" ] && [ -f "$file" ]; then
             perl -pi -e 's/\@retroactive\s+//g' "$file"
             if ! grep -q "^import ArgumentParser" "$file"; then
-              sed -i '' '1s;^;import ArgumentParser\n;' "$file"
+              sed -i '' '1s;^;import ArgumentParser\n;" "$file"
             fi
           fi
 
@@ -96,7 +95,7 @@ jobs:
         env:
           MY_RAW_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并解压官方 Sparkle
+          # 1. 下载并解压
           curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           tar -xf Sparkle-2.8.1.tar.xz
 
@@ -106,19 +105,17 @@ jobs:
             exit 1
           fi
           
-          # 清理私钥
-          CLEAN_KEY=$(echo "$MY_RAW_KEY" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
-          export SUPrivateEDKey="$CLEAN_KEY"
+          # 清理私钥 (只保留 Base64 字符)
+          CLEAN_KEY=$(echo "$MY_RAW_KEY" | sed 's/EdDSAPrivateKey://' | tr -dc 'A-Za-z0-9+/=')
           
           # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          # 4. 执行签名并生成 Appcast
+          # 4. 执行签名 (核心修复：显式传递变量 + 修复动态库路径)
           export DYLD_FRAMEWORK_PATH="$PWD"
+          echo "Running generate_appcast with key length: ${#CLEAN_KEY}"
           
-          echo "Running generate_appcast..."
-          # 在同一行显式定义变量，确保子进程能识别
           SUPrivateEDKey="$CLEAN_KEY" ./bin/generate_appcast \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
@@ -134,15 +131,10 @@ jobs:
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          # 提取两个版本号之间的更新日志
-          awk -v ver="[$VERSION_CLEAN]" ' \
-            $0 ~ "## " ver {flag=1; next} \
-            /^## \[ / {flag=0} \
-            flag {print} \
-          ' CHANGELOG.md > release_notes.md
-          
+          # 恢复为最初工作的 awk 逻辑
+          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## [/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
-            echo "Release for version $VERSION_CLEAN." > release_notes.md
+            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
           fi
 
       - name: Create GitHub Release
