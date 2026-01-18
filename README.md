@@ -57,6 +57,23 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 ### Download
 Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
 
+## 🛡️ Security & Permissions (macOS Gatekeeper)
+
+Since this application is distributed outside the Mac App Store and is not currently notarized by Apple, you may see a warning saying "MDWriter cannot be opened because it is from an unidentified developer" or "cannot be checked for malicious software."
+
+You can bypass this and run the app using one of the following methods:
+
+### Method 1: Manual (GUI)
+1.  Locate **MDWriter.app** in your Applications folder (or wherever you downloaded it).
+2.  **Right-click** (or Control-click) the application icon and select **Open**.
+3.  A dialog will appear. Click **Open** again to confirm. This only needs to be done once.
+4.  *Alternatively*: Go to **System Settings > Privacy & Security**, scroll down to the "Security" section, and click **Open Anyway**.
+
+### Method 2: Command Line (CLI)
+If you prefer using the Terminal, you can remove the "quarantine" attribute manually:
+```bash
+sudo xattr -rd com.apple.quarantine /Applications/MDWriter.app
+```
 
 ### Build from Source
 **Requirements:**
