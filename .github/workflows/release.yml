@@ -25,7 +25,7 @@ jobs:
         run: |
           # 显式创建目录并尝试解析依赖
           mkdir -p build
-          xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -derivedDataPath build
+          xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -scheme MDWriter -derivedDataPath build
           
       - name: Patch xcstrings-tool retroactive attribute
         run: |
