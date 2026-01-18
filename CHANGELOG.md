@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [1.9.2] - 2026-01-18
+## [1.9.6] - 2026-01-18
 ### New Features
 - **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.
 - **What's New**: Introduced a "What's New" welcome screen powered by **WhatsNewKit** to highlight key changes upon updating.
