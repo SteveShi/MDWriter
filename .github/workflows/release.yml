@@ -28,17 +28,22 @@ jobs:
           
       - name: Patch xcstrings-tool retroactive attribute
         run: |
-          file="build/SourcePackages/checkouts/xcstrings-tool/Sources/xcstrings-tool/Utilities/AccessLevel+Resolution.swift"
-          if [ -f "$file" ]; then
-            # 用 perl 做安全的多行替换（兼容 macOS）
-            perl -0777 -pe 's/extension\s+AccessLevel\s*:\s*@retroactive\s+ArgumentParser\.ExpressibleByArgument\s*\{\s*\}/extension AccessLevel: ArgumentParser.ExpressibleByArgument {}/s' -i "$file"
-            # 若文件中没有 import ArgumentParser，则在文件头添加（避免重复）
+          # Dynamically find the file since the path in SourcePackages can vary
+          file=$(find build -name "AccessLevel+Resolution.swift" | head -n 1)
+          
+          if [ -n "$file" ] && [ -f "$file" ]; then
+            echo "Found file at: $file"
+            # Remove @retroactive attribute which causes build errors in some Swift versions when declared in the same package
+            perl -pi -e 's/\@retroactive\s+//g' "$file"
+            # Ensure ArgumentParser is imported if it's used in the extension
             if ! grep -q "^import ArgumentParser" "$file"; then
               sed -i '' '1s;^;import ArgumentParser\n;' "$file"
             fi
             echo "Patched $file"
           else
-            echo "File not found: $file"
+            echo "File AccessLevel+Resolution.swift not found in build directory."
+            echo "Current build directory structure (first 2 levels):"
+            find build -maxdepth 3 || echo "build directory does not exist"
             exit 1
           fi
 
