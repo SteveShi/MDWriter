@@ -23,27 +23,29 @@ jobs:
           
       - name: Resolve Swift Packages
         run: |
-            # Resolve Swift packages into the derived data path so we can patch checked-out packages
-            xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -derivedDataPath build || true
+          # 显式创建目录并尝试解析依赖
+          mkdir -p build
+          xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -derivedDataPath build
           
       - name: Patch xcstrings-tool retroactive attribute
         run: |
-          # Dynamically find the file since the path in SourcePackages can vary
-          file=$(find build -name "AccessLevel+Resolution.swift" | head -n 1)
+          # 在整个工作区搜索文件，因为路径可能因 Xcode 版本或配置而异
+          echo "Searching for AccessLevel+Resolution.swift..."
+          file=$(find . -name "AccessLevel+Resolution.swift" | grep "xcstrings-tool" | head -n 1)
           
           if [ -n "$file" ] && [ -f "$file" ]; then
             echo "Found file at: $file"
-            # Remove @retroactive attribute which causes build errors in some Swift versions when declared in the same package
+            # 移除导致 Swift 6 编译错误的 @retroactive 属性
             perl -pi -e 's/\@retroactive\s+//g' "$file"
-            # Ensure ArgumentParser is imported if it's used in the extension
+            # 确保导入了 ArgumentParser
             if ! grep -q "^import ArgumentParser" "$file"; then
               sed -i '' '1s;^;import ArgumentParser\n;' "$file"
             fi
-            echo "Patched $file"
+            echo "Successfully patched $file"
           else
-            echo "File AccessLevel+Resolution.swift not found in build directory."
-            echo "Current build directory structure (first 2 levels):"
-            find build -maxdepth 3 || echo "build directory does not exist"
+            echo "Error: AccessLevel+Resolution.swift not found."
+            echo "Current directory structure:"
+            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/  /' | head -n 50
             exit 1
           fi
 
