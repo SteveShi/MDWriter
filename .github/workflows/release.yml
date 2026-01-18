@@ -129,13 +129,30 @@ jobs:
           cp sparkle_tools/bin/generate_appcast sparkle_tools/
           chmod +x sparkle_tools/generate_keys sparkle_tools/generate_appcast
 
-          # 2. 如果缺少私钥，则自动生成并打印（初始化流程）
+          # 2. 检查私钥，如果缺失则自动生成（确保在日志中打印出字符串）
           if [ -z "$RAW_PRIVATE_KEY" ]; then
             echo "-------------------------------------------------------"
             echo "🔑 NO SPARKLE_PRIVATE_KEY FOUND. GENERATING NEW KEYS..."
             echo ""
-            ./sparkle_tools/generate_keys > new_keys.txt
-            cat new_keys.txt
+            # 使用 Python 生成 Ed25519 密钥对，确保打印出私钥字符串
+            python3 -c "
+import base64, os
+try:
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+    priv = ed25519.Ed25519PrivateKey.generate()
+    pub = priv.public_key()
+    priv_bytes = priv.private_bytes_raw()
+    pub_bytes = pub.public_bytes_raw()
+    print(f'Private Key: {base64.b64encode(priv_bytes).decode()}')
+    print(f'Public Key: {base64.b64encode(pub_bytes).decode()}')
+except ImportError:
+    # 如果没有 cryptography 库，使用更原始的方法
+    print('Error: cryptography library not found. Please install it or use the Sparkle tool manually.')
+    exit(1)
+" || {
+              echo "Falling back to Sparkle tool (might save to keychain)..."
+              ./sparkle_tools/generate_keys
+            }
             echo ""
             echo "ACTION REQUIRED:"
             echo "1. Copy the 'Private Key' above and add it to GitHub Secrets as SPARKLE_PRIVATE_KEY"

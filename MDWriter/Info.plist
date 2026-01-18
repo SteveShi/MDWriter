@@ -5,7 +5,7 @@
 	<key>SUFeedURL</key>
 	<string>https://github.com/lpgneg19/MDWriter/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>WqW4iU291G6/EPsLiH8ZuX1KO8fscI0tAUvvUmWS/jA=</string>
+	<string>p6CE3AQBh2ahXJSySDCVfU0zjeyvM/CG7xQlQfjRtZo=</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUScheduledCheckInterval</key>
