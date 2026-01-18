@@ -20,14 +20,12 @@ jobs:
       - name: Extract Version from Changelog
         id: get_version
         run: |
-          # 使用最稳健的 cut 方式提取版本号
-          VERSION_LINE=$(grep -F "## [" CHANGELOG.md | head -n 1)
-          if [ -z "$VERSION_LINE" ]; then
-            echo "Error: Could not find version line in CHANGELOG.md"
+          # 提取版本号逻辑（保持您确认工作的版本）
+          VERSION=$(sed -n '/## [/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not extract version from CHANGELOG.md"
             exit 1
           fi
-          # 使用 cut 分割：## [1.9.9] -> 1.9.9] -> 1.9.9
-          VERSION=$(echo "$VERSION_LINE" | cut -d'[' -f2 | cut -d']' -f1)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION_TAG=v$VERSION" >> $GITHUB_ENV
           echo "Detected Version: $VERSION"
@@ -39,7 +37,6 @@ jobs:
           
       - name: Resolve Swift Packages
         run: |
-          # 显式创建目录并尝试解析依赖
           mkdir -p build
           xcodebuild -resolvePackageDependencies -project MDWriter.xcodeproj -scheme MDWriter -derivedDataPath build
           
@@ -97,30 +94,30 @@ jobs:
         env:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并解压指定版本的 Sparkle (2.8.1)
+          # 1. 下载并解压 Sparkle 工具
           curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           tar -xf Sparkle-2.8.1.tar.xz
 
-          # 2. 检查并清理私钥
-          if [ -z "$SPARKLE_SECRET" ]; then
-            echo "ERROR: SPARKLE_PRIVATE_KEY is missing in Secrets!"
-            exit 1
-          fi
-          
-          # 极致清理：移除前缀并只保留 Base64 合法字符，防止换行符干扰
+          # 2. 极致清理私钥 (确保没有任何不可见字符)
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | sed 's/EdDSAPrivateKey://' | tr -dc 'A-Za-z0-9+/=')
           
+          if [ -z "$CLEAN_KEY" ]; then
+            echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
+            exit 1
+          fi
+
           # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
           # 4. 执行签名并生成 Appcast
-          # 显式指定动态库路径，确保 generate_appcast 能找到同目录下的 Sparkle.framework
+          # 设置动态库路径以确保 bin/generate_appcast 能找到 Sparkle.framework
           export DYLD_FRAMEWORK_PATH="$PWD"
           
-          echo "Running generate_appcast for version ${{ env.VERSION }}"...
-          # 直接使用环境变量 SUPrivateEDKey，这是最稳健的 CI 签名方式
-          SUPrivateEDKey="$CLEAN_KEY" ./bin/generate_appcast \
+          echo "Running generate_appcast using stdin method (Issue 2670 recommendation)..."
+          # 使用 --ed-key-file - 从标准输入读取私钥，这是在 CI 中绕过 Keychain 的最可靠方式
+          echo "$CLEAN_KEY" | ./bin/generate_appcast \
+            --ed-key-file - \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
@@ -135,7 +132,7 @@ jobs:
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          # 提取日志，如果没有找到，则生成一个基础日志以免发布中断
+          # 提取日志逻辑（保持您确认工作的版本）
           awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
             echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
