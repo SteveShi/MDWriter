@@ -95,10 +95,13 @@ jobs:
 
       - name: Generate Sparkle Appcast
         run: |
-          # 下载 Sparkle 工具
+          # 下载并解压 Sparkle 工具
           curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
           mkdir -p sparkle_bin
           tar -xf sparkle.tar.xz -C sparkle_bin
+          
+          # 确保二进制文件具有执行权限
+          chmod +x ./sparkle_bin/bin/generate_appcast
           
           # 准备发布目录
           mkdir -p deploy
@@ -106,11 +109,19 @@ jobs:
           
           # 使用私钥签名并生成 appcast.xml
           export SUPrivateEDKey="${{ secrets.SPARKLE_PRIVATE_KEY }}"
-          # 使用 --download-url-prefix 参数指定下载基础 URL
-          ./sparkle_bin/bin/generate-appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
           
-          # 将生成的 appcast 移动到根目录以便发布
-          mv deploy/appcast.xml .
+          # 使用 Sparkle 2.x 标准命令生成 appcast
+          # 注意：generate_appcast 会自动寻找同级目录下的 Sparkle.framework
+          ./sparkle_bin/bin/generate_appcast --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ github.ref_name }}/" deploy/
+          
+          # 检查生成是否成功
+          if [ -f "deploy/appcast.xml" ]; then
+            mv deploy/appcast.xml .
+            echo "Successfully generated appcast.xml"
+          else
+            echo "Error: appcast.xml was not generated."
+            exit 1
+          fi
 
       - name: Extract Release Notes
         run: |

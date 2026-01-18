@@ -1,10 +1,6 @@
 # CHANGELOG
 
-## [1.9.7] - 2026-01-18
-### Bug Fixes
-- **Sparkle CI Fix**: Corrected the `generate-appcast` command and options in the release workflow to resolve "Unknown option '-u'" errors.
-
-## [1.9.6] - 2026-01-18
+## [1.9.8] - 2026-01-18
 ### New Features
 - **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.
 - **What's New**: Introduced a "What's New" welcome screen powered by **WhatsNewKit** to highlight key changes upon updating.
@@ -16,6 +12,7 @@
 - **Swift 6 Concurrency**: Resolved `ObservableObject` and `@MainActor` isolation conflicts in the `Updater` component.
 - **Sendable Model Transfers**: Re-engineered the note drag-and-drop mechanism using a `NoteTransfer` proxy struct to comply with Swift 6 strict concurrency requirements for non-sendable SwiftData models.
 - **Redundant Conformance**: Removed redundant `Sendable` declarations in `MarkdownTextStorage` and `Note` model to eliminate compiler warnings.
+- **Sparkle CI Fix**: Corrected the Sparkle tool filename from `generate-appcast` to `generate_appcast` and updated options in the release workflow to resolve "No such file or directory" and previous "Unknown option" errors.
 
 ### Improvements
 - **Menu Integration**: Added dedicated menu items for "Check for Updates" and "What's New" in the application and help menus.
