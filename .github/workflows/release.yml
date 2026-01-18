@@ -21,7 +21,7 @@ jobs:
         id: get_version
         run: |
           # 提取版本号逻辑（保持您确认工作的版本）
-          VERSION=$(sed -n '/## [/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
+          VERSION=$(sed -n '/## \[/p' CHANGELOG.md | head -n 1 | cut -d'[' -f2 | cut -d']' -f1)
           if [ -z "$VERSION" ]; then
             echo "Error: Could not extract version from CHANGELOG.md"
             exit 1
