@@ -126,46 +126,54 @@ jobs:
           mkdir -p sparkle_tools
           tar -xf sparkle.tar.xz -C sparkle_tools
 
-          # 2. 自动定位工具和框架路径
+          # 2. 定位工具路径
           GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
-          FRAMEWORK_PATH=$(find sparkle_tools -name Sparkle.framework -type d | xargs dirname | head -n 1)
+          FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
           
-          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_PATH" ]; then
-            echo "ERROR: Could not find Sparkle tools or framework in the downloaded archive."
+          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_DIR" ]; then
+            echo "ERROR: Could not find Sparkle tools or framework."
             exit 1
           fi
-          
-          echo "Found generate_appcast at: $GENERATE_APPCAST"
-          echo "Found Sparkle framework dir: $FRAMEWORK_PATH"
 
-          # 3. 准备私钥 (清理所有不可见字符和可能的前缀)
+          # 3. 准备 Keychain 签名环境
           if [ -z "$SPARKLE_SECRET" ]; then
             echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
             exit 1
           fi
           
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
-          export SUPrivateEDKey="$CLEAN_KEY"
-          echo "SUPrivateEDKey is set (Length: ${#SUPrivateEDKey} characters)"
-
+          
+          # 创建临时 Keychain
+          KC_NAME="sparkle.keychain"
+          KC_PASS="sparkle_password"
+          security create-keychain -p "$KC_PASS" "$KC_NAME"
+          security unlock-keychain -p "$KC_PASS" "$KC_NAME"
+          security set-keychain-settings -t 3600 -u "$KC_NAME"
+          security list-keychains -d user -s "$KC_NAME" $(security list-keychains -d user | tr -d '"')
+          
+          # 将私钥存入 Keychain (Sparkle 寻找的特定服务和账号)
+          security add-generic-password -a "ed25519" -s "https://sparkle-project.org/account" -w "$CLEAN_KEY" "$KC_NAME"
+          
           # 4. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          # 5. 生成 Appcast
-          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_PATH:$DYLD_FRAMEWORK_PATH"
+          # 5. 执行生成 (此时工具会自动从 Keychain 中读取密钥)
+          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
           
-          echo "Running generate_appcast..."
-          # 再次显式传递变量
-          SUPrivateEDKey="$CLEAN_KEY" "$GENERATE_APPCAST" \
+          echo "Running generate_appcast (using Keychain)..."
+          "$GENERATE_APPCAST" \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
+          # 6. 清理 Keychain
+          security delete-keychain "$KC_NAME"
+
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
             echo "Appcast generated successfully."
           else
-            echo "ERROR: generate_appcast failed to produce appcast.xml."
+            echo "ERROR: generate_appcast failed."
             exit 1
           fi
           
