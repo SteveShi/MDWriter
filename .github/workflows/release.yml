@@ -21,7 +21,7 @@ jobs:
         id: get_version
         run: |
           # 提取最新的版本号 (匹配 ## [x.y.z] 格式)
-          VERSION=$(grep -m 1 "## [" CHANGELOG.md | sed -E 's/.*[^\]\[([^\]]+)\].*/\1/')
+          VERSION=$(grep -m 1 "## [" CHANGELOG.md | sed -E 's/.*[([^]]+)].*/\1/')
           if [ -z "$VERSION" ]; then
             echo "Error: Could not extract version from CHANGELOG.md"
             cat CHANGELOG.md | head -n 20
@@ -51,6 +51,7 @@ jobs:
             if ! grep -q "^import ArgumentParser" "$file"; then
               sed -i '' '1s;^;import ArgumentParser\n;' "$file"
             fi
+          fi
 
       - name: Build Universal Binary
         run: |
@@ -93,41 +94,34 @@ jobs:
 
       - name: Generate Sparkle Appcast
         env:
-          SUPrivateEDKey: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          MY_RAW_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          # 1. 下载并解压 Sparkle 工具
-          curl -L -o sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
-          mkdir -p sparkle_tools
-          tar -xf sparkle.tar.xz -C sparkle_tools
+          # 1. 下载并解压官方 Sparkle
+          curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
+          tar -xf Sparkle-2.8.1.tar.xz
 
-          # 2. 定位工具和框架路径 (Sparkle 2.x 目录结构)
-          GENERATE_APPCAST=$(find sparkle_tools -name generate_appcast -type f | head -n 1)
-          FRAMEWORK_DIR=$(find sparkle_tools -name Sparkle.framework -type d -maxdepth 2 | xargs dirname | head -n 1)
-          
-          if [ -z "$GENERATE_APPCAST" ] || [ -z "$FRAMEWORK_DIR" ]; then
-            echo "ERROR: Could not find Sparkle tools or framework."
-            exit 1
-          fi
-
-          # 3. 准备签名环境
-          if [ -z "$SUPrivateEDKey" ]; then
+          # 2. 准备签名环境
+          if [ -z "$MY_RAW_KEY" ]; then
             echo "ERROR: SPARKLE_PRIVATE_KEY secret is missing!"
             exit 1
           fi
           
           # 清理私钥 (移除可能的前缀和空格)
-          CLEAN_KEY=$(echo "$SUPrivateEDKey" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
+          CLEAN_KEY=$(echo "$MY_RAW_KEY" | tr -d '[:space:]' | sed 's/^EdDSAPrivateKey://')
           export SUPrivateEDKey="$CLEAN_KEY"
           
-          # 4. 准备发布目录
+          # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
           
-          # 5. 执行签名并生成 Appcast
-          export DYLD_FRAMEWORK_PATH="$FRAMEWORK_DIR:$DYLD_FRAMEWORK_PATH"
+          # 4. 执行签名并生成 Appcast
+          # 强制将当前目录加入 Framework 搜索路径 (bin/generate_appcast 需要它)
+          export DYLD_FRAMEWORK_PATH="$PWD"
           
-          echo "Running generate_appcast..."
-          SUPrivateEDKey="$CLEAN_KEY" "$GENERATE_APPCAST" \
+          echo "Running generate_appcast with key length ${#CLEAN_KEY}..."
+          
+          # 终极调用：在同一行显式定义变量，确保子进程能识别
+          SUPrivateEDKey="$CLEAN_KEY" ./bin/generate_appcast \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
@@ -135,14 +129,14 @@ jobs:
             mv deploy/appcast.xml .
             echo "Appcast generated successfully."
           else
-            echo "ERROR: generate_appcast failed."
+            echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
           fi
 
       - name: Extract Release Notes
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## [^\ Indian]/{flag=0} flag" CHANGELOG.md > release_notes.md
+          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## [^ ]/{flag=0} flag" CHANGELOG.md > release_notes.md
           if [ ! -s release_notes.md ]; then
             echo "Release for version $VERSION_CLEAN." > release_notes.md
           fi
