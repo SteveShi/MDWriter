@@ -4,8 +4,6 @@
 
 MDWriter 是一款专为 macOS 设计的现代、优雅且功能强大的 Markdown 编辑器，基于 SwiftUI 和 SwiftData 开发。灵感源自 Ulysses 等专业写作工具，它为你提供了一个专注的写作环境，同时具备强大的库管理和导出功能。
 
-![MDWriter Hero](https://via.placeholder.com/800x450?text=MDWriter+App+Screenshot)
-
 ## 核心特性
 
 - **专注写作体验**：简洁、无干扰的界面，支持打字机模式。
@@ -42,12 +40,6 @@ MDWriter 使用了以下强大的开源库：
    ```
 2. 在 Xcode 中打开 `MDWriter.xcodeproj`。
 3. 编译并运行项目 (`Cmd + R`)。
-
-## 界面预览
-
-| 编辑器界面 | 库管理界面 |
-| :--- | :--- |
-| ![Editor](https://via.placeholder.com/400x250?text=Editor+View) | ![Library](https://via.placeholder.com/400x250?text=Library+View) |
 
 ## 开源协议
 
