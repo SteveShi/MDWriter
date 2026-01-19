@@ -13,7 +13,7 @@ struct LibraryView: View {
 
     @State private var selectedFolder: Folder?
     @State private var selectedNote: Note?
-    @State private var selectionMode: SelectionMode = .all
+    @State private var selectionMode: SelectionMode? = .all
 
     enum SelectionMode: Hashable {
         case all
@@ -101,7 +101,7 @@ struct LibraryView: View {
         .onReceive(NotificationCenter.default.publisher(for: .newNote)) { _ in createNewNote() }
         .onReceive(NotificationCenter.default.publisher(for: .newFolder)) { _ in
             let folder = Folder(name: String(localized: "New Group"))
-            if case .folder(let parent) = selectionMode { folder.parent = parent }
+            if case .folder(let parent) = selectionMode ?? .all { folder.parent = parent }
             modelContext.insert(folder)
         }
         .alert(isPresented: $showEmptyTrashAlert) {
@@ -148,9 +148,9 @@ struct LibraryView: View {
     @ViewBuilder
     private var sidebarContent: some View {
         Section(LocalizedStringKey("Library")) {
-            Label(LocalizedStringKey("All Documents"), systemImage: "tray.full").tag(SelectionMode.all)
-            Label(LocalizedStringKey("Inbox"), systemImage: "tray").tag(SelectionMode.inbox)
-            Label(LocalizedStringKey("Trash"), systemImage: "trash").tag(SelectionMode.trash)
+            Label(LocalizedStringKey("All Documents"), systemImage: "tray.full").tag(SelectionMode.all as SelectionMode?)
+            Label(LocalizedStringKey("Inbox"), systemImage: "tray").tag(SelectionMode.inbox as SelectionMode?)
+            Label(LocalizedStringKey("Trash"), systemImage: "trash").tag(SelectionMode.trash as SelectionMode?)
         }
         Section(LocalizedStringKey("Folders")) {
             ForEach(folders.filter { $0.parent == nil }) { folder in
@@ -162,7 +162,7 @@ struct LibraryView: View {
     @ViewBuilder
     private var contentView: some View {
         NoteListView(
-            selectionMode: selectionMode, searchText: searchText, selectedNote: $selectedNote,
+            selectionMode: selectionMode ?? .all, searchText: searchText, selectedNote: $selectedNote,
             onRestore: restoreNote, onDeletePermanently: deleteNotePermanently, onRename: startRenamingNote,
             onMoveToTrash: moveNoteToTrash, onEmptyTrash: { showEmptyTrashAlert = true }
         )
@@ -200,7 +200,7 @@ struct LibraryView: View {
     }
 
     private var navigationTitle: String {
-        switch selectionMode {
+        switch selectionMode ?? .all {
         case .all: return String(localized: "All Documents")
         case .inbox: return String(localized: "Inbox")
         case .trash: return String(localized: "Trash")
@@ -210,7 +210,7 @@ struct LibraryView: View {
 
     private func createNewNote() {
         let newNote = Note(title: String(localized: "New Note"))
-        if case .folder(let folder) = selectionMode { newNote.folder = folder }
+        if case .folder(let folder) = selectionMode ?? .all { newNote.folder = folder }
         modelContext.insert(newNote)
         selectedNote = newNote
     }
@@ -236,7 +236,7 @@ struct LibraryView: View {
     }
 
     private func startRenamingNote(_ note: Note) {
-        renamingFolder = note
+        renamingNote = note
         newName = note.title
         isRenaming = true
     }
@@ -258,7 +258,7 @@ struct LibraryView: View {
         for url in urls {
             if let content = try? String(contentsOf: url, encoding: .utf8) {
                 let note = Note(title: url.deletingPathExtension().lastPathComponent, content: content)
-                if case .folder(let folder) = selectionMode { note.folder = folder }
+                if case .folder(let folder) = selectionMode ?? .all { note.folder = folder }
                 modelContext.insert(note)
             }
         }
@@ -305,7 +305,7 @@ struct BackupDocument: FileDocument {
 
 struct FolderRow: View {
     let folder: Folder
-    @Binding var selection: LibraryView.SelectionMode
+    @Binding var selection: LibraryView.SelectionMode?
     @Binding var renamingFolder: Folder?
     @Binding var isRenaming: Bool
     @Binding var newName: String
@@ -333,7 +333,7 @@ struct FolderRow: View {
                     modelContext.insert(sub)
                 } label: { Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus") }
             }
-            .tag(LibraryView.SelectionMode.folder(folder))
+            .tag(LibraryView.SelectionMode.folder(folder) as LibraryView.SelectionMode?)
 
         if !folder.subfolders.isEmpty {
             ForEach(folder.subfolders.sorted(by: { $0.name < $1.name })) { sub in

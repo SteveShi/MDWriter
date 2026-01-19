@@ -69,6 +69,14 @@ struct UlyssesEditorMacOS: NSViewRepresentable {
         
         controller.insertTextAction = { [weak textView] t in textView?.insertText(t, replacementRange: textView?.selectedRange() ?? NSRange()) }
         controller.wrapSelectionAction = { [weak textView] p, s in textView?.toggleWrap(prefix: p, suffix: s) }
+        controller.getSelectedTextAction = { [weak textView] in
+            guard let textView = textView else { return nil }
+            let range = textView.selectedRange()
+            if range.location != NSNotFound && range.length > 0 {
+                return (textView.string as NSString).substring(with: range)
+            }
+            return nil
+        }
         
         textView.isTypewriterModeEnabled = configuration.typewriterMode
         textView.contentWidth = configuration.contentWidth
@@ -139,6 +147,14 @@ struct UlyssesEditoriOS: UIViewRepresentable {
         
         controller.insertTextAction = { [weak textView] t in textView?.insertText(t) }
         controller.wrapSelectionAction = { [weak textView] p, s in textView?.toggleWrap(prefix: p, suffix: s) }
+        controller.getSelectedTextAction = { [weak textView] in
+            guard let textView = textView else { return nil }
+            let range = textView.selectedRange
+            if range.length > 0 {
+                return (textView.text as NSString).substring(with: range)
+            }
+            return nil
+        }
         
         textView.isTypewriterModeEnabled = configuration.typewriterMode
         textView.contentWidth = configuration.contentWidth

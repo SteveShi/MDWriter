@@ -200,6 +200,13 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in
             showShortcutsSheet = true
         }
+        #if os(iOS)
+        .sheet(isPresented: $showExporter) {
+            if let item = exportItem {
+                ShareSheet(activityItems: [item.content])
+            }
+        }
+        #endif
     }
 
     // MARK: - Subviews
@@ -501,3 +508,16 @@ struct BottomToolbarButton: View {
         .foregroundColor(.secondary.opacity(0.6))
     }
 }
+
+#if os(iOS)
+struct ShareSheet: UIViewControllerRepresentable {
+    var activityItems: [Any]
+    var applicationActivities: [UIActivity]? = nil
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+#endif
