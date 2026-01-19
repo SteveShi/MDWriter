@@ -2,7 +2,12 @@ import Markdown
 import SwiftUI
 import UniformTypeIdentifiers
 import WebKit
+
+#if os(macOS)
 import AppKit
+#else
+import UIKit
+#endif
 
 class ExportService: NSObject {
     static let shared = ExportService()
@@ -14,9 +19,6 @@ class ExportService: NSObject {
             return
         }
         
-        // For export, we default to the currently selected theme, or a specific "Print" friendly theme if preferred.
-        // For now, let's use the user's selected theme but maybe force a light background for PDF if strictly needed.
-        // But user asked for Themes support, so we respect the selection.
         let themeName = UserDefaults.standard.string(forKey: "markdownTheme") ?? "Pure"
         let theme = MarkdownTheme(rawValue: themeName) ?? .pure
 
@@ -66,14 +68,20 @@ class ExportService: NSObject {
         
         DispatchQueue.main.async {
             do {
-                if let attributedString = try? NSAttributedString(
-                    data: data, options: options, documentAttributes: nil)
-                {
-                    let rtfData = try attributedString.data(
-                        from: NSRange(location: 0, length: attributedString.length),
-                        documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
-                    try rtfData.write(to: url)
-                }
+                #if os(macOS)
+                let attributedString = try NSAttributedString(data: data, options: options, documentAttributes: nil)
+                let rtfData = try attributedString.data(
+                    from: NSRange(location: 0, length: attributedString.length),
+                    documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
+                try rtfData.write(to: url)
+                #else
+                // iOS 上的 NSAttributedString HTML 转换需要运行在主线程且稍微复杂
+                let attributedString = try NSAttributedString(data: data, options: options, documentAttributes: nil)
+                let rtfData = try attributedString.data(
+                    from: NSRange(location: 0, length: attributedString.length),
+                    documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
+                try rtfData.write(to: url)
+                #endif
             } catch {
                 print("RTF Generation Error: \(error)")
             }

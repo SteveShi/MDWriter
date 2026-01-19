@@ -1,11 +1,13 @@
 //
 //  MarkdownTextStorage.swift
-//  MDWriter
-//
 //  简化版 Markdown 渲染 - 使用正则表达式和 Highlightr
 //
 
+#if os(macOS)
 import AppKit
+#else
+import UIKit
+#endif
 @preconcurrency import Highlightr
 
 // 标记为 nonisolated 以避免 init 隔离冲突

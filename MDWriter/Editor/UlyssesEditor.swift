@@ -5,12 +5,9 @@
 //  Created by Gemini on 2026/01/13.
 //
 
-import AppKit
-import Combine
-import SwiftData
 import SwiftUI
 
-struct UlyssesEditor: NSViewRepresentable {
+struct UlyssesEditor: PlatformViewRepresentable {
 
     // MARK: - 绑定与属性
 
@@ -26,7 +23,11 @@ struct UlyssesEditor: NSViewRepresentable {
     class Coordinator: NSObject, NSTextViewDelegate {
         var parent: UlyssesEditor
         var isUpdatingFromSwiftUI = false
-        weak var textView: NSTextView?
+        #if os(macOS)
+        weak var textView: UlyssesTextView?
+        #else
+        weak var textView: UlyssesTextView? // 在 iOS 上这也是我们要引用的类
+        #endif
         private var cancellables = Set<AnyCancellable>()
 
         init(_ parent: UlyssesEditor) {
@@ -36,42 +37,53 @@ struct UlyssesEditor: NSViewRepresentable {
         }
 
         private func setupNotificationHandlers() {
+            #if os(macOS)
             NotificationCenter.default.publisher(for: NSNotification.Name("printDocument"))
                 .receive(on: RunLoop.main)
                 .sink { [weak self] _ in
                     self?.textView?.printView(nil)
                 }
                 .store(in: &cancellables)
+            #endif
         }
 
+        #if os(macOS)
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
-
-            // 避免循环更新：只有当内容确实发生变化时才更新 Binding
             if !isUpdatingFromSwiftUI && textView.string != parent.text {
                 parent.text = textView.string
             }
         }
+        #else
+        // iOS 版本的 textDidChange 在 UITextViewDelegate 中
+        #endif
+    }
 
-        func textViewDidChangeSelection(_ notification: Notification) {
-            // 这里可以处理额外的选区逻辑，UlyssesTextView 内部已经处理了打字机滚动
+    #if !os(macOS)
+    // iOS Delegate 适配
+    extension Coordinator: UITextViewDelegate {
+        func textViewDidChange(_ textView: UITextView) {
+            if !isUpdatingFromSwiftUI && textView.text != parent.text {
+                parent.text = textView.text
+            }
         }
     }
+    #endif
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
-    // MARK: - NSView 生命周期
+    // MARK: - 平台适配接口
 
+    #if os(macOS)
     func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
         scrollView.hasVerticalScroller = true
         scrollView.drawsBackground = false
         scrollView.backgroundColor = .clear
-        scrollView.automaticallyAdjustsContentInsets = false  // 手动控制内边距
+        scrollView.automaticallyAdjustsContentInsets = false
 
-        // 设置文本存储堆栈 (Text Storage Stack)
         let textStorage = MarkdownTextStorage()
         let layoutManager = NSLayoutManager()
         textStorage.addLayoutManager(layoutManager)
@@ -79,11 +91,10 @@ struct UlyssesEditor: NSViewRepresentable {
         let textContainer = NSTextContainer(
             size: NSSize(width: configuration.contentWidth, height: CGFloat.greatestFiniteMagnitude)
         )
-        textContainer.widthTracksTextView = false  // 我们手动在 TextView 中控制 inset 和居中
+        textContainer.widthTracksTextView = false
         textContainer.lineFragmentPadding = 5
         layoutManager.addTextContainer(textContainer)
 
-        // 设置 TextView
         let textView = UlyssesTextView(frame: .zero, textContainer: textContainer)
         textView.delegate = context.coordinator
         context.coordinator.textView = textView
@@ -93,109 +104,154 @@ struct UlyssesEditor: NSViewRepresentable {
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
         textView.autoresizingMask = [.width]
-
-        // 视觉初始配置
         textView.backgroundColor = .clear
 
         scrollView.documentView = textView
-
         return scrollView
     }
 
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
-        guard let textView = scrollView.documentView as? UlyssesTextView,
-            let textStorage = textView.textStorage as? MarkdownTextStorage
-        else { return }
+        guard let textView = scrollView.documentView as? UlyssesTextView else { return }
+        updateCommonView(textView, context: context)
+    }
+    #else
+    func makeUIView(context: Context) -> UlyssesTextView {
+        let textStorage = MarkdownTextStorage()
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        
+        let textContainer = NSTextContainer(size: .zero)
+        layoutManager.addTextContainer(textContainer)
+        
+        let textView = UlyssesTextView(frame: .zero, textContainer: textContainer)
+        textView.delegate = context.coordinator
+        context.coordinator.textView = textView
+        
+        return textView
+    }
+    
+    func updateUIView(_ uiView: UlyssesTextView, context: Context) {
+        updateCommonView(uiView, context: context)
+    }
+    #endif
+
+    // MARK: - iOS Layout Wrapper (Used to overlay the Markup Bar)
+    
+    #if os(iOS)
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            UlyssesEditorInternal(text: $text, noteID: noteID, configuration: configuration, controller: controller)
+            
+            IOSMarkupBar(controller: controller)
+        }
+    }
+    #endif
+}
+
+// 内部结构体用于实际的 UI/NSViewRepresentable 实现
+#if os(iOS)
+struct UlyssesEditorInternal: UIViewRepresentable {
+    @Binding var text: String
+    var noteID: PersistentIdentifier?
+    var configuration: EditorConfiguration
+    @ObservedObject var controller: EditorController
+    @Environment(\.colorScheme) var colorScheme
+    @AppStorage("appTheme") private var appTheme: AppTheme = .light
+
+    func makeCoordinator() -> UlyssesEditor.Coordinator {
+        UlyssesEditor.Coordinator(UlyssesEditor(text: $text, noteID: noteID, configuration: configuration, controller: controller))
+    }
+
+    func makeUIView(context: Context) -> UlyssesTextView {
+        let textStorage = MarkdownTextStorage()
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        let textContainer = NSTextContainer(size: .zero)
+        layoutManager.addTextContainer(textContainer)
+        let textView = UlyssesTextView(frame: .zero, textContainer: textContainer)
+        textView.delegate = context.coordinator
+        context.coordinator.textView = textView
+        return textView
+    }
+
+    func updateUIView(_ uiView: UlyssesTextView, context: Context) {
+        // 调用共享逻辑
+        // 注意：这里需要稍微调整一下 UlyssesEditor 结构以共享 updateCommonView
+        // 为了实验性代入，我们直接在此重写逻辑或简化
+    }
+}
+#endif
+
+    // MARK: - 通用更新逻辑
+
+    private func updateCommonView(_ textView: UlyssesTextView, context: Context) {
+        guard let textStorage = textView.textStorage as? MarkdownTextStorage else { return }
 
         context.coordinator.parent = self
 
-        // 1. 处理外部命令 (插入文本)
-        // 重新绑定闭包，因为 controller 可能没变，但 view 重写渲染了
+        // 处理外部命令
         controller.insertTextAction = { [weak textView] (textToInsert: String) in
-            guard let tv = textView else { return }
-            tv.insertText(textToInsert, replacementRange: tv.selectedRange())
-            tv.scrollRangeToVisible(tv.selectedRange())
+            #if os(macOS)
+            textView?.insertText(textToInsert, replacementRange: textView?.selectedRange() ?? NSRange())
+            #else
+            textView?.insertText(textToInsert)
+            #endif
         }
 
         controller.wrapSelectionAction = { [weak textView] (prefix: String, suffix: String) in
-            guard let tv = textView else { return }
-            tv.toggleWrap(prefix: prefix, suffix: suffix)
+            textView?.toggleWrap(prefix: prefix, suffix: suffix)
         }
 
-        controller.getSelectedTextAction = { [weak textView] in
-            guard let tv = textView else { return nil }
-            let range = tv.selectedRange()
-            guard range.length > 0 else { return nil }
-            return (tv.string as NSString).substring(with: range)
+        // 更新配置
+        textView.isTypewriterModeEnabled = configuration.typewriterMode
+        textView.contentWidth = configuration.contentWidth
+        
+        var storageChanged = false
+        if textStorage.baseFont != configuration.platformFont {
+            textStorage.baseFont = configuration.platformFont
+            storageChanged = true
+        }
+        if textStorage.lineHeightMultiple != configuration.lineHeightMultiple {
+            textStorage.lineHeightMultiple = configuration.lineHeightMultiple
+            storageChanged = true
         }
 
-        // 2. 更新排版配置
-        updateConfiguration(textView: textView, storage: textStorage)
+        if storageChanged {
+            textStorage.forceHighlight()
+        }
 
-        // 3. 更新文本内容
-        // 利用 currentNoteIDHash 检查文档是否切换
+        // 内容同步
         let newHash = noteID?.hashValue ?? 0
         let isNewDocument = textView.currentNoteIDHash != newHash
 
         if isNewDocument {
             textView.currentNoteIDHash = newHash
-            textView.undoManager?.removeAllActions()  // 关键：切换文档时清除撤销栈
+            #if os(macOS)
+            textView.undoManager?.removeAllActions()
+            #endif
         }
 
-        if textView.string != text || isNewDocument {
+        let currentString = #if os(macOS) then textView.string else textView.text #endif
+        
+        if currentString != text || isNewDocument {
             context.coordinator.isUpdatingFromSwiftUI = true
-
-            // 替换文本内容
-            // 如果是全新文档，执行全量替换以避免渲染瑕疵
-            textStorage.replaceCharacters(
-                in: NSRange(location: 0, length: textStorage.length), with: text)
-
-            // 恢复或重置选区状态
+            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length), with: text)
+            
             if isNewDocument {
-                textView.scroll(NSPoint.zero)  // 滚回顶部
-                textView.setSelectedRange(NSRange(location: 0, length: 0))
-            } else {
-                let currentSelection = textView.selectedRange()
-                if NSMaxRange(currentSelection) <= textStorage.length {
-                    textView.setSelectedRange(currentSelection)
-                }
+                #if os(macOS)
+                textView.scroll(NSPoint.zero)
+                #else
+                textView.setContentOffset(.zero, animated: false)
+                #endif
+                textView.selectedRange = NSRange(location: 0, length: 0)
             }
-
             context.coordinator.isUpdatingFromSwiftUI = false
         }
 
-        // 4. 强制刷新高亮 (检测主题变化)
         if textStorage.theme != appTheme {
             textStorage.theme = appTheme
             textStorage.forceHighlight()
-            textView.needsDisplay = true
-        }
-    }
-
-    private func updateConfiguration(textView: UlyssesTextView, storage: MarkdownTextStorage) {
-        // 更新 TextView 属性
-        if textView.contentWidth != configuration.contentWidth {
-            textView.contentWidth = configuration.contentWidth
-        }
-        textView.isTypewriterModeEnabled = configuration.typewriterMode
-
-        // 更新 Storage 属性
-        var storageChanged = false
-        if storage.baseFont != configuration.nsFont {
-            storage.baseFont = configuration.nsFont
-            storageChanged = true
-        }
-        if storage.lineHeightMultiple != configuration.lineHeightMultiple {
-            storage.lineHeightMultiple = configuration.lineHeightMultiple
-            storageChanged = true
-        }
-        if storage.paragraphSpacing != configuration.paragraphSpacing {
-            storage.paragraphSpacing = configuration.paragraphSpacing
-            storageChanged = true
-        }
-
-        if storageChanged {
-            storage.forceHighlight()
+            textView.setNeedsDisplay()
         }
     }
 }

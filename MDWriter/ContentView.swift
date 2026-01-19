@@ -51,93 +51,79 @@ struct ContentView: View {
     @Namespace private var animation
 
     var body: some View {
-        HSplitView {
-            // MARK: - Pane 1: Editor Area
-            ZStack(alignment: .topTrailing) {
-                currentTheme.paperColor
-                    .ignoresSafeArea()
-
-                if let note = note {
-                    @Bindable var bindableNote = note
-                    UlyssesEditor(
-                        text: $bindableNote.content,
-                        noteID: note.persistentModelID,
-                        configuration: editorSettings.configuration,
-                        controller: editorController
-                    )
-                    .ignoresSafeArea()
-                    .onChange(of: note.content) { oldValue, newValue in
-                        updateInfo()
-
-                        // Auto-update title from first line
-                        let lines = newValue.components(separatedBy: .newlines)
-                        if let firstLine = lines.first,
-                            !firstLine.trimmingCharacters(in: .whitespaces).isEmpty
-                        {
-                            // Strip markdown headers (# )
-                            let titleText = firstLine.trimmingCharacters(
-                                in: CharacterSet(charactersIn: "# ")
-                            ).trimmingCharacters(in: .whitespaces)
-                            if !titleText.isEmpty && note.title != titleText {
-                                note.title = titleText
+        Group {
+            #if os(macOS)
+            HSplitView {
+                mainEditorArea
+                if showOutline && note != nil {
+                    outlineView
+                        .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+                }
+            }
+            #else
+            mainEditorArea
+                .sheet(isPresented: $showOutline) {
+                    NavigationStack {
+                        dashboardView
+                            .navigationTitle(LocalizedStringKey("Dashboard"))
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Button(LocalizedStringKey("Done")) { showOutline = false }
+                                }
                             }
-                        } else if note.content.isEmpty {
-                            note.title = String(localized: "New Note")
-                        }
                     }
-                } else {
-                    // 无选择时的占位符
-                    ContentUnavailableView {
-                        Label(LocalizedStringKey("No Selection"), systemImage: "doc.text")
-                    } description: {
-                        Text(LocalizedStringKey("Select a document to start writing."))
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .presentationDetents([.medium, .large])
                 }
-
-                // Ulysses-style Bottom Toolbar
-                if note != nil {
-                    VStack {
-                        Spacer()
-                        UlyssesBottomToolbar(controller: editorController)
-                    }
-                }
-            }
-            .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-
-            // MARK: - Pane 2: Right Sidebar (Outline)
-            if showOutline && note != nil {
-                outlineView
-                    .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
-            }
+            #endif
         }
         .preferredColorScheme(currentTheme.colorScheme)
         .toolbarBackground(.hidden, for: .windowToolbar)
-        .toolbarRole(.editor)  // 关键：确保编辑器工具栏在窗口最右侧
+        #if os(macOS)
+        .toolbarRole(.editor)
+        #endif
         .onAppear {
             updateInfo()
         }
         .toolbar {
+            #if os(iOS)
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack(spacing: 20) {
+                    // 1. 导出
+                    Button(action: { export(as: .pdf) }) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    // 2. 仪表盘 (Outline + Stats)
+                    Button(action: { withAnimation { showOutline.toggle() } }) {
+                        Image(systemName: "gauge.with.needle")
+                    }
+                }
+            }
+            #endif
+            
             ToolbarItemGroup(placement: .primaryAction) {
-                // 1. 字体选择 (Aa) - 文字风格
+                #if os(macOS)
+                // 1. 字体选择 (Aa)
                 Button(action: { showFontSettings = true }) {
-                    Text("Aa")
-                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                    Image(systemName: "textformat")
+                        .font(.system(size: 18))
                 }
                 .popover(isPresented: $showFontSettings) {
                     fontSettingsView
                 }
+                #endif
                 .disabled(note == nil)
-                .help(LocalizedStringKey("Font Settings"))
-
-                // 2. 插入图片 (别针)
+                
+                // 2. 插入图片
+                #if os(macOS)
                 Button(action: insertImage) {
                     Image(systemName: "paperclip")
                 }
                 .disabled(note == nil)
-                .help(LocalizedStringKey("Insert Image"))
+                #endif
 
-                // 3. 主题选择 (即使未选文档也可更改 UI)
+                // 3. 主题选择
                 Menu {
                     Button(action: { currentTheme = .light }) {
                         Label(LocalizedStringKey("Light"), systemImage: "sun.max")
@@ -148,16 +134,17 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "circle.lefthalf.filled")
                 }
-                .help(LocalizedStringKey("Theme Selection"))
 
                 // 4. 导出
                 Menu {
                     Button(action: { showExportPreview = true }) {
                         Label(LocalizedStringKey("PDF"), systemImage: "doc.text")
                     }
+                    #if os(macOS)
                     Button(action: { export(as: .rtf) }) {
                         Label(LocalizedStringKey("Rich Text (Word)"), systemImage: "doc.richtext")
                     }
+                    #endif
                     Button(action: { export(as: .markdownDocument) }) {
                         Label(LocalizedStringKey("Markdown"), systemImage: "text.alignleft")
                     }
@@ -165,39 +152,18 @@ struct ContentView: View {
                     Image(systemName: "square.and.arrow.up")
                 }
                 .disabled(note == nil)
-                .help(LocalizedStringKey("Export Document"))
 
+                #if os(macOS)
                 // 5. 搜索
-                if isSearching {
-                    HStack(spacing: 4) {
-                        TextField(LocalizedStringKey("Search"), text: $searchText)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 120)
-                        Button(action: {
-                            withAnimation {
-                                isSearching = false
-                                searchText = ""
-                            }
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                } else {
-                    Button(action: { withAnimation { isSearching = true } }) {
-                        Image(systemName: "magnifyingglass")
-                    }
-                    .disabled(note == nil)
-                }
-
-                // 6. 大纲
+                searchButton
+                
+                // 6. 大纲 (macOS)
                 Button(action: { withAnimation { showOutline.toggle() } }) {
                     Image(systemName: "list.bullet.indent")
                         .foregroundColor(showOutline ? .accentColor : .secondary)
                 }
                 .disabled(note == nil)
-                .help(LocalizedStringKey("Toggle Outline"))
+                #endif
             }
         }
         .sheet(isPresented: $showShortcutsSheet) {
@@ -217,42 +183,188 @@ struct ContentView: View {
     // MARK: - Subviews
 
     @ViewBuilder
-    private var fontSettingsView: some View {
-        VStack(spacing: 12) {
-            Picker(LocalizedStringKey("Font:"), selection: $editorSettings.fontName) {
-                Text(LocalizedStringKey("System Font")).tag("System")
-                Divider()
-                ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
-                    Text(font).tag(font)
+    private var mainEditorArea: some View {
+        ZStack(alignment: .topTrailing) {
+            currentTheme.paperColor
+                .ignoresSafeArea()
+
+            if let note = note {
+                @Bindable var bindableNote = note
+                UlyssesEditor(
+                    text: $bindableNote.content,
+                    noteID: note.persistentModelID,
+                    configuration: editorSettings.configuration,
+                    controller: editorController
+                )
+                .ignoresSafeArea()
+                .onChange(of: note.content) { oldValue, newValue in
+                    updateInfo()
+
+                    // Auto-update title from first line
+                    let lines = newValue.components(separatedBy: .newlines)
+                    if let firstLine = lines.first,
+                        !firstLine.trimmingCharacters(in: .whitespaces).isEmpty
+                    {
+                        let titleText = firstLine.trimmingCharacters(
+                            in: CharacterSet(charactersIn: "# ")
+                        ).trimmingCharacters(in: .whitespaces)
+                        if !titleText.isEmpty && note.title != titleText {
+                            note.title = titleText
+                        }
+                    } else if note.content.isEmpty {
+                        note.title = String(localized: "New Note")
+                    }
+                }
+                
+                // Ulysses-style Bottom Toolbar
+                #if os(macOS)
+                VStack {
+                    Spacer()
+                    UlyssesBottomToolbar(controller: editorController)
+                }
+                #endif
+            } else {
+                ContentUnavailableView {
+                    Label(LocalizedStringKey("No Selection"), systemImage: "doc.text")
+                } description: {
+                    Text(LocalizedStringKey("Select a document to start writing."))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    #if os(macOS)
+    @ViewBuilder
+    private var searchButton: some View {
+        if isSearching {
+            HStack(spacing: 4) {
+                TextField(LocalizedStringKey("Search"), text: $searchText)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 120)
+                Button(action: {
+                    withAnimation {
+                        isSearching = false
+                        searchText = ""
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+        } else {
+            Button(action: { withAnimation { isSearching = true } }) {
+                Image(systemName: "magnifyingglass")
+            }
+            .disabled(note == nil)
+        }
+    }
+    #endif
+
+        .sheet(isPresented: $showShortcutsSheet) {
+            KeyboardShortcutsView()
+        }
+        .sheet(isPresented: $showExportPreview) {
+            if let note = note {
+                ExportPreviewView(
+                    text: note.content, fileName: note.title.isEmpty ? "Untitled" : note.title)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in
+            showShortcutsSheet = true
+        }
+    }
+
+    // MARK: - Subviews
+
+    @ViewBuilder
+    private var dashboardView: some View {
+        List {
+            Section(LocalizedStringKey("Statistics")) {
+                HStack {
+                    Label(LocalizedStringKey("Characters"), systemImage: "text.cursor")
+                    Spacer()
+                    Text("\(stats.characters)")
+                        .foregroundColor(.secondary)
+                }
+                HStack {
+                    Label(LocalizedStringKey("Words"), systemImage: "text.word.spacing")
+                    Spacer()
+                    Text("\(stats.words)")
+                        .foregroundColor(.secondary)
+                }
+                HStack {
+                    Label(LocalizedStringKey("Reading Time"), systemImage: "clock")
+                    Spacer()
+                    Text("\(stats.readingTime) min")
+                        .foregroundColor(.secondary)
                 }
             }
-            .pickerStyle(.menu)
-
-            HStack {
-                Text(LocalizedStringKey("Line Height:"))
-                Slider(value: $editorSettings.lineHeightMultiple, in: 1.0...3.0, step: 0.1)
-                Text(String(format: "%.1f", editorSettings.lineHeightMultiple))
-                    .frame(width: 30)
+            
+            Section(LocalizedStringKey("Outline")) {
+                if headers.isEmpty {
+                    Text(LocalizedStringKey("No headings found"))
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                } else {
+                    ForEach(headers) { header in
+                        HStack {
+                            Spacer().frame(width: CGFloat(header.level - 1) * 12)
+                            Text(header.title)
+                                .font(.system(.subheadline, design: .rounded))
+                        }
+                    }
+                }
             }
-
-            HStack {
-                Text(LocalizedStringKey("Indent:"))
-                Slider(value: $editorSettings.firstLineIndent, in: 0...100, step: 5)
-                Text("\(Int(editorSettings.firstLineIndent))")
-                    .frame(width: 30)
-            }
-
-            HStack {
-                Text(LocalizedStringKey("Line Width:"))
-                Slider(value: $editorSettings.contentWidth, in: 400...1200, step: 50)
-                Text("\(Int(editorSettings.contentWidth))")
-                    .frame(width: 40)
-            }
-
-            Toggle(LocalizedStringKey("Typewriter Mode"), isOn: $editorSettings.typewriterMode)
         }
+    }
+
+    @ViewBuilder
+    private var fontSettingsView: some View {
+        Form {
+            Section(LocalizedStringKey("Font")) {
+                Picker(LocalizedStringKey("Family"), selection: $editorSettings.fontName) {
+                    Text(LocalizedStringKey("System Font")).tag("System")
+                    #if os(macOS)
+                    Divider()
+                    ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
+                        Text(font).tag(font)
+                    }
+                    #endif
+                }
+                #if !os(macOS)
+                .pickerStyle(.navigationLink)
+                #endif
+            }
+
+            Section(LocalizedStringKey("Paragraph")) {
+                HStack {
+                    Label(LocalizedStringKey("Line Height"), systemImage: "line.horizontal.3")
+                    Spacer()
+                    Stepper(String(format: "%.1f", editorSettings.lineHeightMultiple), value: $editorSettings.lineHeightMultiple, in: 1.0...3.0, step: 0.1)
+                }
+
+                HStack {
+                    Label(LocalizedStringKey("Line Width"), systemImage: "arrow.left.and.right")
+                    Spacer()
+                    #if os(macOS)
+                    Slider(value: $editorSettings.contentWidth, in: 400...1200, step: 50)
+                    #else
+                    Stepper("\(Int(editorSettings.contentWidth))", value: $editorSettings.contentWidth, in: 300...1000, step: 50)
+                    #endif
+                }
+            }
+
+            Section {
+                Toggle(LocalizedStringKey("Typewriter Mode"), isOn: $editorSettings.typewriterMode)
+            }
+        }
+        #if os(macOS)
         .padding()
         .frame(width: 280)
+        #endif
     }
 
     @ViewBuilder
@@ -293,6 +405,7 @@ struct ContentView: View {
     // MARK: - Actions
 
     private func insertImage() {
+        #if os(macOS)
         guard note != nil else { return }
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
@@ -306,9 +419,11 @@ struct ContentView: View {
                 editorController.insert(imageMarkdown)
             }
         }
+        #endif
     }
 
     private func export(as type: UTType) {
+        #if os(macOS)
         guard let note = note else { return }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [type]
@@ -325,6 +440,14 @@ struct ContentView: View {
                 }
             }
         }
+        #else
+        // iOS 导出逻辑（通常使用 ShareSheet）
+        if let note = note {
+            let item = ExportItem(content: note.content, contentType: type)
+            self.exportItem = item
+            self.showExporter = true
+        }
+        #endif
     }
 
     private func updateInfo() {

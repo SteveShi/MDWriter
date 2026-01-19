@@ -36,23 +36,35 @@ struct EditorConfiguration: Equatable {
     static let baseFontSize: CGFloat = 17.0
 
     // 使用支持中文的字体
-    var nsFont: NSFont {
+    var platformFont: PlatformFont {
         let size = Self.baseFontSize
 
         // 优先使用用户选择的字体
         if fontName != "System" {
+            #if os(macOS)
             if let font = NSFont(name: fontName, size: size) {
                 return font
             }
+            #else
+            if let font = UIFont(name: fontName, size: size) {
+                return font
+            }
+            #endif
         }
 
         // 默认使用苹方字体（中文优化）
-        if let pingFang = NSFont(name: "PingFang SC", size: size) {
+        let fontNameForSystem = "PingFang SC"
+        #if os(macOS)
+        if let pingFang = NSFont(name: fontNameForSystem, size: size) {
             return pingFang
         }
-
-        // 降级到系统字体
         return .systemFont(ofSize: size)
+        #else
+        if let pingFang = UIFont(name: fontNameForSystem, size: size) {
+            return pingFang
+        }
+        return .systemFont(ofSize: size)
+        #endif
     }
 }
 

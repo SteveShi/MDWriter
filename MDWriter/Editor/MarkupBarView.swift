@@ -79,6 +79,75 @@ struct MarkupBarView: View {
     }
 }
 
+// MARK: - iOS Specific Markup Bar
+
+struct IOSMarkupBar: View {
+    @ObservedObject var controller: EditorController
+    
+    var body: some View {
+        HStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    // Ulysses 风格：直接插入 Markdown 符号
+                    MarkupSymbolButton(symbol: "#", action: { controller.insertMarkup("#") })
+                    MarkupSymbolButton(symbol: "*", action: { controller.toggleItalic() })
+                    MarkupSymbolButton(symbol: "**", action: { controller.toggleBold() })
+                    MarkupSymbolButton(symbol: ">", action: { controller.insertMarkup("> ") })
+                    MarkupSymbolButton(symbol: "-", action: { controller.insertMarkup("- ") })
+                    MarkupSymbolButton(symbol: "[ ]", action: { controller.insertMarkup("- [ ] ") })
+                    MarkupSymbolButton(symbol: "!", icon: "photo", action: { controller.insertImageMarkup() })
+                    MarkupSymbolButton(symbol: "[]", icon: "link", action: { controller.insertLinkMarkup() })
+                    MarkupSymbolButton(symbol: "``", icon: "chevron.left.forwardslash.chevron.right", action: { controller.toggleCodeBlock() })
+                }
+                .padding(.horizontal, 15)
+            }
+            
+            Divider().frame(height: 24)
+            
+            // 收起键盘按钮
+            Button(action: {
+                #if os(iOS)
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                #endif
+            }) {
+                Image(systemName: "keyboard.chevron.compact.down")
+                    .font(.system(size: 18, weight: .medium))
+                    .padding(.horizontal, 12)
+            }
+        }
+        .frame(height: 44)
+        .background(.ultraThinMaterial)
+        .overlay(
+            Rectangle()
+                .fill(Color.primary.opacity(0.1))
+                .frame(height: 0.5),
+            alignment: .top
+        )
+    }
+}
+
+struct MarkupSymbolButton: View {
+    let symbol: String
+    var icon: String? = nil
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Group {
+                if let icon = icon {
+                    Image(systemName: icon)
+                        .font(.system(size: 14, weight: .medium))
+                } else {
+                    Text(symbol)
+                        .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                }
+            }
+            .frame(minWidth: 24)
+            .foregroundColor(.primary.opacity(0.7))
+        }
+    }
+}
+
 // MARK: - Markup Bar Button
 
 struct MarkupBarButton: View {
