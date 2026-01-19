@@ -13,15 +13,18 @@ typealias PlatformColor = NSColor
 typealias PlatformFont = NSFont
 typealias PlatformImage = NSImage
 typealias PlatformViewRepresentable = NSViewRepresentable
+typealias PlatformFontDescriptor = NSFontDescriptor
 #else
 import UIKit
 typealias PlatformColor = UIColor
 typealias PlatformFont = UIFont
 typealias PlatformImage = UIImage
 typealias PlatformViewRepresentable = UIViewRepresentable
+typealias PlatformFontDescriptor = UIFontDescriptor
+#endif
 
 extension PlatformFont {
-    func withTraits(_ traits: PlatformFontDescriptor.SymbolicTraits) -> PlatformFont {
+    nonisolated func withTraits(_ traits: PlatformFontDescriptor.SymbolicTraits) -> PlatformFont {
         #if os(macOS)
         let descriptor = self.fontDescriptor.withSymbolicTraits(traits)
         return NSFont(descriptor: descriptor, size: 0) ?? self
@@ -31,7 +34,7 @@ extension PlatformFont {
         #endif
     }
     
-    var bold: PlatformFont {
+    nonisolated var bold: PlatformFont {
         #if os(macOS)
         return NSFontManager.shared.convert(self, toHaveTrait: .boldFontMask)
         #else
@@ -39,7 +42,7 @@ extension PlatformFont {
         #endif
     }
     
-    var italic: PlatformFont {
+    nonisolated var italic: PlatformFont {
         #if os(macOS)
         return NSFontManager.shared.convert(self, toHaveTrait: .italicFontMask)
         #else
@@ -47,12 +50,6 @@ extension PlatformFont {
         #endif
     }
 }
-
-#if os(macOS)
-typealias PlatformFontDescriptor = NSFontDescriptor
-#else
-typealias PlatformFontDescriptor = UIFontDescriptor
-#endif
 
 // 扩展方便在 SwiftUI 中使用
 extension Color {

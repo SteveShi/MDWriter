@@ -82,7 +82,7 @@ struct SnapshotBrowserView: View {
                         .buttonStyle(.borderedProminent)
                     }
                     .padding()
-                    .background(Color(nsColor: .windowBackgroundColor))
+                    .background(Color.platformBackground)
                 }
             } else {
                 ContentUnavailableView(String(localized: "Select a version"), systemImage: "clock")

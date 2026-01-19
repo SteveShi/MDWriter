@@ -21,11 +21,13 @@ struct EditorSettingsView: View {
                             .gridColumnAlignment(.trailing)
                         Picker("", selection: $settings.fontName) {
                             Text(LocalizedStringKey("System Font")).tag("System")
+                            #if os(macOS)
                             Divider()
                             ForEach(NSFontManager.shared.availableFontFamilies, id: \.self) { font in
                                 Text(font).tag(font)
                                     .font(.custom(font, size: 12))
                             }
+                            #endif
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity)

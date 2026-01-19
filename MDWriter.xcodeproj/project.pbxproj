@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */ = {isa = PBXBuildFile; productRef = AA5406062F1C869A006F7597 /* xcstrings-tool */; };
+		AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = AA5406062F1C869A006F7597 /* xcstrings-tool */; };
 		AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = AA829F9B2F188FCD00F2F48C /* Highlightr */; };
-		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
+		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
 		AAE55F462F1B714F00104F58 /* WhatsNewKit in Frameworks */ = {isa = PBXBuildFile; productRef = AAE55F452F1B714F00104F58 /* WhatsNewKit */; };
 /* End PBXBuildFile section */

@@ -53,8 +53,10 @@ struct UlyssesBottomToolbar: View {
 
                 Spacer()
             }
-            .padding(.vertical, 10)
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.5))
+            .padding(.horizontal, 16)
+            .frame(height: 32)
+            .background(Color.platformBackground.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }
 }

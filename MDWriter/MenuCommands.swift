@@ -2,13 +2,15 @@
 //  MenuCommands.swift
 //  MDWriter
 //
-//  Menu bar commands for MDWriter.
+//  Created by Gemini on 2026/01/12.
 //
 
+#if os(macOS)
 import AppKit
-import Foundation
+#else
+import UIKit
+#endif
 import SwiftUI
-import UniformTypeIdentifiers
 
 // MARK: - Focused Values
 struct SelectedNoteKey: FocusedValueKey {
@@ -27,7 +29,9 @@ struct AppCommands: Commands {
     var body: some Commands {
         CommandGroup(after: .appSettings) {
             Button(LocalizedStringKey("Settings...")) {
+                #if os(macOS)
                 NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                #endif
             }
             .keyboardShortcut(",", modifiers: .command)
         }
@@ -308,7 +312,11 @@ struct HelpCommands: Commands {
         CommandGroup(replacing: .help) {
             Button(LocalizedStringKey("MDWriter Help")) {
                 if let url = URL(string: "https://github.com/lpgneg19/MDWriter") {
+                    #if os(macOS)
                     NSWorkspace.shared.open(url)
+                    #else
+                    UIApplication.shared.open(url)
+                    #endif
                 }
             }
 

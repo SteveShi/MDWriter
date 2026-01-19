@@ -75,7 +75,6 @@ class ExportService: NSObject {
                     documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
                 try rtfData.write(to: url)
                 #else
-                // iOS 上的 NSAttributedString HTML 转换需要运行在主线程且稍微复杂
                 let attributedString = try NSAttributedString(data: data, options: options, documentAttributes: nil)
                 let rtfData = try attributedString.data(
                     from: NSRange(location: 0, length: attributedString.length),
@@ -112,7 +111,7 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let config = WKPDFConfiguration()
         
-        // Wait a bit for rendering to finish (images, etc)
+        // Wait a bit for rendering to finish
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let self = self else { return }
             self.webView?.createPDF(configuration: config) { [weak self] result in
@@ -134,7 +133,7 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     }
 }
 
-// MARK: - Markdown Renderer (Included here to avoid project file issues)
+// MARK: - Markdown Renderer
 
 struct MarkdownRenderer {
     func renderHTML(from markdown: String, theme: MarkdownTheme) -> String {
@@ -184,13 +183,12 @@ struct MarkdownRenderer {
             colors = (bg: "#011627", text: "#d6deeb", link: "#82aaff", codeBg: "#0b2942", border: "#5f7e97")
         }
         
-        // Helper to determine if we need dark scrollbars/ui hints
         let isDark = [MarkdownTheme.dracula, .nord, .monokai, .nightOwl, .solarizedDark].contains(theme)
         
         return """
             <style>
                 body {
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif;
                     font-size: 11pt;
                     line-height: 1.6;
                     color: \(colors.text);
@@ -208,7 +206,7 @@ struct MarkdownRenderer {
                 h2 { font-size: 1.5em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
                 p { margin-top: 0; margin-bottom: 16px; }
                 code {
-                    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+                    font-family: \"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, monospace;
                     background-color: \(colors.codeBg);
                     padding: .2em .4em;
                     border-radius: 3px;
@@ -308,7 +306,6 @@ private struct HTMLVisitor: MarkupVisitor {
 
     mutating func visitImage(_ image: Markdown.Image) -> String {
         var source = image.source ?? ""
-        // Fix for local images: ensure they are file URLs
         if source.hasPrefix("/") {
             source = "file://" + source
         }
@@ -318,7 +315,7 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> String {
-        let langClass = codeBlock.language.map { " class=\"language-\($0)\"" } ?? ""
+        let langClass = codeBlock.language.map { lang in " class=\"language-\(lang)\"" } ?? ""
         return "<pre><code\(langClass)>\(codeBlock.code.htmlEscaped())</code></pre>"
     }
 

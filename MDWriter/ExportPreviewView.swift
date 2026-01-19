@@ -1,4 +1,8 @@
+#if os(macOS)
 import AppKit
+#else
+import UIKit
+#endif
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
@@ -16,7 +20,7 @@ struct ExportPreviewView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 WebView(html: ExportService.shared.renderHTML(from: text))
-                    .background(Color(NSColor.windowBackgroundColor))
+                    .background(Color.platformBackground)
                     .padding()
             }
             // Hide the default navigation title to make it cleaner

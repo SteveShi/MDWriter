@@ -22,7 +22,7 @@ struct KeyboardShortcutsView: View {
                 }
             }
             .padding()
-            .background(Color(NSColor.windowBackgroundColor))
+            .background(Color.platformBackground)
 
             Divider()
 

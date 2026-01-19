@@ -5,7 +5,11 @@
 //  Created by 石屿 on 2025/12/31.
 //
 
+#if os(macOS)
 import AppKit
+#else
+import UIKit
+#endif
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
@@ -78,8 +82,8 @@ struct ContentView: View {
             #endif
         }
         .preferredColorScheme(currentTheme.colorScheme)
-        .toolbarBackground(.hidden, for: .windowToolbar)
         #if os(macOS)
+        .toolbarBackground(.hidden, for: .windowToolbar)
         .toolbarRole(.editor)
         #endif
         .onAppear {
@@ -112,9 +116,27 @@ struct ContentView: View {
                 .popover(isPresented: $showFontSettings) {
                     fontSettingsView
                 }
-                #endif
+                #else
+                Button(action: { showFontSettings = true }) {
+                    Image(systemName: "textformat")
+                        .font(.system(size: 18))
+                }
+                .sheet(isPresented: $showFontSettings) {
+                    NavigationStack {
+                        fontSettingsView
+                            .navigationTitle(LocalizedStringKey("Format"))
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Button(LocalizedStringKey("Done")) { showFontSettings = false }
+                                }
+                            }
+                    }
+                    .presentationDetents([.medium, .large])
+                }
                 .disabled(note == nil)
-                
+                #endif
+
                 // 2. 插入图片
                 #if os(macOS)
                 Button(action: insertImage) {
@@ -232,7 +254,11 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        #if os(macOS)
         .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+        #else
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
     }
 
     #if os(macOS)
@@ -262,22 +288,6 @@ struct ContentView: View {
         }
     }
     #endif
-
-        .sheet(isPresented: $showShortcutsSheet) {
-            KeyboardShortcutsView()
-        }
-        .sheet(isPresented: $showExportPreview) {
-            if let note = note {
-                ExportPreviewView(
-                    text: note.content, fileName: note.title.isEmpty ? "Untitled" : note.title)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in
-            showShortcutsSheet = true
-        }
-    }
-
-    // MARK: - Subviews
 
     @ViewBuilder
     private var dashboardView: some View {
@@ -399,7 +409,7 @@ struct ContentView: View {
             }
             .listStyle(.plain)
         }
-        .background(Color(nsColor: .controlBackgroundColor))
+        .background(Color.platformBackground)
     }
 
     // MARK: - Actions

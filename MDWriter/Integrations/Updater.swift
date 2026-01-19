@@ -5,6 +5,7 @@
 //  Created for Sparkle Integration.
 //
 
+#if os(macOS)
 import Foundation
 import Sparkle
 import SwiftUI
@@ -29,3 +30,4 @@ class Updater: ObservableObject {
         updaterController.checkForUpdates(nil)
     }
 }
+#endif

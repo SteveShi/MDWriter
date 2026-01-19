@@ -10,13 +10,13 @@
     "%lld" : {
 
     },
+    "%lld min" : {
+
+    },
     "%lld pt" : {
 
     },
     "%lld px" : {
-
-    },
-    "Aa" : {
 
     },
     "Actual Size" : {
@@ -60,6 +60,7 @@
       }
     },
     "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -68,6 +69,9 @@
           }
         }
       }
+    },
+    "Are you sure?" : {
+
     },
     "Auto-Updates" : {
       "extractionState" : "manual",
@@ -156,6 +160,9 @@
         }
       }
     },
+    "Characters" : {
+
+    },
     "chars" : {
       "localizations" : {
         "zh-Hans" : {
@@ -225,6 +232,9 @@
           }
         }
       }
+    },
+    "Dashboard" : {
+
     },
     "Delete" : {
       "localizations" : {
@@ -359,6 +369,7 @@
       }
     },
     "Export Document" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -367,6 +378,9 @@
           }
         }
       }
+    },
+    "Family" : {
+
     },
     "File" : {
       "localizations" : {
@@ -428,7 +442,11 @@
         }
       }
     },
+    "Font" : {
+
+    },
     "Font Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -691,6 +709,7 @@
       }
     },
     "Insert Image" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -778,6 +797,9 @@
         }
       }
     },
+    "Line Height" : {
+
+    },
     "Line Height:" : {
       "localizations" : {
         "zh-Hans" : {
@@ -787,6 +809,9 @@
           }
         }
       }
+    },
+    "Line Width" : {
+
     },
     "Line Width:" : {
       "localizations" : {
@@ -973,6 +998,9 @@
         }
       }
     },
+    "No headings found" : {
+
+    },
     "No Selection" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1053,6 +1081,9 @@
         }
       }
     },
+    "Paragraph" : {
+
+    },
     "PDF" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1100,6 +1131,9 @@
         }
       }
     },
+    "Reading Time" : {
+
+    },
     "Rename" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1121,6 +1155,7 @@
       }
     },
     "Restore Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1356,6 +1391,9 @@
         }
       }
     },
+    "Statistics" : {
+
+    },
     "Strikethrough" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1431,6 +1469,7 @@
       }
     },
     "Theme Selection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1441,6 +1480,7 @@
       }
     },
     "This will replace your current library with the backup. This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1451,6 +1491,7 @@
       }
     },
     "Toggle Outline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1618,6 +1659,9 @@
           }
         }
       }
+    },
+    "Words" : {
+
     },
     "Zoom In" : {
       "localizations" : {

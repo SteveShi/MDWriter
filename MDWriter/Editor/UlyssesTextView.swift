@@ -5,6 +5,7 @@
 //  Created by Gemini on 2026/01/13.
 //
 
+#if os(macOS)
 import AppKit
 
 class UlyssesTextView: NSTextView {
@@ -280,4 +281,4 @@ class UlyssesTextView: NSTextView {
             }
         }
     }
-}
+}#endif
