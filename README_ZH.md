@@ -87,4 +87,4 @@ MDWriter 利用了几个强大的开源库：
 
 ## 开源协议
 
-本项目采用 MIT 协议开源 - 详情请参阅 [LICENSE](LICENSE) 文件。
+本项目采用 Mozilla公共许可证第2.0版 - 详情请参阅 [LICENSE](LICENSE) 文件。
