@@ -5,6 +5,7 @@
 //  Created by Gemini on 2026/01/13.
 //
 
+import MDEditor
 import SwiftUI
 
 // Simplified Theme Model for Markdown
@@ -17,9 +18,9 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
     case nord = "Nord"
     case monokai = "Monokai"
     case nightOwl = "Night Owl"
-    
+
     var id: String { rawValue }
-    
+
     var displayName: LocalizedStringKey {
         switch self {
         case .pure: return LocalizedStringKey("Pure")
@@ -37,11 +38,11 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
 struct MarkdownSettingsView: View {
     @AppStorage("markdownTheme") private var selectedTheme: MarkdownTheme = .pure
     @AppStorage("markdownStandard") private var selectedStandard: MarkdownStandard = .markdownXL
-    
+
     private let columns = [
         GridItem(.adaptive(minimum: 80, maximum: 100))
     ]
-    
+
     var body: some View {
         Form {
             Section {
@@ -52,10 +53,13 @@ struct MarkdownSettingsView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    
-                    Text(LocalizedStringKey("Markdown XL keeps headings at body size. Standard scales them."))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+
+                    Text(
+                        LocalizedStringKey(
+                            "Markdown XL keeps headings at body size. Standard scales them.")
+                    )
+                    .font(.caption)
+                    .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 4)
             } header: {
@@ -64,10 +68,13 @@ struct MarkdownSettingsView: View {
 
             Section {
                 VStack(alignment: .leading, spacing: 15) {
-                    Text(LocalizedStringKey("Select a color scheme for syntax highlighting and preview."))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
+                    Text(
+                        LocalizedStringKey(
+                            "Select a color scheme for syntax highlighting and preview.")
+                    )
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
                     LazyVGrid(columns: columns, spacing: 15) {
                         ForEach(MarkdownTheme.allCases) { theme in
                             VStack(spacing: 8) {
@@ -75,7 +82,7 @@ struct MarkdownSettingsView: View {
                                     .onTapGesture {
                                         selectedTheme = theme
                                     }
-                                
+
                                 Text(theme.displayName)
                                     .font(.system(size: 10))
                                     .multilineTextAlignment(.center)
@@ -98,17 +105,20 @@ struct MarkdownSettingsView: View {
 struct ThemePreviewCircle: View {
     let theme: MarkdownTheme
     let isSelected: Bool
-    
+
     var body: some View {
         ZStack {
             Circle()
                 .fill(themeColor)
                 .frame(width: 40, height: 40)
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-            
+
             if isSelected {
                 Image(systemName: "checkmark")
-                    .foregroundColor(theme == .pure || theme == .solarizedLight || theme == .github ? .black : .white)
+                    .foregroundColor(
+                        theme == .pure || theme == .solarizedLight || theme == .github
+                            ? .black : .white
+                    )
                     .font(.system(size: 14, weight: .bold))
             }
         }
@@ -118,7 +128,7 @@ struct ThemePreviewCircle: View {
                 .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
         )
     }
-    
+
     var themeColor: Color {
         switch theme {
         case .pure: return .white

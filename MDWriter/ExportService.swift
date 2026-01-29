@@ -1,8 +1,8 @@
+import AppKit
 import Markdown
 import SwiftUI
 import UniformTypeIdentifiers
 import WebKit
-import AppKit
 
 class ExportService: NSObject {
     static let shared = ExportService()
@@ -13,7 +13,7 @@ class ExportService: NSObject {
             try text.write(to: url, atomically: true, encoding: .utf8)
             return
         }
-        
+
         // For export, we default to the currently selected theme, or a specific "Print" friendly theme if preferred.
         // For now, let's use the user's selected theme but maybe force a light background for PDF if strictly needed.
         // But user asked for Themes support, so we respect the selection.
@@ -46,24 +46,27 @@ class ExportService: NSObject {
     func renderHTML(from markdown: String, theme: MarkdownTheme = .pure) -> String {
         return renderer.renderHTML(from: markdown, theme: theme)
     }
-    
+
     // MARK: - PDF Generation
-    func createPDF(from text: String, theme: MarkdownTheme = .pure, completion: @escaping (Result<Data, Error>) -> Void) {
+    func createPDF(
+        from text: String, theme: MarkdownTheme = .pure,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) {
         let html = renderHTML(from: text, theme: theme)
         let generator = PDFGenerator()
         generator.generate(html: html, completion: completion)
     }
-    
+
     // MARK: - RTF Generation
     private func createRTF(from text: String, to url: URL, theme: MarkdownTheme) throws {
         let html = renderHTML(from: text, theme: theme)
         guard let data = html.data(using: .utf8) else { return }
-        
+
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue,
         ]
-        
+
         DispatchQueue.main.async {
             do {
                 if let attributedString = try? NSAttributedString(
@@ -94,16 +97,34 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
         DispatchQueue.main.async {
             let config = WKWebViewConfiguration()
             // A4 Size: 595 x 842 points
-            let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: config)
+            let webView = WKWebView(
+                frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: config)
             webView.navigationDelegate = self
             self.webView = webView
-            webView.loadHTMLString(html, baseURL: nil)
+            // Write HTML to temporary file to allow sandbox access
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempURL = tempDir.appendingPathComponent("preview_\(UUID().uuidString).html")
+            do {
+                try html.write(to: tempURL, atomically: true, encoding: .utf8)
+
+                if let documentsURL = FileManager.default.urls(
+                    for: .documentDirectory, in: .userDomainMask
+                ).first {
+                    // Critical: allowingReadAccessTo must be the parent directory of images
+                    webView.loadFileURL(tempURL, allowingReadAccessTo: documentsURL)
+                } else {
+                    webView.loadHTMLString(html, baseURL: nil)
+                }
+            } catch {
+                print("Failed to save temp html: \(error)")
+                webView.loadHTMLString(html, baseURL: nil)
+            }
         }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let config = WKPDFConfiguration()
-        
+
         // Wait a bit for rendering to finish (images, etc)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let self = self else { return }
@@ -135,10 +156,10 @@ struct MarkdownRenderer {
         let body = visitor.visit(document)
         return wrapHTML(body: body, theme: theme)
     }
-    
+
     private func wrapHTML(body: String, theme: MarkdownTheme) -> String {
         let css = themeCSS(for: theme)
-        
+
         return """
             <!DOCTYPE html>
             <html>
@@ -153,32 +174,57 @@ struct MarkdownRenderer {
             </html>
             """
     }
-    
+
     private func themeCSS(for theme: MarkdownTheme) -> String {
         let colors: (bg: String, text: String, link: String, codeBg: String, border: String)
-        
+
         switch theme {
         case .pure:
-            colors = (bg: "#ffffff", text: "#222222", link: "#007aff", codeBg: "#f6f8fa", border: "#eaecef")
+            colors = (
+                bg: "#ffffff", text: "#222222", link: "#007aff", codeBg: "#f6f8fa",
+                border: "#eaecef"
+            )
         case .solarizedLight:
-            colors = (bg: "#fdf6e3", text: "#657b83", link: "#268bd2", codeBg: "#eee8d5", border: "#93a1a1")
+            colors = (
+                bg: "#fdf6e3", text: "#657b83", link: "#268bd2", codeBg: "#eee8d5",
+                border: "#93a1a1"
+            )
         case .solarizedDark:
-            colors = (bg: "#002b36", text: "#839496", link: "#268bd2", codeBg: "#073642", border: "#586e75")
+            colors = (
+                bg: "#002b36", text: "#839496", link: "#268bd2", codeBg: "#073642",
+                border: "#586e75"
+            )
         case .github:
-            colors = (bg: "#ffffff", text: "#24292e", link: "#0366d6", codeBg: "#f6f8fa", border: "#e1e4e8")
+            colors = (
+                bg: "#ffffff", text: "#24292e", link: "#0366d6", codeBg: "#f6f8fa",
+                border: "#e1e4e8"
+            )
         case .dracula:
-            colors = (bg: "#282a36", text: "#f8f8f2", link: "#8be9fd", codeBg: "#44475a", border: "#6272a4")
+            colors = (
+                bg: "#282a36", text: "#f8f8f2", link: "#8be9fd", codeBg: "#44475a",
+                border: "#6272a4"
+            )
         case .nord:
-            colors = (bg: "#2e3440", text: "#d8dee9", link: "#88c0d0", codeBg: "#3b4252", border: "#4c566a")
+            colors = (
+                bg: "#2e3440", text: "#d8dee9", link: "#88c0d0", codeBg: "#3b4252",
+                border: "#4c566a"
+            )
         case .monokai:
-            colors = (bg: "#272822", text: "#f8f8f2", link: "#66d9ef", codeBg: "#3e3d32", border: "#49483e")
+            colors = (
+                bg: "#272822", text: "#f8f8f2", link: "#66d9ef", codeBg: "#3e3d32",
+                border: "#49483e"
+            )
         case .nightOwl:
-            colors = (bg: "#011627", text: "#d6deeb", link: "#82aaff", codeBg: "#0b2942", border: "#5f7e97")
+            colors = (
+                bg: "#011627", text: "#d6deeb", link: "#82aaff", codeBg: "#0b2942",
+                border: "#5f7e97"
+            )
         }
-        
+
         // Helper to determine if we need dark scrollbars/ui hints
-        let isDark = [MarkdownTheme.dracula, .nord, .monokai, .nightOwl, .solarizedDark].contains(theme)
-        
+        let isDark = [MarkdownTheme.dracula, .nord, .monokai, .nightOwl, .solarizedDark].contains(
+            theme)
+
         return """
             <style>
                 body {
@@ -300,11 +346,32 @@ private struct HTMLVisitor: MarkupVisitor {
 
     mutating func visitImage(_ image: Markdown.Image) -> String {
         var source = image.source ?? ""
-        // Fix for local images: ensure they are file URLs
-        if source.hasPrefix("/") {
+
+        // Fix for local images: embed as Base64 to avoid sandbox issues
+        if !source.lowercased().hasPrefix("http") && !source.hasPrefix("/") {
+            // Local filename: resolve to Documents/Images
+            if let documentsURL = FileManager.default.urls(
+                for: .documentDirectory, in: .userDomainMask
+            ).first {
+                let fileURL = documentsURL.appendingPathComponent("Images").appendingPathComponent(
+                    source)
+
+                // Try to load data and convert to base64
+                if let data = try? Data(contentsOf: fileURL) {
+                    let base64 = data.base64EncodedString()
+                    // Determine mime type (default to png, or guess from ext)
+                    let ext = fileURL.pathExtension.lowercased()
+                    let mime = ext == "jpg" || ext == "jpeg" ? "image/jpeg" : "image/png"
+                    source = "data:\(mime);base64,\(base64)"
+                } else {
+                    // Fallback to absolute URL if read fails
+                    source = fileURL.absoluteString
+                }
+            }
+        } else if source.hasPrefix("/") {
             source = "file://" + source
         }
-        
+
         let title = image.title ?? ""
         return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(image.plainText)\" />"
     }
@@ -337,39 +404,39 @@ private struct HTMLVisitor: MarkupVisitor {
     mutating func visitThematicBreak(_ thematicBreak: ThematicBreak) -> String {
         return "<hr />"
     }
-    
+
     mutating func visitSoftBreak(_ softBreak: SoftBreak) -> String {
         return " "
     }
-    
+
     mutating func visitLineBreak(_ lineBreak: LineBreak) -> String {
         return "<br />"
     }
-    
+
     mutating func visitInlineHTML(_ inlineHTML: InlineHTML) -> String {
         return inlineHTML.rawHTML
     }
-    
+
     mutating func visitHTMLBlock(_ htmlBlock: HTMLBlock) -> String {
         return htmlBlock.rawHTML
     }
-    
+
     mutating func visitTable(_ table: Markdown.Table) -> String {
         return "<table>\(table.children.map { visit($0) }.joined())</table>"
     }
-    
+
     mutating func visitTableHead(_ tableHead: Markdown.Table.Head) -> String {
         return "<thead>\(tableHead.children.map { visit($0) }.joined())</thead>"
     }
-    
+
     mutating func visitTableBody(_ tableBody: Markdown.Table.Body) -> String {
         return "<tbody>\(tableBody.children.map { visit($0) }.joined())</tbody>"
     }
-    
+
     mutating func visitTableRow(_ tableRow: Markdown.Table.Row) -> String {
         return "<tr>\(tableRow.children.map { visit($0) }.joined())</tr>"
     }
-    
+
     mutating func visitTableCell(_ tableCell: Markdown.Table.Cell) -> String {
         let tag = tableCell.parent is Markdown.Table.Head ? "th" : "td"
         return "<\(tag)>\(tableCell.children.map { visit($0) }.joined())</\(tag)>"

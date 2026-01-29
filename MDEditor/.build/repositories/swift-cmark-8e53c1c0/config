@@ -1,0 +1,13 @@
+[core]
+	bare = true
+	repositoryformatversion = 0
+	filemode = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/swiftlang/swift-cmark
+	fetch = +refs/*:refs/*
+	mirror = true
+[branch "gfm"]
+	remote = origin
+	merge = refs/heads/gfm

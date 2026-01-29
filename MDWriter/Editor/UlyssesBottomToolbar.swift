@@ -5,6 +5,7 @@
 //  Ulysses 风格的底部快捷工具栏
 //
 
+import MDEditor
 import SwiftUI
 
 struct UlyssesBottomToolbar: View {
@@ -23,17 +24,17 @@ struct UlyssesBottomToolbar: View {
 
                 HStack(spacing: 24) {
                     // 副标题
-                    ToolbarTextButton(label: "### 副标题") {
+                    ToolbarTextButton(label: "### \(String(localized: "Subheading"))") {
                         controller.insertMarkup("### ")
                     }
 
                     // 列表
-                    ToolbarTextButton(label: "- 列表") {
+                    ToolbarTextButton(label: "- \(String(localized: "List"))") {
                         controller.insertMarkup("- ")
                     }
 
                     // 引用块
-                    ToolbarTextButton(label: "> 引用块") {
+                    ToolbarTextButton(label: "> \(String(localized: "Blockquote"))") {
                         controller.insertMarkup("> ")
                     }
 
@@ -84,16 +85,16 @@ private struct MoreOptionsPopover: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            PopoverSection(title: "标题") {
-                PopoverButton(label: "# 大标题", shortcut: "⌘\\") {
+            PopoverSection(title: "Headings") {
+                PopoverButton(label: "# \(String(localized: "Major Heading"))", shortcut: "⌘\\") {
                     controller.insertMarkup("# ")
                     dismiss()
                 }
-                PopoverButton(label: "## 标题", shortcut: nil) {
+                PopoverButton(label: "## \(String(localized: "Heading"))", shortcut: nil) {
                     controller.insertMarkup("## ")
                     dismiss()
                 }
-                PopoverButton(label: "### 副标题", shortcut: nil) {
+                PopoverButton(label: "### \(String(localized: "Subheading"))", shortcut: nil) {
                     controller.insertMarkup("### ")
                     dismiss()
                 }
@@ -101,20 +102,20 @@ private struct MoreOptionsPopover: View {
 
             Divider()
 
-            PopoverSection(title: "格式") {
-                PopoverButton(label: "粗体", shortcut: "⌘B") {
+            PopoverSection(title: "Format") {
+                PopoverButton(label: String(localized: "Bold"), shortcut: "⌘B") {
                     controller.toggleBold()
                     dismiss()
                 }
-                PopoverButton(label: "斜体", shortcut: "⌘I") {
+                PopoverButton(label: String(localized: "Italic"), shortcut: "⌘I") {
                     controller.toggleItalic()
                     dismiss()
                 }
-                PopoverButton(label: "删除线", shortcut: "⌘U") {
+                PopoverButton(label: String(localized: "Strikethrough"), shortcut: "⌘U") {
                     controller.toggleStrikethrough()
                     dismiss()
                 }
-                PopoverButton(label: "行内代码", shortcut: "⌘`") {
+                PopoverButton(label: String(localized: "Inline Code"), shortcut: "⌘`") {
                     controller.toggleInlineCode()
                     dismiss()
                 }
@@ -122,24 +123,24 @@ private struct MoreOptionsPopover: View {
 
             Divider()
 
-            PopoverSection(title: "结构") {
-                PopoverButton(label: "- 无序列表", shortcut: nil) {
+            PopoverSection(title: "Structure") {
+                PopoverButton(label: "- \(String(localized: "Bulleted List"))", shortcut: nil) {
                     controller.insertMarkup("- ")
                     dismiss()
                 }
-                PopoverButton(label: "1. 有序列表", shortcut: nil) {
+                PopoverButton(label: "1. \(String(localized: "Numbered List"))", shortcut: nil) {
                     controller.insertMarkup("1. ")
                     dismiss()
                 }
-                PopoverButton(label: "- [ ] 任务列表", shortcut: nil) {
+                PopoverButton(label: "- [ ] \(String(localized: "Task List"))", shortcut: nil) {
                     controller.insertMarkup("- [ ] ")
                     dismiss()
                 }
-                PopoverButton(label: "> 引用块", shortcut: nil) {
+                PopoverButton(label: "> \(String(localized: "Blockquote"))", shortcut: nil) {
                     controller.insertMarkup("> ")
                     dismiss()
                 }
-                PopoverButton(label: "``` 代码块", shortcut: nil) {
+                PopoverButton(label: "``` \(String(localized: "Code Block"))", shortcut: nil) {
                     controller.insertMarkup("```\n\n```")
                     dismiss()
                 }
@@ -147,16 +148,16 @@ private struct MoreOptionsPopover: View {
 
             Divider()
 
-            PopoverSection(title: "插入") {
-                PopoverButton(label: "链接", shortcut: "⌘K") {
+            PopoverSection(title: "Insert") {
+                PopoverButton(label: String(localized: "Link"), shortcut: "⌘K") {
                     controller.insertLinkMarkup()
                     dismiss()
                 }
-                PopoverButton(label: "图片", shortcut: nil) {
+                PopoverButton(label: String(localized: "Image"), shortcut: nil) {
                     controller.insertImageMarkup()
                     dismiss()
                 }
-                PopoverButton(label: "分隔线", shortcut: nil) {
+                PopoverButton(label: String(localized: "Horizontal Rule"), shortcut: nil) {
                     controller.insertMarkup("\n---\n")
                     dismiss()
                 }

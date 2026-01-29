@@ -47,10 +47,14 @@ final class Note {
     var createdAt: Date
     var modifiedAt: Date
     var isTrashed: Bool = false
+    var tags: [String] = []  // Keywords
     var folder: Folder?
 
     @Relationship(deleteRule: .cascade, inverse: \Snapshot.note)
     var snapshots: [Snapshot] = []
+
+    @Relationship(deleteRule: .cascade, inverse: \Memo.note)
+    var memos: [Memo] = []  // Multiple separate notes
 
     init(title: String, content: String = "", folder: Folder? = nil) {
         self.title = title
@@ -59,6 +63,19 @@ final class Note {
         self.modifiedAt = Date()
         self.isTrashed = false
         self.folder = folder
+    }
+}
+
+@Model
+final class Memo {
+    var content: String
+    var createdAt: Date
+    var note: Note?
+
+    init(content: String, note: Note? = nil) {
+        self.content = content
+        self.createdAt = Date()
+        self.note = note
     }
 }
 
@@ -77,7 +94,7 @@ final class Snapshot {
 
 struct NoteTransfer: Codable, Transferable, Sendable {
     let id: PersistentIdentifier
-    
+
     static var transferRepresentation: some TransferRepresentation {
         ProxyRepresentation(exporting: { noteTransfer in
             let data = try! JSONEncoder().encode(noteTransfer.id)

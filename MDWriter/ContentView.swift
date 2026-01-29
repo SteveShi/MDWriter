@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import MDEditor
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
@@ -59,11 +60,10 @@ struct ContentView: View {
 
                 if let note = note {
                     @Bindable var bindableNote = note
-                    UlyssesEditor(
+                    MDEditorView(
                         text: $bindableNote.content,
-                        noteID: note.persistentModelID,
                         configuration: editorSettings.configuration,
-                        controller: editorController
+                        proxy: editorController.proxy
                     )
                     .ignoresSafeArea()
                     .onChange(of: note.content) { oldValue, newValue in
@@ -95,20 +95,57 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
 
-                // Ulysses-style Bottom Toolbar
+                // Top Gradient Fade
                 if note != nil {
                     VStack {
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                currentTheme.paperColor, currentTheme.paperColor.opacity(0),
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 80)
+                        .ignoresSafeArea(.all, edges: .top)
+
                         Spacer()
-                        UlyssesBottomToolbar(controller: editorController)
                     }
+                    .allowsHitTesting(false)
+                }
+
+                // Ulysses-style Context-Sensitive Markup Bar
+                if note != nil {
+                    VStack(spacing: 0) {
+                        Spacer()
+
+                        UlyssesMarkupBar(controller: editorController)
+                            .background(currentTheme.paperColor)  // Ensure solid background behind bar
+                    }
+                }
+
+                // MARK: - Find & Replace Overlay
+                if editorController.isSearchVisible {
+                    VStack {
+                        UlyssesSearchBar(controller: editorController)
+                            .padding(.top, 50)  // Pin to top but below title bar
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                        Spacer()
+                    }
+                    .zIndex(100)
                 }
             }
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
 
-            // MARK: - Pane 2: Right Sidebar (Outline)
-            if showOutline && note != nil {
-                outlineView
-                    .frame(minWidth: 200, maxWidth: 300, maxHeight: .infinity)
+            // MARK: - Pane 2: Right Sidebar (Dashboard)
+            if showOutline, let currentNote = note {
+                DashboardView(
+                    note: currentNote,
+                    text: Binding(
+                        get: { currentNote.content },
+                        set: { currentNote.content = $0 }
+                    )
+                )
+                .frame(minWidth: 240, maxWidth: 300, maxHeight: .infinity)
             }
         }
         .preferredColorScheme(currentTheme.colorScheme)
@@ -167,37 +204,25 @@ struct ContentView: View {
                 .disabled(note == nil)
                 .help(LocalizedStringKey("Export Document"))
 
-                // 5. 搜索
-                if isSearching {
-                    HStack(spacing: 4) {
-                        TextField(LocalizedStringKey("Search"), text: $searchText)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 120)
-                        Button(action: {
-                            withAnimation {
-                                isSearching = false
-                                searchText = ""
-                            }
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                        }
-                        .buttonStyle(.plain)
+                // 5. 搜索 (Internal Editor Search)
+                Button(action: {
+                    withAnimation(.spring()) {
+                        editorController.isSearchVisible.toggle()
                     }
-                } else {
-                    Button(action: { withAnimation { isSearching = true } }) {
-                        Image(systemName: "magnifyingglass")
-                    }
-                    .disabled(note == nil)
+                }) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(editorController.isSearchVisible ? .accentColor : .primary)
                 }
+                .disabled(note == nil)
+                .help(LocalizedStringKey("Find and Replace"))
 
-                // 6. 大纲
+                // 6. 大纲 (Dashboard toggle)
                 Button(action: { withAnimation { showOutline.toggle() } }) {
-                    Image(systemName: "list.bullet.indent")
+                    Image(systemName: "sidebar.right")  // More appropriate icon for dashboard
                         .foregroundColor(showOutline ? .accentColor : .secondary)
                 }
                 .disabled(note == nil)
-                .help(LocalizedStringKey("Toggle Outline"))
+                .help(LocalizedStringKey("Dashboard"))
             }
         }
         .sheet(isPresented: $showShortcutsSheet) {
@@ -211,6 +236,24 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in
             showShortcutsSheet = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showFind)) { _ in
+            withAnimation(.spring()) {
+                editorController.isSearchVisible = true
+                editorController.isReplaceVisible = false
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showFindReplace)) { _ in
+            withAnimation(.spring()) {
+                editorController.isSearchVisible = true
+                editorController.isReplaceVisible = true
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .findNext)) { _ in
+            editorController.findNext()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .findPrevious)) { _ in
+            editorController.findPrevious()
         }
     }
 
@@ -255,41 +298,6 @@ struct ContentView: View {
         .frame(width: 280)
     }
 
-    @ViewBuilder
-    private var outlineView: some View {
-        VStack(alignment: .leading) {
-            Text(LocalizedStringKey("Outline"))
-                .font(.headline)
-                .padding()
-
-            List(headers, selection: .constant(nil as DocumentHeader.ID?)) { header in
-                HStack {
-                    Spacer().frame(width: CGFloat(header.level - 1) * 12)
-
-                    if header.level == 1 {
-                        Image(systemName: "number")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        Circle()
-                            .fill(.tertiary)
-                            .frame(width: 4, height: 4)
-                    }
-
-                    Text(header.title)
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundStyle(.primary.opacity(0.8))
-                        .lineLimit(1)
-                }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .padding(.vertical, 2)
-            }
-            .listStyle(.plain)
-        }
-        .background(Color(nsColor: .controlBackgroundColor))
-    }
-
     // MARK: - Actions
 
     private func insertImage() {
@@ -302,8 +310,9 @@ struct ContentView: View {
 
         panel.begin { response in
             if response == .OK, let url = panel.url {
-                let imageMarkdown = "![Image](\(url.path))"
-                editorController.insert(imageMarkdown)
+                if let filename = ImageManager.shared.saveImage(from: url) {
+                    editorController.insert("![](\(filename))")
+                }
             }
         }
     }
@@ -343,14 +352,85 @@ struct ContentView: View {
     }
 }
 
-// 辅助：用于 fileExporter 的简单文档封装
-struct TextDocument: FileDocument {
+// 辅助：用于导出 Markdown 包（包含图片）
+struct MarkdownPackageDocument: FileDocument {
     var text: String
-    init(_ text: String) { self.text = text }
-    static var readableContentTypes: [UTType] { [.plainText] }
-    init(configuration: ReadConfiguration) throws { text = "" }
+
+    init(text: String) {
+        self.text = text
+    }
+
+    static var readableContentTypes: [UTType] { [.folder] }  // 导出为文件夹
+
+    init(configuration: ReadConfiguration) throws {
+        self.text = ""
+    }
+
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        .init(regularFileWithContents: text.data(using: .utf8)!)
+        // 1. 创建根目录 Wrapper
+        let rootWrapper = FileWrapper(directoryWithFileWrappers: [:])
+
+        // 2. 处理文本内容，替换图片路径，并收集需要复制的图片
+        var processedText = text
+        var imagesToCopy: [String] = []
+
+        let pattern = #"!\[(.*?)\]\((.*?)\)"#
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let nsString = text as NSString
+        let matches = regex.matches(
+            in: text, options: [], range: NSRange(location: 0, length: nsString.length))
+
+        // 倒序替换以保持 Range 正确
+        for match in matches.reversed() {
+            let imagePath = nsString.substring(with: match.range(at: 2))
+            // 如果是本地文件名 (不包含 / 且不是 http)
+            if !imagePath.contains("/") && !imagePath.lowercased().hasPrefix("http") {
+                imagesToCopy.append(imagePath)
+
+                // 获取 Alt Text
+                let altText = nsString.substring(with: match.range(at: 1))
+
+                // 替换为相对路径
+                let replacement = "![\(altText)](images/\(imagePath))"
+                if let range = Range(match.range, in: processedText) {
+                    processedText.replaceSubrange(range, with: replacement)
+                }
+            }
+        }
+
+        // 3. 添加主文本文件 (index.md)
+        if let textData = processedText.data(using: .utf8) {
+            let textWrapper = FileWrapper(regularFileWithContents: textData)
+            textWrapper.preferredFilename = "index.md"
+            rootWrapper.addFileWrapper(textWrapper)
+        }
+
+        // 4. 创建 images 文件夹并复制图片
+        if !imagesToCopy.isEmpty {
+            let imagesDirWrapper = FileWrapper(directoryWithFileWrappers: [:])
+            imagesDirWrapper.preferredFilename = "images"
+
+            // 获取 Documents/Images 目录 (手动获取以避免 Actor 隔离问题)
+            let documentsURL = FileManager.default.urls(
+                for: .documentDirectory, in: .userDomainMask
+            ).first
+            let imagesDirURL = documentsURL?.appendingPathComponent("Images")
+
+            for filename in imagesToCopy {
+                if let imagesDirURL = imagesDirURL {
+                    let imageURL = imagesDirURL.appendingPathComponent(filename)
+                    if let imageData = try? Data(contentsOf: imageURL) {
+                        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+                        imageWrapper.preferredFilename = filename
+                        imagesDirWrapper.addFileWrapper(imageWrapper)
+                    }
+                }
+            }
+
+            rootWrapper.addFileWrapper(imagesDirWrapper)
+        }
+
+        return rootWrapper
     }
 }
 

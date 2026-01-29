@@ -1,58 +1,13 @@
-//
-//  EditorSettings.swift
-//  MDWriter
-//
-//  Created by Gemini on 2026/01/13.
-//
-
 import Combine
+import MDEditor
 import SwiftUI
 
-enum MarkdownStandard: String, CaseIterable, Identifiable {
-    case markdownXL = "Markdown XL"
-    case standard = "Standard"
-
-    var id: String { rawValue }
-
+extension MarkdownStandard {
     var displayName: LocalizedStringKey {
         switch self {
         case .markdownXL: return LocalizedStringKey("Markdown XL")
         case .standard: return LocalizedStringKey("Standard")
         }
-    }
-}
-
-// 纯数据结构，用于传递给 EditorView
-struct EditorConfiguration: Equatable {
-    var fontName: String
-    var lineHeightMultiple: CGFloat
-    var contentWidth: CGFloat
-    var paragraphSpacing: CGFloat
-    var firstLineIndent: CGFloat
-    var typewriterMode: Bool
-    var markdownStandard: MarkdownStandard
-
-    // 固定基准字号为 17
-    static let baseFontSize: CGFloat = 17.0
-
-    // 使用支持中文的字体
-    var nsFont: NSFont {
-        let size = Self.baseFontSize
-
-        // 优先使用用户选择的字体
-        if fontName != "System" {
-            if let font = NSFont(name: fontName, size: size) {
-                return font
-            }
-        }
-
-        // 默认使用苹方字体（中文优化）
-        if let pingFang = NSFont(name: "PingFang SC", size: size) {
-            return pingFang
-        }
-
-        // 降级到系统字体
-        return .systemFont(ofSize: size)
     }
 }
 

@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## [1.9.10] - 2026-01-29
+
+### Core Editor Upgrade
+- **Native TextKit 2 Integration**: Completely re-engineered the editor core using Apple's **TextKit 2** framework (`NSTextLayoutManager`, `NSTextContentManager`). This provides a massive leap in stability, performance, and future-proofing.
+- **New Highlighter Engine**: Implemented a high-performance **MarkdownHighlighter** that achieves a true Ulysses-like experience: 
+  - Real-time syntax styling (Headings, Bold, Italic, Code, etc.).
+  - Sophisticated fading of Markdown markers to reduce visual noise while editing.
+- **IME & Stability Hardening**: Native TextKit 2 integration finally resolves long-standing issues with Chinese input (IME) stability, cursor jumping in long documents, and text corruption during bulk edits.
+
+### Improvements & Cleanup
+- **Architecture Simplification**: Deleted the complex and problematic legacy components: `MarkdownTextStorage`, `UlyssesEditor`, and `UlyssesTextView`.
+- **Zero-Dependency Core**: Successfully removed the `MarkupEditor` library and `xcstrings-tool` package, significantly reducing project bloat and eliminating Swift 6 build errors.
+- **Unified Formatting Controller**: Fully integrated the new editor with existing UI components (Markup Bar, Search/Replace, Context Menus) via a refined `EditorController`.
+- **Release Optimization**: Cleaned up the GitHub Actions workflow by removing redundant dependency patching scripts.
+
+### UI & UX
+- **Refined Layout**: Added consistent padding and optimized line heights for a more professional, "book-like" writing feel.
+- **Markdown Auto-Completion**: Typing paired symbols (`**`, `` ` ``, `~~`, `[`, `![`, ` ``` `) now automatically inserts the closing counterpart.
+- **Context-Sensitive Markup Bar**: The bottom toolbar and more-options popover are now fully synchronized with the new editor state.
+
 ## [1.9.9] - 2026-01-18
 ### New Features
 - **Automatic Updates**: Integrated the **Sparkle** framework to keep the application up-to-date with the latest features and security fixes.

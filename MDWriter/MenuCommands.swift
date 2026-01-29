@@ -371,4 +371,7 @@ extension Notification.Name {
     static let showSnapshotBrowser = Notification.Name("showSnapshotBrowser")
     static let backupLibrary = Notification.Name("backupLibrary")
     static let restoreLibrary = Notification.Name("restoreLibrary")
+
+    // Editor Events
+    static let editorSelectionChanged = Notification.Name("editorSelectionChanged")
 }

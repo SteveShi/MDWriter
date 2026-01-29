@@ -4,6 +4,22 @@
     "" : {
 
     },
+    "Dashboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作面板"
+          }
+        }
+      }
+    },
     "···" : {
 
     },
@@ -29,12 +45,88 @@
         }
       }
     },
+    "Add Bookmark" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加书签"
+          }
+        }
+      }
+    },
+    "Add Keyword" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加关键字"
+          }
+        }
+      }
+    },
+    "Add Sketch" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加速绘"
+          }
+        }
+      }
+    },
+    "Add..." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加..."
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部"
+          }
+        }
+      }
+    },
     "All Documents" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "所有文稿"
+          }
+        }
+      }
+    },
+    "Analyze here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在这里分析"
+          }
+        }
+      }
+    },
+    "Annotation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批注"
           }
         }
       }
@@ -69,6 +161,17 @@
         }
       }
     },
+    "Auto-fill" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动填充"
+          }
+        }
+      }
+    },
     "Auto-Updates" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -92,6 +195,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自动检查更新"
+          }
+        }
+      }
+    },
+    "Average" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均"
           }
         }
       }
@@ -156,12 +269,32 @@
         }
       }
     },
+    "Characters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "字符"
+          }
+        }
+      }
+    },
     "chars" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "字符"
+          }
+        }
+      }
+    },
+    "Check Document Now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即检查文稿"
           }
         }
       }
@@ -176,12 +309,42 @@
         }
       }
     },
+    "Check Grammar with Spelling" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查拼写和语法"
+          }
+        }
+      }
+    },
+    "Check Spelling While Typing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键入时检查拼写"
+          }
+        }
+      }
+    },
     "Choose the look and feel of the application interface." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择应用程序界面的外观和感觉。"
+          }
+        }
+      }
+    },
+    "Clear All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除全部"
           }
         }
       }
@@ -195,6 +358,19 @@
           }
         }
       }
+    },
+    "Code" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代码"
+          }
+        }
+      }
+    },
+    "Code block" : {
+
     },
     "Code Block" : {
       "localizations" : {
@@ -216,12 +392,92 @@
         }
       }
     },
+    "Comment" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注释"
+          }
+        }
+      }
+    },
+    "Comment block" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注释块"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝"
+          }
+        }
+      }
+    },
+    "Correct Spelling Automatically" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动纠正拼写"
+          }
+        }
+      }
+    },
+    "Correction" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修正"
+          }
+        }
+      }
+    },
+    "Counters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计数器"
+          }
+        }
+      }
+    },
+    "Cut" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪切"
+          }
+        }
+      }
+    },
     "Dark" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "深色"
+          }
+        }
+      }
+    },
+    "Dashed List" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "带虚线的列表"
           }
         }
       }
@@ -252,6 +508,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除版本"
+          }
+        }
+      }
+    },
+    "Display Levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示层级"
           }
         }
       }
@@ -297,6 +563,16 @@
         }
       }
     },
+    "Emphasis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重点"
+          }
+        }
+      }
+    },
     "Empty Trash" : {
       "localizations" : {
         "zh-Hans" : {
@@ -320,6 +596,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "增强型编辑器"
+          }
+        }
+      }
+    },
+    "Excluding spaces" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不计空格"
           }
         }
       }
@@ -368,12 +654,55 @@
         }
       }
     },
+    "Fast" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快"
+          }
+        }
+      }
+    },
     "File" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "文件"
+          }
+        }
+      }
+    },
+    "Find" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查找"
+          }
+        }
+      }
+    },
+    "Find & Replace" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find & Replace"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查找及替换"
           }
         }
       }
@@ -387,6 +716,9 @@
           }
         }
       }
+    },
+    "Find and Replace" : {
+
     },
     "Find Next" : {
       "localizations" : {
@@ -533,6 +865,9 @@
         }
       }
     },
+    "Heading %lld" : {
+
+    },
     "Heading 1" : {
       "localizations" : {
         "zh-Hans" : {
@@ -569,6 +904,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标题 4"
+          }
+        }
+      }
+    },
+    "Heading 5" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三级副标题"
+          }
+        }
+      }
+    },
+    "Heading 6" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四级副标题"
+          }
+        }
+      }
+    },
+    "Headings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
           }
         }
       }
@@ -640,12 +1005,42 @@
         }
       }
     },
+    "HTML" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTML"
+          }
+        }
+      }
+    },
+    "Image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片"
+          }
+        }
+      }
+    },
     "Image..." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "图片..."
+          }
+        }
+      }
+    },
+    "Images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片"
           }
         }
       }
@@ -690,6 +1085,16 @@
         }
       }
     },
+    "Insert" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入"
+          }
+        }
+      }
+    },
     "Insert Image" : {
       "localizations" : {
         "zh-Hans" : {
@@ -730,12 +1135,32 @@
         }
       }
     },
+    "Keywords" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关键字"
+          }
+        }
+      }
+    },
     "Layout" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "布局"
+          }
+        }
+      }
+    },
+    "Levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "层级"
           }
         }
       }
@@ -798,6 +1223,16 @@
         }
       }
     },
+    "Link" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "链接"
+          }
+        }
+      }
+    },
     "Link..." : {
       "localizations" : {
         "zh-Hans" : {
@@ -831,6 +1266,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本地化"
+          }
+        }
+      }
+    },
+    "Major Heading" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大标题"
           }
         }
       }
@@ -892,6 +1337,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MDWriter 现在会自动保持最新。"
+          }
+        }
+      }
+    },
+    "Media" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "媒体"
           }
         }
       }
@@ -973,12 +1428,52 @@
         }
       }
     },
+    "No Configuration Options" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无配置选项"
+          }
+        }
+      }
+    },
+    "No Images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无图片"
+          }
+        }
+      }
+    },
+    "No outline content" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无大纲内容"
+          }
+        }
+      }
+    },
     "No Selection" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "无选择"
+          }
+        }
+      }
+    },
+    "No Structure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无结构"
           }
         }
       }
@@ -999,6 +1494,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nord"
+          }
+        }
+      }
+    },
+    "Notes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "笔记"
           }
         }
       }
@@ -1043,6 +1548,16 @@
         }
       }
     },
+    "Pages" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "页面"
+          }
+        }
+      }
+    },
     "Par. Space:" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1053,12 +1568,82 @@
         }
       }
     },
+    "Paragraph" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "段落"
+          }
+        }
+      }
+    },
+    "Paragraphs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "段落"
+          }
+        }
+      }
+    },
+    "Paste" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粘贴"
+          }
+        }
+      }
+    },
+    "Paste As" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粘贴为"
+          }
+        }
+      }
+    },
+    "Paste From" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粘贴自"
+          }
+        }
+      }
+    },
     "PDF" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PDF文档"
+          }
+        }
+      }
+    },
+    "Per line" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每行"
+          }
+        }
+      }
+    },
+    "Plain Text" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纯文本"
           }
         }
       }
@@ -1090,6 +1675,16 @@
         }
       }
     },
+    "Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进度"
+          }
+        }
+      }
+    },
     "Pure" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1100,12 +1695,75 @@
         }
       }
     },
+    "Raw Source" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始源"
+          }
+        }
+      }
+    },
+    "Raw source block" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始源块"
+          }
+        }
+      }
+    },
+    "Reading Time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阅读时间"
+          }
+        }
+      }
+    },
     "Rename" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "重命名"
+          }
+        }
+      }
+    },
+    "Replace" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换"
+          }
+        }
+      }
+    },
+    "Replace All" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace All"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换全部"
           }
         }
       }
@@ -1150,6 +1808,16 @@
         }
       }
     },
+    "Rich Text" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "富文本"
+          }
+        }
+      }
+    },
     "Rich Text (Word)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1180,13 +1848,34 @@
         }
       }
     },
+    "Scan Document" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描文稿"
+          }
+        }
+      }
+    },
     "Search" : {
       "comment" : "Content View & Toolbar",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜索"
+          }
+        }
+      }
+    },
+    "Seconds" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒"
           }
         }
       }
@@ -1217,6 +1906,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择一个版本"
+          }
+        }
+      }
+    },
+    "Sentences" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "句"
+          }
+        }
+      }
+    },
+    "Separator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分隔线"
           }
         }
       }
@@ -1289,6 +1998,16 @@
         }
       }
     },
+    "Show Spelling and Grammar" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示拼写和语法"
+          }
+        }
+      }
+    },
     "Show Statistics Dashboard" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1326,6 +2045,26 @@
         }
       }
     },
+    "Slow" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢"
+          }
+        }
+      }
+    },
+    "Small Heading" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小标题"
+          }
+        }
+      }
+    },
     "Solarized Dark" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1346,6 +2085,26 @@
         }
       }
     },
+    "Speech" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语音"
+          }
+        }
+      }
+    },
+    "Spelling and Grammar" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拼写和语法"
+          }
+        }
+      }
+    },
     "Standard" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1356,12 +2115,52 @@
         }
       }
     },
+    "Start Speaking" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始朗读"
+          }
+        }
+      }
+    },
+    "Statistics Configuration (None)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "统计配置 (暂无)"
+          }
+        }
+      }
+    },
+    "Stop Speaking" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止朗读"
+          }
+        }
+      }
+    },
     "Strikethrough" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除线"
+          }
+        }
+      }
+    },
+    "Structure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结构"
           }
         }
       }
@@ -1379,6 +2178,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "样式"
+          }
+        }
+      }
+    },
+    "Subheading" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "副标题"
           }
         }
       }
@@ -1410,12 +2219,32 @@
         }
       }
     },
+    "Take Photo" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍照"
+          }
+        }
+      }
+    },
     "Task List" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "任务列表"
+          }
+        }
+      }
+    },
+    "Text" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本"
           }
         }
       }
@@ -1451,6 +2280,7 @@
       }
     },
     "Toggle Outline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1483,6 +2313,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "废纸篓"
+          }
+        }
+      }
+    },
+    "Type and press Enter to add..." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入并回车添加..."
           }
         }
       }
@@ -1540,6 +2380,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更新"
+          }
+        }
+      }
+    },
+    "Use ⌘ + I or drag and drop to insert images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 ⌘ + I 或直接拖拽插入图片"
           }
         }
       }
@@ -1619,15 +2469,18 @@
         }
       }
     },
-    "Zoom In" : {
+    "Words" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "放大"
+            "value" : "字"
           }
         }
       }
+    },
+    "Zoom In" : {
+
     },
     "Zoom Out" : {
       "localizations" : {
@@ -1638,6 +2491,9 @@
           }
         }
       }
+    },
+    "操作面板" : {
+
     }
   },
   "version" : "1.1"

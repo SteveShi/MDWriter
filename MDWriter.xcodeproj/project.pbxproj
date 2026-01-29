@@ -7,33 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */ = {isa = PBXBuildFile; productRef = AA5406062F1C869A006F7597 /* xcstrings-tool */; };
 		AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = AA829F9B2F188FCD00F2F48C /* Highlightr */; };
-		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
+		AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = AA8881CC2F19ED8D00E36C21 /* Sparkle */; };
+		AA9FCCAF2F2B559F00B87589 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA9FCCAE2F2B559F00B87589 /* SwiftUIKit */; };
+		AA9FCCB22F2B584A00B87589 /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = AA9FCCB12F2B584A00B87589 /* Textual */; };
+		AA9FCD4E2F2B633E00B87589 /* MDEditor in Frameworks */ = {isa = PBXBuildFile; productRef = AA9FCD4D2F2B62EA00B87589 /* MDEditor */; };
 		AABC57E22F15680800DF940F /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = AABC57E12F15680800DF940F /* Markdown */; };
 		AAE55F462F1B714F00104F58 /* WhatsNewKit in Frameworks */ = {isa = PBXBuildFile; productRef = AAE55F452F1B714F00104F58 /* WhatsNewKit */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA9FCCA92F2B506B00B87589 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AA04760B2F05275E002D5D25 /* MDWriter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDWriter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AAF0F1752F16006D007C346F /* Exceptions for "MDWriter" folder in "MDWriter" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = AA04760A2F05275E002D5D25 /* MDWriter */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA04760D2F05275E002D5D25 /* MDWriter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AAF0F1752F16006D007C346F /* Exceptions for "MDWriter" folder in "MDWriter" target */,
-			);
 			path = MDWriter;
 			sourceTree = "<group>";
 		};
@@ -44,10 +46,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA9FCD4E2F2B633E00B87589 /* MDEditor in Frameworks */,
+				AA9FCCAF2F2B559F00B87589 /* SwiftUIKit in Frameworks */,
 				AAE55F462F1B714F00104F58 /* WhatsNewKit in Frameworks */,
-				AA5406072F1C869A006F7597 /* xcstrings-tool in Frameworks */,
 				AA8881CD2F19ED8D00E36C21 /* Sparkle in Frameworks */,
 				AA829F9C2F188FCD00F2F48C /* Highlightr in Frameworks */,
+				AA9FCCB22F2B584A00B87589 /* Textual in Frameworks */,
 				AABC57E22F15680800DF940F /* Markdown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +85,7 @@
 				AA0476072F05275E002D5D25 /* Sources */,
 				AA0476082F05275E002D5D25 /* Frameworks */,
 				AA0476092F05275E002D5D25 /* Resources */,
+				AA9FCCA92F2B506B00B87589 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -95,7 +100,9 @@
 				AA829F9B2F188FCD00F2F48C /* Highlightr */,
 				AA8881CC2F19ED8D00E36C21 /* Sparkle */,
 				AAE55F452F1B714F00104F58 /* WhatsNewKit */,
-				AA5406062F1C869A006F7597 /* xcstrings-tool */,
+				AA9FCD4D2F2B62EA00B87589 /* MDEditor */,
+				AA9FCCAE2F2B559F00B87589 /* SwiftUIKit */,
+				AA9FCCB12F2B584A00B87589 /* Textual */,
 			);
 			productName = MDWriter;
 			productReference = AA04760B2F05275E002D5D25 /* MDWriter.app */;
@@ -131,7 +138,9 @@
 				AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */,
 				AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				AAE55F442F1B714F00104F58 /* XCRemoteSwiftPackageReference "WhatsNewKit" */,
-				AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */,
+				AA9FCCAD2F2B559F00B87589 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
+				AA9FCCB02F2B584A00B87589 /* XCRemoteSwiftPackageReference "textual" */,
+				AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AA04760C2F05275E002D5D25 /* Products */;
@@ -426,14 +435,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/liamnichols/xcstrings-tool";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/raspu/Highlightr";
@@ -448,6 +449,22 @@
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 2.8.1;
+			};
+		};
+		AA9FCCAD2F2B559F00B87589 /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SwiftUIKit.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 6.1.0;
+			};
+		};
+		AA9FCCB02F2B584A00B87589 /* XCRemoteSwiftPackageReference "textual" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/textual";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.3.1;
 			};
 		};
 		AABC57E02F15680800DF940F /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
@@ -469,11 +486,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AA5406062F1C869A006F7597 /* xcstrings-tool */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AA5406052F1C869A006F7597 /* XCRemoteSwiftPackageReference "xcstrings-tool" */;
-			productName = "xcstrings-tool";
-		};
 		AA829F9B2F188FCD00F2F48C /* Highlightr */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */;
@@ -483,6 +495,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AA8881CB2F19ED8D00E36C21 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		AA9FCCAE2F2B559F00B87589 /* SwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA9FCCAD2F2B559F00B87589 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
+			productName = SwiftUIKit;
+		};
+		AA9FCCB12F2B584A00B87589 /* Textual */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA9FCCB02F2B584A00B87589 /* XCRemoteSwiftPackageReference "textual" */;
+			productName = Textual;
+		};
+		AA9FCD4D2F2B62EA00B87589 /* MDEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */; 
+			productName = MDEditor;
 		};
 		AABC57E12F15680800DF940F /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -495,6 +522,12 @@
 			productName = WhatsNewKit;
 		};
 /* End XCSwiftPackageProductDependency section */
+/* Begin XCLocalSwiftPackageReference section */
+		AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MDEditor;
+		};
+/* End XCLocalSwiftPackageReference section */
 	};
 	rootObject = AA0476032F05275E002D5D25 /* Project object */;
 }
