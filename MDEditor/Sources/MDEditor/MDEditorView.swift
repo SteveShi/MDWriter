@@ -42,11 +42,31 @@ public struct MDEditorView: NSViewRepresentable {
         public func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? MarkdownTextView else { return }
 
-            // 关键：过滤掉富文本内部产生的占位符再同步回 SwiftUI
-            let cleanedText = textView.string.replacingOccurrences(of: "\u{FFFC}", with: "")
-            if !isUpdatingFromSwiftUI && cleanedText != parent.text {
-                parent.text = cleanedText
+            // 关键：不再暴力过滤，而是通过属性还原完整的 Markdown 源码
+            // 这解决了由于图片替换为占位符导致的 SwiftUI 数据丢失且触发死循环的问题
+            let reconstructed = reconstructMarkdown(from: textView.textStorage)
+
+            if !isUpdatingFromSwiftUI && reconstructed != parent.text {
+                parent.text = reconstructed
             }
+        }
+
+        /// 从富文本中还原 Markdown 源码，处理被替换为图片的附件。
+        private func reconstructMarkdown(from textStorage: NSTextStorage?) -> String {
+            guard let textStorage = textStorage else { return "" }
+            var result = ""
+
+            textStorage.enumerateAttributes(
+                in: NSRange(location: 0, length: textStorage.length), options: []
+            ) { attrs, range, _ in
+                // 检查是否存在我们在 MarkdownHighlighter 中存入的源码备份
+                if let source = attrs[NSAttributedString.Key("MarkdownSource")] as? String {
+                    result += source
+                } else {
+                    result += (textStorage.string as NSString).substring(with: range)
+                }
+            }
+            return result
         }
 
         public func textViewDidChangeSelection(_ notification: Notification) {
@@ -275,6 +295,15 @@ class MarkdownTextView: NSTextView {
         let lineRange = text.lineRange(for: range)
 
         highlighter.highlight(textStorage, in: lineRange)
+
+        // 关键：强制 TextKit 2 重新处理布局和重绘
+        // 尤其是在标题等导致行高跨度大的样式变化时，必须显式触发
+        if let layoutManager = self.layoutManager {
+            layoutManager.invalidateLayout(forCharacterRange: lineRange, actualCharacterRange: nil)
+            layoutManager.invalidateDisplay(forCharacterRange: lineRange)
+        }
+
+        needsDisplay = true
     }
 
     func updateTheme(isDark: Bool) {
@@ -353,10 +382,12 @@ class MarkdownTextView: NSTextView {
     }
 
     func updateTypingAttributes() {
-        // 关键修复：强制重置输入属性，防止回车后光标因继承错误样式而消失或变小
+        // 关键修复：使用高亮器统一的段落样式（包含行高），防止回车后的高度抖动
+        let paraStyle = highlighter.createBaseParagraphStyle()
+
         var styles: [NSAttributedString.Key: Any] = [
             .font: highlighter.baseFont,
-            .paragraphStyle: NSParagraphStyle.default,
+            .paragraphStyle: paraStyle,
         ]
 
         if let color = insertionPointColor {

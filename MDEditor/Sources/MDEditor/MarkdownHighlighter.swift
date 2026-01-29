@@ -124,23 +124,39 @@ public final class MarkdownHighlighter: @unchecked Sendable {
     // MARK: - Public Methods
 
     /// 为给定文本应用 Markdown 高亮
-    /// - Parameters:
-    ///   - textStorage: 目标文本存储
-    ///   - range: 要高亮的范围
     public func highlight(_ textStorage: NSTextStorage, in range: NSRange) {
-        let text = textStorage.string as NSString
-        let fullRange = NSRange(location: 0, length: text.length)
+        let textSnapshot = textStorage.string as NSString
+        let fullRange = NSRange(location: 0, length: textSnapshot.length)
         let targetRange = NSIntersectionRange(range, fullRange)
 
         guard targetRange.length > 0 else { return }
 
-        // 扩展到完整行
-        let lineRange = text.lineRange(for: targetRange)
+        // 扩展到完整行范围，确保标题、列表等行首语法能被正确捕获
+        let lineRange = textSnapshot.lineRange(for: targetRange)
+
+        // 渲染锁：图片替换会改变长度，必须从后往前执行以保持索引有效
+        var imageReplacements: [(NSRange, NSAttributedString)] = []
 
         textStorage.beginEditing()
 
-        // 1. 彻底清空并重置为基础样式（防止旧高亮颜色残留）
+        // 1. 重置视图基础样式
+        // 我们需要彻底覆盖旧样式，但又要保护图片附件。
+        // TextKit 2 中，setAttributes 是最可靠的刷新方式。
         let baseStyle = createBaseParagraphStyle()
+
+        // 我们先备份该范围内的附件，然后全量重置，再把附件填回去（如果有的话）
+        // 这样可以确保样式绝对干净，不会有任何“残留”
+
+        // 记录附件位置
+        var attachments: [(range: NSRange, attrs: [NSAttributedString.Key: Any])] = []
+        textStorage.enumerateAttribute(.attachment, in: lineRange, options: []) { val, range, _ in
+            if val != nil {
+                attachments.append(
+                    (range, textStorage.attributes(at: range.location, effectiveRange: nil)))
+            }
+        }
+
+        // 全量干净重置
         textStorage.setAttributes(
             [
                 .font: baseFont,
@@ -148,11 +164,57 @@ public final class MarkdownHighlighter: @unchecked Sendable {
                 .paragraphStyle: baseStyle,
             ], range: lineRange)
 
-        // 2. 应用各种样式
+        // 还原附件及其源码属性
+        for (range, attrs) in attachments {
+            textStorage.addAttributes(attrs, range: range)
+        }
+
+        // 使用 NSString 的 bridge 以最高效率运行正则（避免 Swift String 重复转换的性能损耗）
+        let searchString = textSnapshot as String
+
+        // 2. 第一阶段：扫描所有非破坏性样式（颜色、加粗等）并记录需要破坏性替换的图片
         for (regex, style) in patterns {
-            regex.enumerateMatches(in: text as String, range: lineRange) { match, _, _ in
+            regex.enumerateMatches(in: searchString, options: [], range: lineRange) { match, _, _ in
                 guard let match = match else { return }
-                self.applyStyle(style, to: textStorage, match: match, text: text)
+
+                if style == .image {
+                    // 图片会导致文本长度变化，记录之以便后续逆序处理
+                    if let attrString = self.createImageAttachmentString(
+                        for: match, in: textSnapshot)
+                    {
+                        imageReplacements.append((match.range, attrString))
+                    }
+                } else {
+                    // 常规样式即时应用
+                    self.applyStyle(style, to: textStorage, match: match, text: textSnapshot)
+                }
+            }
+        }
+
+        // 3. 第二阶段：从后往前替换图片附件
+        // 重要：逆序替换是解决“点击文档卡死”的核心技术。
+        if !imageReplacements.isEmpty {
+            for (replaceRange, attrString) in imageReplacements.reversed() {
+                // 【性能拦截】检查指纹：如果目标字符已经是相同的附件且源码一致，则跳过替换。
+                // 这彻底杜绝了打字时因重复插入附件导致的布局重算和界面跳动。
+                var isAlreadyRendered = false
+                if replaceRange.length == 1 {
+                    let currentAttrs = textStorage.attributes(
+                        at: replaceRange.location, effectiveRange: nil)
+                    if let currentSource = currentAttrs[NSAttributedString.Key("MarkdownSource")]
+                        as? String,
+                        let newSource = attrString.attribute(
+                            NSAttributedString.Key("MarkdownSource"), at: 0, effectiveRange: nil)
+                            as? String,
+                        currentSource == newSource
+                    {
+                        isAlreadyRendered = true
+                    }
+                }
+
+                if !isAlreadyRendered {
+                    textStorage.replaceCharacters(in: replaceRange, with: attrString)
+                }
             }
         }
 
@@ -161,7 +223,8 @@ public final class MarkdownHighlighter: @unchecked Sendable {
 
     // MARK: - Private Methods
 
-    private func createBaseParagraphStyle() -> NSMutableParagraphStyle {
+    /// 创建基础段落样式
+    internal func createBaseParagraphStyle() -> NSMutableParagraphStyle {
         let style = NSMutableParagraphStyle()
         style.lineHeightMultiple = lineHeightMultiple
         style.paragraphSpacing = 8
@@ -190,7 +253,8 @@ public final class MarkdownHighlighter: @unchecked Sendable {
         case .listMarker:
             applyListMarkerStyle(to: storage, match: match)
         case .image:
-            applyImageStyle(to: storage, match: match, text: text)
+            // 图片在 highlight 方法的第一阶段已通过 imageReplacements 接管
+            break
         }
     }
 
@@ -225,13 +289,14 @@ public final class MarkdownHighlighter: @unchecked Sendable {
                 ], range: contentRange)
         }
 
-        // 2. 后强制应用语法标记淡化 (Syntax Font) - 确保覆盖任何可能溢出的样式
-        // 使用 setAttributes 确保该范围内只保留 syntax 样式，清除可能的加粗干扰
+        // 2. 核心：应用并强制刷新符号淡化 (Syntax Font)
+        // 使用 setAttributes 以免继承了上方的 HeadingFont
         var syntaxAttrs: [NSAttributedString.Key: Any] = [
             .font: syntaxFont,
             .foregroundColor: syntaxColor,
         ]
-        // 保持段落样式
+
+        // 维持段落行高
         if let paraStyle = storage.attribute(
             .paragraphStyle, at: hashRange.location, effectiveRange: nil)
         {
@@ -355,20 +420,20 @@ public final class MarkdownHighlighter: @unchecked Sendable {
         storage.addAttributes([.foregroundColor: syntaxColor], range: markerRange)
     }
 
-    private func applyImageStyle(
-        to storage: NSTextStorage, match: NSTextCheckingResult, text: NSString
-    ) {
-        let fullRange = match.range
+    private func createImageAttachmentString(for match: NSTextCheckingResult, in text: NSString)
+        -> NSAttributedString?
+    {
+        let matchRange = match.range
         let linkRange = match.range(at: 2)
-        let imagePath = text.substring(with: linkRange)
+        let path = text.substring(with: linkRange)
+        let originalMarkdown = text.substring(with: matchRange)
 
-        // 尝试加载图片
-        if let image = imageProvider?(imagePath) {
-            // 创建附件
+        // 尝试通过宿主提供的 imageProvider 加载
+        if let image = imageProvider?(path) {
             let attachment = NSTextAttachment()
             attachment.image = image
 
-            // 限制图片最大宽度，保持比例
+            // 智能缩放保持 Ulysses 均衡感
             let maxWidth: CGFloat = 800
             let size = image.size
             if size.width > maxWidth {
@@ -378,14 +443,23 @@ public final class MarkdownHighlighter: @unchecked Sendable {
                 attachment.bounds = CGRect(origin: .zero, size: size)
             }
 
-            // 使用附件替换文本，实现“所见即所得”
-            // 由于 MDEditorView 已有 isHighlighting 锁，这里修改文本是安全的
-            let attrString = NSAttributedString(attachment: attachment)
-            storage.replaceCharacters(in: fullRange, with: attrString)
-        } else {
-            // 图片加载失败，仅淡化语法
-            storage.addAttributes(
-                [.font: syntaxFont, .foregroundColor: syntaxColor], range: fullRange)
+            // 【核心修复】创建带源码备份的附件字符
+            let attrString = NSMutableAttributedString(attachment: attachment)
+            // 该属性由 MDEditorView.Coordinator.reconstructMarkdown 读取，确保同步时数据完整
+            attrString.addAttribute(
+                NSAttributedString.Key("MarkdownSource"), value: originalMarkdown,
+                range: NSRange(location: 0, length: 1))
+
+            return attrString
         }
+        return nil
+    }
+
+    private func applyImageStyle(
+        to storage: NSTextStorage, match: NSRegularExpression, range: NSRange, text: NSString
+    ) {
+        // 此方法已由 highlight 中的记录替换逻辑接管，保留仅作兼容性占位
+        storage.addAttributes(
+            [.font: syntaxFont, .foregroundColor: syntaxColor], range: range)
     }
 }
