@@ -10,3 +10,8 @@ build_output_optimization_verify_final_5.txt
 Sparkle_Integration_Guide.md
 /deploy_final
 /MDEditor/.build
+/MDEditor/.build
+/MDEditor/.build
+/MDEditor/.build/index-build
+/MDEditor/.build/index-build/arm64-apple-macosx
+/MDEditor/.build/index-build/arm64-apple-macosx/debug/index

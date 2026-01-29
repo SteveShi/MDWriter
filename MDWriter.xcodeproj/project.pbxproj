@@ -301,6 +301,8 @@
 				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = W7A747LNTR;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readwrite;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readwrite;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
@@ -333,20 +335,19 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.9.6;
+				MARKETING_VERSION = 1.9.11;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -361,6 +362,8 @@
 				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = W7A747LNTR;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readwrite;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readwrite;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
@@ -393,20 +396,19 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.9.6;
+				MARKETING_VERSION = 1.9.11;
 				PRODUCT_BUNDLE_IDENTIFIER = listentotherain.MDWriter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -433,6 +435,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MDEditor;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		AA829F9A2F188FCD00F2F48C /* XCRemoteSwiftPackageReference "Highlightr" */ = {
@@ -508,7 +517,7 @@
 		};
 		AA9FCD4D2F2B62EA00B87589 /* MDEditor */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */; 
+			package = AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */;
 			productName = MDEditor;
 		};
 		AABC57E12F15680800DF940F /* Markdown */ = {
@@ -522,12 +531,6 @@
 			productName = WhatsNewKit;
 		};
 /* End XCSwiftPackageProductDependency section */
-/* Begin XCLocalSwiftPackageReference section */
-		AA9FCD4A2F2B62EA00B87589 /* XCLocalSwiftPackageReference "MDEditor" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = MDEditor;
-		};
-/* End XCLocalSwiftPackageReference section */
 	};
 	rootObject = AA0476032F05275E002D5D25 /* Project object */;
 }

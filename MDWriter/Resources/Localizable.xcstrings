@@ -4,22 +4,6 @@
     "" : {
 
     },
-    "Dashboard" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dashboard"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "操作面板"
-          }
-        }
-      }
-    },
     "···" : {
 
     },
@@ -31,6 +15,16 @@
     },
     "%lld px" : {
 
+    },
+    "A complete overhaul of the editor core for massive stability and performance gains." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全面重构核心编辑器，带来巨大的稳定性与性能提升。"
+          }
+        }
+      }
     },
     "Aa" : {
 
@@ -46,6 +40,7 @@
       }
     },
     "Add Bookmark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -66,6 +61,7 @@
       }
     },
     "Add Sketch" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -86,6 +82,7 @@
       }
     },
     "All" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,6 +109,7 @@
       }
     },
     "Analyze here" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -122,6 +120,7 @@
       }
     },
     "Annotation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -290,6 +289,7 @@
       }
     },
     "Check Document Now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -310,6 +310,7 @@
       }
     },
     "Check Grammar with Spelling" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -320,6 +321,7 @@
       }
     },
     "Check Spelling While Typing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -340,6 +342,7 @@
       }
     },
     "Clear All" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -369,9 +372,6 @@
         }
       }
     },
-    "Code block" : {
-
-    },
     "Code Block" : {
       "localizations" : {
         "zh-Hans" : {
@@ -393,6 +393,7 @@
       }
     },
     "Comment" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -403,6 +404,7 @@
       }
     },
     "Comment block" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -412,7 +414,18 @@
         }
       }
     },
+    "Continue" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续"
+          }
+        }
+      }
+    },
     "Copy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -423,6 +436,7 @@
       }
     },
     "Correct Spelling Automatically" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -433,6 +447,7 @@
       }
     },
     "Correction" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -453,6 +468,7 @@
       }
     },
     "Cut" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -472,7 +488,24 @@
         }
       }
     },
+    "Dashboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作面板"
+          }
+        }
+      }
+    },
     "Dashed List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -564,6 +597,7 @@
       }
     },
     "Emphasis" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -909,6 +943,7 @@
       }
     },
     "Heading 5" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -919,6 +954,7 @@
       }
     },
     "Heading 6" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1006,6 +1042,7 @@
       }
     },
     "HTML" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1041,6 +1078,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "图片"
+          }
+        }
+      }
+    },
+    "IME Stability" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入法稳定性"
           }
         }
       }
@@ -1081,6 +1128,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "行内代码"
+          }
+        }
+      }
+    },
+    "Inline Image Preview" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内联图片预览"
           }
         }
       }
@@ -1371,6 +1428,16 @@
         }
       }
     },
+    "Native support for Chinese input and mixed-language writing without cursor jumping." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原生支持中文输入与中英混输，彻底告别光标跳动。"
+          }
+        }
+      }
+    },
     "New Group" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1569,6 +1636,7 @@
       }
     },
     "Paragraph" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1589,6 +1657,7 @@
       }
     },
     "Paste" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1599,6 +1668,7 @@
       }
     },
     "Paste As" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1609,6 +1679,7 @@
       }
     },
     "Paste From" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1639,6 +1710,7 @@
       }
     },
     "Plain Text" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1675,6 +1747,16 @@
         }
       }
     },
+    "Pro Markdown Rendering" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专业级 Markdown 渲染"
+          }
+        }
+      }
+    },
     "Progress" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1696,6 +1778,7 @@
       }
     },
     "Raw Source" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1706,6 +1789,7 @@
       }
     },
     "Raw source block" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1809,6 +1893,7 @@
       }
     },
     "Rich Text" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1849,6 +1934,7 @@
       }
     },
     "Scan Document" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1999,6 +2085,7 @@
       }
     },
     "Show Spelling and Grammar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2086,6 +2173,7 @@
       }
     },
     "Speech" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2096,6 +2184,7 @@
       }
     },
     "Spelling and Grammar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2116,6 +2205,7 @@
       }
     },
     "Start Speaking" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2136,6 +2226,7 @@
       }
     },
     "Stop Speaking" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2220,6 +2311,7 @@
       }
     },
     "Take Photo" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2240,11 +2332,22 @@
       }
     },
     "Text" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "文本"
+          }
+        }
+      }
+    },
+    "TextKit 2 Engine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKit 2 引擎"
           }
         }
       }
@@ -2364,6 +2467,16 @@
         }
       }
     },
+    "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulysses 风格的语法高亮与优雅的淡入淡出，打造无干扰写作体验。"
+          }
+        }
+      }
+    },
     "Unordered List" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2421,6 +2534,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "视图选项"
+          }
+        }
+      }
+    },
+    "View your local images directly inside the editor and export previews with ease." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直接在编辑器中查看本地图片，并轻松导出预览。"
           }
         }
       }
@@ -2491,9 +2614,6 @@
           }
         }
       }
-    },
-    "操作面板" : {
-
     }
   },
   "version" : "1.1"

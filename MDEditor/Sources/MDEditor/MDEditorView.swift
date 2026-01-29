@@ -28,6 +28,7 @@ public struct MDEditorView: NSViewRepresentable {
 
     // MARK: - Coordinator
 
+    @MainActor
     public class Coordinator: NSObject, NSTextViewDelegate {
         var parent: MDEditorView
         var isUpdatingFromSwiftUI = false
@@ -41,9 +42,19 @@ public struct MDEditorView: NSViewRepresentable {
         public func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? MarkdownTextView else { return }
 
-            if !isUpdatingFromSwiftUI && textView.string != parent.text {
-                parent.text = textView.string
+            // 关键：过滤掉富文本内部产生的占位符再同步回 SwiftUI
+            let cleanedText = textView.string.replacingOccurrences(of: "\u{FFFC}", with: "")
+            if !isUpdatingFromSwiftUI && cleanedText != parent.text {
+                parent.text = cleanedText
             }
+        }
+
+        public func textViewDidChangeSelection(_ notification: Notification) {
+            guard let textView = notification.object as? MarkdownTextView else { return }
+            textView.updateTypingAttributes()
+
+            // 触发打字机模式滚动
+            textView.scrollToCenter()
         }
 
         // MARK: - Proxy Sync
@@ -155,16 +166,18 @@ public struct MDEditorView: NSViewRepresentable {
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
         textView.autoresizingMask = [.width]
-        textView.textContainerInset = NSSize(
-            width: configuration.horizontalPadding, height: configuration.verticalPadding)
 
-        textView.isRichText = false
+        textView.isRichText = true
+        textView.importsGraphics = true
         textView.allowsUndo = true
         textView.backgroundColor = .clear
 
         scrollView.documentView = textView
         textView.string = text
-        textView.highlightMarkdown()
+
+        // 应用初始配置
+        textView.applyConfiguration(configuration)
+        textView.updateTheme(isDark: colorScheme == .dark)
 
         context.coordinator.setupProxyActions()
 
@@ -174,13 +187,34 @@ public struct MDEditorView: NSViewRepresentable {
     public func updateNSView(_ nsView: NSScrollView, context: Context) {
         guard let textView = nsView.documentView as? MarkdownTextView else { return }
 
-        let isDark = colorScheme == .dark
-        textView.updateTheme(isDark: isDark)
+        // 1. 焦点绝对同步锁定：如果用户正在打字（是第一响应者），绝对禁止强制同步文本、配置或主题
+        // 这彻底防止了打字过程中因 State 更新导致的反向刷新、跳动和光标丢失
+        if textView.window?.firstResponder == textView {
+            return
+        }
 
-        if !context.coordinator.isUpdatingFromSwiftUI && textView.string != text {
+        // 2. 只有在非输入状态下，才同步配置与主题
+        textView.applyConfiguration(configuration)
+        textView.updateTheme(isDark: colorScheme == .dark)
+
+        // 3. 干净对比同步：剔除富文本占位符，避免冗余刷新
+        let currentCleanText = textView.string.replacingOccurrences(of: "\u{FFFC}", with: "")
+
+        if !context.coordinator.isUpdatingFromSwiftUI && currentCleanText != text {
             context.coordinator.isUpdatingFromSwiftUI = true
+
+            // 备份光标
+            let selectedRange = textView.selectedRange()
+
+            // 执行同步
             textView.string = text
             textView.highlightMarkdown()
+
+            // 恢复光标（如果在内容长度内）
+            if selectedRange.location + selectedRange.length <= text.count {
+                textView.setSelectedRange(selectedRange)
+            }
+
             context.coordinator.isUpdatingFromSwiftUI = false
         }
     }
@@ -191,6 +225,8 @@ public struct MDEditorView: NSViewRepresentable {
 class MarkdownTextView: NSTextView {
     private lazy var highlighter = MarkdownHighlighter()
     private var isComposing = false
+    private var isHighlighting = false
+    private var currentConfiguration: EditorConfiguration?
 
     override func setMarkedText(_ string: Any, selectedRange: NSRange, replacementRange: NSRange) {
         isComposing = true
@@ -206,15 +242,20 @@ class MarkdownTextView: NSTextView {
 
     override func insertText(_ string: Any, replacementRange: NSRange) {
         super.insertText(string, replacementRange: replacementRange)
-        if !isComposing {
-            highlightMarkdown(in: rangeForUserTextChange)
-        }
+        // 移除冗余的 highlight 调用，完全依赖 didChangeText
     }
 
     override func didChangeText() {
         super.didChangeText()
-        if !isComposing {
-            highlightMarkdown(in: rangeForUserTextChange)
+        if !isComposing && !isHighlighting {  // 锁住递归
+            // 优先使用 textStorage 的 editedRange，它是最准确的变更范围
+            // 如果不可用，回退到 rangeForUserTextChange
+            let range = textStorage?.editedRange ?? rangeForUserTextChange
+
+            // 确保 range 有效
+            if range.location != NSNotFound {
+                highlightMarkdown(in: range)
+            }
         }
     }
 
@@ -224,7 +265,10 @@ class MarkdownTextView: NSTextView {
     }
 
     func highlightMarkdown(in range: NSRange) {
-        guard let textStorage = textStorage, !isComposing else { return }
+        guard let textStorage = textStorage, !isComposing, !isHighlighting else { return }
+
+        isHighlighting = true
+        defer { isHighlighting = false }
 
         // 扩展到完整行范围以优化高亮渲染
         let text = textStorage.string as NSString
@@ -234,9 +278,91 @@ class MarkdownTextView: NSTextView {
     }
 
     func updateTheme(isDark: Bool) {
+        // 防抖：如果主题未变化，直接返回，避免触发全量重绘
+        guard highlighter.isDarkTheme != isDark else { return }
+
         highlighter.isDarkTheme = isDark
         backgroundColor = .clear
         insertionPointColor = isDark ? .white : .black
         highlightMarkdown()
+    }
+
+    /// 应用编辑器配置
+    func applyConfiguration(_ config: EditorConfiguration) {
+        let configChanged = currentConfiguration != config
+        currentConfiguration = config
+
+        // 同步字体和图片提供者
+        highlighter.baseFont = config.nsFont
+        highlighter.lineHeightMultiple = config.lineHeightMultiple
+        highlighter.imageProvider = config.imageProvider
+
+        // 更新边距
+        textContainerInset = NSSize(
+            width: config.horizontalPadding,
+            height: config.verticalPadding
+        )
+
+        // 更新打字机模式状态
+        if config.typewriterMode {
+            // 允许垂直滚动超过内容高度，以便最后一行也能居中
+            // 注意：这需要 textContainer 的高度只有在大量内容时才有效，
+            // 也可以通过 contentInsets 实现
+            let halfScreen = (enclosingScrollView?.bounds.height ?? 600) / 2
+            enclosingScrollView?.contentInsets.bottom = halfScreen
+        } else {
+            enclosingScrollView?.contentInsets.bottom = config.verticalPadding
+        }
+
+        // 仅当配置真正变化时才强制刷新高亮
+        if configChanged {
+            highlightMarkdown()
+            updateTypingAttributes()  // 确保光标样式同步
+            needsDisplay = true
+        }
+    }
+
+    func scrollToCenter() {
+        guard let configuration = currentConfiguration, configuration.typewriterMode else { return }
+        guard let layoutManager = layoutManager,
+            let textContainer = textContainer,
+            let scrollView = enclosingScrollView
+        else { return }
+
+        let selectedRange = selectedRange()
+        let glyphRange = layoutManager.glyphRange(
+            forCharacterRange: selectedRange, actualCharacterRange: nil)
+        let glyphRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+
+        let documentVisRect = scrollView.documentVisibleRect
+        let height = documentVisRect.height
+
+        if glyphRect.height > 0 {
+            // 计算目标 Y 坐标，使光标位于视图中心
+            let targetY = glyphRect.midY - height / 2.0
+            // 确保不越界（虽然 contentInsets 允许越界，但 scrollToPoint 需要被 clipView 约束）
+            // 在 macOS 中，NSClipView 会自动处理 bounds 约束，但我们需要确保逻辑正确
+            let point = NSPoint(x: 0, y: targetY)  // 允许负值，ClipView 会处理
+
+            // 只有当偏差较大时才滚动，避免抖动？不，打字机模式通常紧跟
+            scrollView.contentView.animator().setBoundsOrigin(point)
+            // 使用 animator 平滑滚动，或者直接 scrollToPoint
+            // scrollView.contentView.scrollToPoint(point)
+            scrollView.reflectScrolledClipView(scrollView.contentView)
+        }
+    }
+
+    func updateTypingAttributes() {
+        // 关键修复：强制重置输入属性，防止回车后光标因继承错误样式而消失或变小
+        var styles: [NSAttributedString.Key: Any] = [
+            .font: highlighter.baseFont,
+            .paragraphStyle: NSParagraphStyle.default,
+        ]
+
+        if let color = insertionPointColor {
+            styles[.foregroundColor] = color
+        }
+
+        typingAttributes = styles
     }
 }

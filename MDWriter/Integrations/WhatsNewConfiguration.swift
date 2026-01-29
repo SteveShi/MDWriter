@@ -14,33 +14,49 @@ struct WhatsNewConfiguration {
         WhatsNew(
             // The version identifying these features.
             // Usually matches your Bundle Version.
-            version: "1.0.0",
-            
-            title: WhatsNew.Title(text: WhatsNew.Text(String(localized: "Welcome to MDWriter"))),
-            
+            version: "1.9.11",
+
+            title: WhatsNew.Title(text: WhatsNew.Text(String(localized: "What's New in MDWriter"))),
+
             features: [
                 WhatsNew.Feature(
-                    image: .init(systemName: "square.and.pencil"),
-                    title: WhatsNew.Text(String(localized: "Enhanced Editor")),
-                    subtitle: WhatsNew.Text(String(localized: "Experience a distraction-free writing environment with new formatting tools."))
+                    image: .init(systemName: "cpu"),
+                    title: WhatsNew.Text(String(localized: "TextKit 2 Engine")),
+                    subtitle: WhatsNew.Text(
+                        String(
+                            localized:
+                                "A complete overhaul of the editor core for massive stability and performance gains."
+                        ))
                 ),
                 WhatsNew.Feature(
-                    image: .init(systemName: "sidebar.left"),
-                    title: WhatsNew.Text(String(localized: "Library Management")),
-                    subtitle: WhatsNew.Text(String(localized: "Organize your notes into folders and groups effortlessly."))
+                    image: .init(systemName: "paintpalette"),
+                    title: WhatsNew.Text(String(localized: "Pro Markdown Rendering")),
+                    subtitle: WhatsNew.Text(
+                        String(
+                            localized:
+                                "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience."
+                        ))
                 ),
                 WhatsNew.Feature(
-                    image: .init(systemName: "arrow.triangle.2.circlepath"),
-                    title: WhatsNew.Text(String(localized: "Auto-Updates")),
-                    subtitle: WhatsNew.Text(String(localized: "MDWriter now keeps itself up to date automatically."))
+                    image: .init(systemName: "keyboard"),
+                    title: WhatsNew.Text(String(localized: "IME Stability")),
+                    subtitle: WhatsNew.Text(
+                        String(
+                            localized:
+                                "Native support for Chinese input and mixed-language writing without cursor jumping."
+                        ))
                 ),
                 WhatsNew.Feature(
-                    image: .init(systemName: "globe"),
-                    title: WhatsNew.Text(String(localized: "Localization")),
-                    subtitle: WhatsNew.Text(String(localized: "Fully localized interface for English and Simplified Chinese."))
-                )
+                    image: .init(systemName: "photo"),
+                    title: WhatsNew.Text(String(localized: "Inline Image Preview")),
+                    subtitle: WhatsNew.Text(
+                        String(
+                            localized:
+                                "View your local images directly inside the editor and export previews with ease."
+                        ))
+                ),
             ],
-            primaryAction: .init(title: WhatsNew.Text(String(localized: "Get Started")))
+            primaryAction: .init(title: WhatsNew.Text(String(localized: "Continue")))
         )
     }
 }

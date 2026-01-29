@@ -379,31 +379,46 @@ struct MediaTab: View {
             } else {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
                     ForEach(images, id: \.self) { imagePath in
-                        if let url = resolveURL(for: imagePath) {
-                            AsyncImage(url: url) { phase in
-                                switch phase {
-                                case .empty:
-                                    ProgressView()
-                                case .success(let image):
-                                    image.resizable().aspectRatio(contentMode: .fit)
-                                case .failure:
+                        Group {
+                            if imagePath.lowercased().hasPrefix("http") {
+                                // 网络图片使用 AsyncImage
+                                if let url = URL(string: imagePath) {
+                                    AsyncImage(url: url) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                        case .success(let image):
+                                            image.resizable().aspectRatio(contentMode: .fit)
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.secondary)
+                                                .frame(height: 50)
+                                        @unknown default:
+                                            EmptyView()
+                                        }
+                                    }
+                                } else {
+                                    Image(systemName: "exclamationmark.triangle")
+                                        .foregroundColor(.secondary)
+                                }
+                            } else {
+                                // 本地图片使用 ImageManager 加载
+                                if let nsImage = ImageManager.shared.loadImage(named: imagePath) {
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                } else {
                                     Image(systemName: "photo")
                                         .foregroundColor(.secondary)
                                         .frame(height: 50)
-                                @unknown default:
-                                    EmptyView()
                                 }
                             }
-                            .frame(height: 80)
-                            .cornerRadius(6)
-                            .padding(4)
-                            .background(Color.secondary.opacity(0.1))
-                            .cornerRadius(8)
-                        } else {
-                            // Invalid URL/Path
-                            Image(systemName: "exclamationmark.triangle")
-                                .frame(height: 80)
                         }
+                        .frame(height: 80)
+                        .cornerRadius(6)
+                        .padding(4)
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
                     }
                 }
             }

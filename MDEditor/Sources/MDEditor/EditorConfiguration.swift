@@ -16,7 +16,7 @@ public enum MarkdownStandard: String, CaseIterable, Sendable, Identifiable {
 }
 
 /// 编辑器配置
-public struct EditorConfiguration: Sendable, Equatable {
+public struct EditorConfiguration: Sendable, Equatable, Hashable {
     /// 字体名称
     public var fontName: String
     /// 行高倍数
@@ -37,6 +37,9 @@ public struct EditorConfiguration: Sendable, Equatable {
     public var horizontalPadding: CGFloat = 40
     /// 垂直边距
     public var verticalPadding: CGFloat = 20
+
+    /// 图片提供者回调 (文件名) -> NSImage?
+    public var imageProvider: (@Sendable (String) -> NSImage?)?
 
     /// 字号
     public var fontSize: CGFloat = 17.0
@@ -71,7 +74,8 @@ public struct EditorConfiguration: Sendable, Equatable {
         paragraphSpacing: CGFloat = 18.0,
         firstLineIndent: CGFloat = 0.0,
         typewriterMode: Bool = false,
-        markdownStandard: MarkdownStandard = .markdownXL
+        markdownStandard: MarkdownStandard = .markdownXL,
+        imageProvider: (@Sendable (String) -> NSImage?)? = nil
     ) {
         self.fontName = fontName
         self.lineHeightMultiple = lineHeightMultiple
@@ -80,5 +84,31 @@ public struct EditorConfiguration: Sendable, Equatable {
         self.firstLineIndent = firstLineIndent
         self.typewriterMode = typewriterMode
         self.markdownStandard = markdownStandard
+        self.imageProvider = imageProvider
+    }
+
+    // MARK: - Equatable & Hashable
+
+    public static func == (lhs: EditorConfiguration, rhs: EditorConfiguration) -> Bool {
+        lhs.fontName == rhs.fontName && lhs.lineHeightMultiple == rhs.lineHeightMultiple
+            && lhs.contentWidth == rhs.contentWidth && lhs.paragraphSpacing == rhs.paragraphSpacing
+            && lhs.firstLineIndent == rhs.firstLineIndent
+            && lhs.typewriterMode == rhs.typewriterMode
+            && lhs.markdownStandard == rhs.markdownStandard
+            && lhs.horizontalPadding == rhs.horizontalPadding
+            && lhs.verticalPadding == rhs.verticalPadding && lhs.fontSize == rhs.fontSize
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(fontName)
+        hasher.combine(lineHeightMultiple)
+        hasher.combine(contentWidth)
+        hasher.combine(paragraphSpacing)
+        hasher.combine(firstLineIndent)
+        hasher.combine(typewriterMode)
+        hasher.combine(markdownStandard)
+        hasher.combine(horizontalPadding)
+        hasher.combine(verticalPadding)
+        hasher.combine(fontSize)
     }
 }

@@ -89,6 +89,7 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     private var webView: WKWebView?
     private var completion: ((Result<Data, Error>) -> Void)?
     private var selfRetain: PDFGenerator?
+    private var tempURL: URL?
 
     func generate(html: String, completion: @escaping (Result<Data, Error>) -> Void) {
         self.completion = completion
@@ -101,20 +102,27 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
                 frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: config)
             webView.navigationDelegate = self
             self.webView = webView
-            // Write HTML to temporary file to allow sandbox access
-            let tempDir = FileManager.default.temporaryDirectory
-            let tempURL = tempDir.appendingPathComponent("preview_\(UUID().uuidString).html")
+
+            // 使用 Documents 下的临时目录，确保 WebKit 权限一致
+            guard
+                let documentsURL = FileManager.default.urls(
+                    for: .documentDirectory, in: .userDomainMask
+                ).first
+            else {
+                webView.loadHTMLString(html, baseURL: nil)
+                return
+            }
+
+            let tempDir = documentsURL.appendingPathComponent(".mdwriter_temp")
+            try? FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+
+            let tempURL = tempDir.appendingPathComponent("export_\(UUID().uuidString).html")
+            self.tempURL = tempURL
+
             do {
                 try html.write(to: tempURL, atomically: true, encoding: .utf8)
-
-                if let documentsURL = FileManager.default.urls(
-                    for: .documentDirectory, in: .userDomainMask
-                ).first {
-                    // Critical: allowingReadAccessTo must be the parent directory of images
-                    webView.loadFileURL(tempURL, allowingReadAccessTo: documentsURL)
-                } else {
-                    webView.loadHTMLString(html, baseURL: nil)
-                }
+                // 授权 Documents 目录读取权限
+                webView.loadFileURL(tempURL, allowingReadAccessTo: documentsURL)
             } catch {
                 print("Failed to save temp html: \(error)")
                 webView.loadHTMLString(html, baseURL: nil)
@@ -141,6 +149,9 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     }
 
     private func cleanup() {
+        if let tempURL = tempURL {
+            try? FileManager.default.removeItem(at: tempURL)
+        }
         webView = nil
         completion = nil
         selfRetain = nil
@@ -345,35 +356,53 @@ private struct HTMLVisitor: MarkupVisitor {
     }
 
     mutating func visitImage(_ image: Markdown.Image) -> String {
-        var source = image.source ?? ""
+        let source = image.source ?? ""
+        let title = image.title ?? ""
+        let alt = image.plainText
 
-        // Fix for local images: embed as Base64 to avoid sandbox issues
-        if !source.lowercased().hasPrefix("http") && !source.hasPrefix("/") {
-            // Local filename: resolve to Documents/Images
-            if let documentsURL = FileManager.default.urls(
-                for: .documentDirectory, in: .userDomainMask
-            ).first {
-                let fileURL = documentsURL.appendingPathComponent("Images").appendingPathComponent(
-                    source)
-
-                // Try to load data and convert to base64
-                if let data = try? Data(contentsOf: fileURL) {
-                    let base64 = data.base64EncodedString()
-                    // Determine mime type (default to png, or guess from ext)
-                    let ext = fileURL.pathExtension.lowercased()
-                    let mime = ext == "jpg" || ext == "jpeg" ? "image/jpeg" : "image/png"
-                    source = "data:\(mime);base64,\(base64)"
-                } else {
-                    // Fallback to absolute URL if read fails
-                    source = fileURL.absoluteString
-                }
-            }
-        } else if source.hasPrefix("/") {
-            source = "file://" + source
+        // 如果是网络图片或 Base64，直接返回
+        if source.lowercased().hasPrefix("http") || source.hasPrefix("data:") {
+            return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
         }
 
-        let title = image.title ?? ""
-        return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(image.plainText)\" />"
+        // 处理本地文件路径
+        var cleanPath = source
+        if cleanPath.hasPrefix("file://") {
+            cleanPath = String(cleanPath.dropFirst(7))
+        }
+        let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
+
+        // 获取 Documents 目录
+        guard
+            let documentsURL = FileManager.default.urls(
+                for: .documentDirectory, in: .userDomainMask
+            ).first
+        else {
+            return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
+        }
+
+        // 智能尝试解析路径
+        let possibleURLs: [URL] = [
+            documentsURL.appendingPathComponent("Images").appendingPathComponent(decodedPath),  // Documents/Images/file
+            documentsURL.appendingPathComponent(decodedPath),  // Documents/file
+            URL(fileURLWithPath: decodedPath),  // Absolute path
+        ]
+
+        for url in possibleURLs {
+            // 检查文件是否存在
+            if FileManager.default.fileExists(atPath: url.path) {
+                // 找到文件，使用绝对文件路径
+                // 注意：必须对路径进行百分号编码，否则 WebKit 可能无法加载带空格的路径
+                let absoluteString = url.absoluteString
+                return "<img src=\"\(absoluteString)\" title=\"\(title)\" alt=\"\(alt)\" />"
+            }
+        }
+
+        // 如果没找到文件，尝试构建一个合理的 Fallback (假设它在 Documents/Images 下)
+        // 这样如果文件后续被放入，或许能加载（但在 WebKit 中通常需要绝对路径）
+        let fallbackURL = documentsURL.appendingPathComponent("Images").appendingPathComponent(
+            decodedPath)
+        return "<img src=\"\(fallbackURL.absoluteString)\" title=\"\(title)\" alt=\"\(alt)\" />"
     }
 
     mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> String {

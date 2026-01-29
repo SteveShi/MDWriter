@@ -86,7 +86,10 @@ class EditorSettings: ObservableObject {
             paragraphSpacing: CGFloat(paragraphSpacing),
             firstLineIndent: CGFloat(firstLineIndent),
             typewriterMode: typewriterMode,
-            markdownStandard: markdownStandard
+            markdownStandard: markdownStandard,
+            imageProvider: { filename in
+                ImageManager.shared.loadImage(named: filename)
+            }
         )
 
         if self.configuration != newConfig {

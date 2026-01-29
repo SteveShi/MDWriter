@@ -165,14 +165,16 @@ struct LibraryView: View {
             )
         }
         .onChange(of: showLibrary) { newValue in
-            if (newValue && columnVisibility.wrappedValue == .doubleColumn) || (!newValue && columnVisibility.wrappedValue == .all) {
+            if (newValue && columnVisibility.wrappedValue == .doubleColumn)
+                || (!newValue && columnVisibility.wrappedValue == .all)
+            {
                 withAnimation { columnVisibility.wrappedValue = newValue ? .all : .doubleColumn }
             }
         }
-        .onChange(of: columnVisibility.wrappedValue) { newValue in 
+        .onChange(of: columnVisibility.wrappedValue) { newValue in
             let isVisible = (newValue == .all)
             if showLibrary != isVisible {
-                showLibrary = isVisible 
+                showLibrary = isVisible
             }
         }
         .onAppear {
@@ -230,6 +232,32 @@ struct LibraryView: View {
             importBackup()
         }
         .focusedSceneValue(\.hasSelectedNote, selectedNote != nil)
+        .onOpenURL { url in
+            importSingleNote(from: url)
+        }
+    }
+
+    private func importSingleNote(from url: URL) {
+        // 确保是文件且可读
+        guard url.isFileURL else { return }
+
+        do {
+            let content = try String(contentsOf: url, encoding: .utf8)
+            let note = Note(title: url.deletingPathExtension().lastPathComponent, content: content)
+
+            // 如果当前选中了某个文件夹，则导入到该文件夹
+            if case .folder(let folder) = selectionMode {
+                note.folder = folder
+            }
+
+            modelContext.insert(note)
+            try modelContext.save()
+
+            // 自动选中新导入的笔记
+            selectedNote = note
+        } catch {
+            print("Failed to import note from URL: \(url), error: \(error)")
+        }
     }
 
     private func handleNoteDrop(urls: [URL], to folder: Folder?, trash: Bool = false) {
@@ -425,13 +453,15 @@ struct FolderRow: View {
 struct NoteRowView: View {
     let note: Note
     let searchText: String
-    
+
     // 使用 AttributedString 进行高保真 Markdown 解析
     private var summaryAttributedString: AttributedString {
         let rawSummary = summary(from: note.content)
         do {
             // 尝试将摘要解析为 AttributedString，支持内联 Markdown 样式
-            return try AttributedString(markdown: rawSummary, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
+            return try AttributedString(
+                markdown: rawSummary,
+                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
         } catch {
             // 如果解析失败（例如 Markdown 语法不完整），回退到纯文本
             return AttributedString(rawSummary)
@@ -450,7 +480,7 @@ struct NoteRowView: View {
             Text(note.modifiedAt, style: .date).font(.caption2).foregroundColor(.tertiaryLabel)
         }.padding(.vertical, 4)
     }
-    
+
     private func summary(from text: String) -> String {
         let contentLines = text.split(separator: "\n").filter {
             !$0.trimmingCharacters(in: .whitespaces).isEmpty && !$0.hasPrefix("#")

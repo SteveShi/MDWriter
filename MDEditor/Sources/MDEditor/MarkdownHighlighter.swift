@@ -27,6 +27,9 @@ public final class MarkdownHighlighter: @unchecked Sendable {
     /// 行高倍数
     public var lineHeightMultiple: CGFloat = 1.5
 
+    /// 图片提供者
+    public var imageProvider: (@Sendable (String) -> NSImage?)?
+
     // MARK: - Colors
 
     private var textColor: NSColor {
@@ -58,9 +61,9 @@ public final class MarkdownHighlighter: @unchecked Sendable {
     private lazy var patterns: [(regex: NSRegularExpression, style: HighlightStyle)] = {
         var p: [(NSRegularExpression, HighlightStyle)] = []
 
-        // 标题 (# 开头)
+        // 标题 (# 开头，支持 Leading space)
         if let r = try? NSRegularExpression(
-            pattern: #"^(#{1,6})\s(.*)$"#, options: .anchorsMatchLines)
+            pattern: #"^\s*(#{1,6})\s+(.+)$"#, options: .anchorsMatchLines)
         {
             p.append((r, .heading))
         }
@@ -102,11 +105,16 @@ public final class MarkdownHighlighter: @unchecked Sendable {
             p.append((r, .listMarker))
         }
 
+        // 图片 ![]()
+        if let r = try? NSRegularExpression(pattern: #"!\[([^\]]*)\]\(([^)]+)\)"#) {
+            p.append((r, .image))
+        }
+
         return p
     }()
 
     private enum HighlightStyle {
-        case heading, bold, italic, inlineCode, link, strikethrough, blockquote, listMarker
+        case heading, bold, italic, inlineCode, link, strikethrough, blockquote, listMarker, image
     }
 
     // MARK: - Initializer
@@ -131,9 +139,9 @@ public final class MarkdownHighlighter: @unchecked Sendable {
 
         textStorage.beginEditing()
 
-        // 1. 重置为基础样式
+        // 1. 彻底清空并重置为基础样式（防止旧高亮颜色残留）
         let baseStyle = createBaseParagraphStyle()
-        textStorage.addAttributes(
+        textStorage.setAttributes(
             [
                 .font: baseFont,
                 .foregroundColor: textColor,
@@ -181,6 +189,8 @@ public final class MarkdownHighlighter: @unchecked Sendable {
             applyBlockquoteStyle(to: storage, match: match)
         case .listMarker:
             applyListMarkerStyle(to: storage, match: match)
+        case .image:
+            applyImageStyle(to: storage, match: match, text: text)
         }
     }
 
@@ -191,12 +201,22 @@ public final class MarkdownHighlighter: @unchecked Sendable {
         let contentRange = match.range(at: 2)
         let level = hashRange.length
 
-        // 标题字体
+        // 标题字体 - 基于用户选择的字体派生
         let multipliers: [CGFloat] = [2.0, 1.7, 1.5, 1.3, 1.2, 1.1]
         let fontSize = baseFont.pointSize * multipliers[min(level - 1, 5)]
-        let headingFont = NSFont.systemFont(ofSize: fontSize, weight: .bold)
 
-        // 内容部分
+        // 尝试使用用户字体的粗体变体，如果没有则使用系统粗体
+        let scaledFont =
+            NSFont(descriptor: baseFont.fontDescriptor, size: fontSize)
+            ?? NSFont.systemFont(ofSize: fontSize)
+
+        let headingFont: NSFont
+        let boldDescriptor = scaledFont.fontDescriptor.withSymbolicTraits(.bold)
+        headingFont =
+            NSFont(descriptor: boldDescriptor, size: fontSize)
+            ?? NSFont.boldSystemFont(ofSize: fontSize)
+
+        // 1. 先应用内容样式 (Heading Font)
         if contentRange.location != NSNotFound && contentRange.length > 0 {
             storage.addAttributes(
                 [
@@ -205,12 +225,20 @@ public final class MarkdownHighlighter: @unchecked Sendable {
                 ], range: contentRange)
         }
 
-        // 语法标记淡化
-        storage.addAttributes(
-            [
-                .font: syntaxFont,
-                .foregroundColor: syntaxColor,
-            ], range: hashRange)
+        // 2. 后强制应用语法标记淡化 (Syntax Font) - 确保覆盖任何可能溢出的样式
+        // 使用 setAttributes 确保该范围内只保留 syntax 样式，清除可能的加粗干扰
+        var syntaxAttrs: [NSAttributedString.Key: Any] = [
+            .font: syntaxFont,
+            .foregroundColor: syntaxColor,
+        ]
+        // 保持段落样式
+        if let paraStyle = storage.attribute(
+            .paragraphStyle, at: hashRange.location, effectiveRange: nil)
+        {
+            syntaxAttrs[.paragraphStyle] = paraStyle
+        }
+
+        storage.setAttributes(syntaxAttrs, range: hashRange)
     }
 
     private func applyBoldStyle(to storage: NSTextStorage, match: NSTextCheckingResult) {
@@ -325,5 +353,39 @@ public final class MarkdownHighlighter: @unchecked Sendable {
     private func applyListMarkerStyle(to storage: NSTextStorage, match: NSTextCheckingResult) {
         let markerRange = match.range(at: 2)
         storage.addAttributes([.foregroundColor: syntaxColor], range: markerRange)
+    }
+
+    private func applyImageStyle(
+        to storage: NSTextStorage, match: NSTextCheckingResult, text: NSString
+    ) {
+        let fullRange = match.range
+        let linkRange = match.range(at: 2)
+        let imagePath = text.substring(with: linkRange)
+
+        // 尝试加载图片
+        if let image = imageProvider?(imagePath) {
+            // 创建附件
+            let attachment = NSTextAttachment()
+            attachment.image = image
+
+            // 限制图片最大宽度，保持比例
+            let maxWidth: CGFloat = 800
+            let size = image.size
+            if size.width > maxWidth {
+                let scale = maxWidth / size.width
+                attachment.bounds = CGRect(x: 0, y: 0, width: maxWidth, height: size.height * scale)
+            } else {
+                attachment.bounds = CGRect(origin: .zero, size: size)
+            }
+
+            // 使用附件替换文本，实现“所见即所得”
+            // 由于 MDEditorView 已有 isHighlighting 锁，这里修改文本是安全的
+            let attrString = NSAttributedString(attachment: attachment)
+            storage.replaceCharacters(in: fullRange, with: attrString)
+        } else {
+            // 图片加载失败，仅淡化语法
+            storage.addAttributes(
+                [.font: syntaxFont, .foregroundColor: syntaxColor], range: fullRange)
+        }
     }
 }

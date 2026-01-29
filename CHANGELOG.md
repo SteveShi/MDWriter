@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [1.9.10] - 2026-01-29
+## [1.9.11] - 2026-01-29
 
 ### Core Editor Upgrade
 - **Native TextKit 2 Integration**: Completely re-engineered the editor core using Apple's **TextKit 2** framework (`NSTextLayoutManager`, `NSTextContentManager`). This provides a massive leap in stability, performance, and future-proofing.
@@ -19,6 +19,9 @@
 - **Refined Layout**: Added consistent padding and optimized line heights for a more professional, "book-like" writing feel.
 - **Markdown Auto-Completion**: Typing paired symbols (`**`, `` ` ``, `~~`, `[`, `![`, ` ``` `) now automatically inserts the closing counterpart.
 - **Context-Sensitive Markup Bar**: The bottom toolbar and more-options popover are now fully synchronized with the new editor state.
+
+### Known Issues
+- The image cannot be previewed directly in the editor. Still looking for a solution.
 
 ## [1.9.9] - 2026-01-18
 ### New Features
