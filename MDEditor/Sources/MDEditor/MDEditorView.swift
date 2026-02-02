@@ -261,8 +261,29 @@ class MarkdownTextView: NSTextView {
     }
 
     override func insertText(_ string: Any, replacementRange: NSRange) {
+        guard let string = string as? String, !string.isEmpty else {
+            super.insertText(string, replacementRange: replacementRange)
+            return
+        }
+
+        let pairs: [String: String] = ["*": "*", "_": "_", "`": "`", "~": "~", "[": "]", "(": ")"]
+        if let pairEnd = pairs[string] {
+            let range = selectedRange()
+            if range.length > 0 {
+                let selectedText = (self.string as NSString).substring(with: range)
+                let wrapped = "\(string)\(selectedText)\(pairEnd)"
+                super.insertText(wrapped, replacementRange: range)
+                return
+            } else {
+                let fullPair = string == "~" ? "~~~~" : "\(string)\(pairEnd)"
+                super.insertText(fullPair, replacementRange: range)
+                let offset = string == "~" ? 2 : 1
+                self.setSelectedRange(NSRange(location: range.location + offset, length: 0))
+                return
+            }
+        }
+
         super.insertText(string, replacementRange: replacementRange)
-        // 移除冗余的 highlight 调用，完全依赖 didChangeText
     }
 
     override func didChangeText() {
@@ -290,18 +311,19 @@ class MarkdownTextView: NSTextView {
         isHighlighting = true
         defer { isHighlighting = false }
 
-        // 扩展到完整行范围以优化高亮渲染
         let text = textStorage.string as NSString
         let lineRange = text.lineRange(for: range)
 
         highlighter.highlight(textStorage, in: lineRange)
 
-        // 关键：强制 TextKit 2 重新处理布局和重绘
-        // 尤其是在标题等导致行高跨度大的样式变化时，必须显式触发
+        // 强力触发排版确认，确保 TextKit 2 即时同步
         if let layoutManager = self.layoutManager {
-            layoutManager.invalidateLayout(forCharacterRange: lineRange, actualCharacterRange: nil)
+            layoutManager.ensureLayout(forCharacterRange: lineRange)
             layoutManager.invalidateDisplay(forCharacterRange: lineRange)
         }
+
+        // 关键：在布局确认后再更新输入属性，确保光标继承最新的样式
+        updateTypingAttributes()
 
         needsDisplay = true
     }
@@ -382,18 +404,28 @@ class MarkdownTextView: NSTextView {
     }
 
     func updateTypingAttributes() {
-        // 关键修复：使用高亮器统一的段落样式（包含行高），防止回车后的高度抖动
-        let paraStyle = highlighter.createBaseParagraphStyle()
+        let range = selectedRange()
 
-        var styles: [NSAttributedString.Key: Any] = [
-            .font: highlighter.baseFont,
-            .paragraphStyle: paraStyle,
-        ]
+        if range.location > 0, let textStorage = textStorage {
+            var attrs = textStorage.attributes(at: range.location - 1, effectiveRange: nil)
 
-        if let color = insertionPointColor {
-            styles[.foregroundColor] = color
+            // 解决“符号淡化继承”问题：如果正在继承语法符号的灰色，切换回 Heading 或 Body 的主色
+            if (attrs[.foregroundColor] as? NSColor)?.alphaComponent == 0.6 {
+                attrs[.foregroundColor] = highlighter.isDarkTheme ? NSColor.white : NSColor.black
+            }
+
+            attrs.removeValue(forKey: .attachment)
+            attrs.removeValue(forKey: NSAttributedString.Key("MarkdownSource"))
+
+            typingAttributes = attrs
+            return
         }
 
-        typingAttributes = styles
+        let paraStyle = highlighter.createBaseParagraphStyle()
+        typingAttributes = [
+            .font: highlighter.baseFont,
+            .paragraphStyle: paraStyle,
+            .foregroundColor: highlighter.isDarkTheme ? NSColor.white : NSColor.black,
+        ]
     }
 }

@@ -61,35 +61,27 @@ public final class MarkdownHighlighter: @unchecked Sendable {
     private lazy var patterns: [(regex: NSRegularExpression, style: HighlightStyle)] = {
         var p: [(NSRegularExpression, HighlightStyle)] = []
 
-        // 标题 (# 开头，支持 Leading space)
-        if let r = try? NSRegularExpression(
-            pattern: #"^\s*(#{1,6})\s+(.+)$"#, options: .anchorsMatchLines)
-        {
+        if let r = try? NSRegularExpression(pattern: #"(?m)^ *(#{1,6}) *(.*)$"#) {
             p.append((r, .heading))
         }
 
-        // 粗体 **text**
-        if let r = try? NSRegularExpression(pattern: #"\*\*(.+?)\*\*"#) {
+        if let r = try? NSRegularExpression(pattern: #"\*\*(.*?)\*\*"#) {
             p.append((r, .bold))
         }
 
-        // 斜体 *text*
-        if let r = try? NSRegularExpression(pattern: #"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)"#) {
+        if let r = try? NSRegularExpression(pattern: #"(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)"#) {
             p.append((r, .italic))
         }
 
-        // 行内代码 `code`
-        if let r = try? NSRegularExpression(pattern: #"`([^`]+)`"#) {
+        if let r = try? NSRegularExpression(pattern: #"`([^`]*)`"#) {
             p.append((r, .inlineCode))
         }
 
-        // 链接 [text](url)
-        if let r = try? NSRegularExpression(pattern: #"(?<!!)\[([^\]]+)\]\(([^)]+)\)"#) {
+        if let r = try? NSRegularExpression(pattern: #"(?<!!)\[([^\]]*)\]\(([^)]*)\)"#) {
             p.append((r, .link))
         }
 
-        // 删除线 ~~text~~
-        if let r = try? NSRegularExpression(pattern: #"~~(.+?)~~"#) {
+        if let r = try? NSRegularExpression(pattern: #"~~(.*?)~~"#) {
             p.append((r, .strikethrough))
         }
 
@@ -139,15 +131,11 @@ public final class MarkdownHighlighter: @unchecked Sendable {
 
         textStorage.beginEditing()
 
-        // 1. 重置视图基础样式
-        // 我们需要彻底覆盖旧样式，但又要保护图片附件。
-        // TextKit 2 中，setAttributes 是最可靠的刷新方式。
+        // 1. 【终极加固】重置视图基础样式，同时绝对保护图片附件
         let baseStyle = createBaseParagraphStyle()
 
-        // 我们先备份该范围内的附件，然后全量重置，再把附件填回去（如果有的话）
-        // 这样可以确保样式绝对干净，不会有任何“残留”
-
-        // 记录附件位置
+        // 采用双重备份机制：
+        // a. 记录所有附件及其完整属性（包含 MarkdownSource）
         var attachments: [(range: NSRange, attrs: [NSAttributedString.Key: Any])] = []
         textStorage.enumerateAttribute(.attachment, in: lineRange, options: []) { val, range, _ in
             if val != nil {
@@ -156,7 +144,7 @@ public final class MarkdownHighlighter: @unchecked Sendable {
             }
         }
 
-        // 全量干净重置
+        // b. 执行全量重置
         textStorage.setAttributes(
             [
                 .font: baseFont,
@@ -164,7 +152,7 @@ public final class MarkdownHighlighter: @unchecked Sendable {
                 .paragraphStyle: baseStyle,
             ], range: lineRange)
 
-        // 还原附件及其源码属性
+        // c. 精准还原附件
         for (range, attrs) in attachments {
             textStorage.addAttributes(attrs, range: range)
         }
@@ -221,10 +209,9 @@ public final class MarkdownHighlighter: @unchecked Sendable {
         textStorage.endEditing()
     }
 
-    // MARK: - Private Methods
+    // MARK: - Public Helper Methods
 
-    /// 创建基础段落样式
-    internal func createBaseParagraphStyle() -> NSMutableParagraphStyle {
+    public func createBaseParagraphStyle() -> NSMutableParagraphStyle {
         let style = NSMutableParagraphStyle()
         style.lineHeightMultiple = lineHeightMultiple
         style.paragraphSpacing = 8
@@ -262,7 +249,6 @@ public final class MarkdownHighlighter: @unchecked Sendable {
         to storage: NSTextStorage, match: NSTextCheckingResult, text: NSString
     ) {
         let hashRange = match.range(at: 1)
-        let contentRange = match.range(at: 2)
         let level = hashRange.length
 
         // 标题字体 - 基于用户选择的字体派生
@@ -280,46 +266,31 @@ public final class MarkdownHighlighter: @unchecked Sendable {
             NSFont(descriptor: boldDescriptor, size: fontSize)
             ?? NSFont.boldSystemFont(ofSize: fontSize)
 
-        // 1. 先应用内容样式 (Heading Font)
-        if contentRange.location != NSNotFound && contentRange.length > 0 {
-            storage.addAttributes(
-                [
-                    .font: headingFont,
-                    .foregroundColor: headingColor,
-                ], range: contentRange)
-        }
+        // 1. 全量应用标题字体到整行（确保光标继承）
+        let lineRange = text.lineRange(for: match.range)
+        storage.addAttributes(
+            [
+                .font: headingFont,
+                .foregroundColor: headingColor,
+            ], range: lineRange)
 
-        // 2. 核心：应用并强制刷新符号淡化 (Syntax Font)
-        // 使用 setAttributes 以免继承了上方的 HeadingFont
-        var syntaxAttrs: [NSAttributedString.Key: Any] = [
-            .font: syntaxFont,
-            .foregroundColor: syntaxColor,
-        ]
-
-        // 维持段落行高
-        if let paraStyle = storage.attribute(
-            .paragraphStyle, at: hashRange.location, effectiveRange: nil)
-        {
-            syntaxAttrs[.paragraphStyle] = paraStyle
-        }
-
-        storage.setAttributes(syntaxAttrs, range: hashRange)
+        // 2. 仅对符号部分进行染色淡化
+        storage.addAttribute(.foregroundColor, value: syntaxColor, range: hashRange)
+        storage.addAttribute(.font, value: syntaxFont, range: hashRange)
     }
 
     private func applyBoldStyle(to storage: NSTextStorage, match: NSTextCheckingResult) {
         let fullRange = match.range
-        let contentRange = match.range(at: 1)
 
-        // 内容加粗
+        // 1. 全量应用粗体字体
         let boldFont = NSFontManager.shared.convert(baseFont, toHaveTrait: .boldFontMask)
-        storage.addAttribute(.font, value: boldFont, range: contentRange)
+        storage.addAttribute(.font, value: boldFont, range: fullRange)
 
-        // 语法标记淡化
+        // 2. 仅对符号进行染色淡化
         let startMarker = NSRange(location: fullRange.location, length: 2)
         let endMarker = NSRange(location: fullRange.location + fullRange.length - 2, length: 2)
-        storage.addAttributes(
-            [.font: syntaxFont, .foregroundColor: syntaxColor], range: startMarker)
-        storage.addAttributes([.font: syntaxFont, .foregroundColor: syntaxColor], range: endMarker)
+        storage.addAttributes([.foregroundColor: syntaxColor], range: startMarker)
+        storage.addAttributes([.foregroundColor: syntaxColor], range: endMarker)
     }
 
     private func applyItalicStyle(to storage: NSTextStorage, match: NSTextCheckingResult) {
