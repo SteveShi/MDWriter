@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.9.13] - 2026-02-09
+
+### Data Persistence
+- **Fixed Missing Notes After Relaunch**: The app now explicitly uses a stable SwiftData store path to prevent notes from disappearing after relaunch or idle periods.
+
 ## [1.9.12] - 2026-02-09
 
 ### Editor
