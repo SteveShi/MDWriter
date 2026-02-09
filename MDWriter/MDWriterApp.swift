@@ -5,6 +5,7 @@
 //  Created by 石屿 on 2025/12/31.
 //
 
+import Foundation
 import SwiftData
 import SwiftUI
 import WhatsNewKit
@@ -24,6 +25,21 @@ struct MDWriterApp: App {
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
+    
+    private let modelContainer: ModelContainer = {
+        let schema = Schema([Folder.self, Note.self, Snapshot.self, Memo.self])
+        let appSupport = FileManager.default.urls(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask
+        ).first!
+        let storeURL = appSupport.appendingPathComponent("default.store")
+        let config = ModelConfiguration(schema: schema, url: storeURL)
+        do {
+            return try ModelContainer(for: schema, configurations: [config])
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }()
 
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
@@ -31,7 +47,7 @@ struct MDWriterApp: App {
             LibraryView()
                 .frame(minWidth: 800, minHeight: 600)
                 .preferredColorScheme(currentTheme.colorScheme)
-                .modelContainer(for: [Folder.self, Note.self])
+                .modelContainer(modelContainer)
                 .environment(
                     \.whatsNew,
                     WhatsNewEnvironment(
