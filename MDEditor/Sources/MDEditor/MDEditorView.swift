@@ -49,6 +49,9 @@ public struct MDEditorView: NSViewRepresentable {
             if !isUpdatingFromSwiftUI && reconstructed != parent.text {
                 parent.text = reconstructed
             }
+
+            // 兜底：确保每次输入都能触发即时高亮
+            textView.highlightMarkdownForRecentEdit()
         }
 
         /// 从富文本中还原 Markdown 源码，处理被替换为图片的附件。
@@ -293,10 +296,22 @@ class MarkdownTextView: NSTextView {
             // 如果不可用，回退到 rangeForUserTextChange
             let range = textStorage?.editedRange ?? rangeForUserTextChange
 
-            // 确保 range 有效
+            // 确保 range 有效，否则全量高亮
             if range.location != NSNotFound {
                 highlightMarkdown(in: range)
+            } else {
+                highlightMarkdown()
             }
+        }
+    }
+
+    func highlightMarkdownForRecentEdit() {
+        guard !isComposing && !isHighlighting else { return }
+        let range = textStorage?.editedRange ?? rangeForUserTextChange
+        if range.location != NSNotFound {
+            highlightMarkdown(in: range)
+        } else {
+            highlightMarkdown()
         }
     }
 

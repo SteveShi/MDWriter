@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [1.9.12] - 2026-02-09
+
+### Editor
+- **Real-time Rendering Fix**: Markdown styling now updates immediately while typing, matching Ulysses-like WYSIWYG behavior without requiring a view switch.
+
+### Data Persistence
+- **Reliable Auto-Save**: Added debounce-based auto-save during typing plus forced saves on note switches, view dismissal, and app deactivation to prevent data loss.
+
 ## [1.9.11] - 2026-01-29
 
 ### Core Editor Upgrade

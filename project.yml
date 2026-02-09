@@ -1,0 +1,63 @@
+name: MDWriter
+
+options:
+  bundleIdPrefix: listentotherain
+  deploymentTarget:
+    macOS: "14.0"
+
+settings:
+  MARKETING_VERSION: 1.9.12
+  CURRENT_PROJECT_VERSION: 405
+  SWIFT_VERSION: 6.0
+
+packages:
+  MDEditor:
+    path: MDEditor
+  Highlightr:
+    url: https://github.com/raspu/Highlightr
+    from: 2.3.0
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.8.1
+  SwiftUIKit:
+    url: https://github.com/danielsaidi/SwiftUIKit.git
+    from: 6.1.0
+  textual:
+    url: https://github.com/gonzalezreal/textual
+    from: 0.3.1
+  swift-markdown:
+    url: https://github.com/swiftlang/swift-markdown
+    from: 0.7.3
+  WhatsNewKit:
+    url: https://github.com/SvenTiigi/WhatsNewKit
+    from: 2.2.1
+
+targets:
+  MDWriter:
+    type: application
+    platform: macOS
+    sources:
+      - path: MDWriter
+    resources:
+      - path: MDWriter/Assets.xcassets
+      - path: MDWriter/Resources
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: listentotherain.MDWriter
+      INFOPLIST_FILE: MDWriter/Info.plist
+      CODE_SIGN_ENTITLEMENTS: MDWriter/MDWriter.entitlements
+      GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - package: MDEditor
+        product: MDEditor
+      - package: Highlightr
+        product: Highlightr
+      - package: Sparkle
+        product: Sparkle
+      - package: SwiftUIKit
+        product: SwiftUIKit
+      - package: textual
+        product: Textual
+      - package: swift-markdown
+        product: Markdown
+      - package: WhatsNewKit
+        product: WhatsNewKit

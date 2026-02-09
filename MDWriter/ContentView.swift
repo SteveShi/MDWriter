@@ -18,6 +18,8 @@ struct ExportItem: Identifiable {
 }
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     var note: Note?
     @State private var headers: [DocumentHeader] = []
     @State private var stats: DocumentStatistics = DocumentStatistics(
@@ -39,6 +41,7 @@ struct ContentView: View {
     @State private var exportItem: ExportItem? = nil
     @State private var showExporter: Bool = false
     @State private var showExportPreview: Bool = false
+    @State private var autosaveTask: Task<Void, Never>? = nil
 
     @StateObject private var editorController = EditorController()
     @ObservedObject private var editorSettings = EditorSettings.shared
@@ -86,6 +89,10 @@ struct ContentView: View {
                         } else if note.content.isEmpty {
                             note.title = String(localized: "New Note")
                         }
+
+                        // 更新修改时间并触发自动保存
+                        note.modifiedAt = Date()
+                        scheduleAutoSave()
                     }
                 } else {
                     // 无选择时的占位符
@@ -155,6 +162,17 @@ struct ContentView: View {
         .toolbarRole(.editor)  // 关键：确保编辑器工具栏在窗口最右侧
         .onAppear {
             updateInfo()
+        }
+        .onDisappear {
+            flushAutoSave()
+        }
+        .onChange(of: note?.persistentModelID) { _, _ in
+            flushAutoSave()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase != .active {
+                flushAutoSave()
+            }
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
@@ -256,6 +274,27 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .findPrevious)) { _ in
             editorController.findPrevious()
+        }
+    }
+
+    private func scheduleAutoSave() {
+        autosaveTask?.cancel()
+        autosaveTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 350_000_000)
+            do {
+                try modelContext.save()
+            } catch {
+                print("AutoSave failed: \(error)")
+            }
+        }
+    }
+
+    private func flushAutoSave() {
+        autosaveTask?.cancel()
+        do {
+            try modelContext.save()
+        } catch {
+            print("AutoSave flush failed: \(error)")
         }
     }
 
