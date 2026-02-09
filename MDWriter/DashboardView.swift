@@ -581,64 +581,75 @@ struct StatRow: View {
     }
 }
 
-// Simple FlowLayout implementation
+// Flow layout implemented via the Layout protocol to avoid Sendable warnings.
 struct FlowLayout<Data: RandomAccessCollection, Content: View>: View where Data.Element: Hashable {
     let items: Data
     let content: (Data.Element) -> Content
-    @State private var totalHeight: CGFloat = .zero
 
     var body: some View {
-        GeometryReader { geometry in
-            self.content(in: geometry)
-        }
-        .frame(height: totalHeight)
-    }
-
-    private func content(in g: GeometryProxy) -> some View {
-        var width = CGFloat.zero
-        var height = CGFloat.zero
-
-        return ZStack(alignment: .topLeading) {
+        FlowLayoutLayout {
             ForEach(items, id: \.self) { item in
-                self.content(item)
+                content(item)
                     .padding([.horizontal, .vertical], 4)
-                    .alignmentGuide(
-                        .leading,
-                        computeValue: { d in
-                            if abs(width - d.width) > g.size.width {
-                                width = 0
-                                height -= d.height
-                            }
-                            let result = width
-                            if item == self.items.last! {
-                                width = 0  //last item
-                            } else {
-                                width -= d.width
-                            }
-                            return result
-                        }
-                    )
-                    .alignmentGuide(
-                        .top,
-                        computeValue: { d in
-                            let result = height
-                            if item == self.items.last! {
-                                height = 0  // last item
-                            }
-                            return result
-                        })
             }
         }
-        .background(viewHeightReader($totalHeight))
+    }
+}
+
+struct FlowLayoutLayout: Layout {
+    private let horizontalSpacing: CGFloat = 0
+    private let verticalSpacing: CGFloat = 0
+
+    func sizeThatFits(
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
+    ) -> CGSize {
+        let maxWidth = proposal.width ?? .greatestFiniteMagnitude
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var maxX: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if x > 0 && x + size.width > maxWidth {
+                x = 0
+                y += rowHeight + verticalSpacing
+                rowHeight = 0
+            }
+
+            maxX = max(maxX, x + size.width)
+            rowHeight = max(rowHeight, size.height)
+            x += size.width + horizontalSpacing
+        }
+
+        let totalHeight = y + rowHeight
+        return CGSize(width: maxX, height: totalHeight)
     }
 
-    private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
-        return GeometryReader { geometry -> Color in
-            let rect = geometry.frame(in: .local)
-            DispatchQueue.main.async {
-                binding.wrappedValue = rect.size.height
+    func placeSubviews(
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
+    ) {
+        let maxWidth = bounds.width
+        var x: CGFloat = bounds.minX
+        var y: CGFloat = bounds.minY
+        var rowHeight: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if x > bounds.minX && x + size.width > bounds.minX + maxWidth {
+                x = bounds.minX
+                y += rowHeight + verticalSpacing
+                rowHeight = 0
             }
-            return .clear
+
+            subview.place(at: CGPoint(x: x, y: y), proposal: ProposedViewSize(size))
+            rowHeight = max(rowHeight, size.height)
+            x += size.width + horizontalSpacing
         }
     }
 }
