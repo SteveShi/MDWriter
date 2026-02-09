@@ -75,6 +75,7 @@ jobs:
 
       - name: Generate Xcode Project
         run: |
+          xcodegen --version
           xcodegen generate --spec project.yml
           
       - name: Resolve Swift Packages

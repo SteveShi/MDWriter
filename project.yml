@@ -61,3 +61,9 @@ targets:
         product: Markdown
       - package: WhatsNewKit
         product: WhatsNewKit
+
+schemes:
+  MDWriter:
+    build:
+      targets:
+        MDWriter: all
