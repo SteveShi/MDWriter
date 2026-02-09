@@ -45,7 +45,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: listentotherain.MDWriter
       INFOPLIST_FILE: MDWriter/Info.plist
       CODE_SIGN_ENTITLEMENTS: MDWriter/MDWriter.entitlements
-      GENERATE_INFOPLIST_FILE: YES
+      GENERATE_INFOPLIST_FILE: NO
     dependencies:
       - package: MDEditor
         product: MDEditor
