@@ -9,50 +9,46 @@ import Foundation
 import WhatsNewKit
 
 struct WhatsNewConfiguration {
+    /// Current app version (CFBundleShortVersionString)
+    static var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.9.12"
+    }
+
     /// Define the "What's New" content for the current version
     static var current: WhatsNew {
         WhatsNew(
             // The version identifying these features.
             // Usually matches your Bundle Version.
-            version: "1.9.11",
+            version: appVersion,
 
             title: WhatsNew.Title(text: WhatsNew.Text(String(localized: "What's New in MDWriter"))),
 
             features: [
                 WhatsNew.Feature(
-                    image: .init(systemName: "cpu"),
-                    title: WhatsNew.Text(String(localized: "TextKit 2 Engine")),
+                    image: .init(systemName: "bolt.circle"),
+                    title: WhatsNew.Text(String(localized: "Live Markdown Rendering")),
                     subtitle: WhatsNew.Text(
                         String(
                             localized:
-                                "A complete overhaul of the editor core for massive stability and performance gains."
+                                "Markdown styling now updates immediately while you type, matching a true WYSIWYG experience."
                         ))
                 ),
                 WhatsNew.Feature(
-                    image: .init(systemName: "paintpalette"),
-                    title: WhatsNew.Text(String(localized: "Pro Markdown Rendering")),
+                    image: .init(systemName: "tray.and.arrow.down"),
+                    title: WhatsNew.Text(String(localized: "Reliable Auto-Save")),
                     subtitle: WhatsNew.Text(
                         String(
                             localized:
-                                "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience."
+                                "Edits are saved automatically with debounce and safe flush on note switch or app deactivation."
                         ))
                 ),
                 WhatsNew.Feature(
-                    image: .init(systemName: "keyboard"),
-                    title: WhatsNew.Text(String(localized: "IME Stability")),
+                    image: .init(systemName: "sparkles"),
+                    title: WhatsNew.Text(String(localized: "Stability Improvements")),
                     subtitle: WhatsNew.Text(
                         String(
                             localized:
-                                "Native support for Chinese input and mixed-language writing without cursor jumping."
-                        ))
-                ),
-                WhatsNew.Feature(
-                    image: .init(systemName: "photo"),
-                    title: WhatsNew.Text(String(localized: "Inline Image Preview")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "View your local images directly inside the editor and export previews with ease."
+                                "Multiple editor and system integrations have been hardened for smoother daily use."
                         ))
                 ),
             ],

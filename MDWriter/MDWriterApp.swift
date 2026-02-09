@@ -35,7 +35,7 @@ struct MDWriterApp: App {
                 .environment(
                     \.whatsNew,
                     WhatsNewEnvironment(
-                        currentVersion: WhatsNewConfiguration.current.version,
+                        currentVersion: WhatsNewConfiguration.appVersion,
                         whatsNewCollection: [WhatsNewConfiguration.current]
                     )
                 )
