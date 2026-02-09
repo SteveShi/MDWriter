@@ -11,24 +11,27 @@ import Sparkle
 import SwiftUI
 import Combine
 
-@MainActor
 final class SparkleUpdaterDelegate: NSObject, SPUUpdaterDelegate {
     private let logger = Logger(subsystem: "MDWriter", category: "Sparkle")
 
+    @MainActor
     func updater(_ updater: SPUUpdater, didAbortUpdateWithError error: Error) {
         logError("Update aborted", error: error)
     }
 
+    @MainActor
     func updater(_ updater: SPUUpdater, didFailToUpdateWithError error: Error) {
         logError("Update failed", error: error)
     }
 
+    @MainActor
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         let version = item.versionString ?? "unknown"
         let shortVersion = item.displayVersionString ?? "unknown"
         logger.info("Found valid update: version=\(version, privacy: .public), shortVersion=\(shortVersion, privacy: .public)")
     }
 
+    @MainActor
     private func logError(_ message: String, error: Error) {
         let nsError = error as NSError
         logger.error("\(message, privacy: .public): \(nsError.localizedDescription, privacy: .public) (domain=\(nsError.domain, privacy: .public), code=\(nsError.code, privacy: .public))")
