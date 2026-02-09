@@ -11,6 +11,7 @@ extension MarkdownStandard {
     }
 }
 
+@MainActor
 class EditorSettings: ObservableObject {
     static let shared = EditorSettings()
 

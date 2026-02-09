@@ -4,6 +4,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import WebKit
 
+@MainActor
 class ExportService: NSObject {
     static let shared = ExportService()
     private let renderer = MarkdownRenderer()
