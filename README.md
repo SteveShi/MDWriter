@@ -67,9 +67,13 @@ Download the latest **Universal Binary** (supports both Apple Silicon and Intel)
     git clone https://github.com/lpgneg19/MDWriter.git
     cd MDWriter
     ```
-2.  Open `MDWriter.xcodeproj` in Xcode.
-3.  Ensure package dependencies (`swift-markdown`) resolve.
-4.  Build and Run (`Cmd + R`).
+2.  Generate the Xcode project with XcodeGen:
+    ```bash
+    xcodegen generate --spec project.yml
+    ```
+3.  Open `MDWriter.xcodeproj` in Xcode.
+4.  Ensure package dependencies resolve.
+5.  Build and Run (`Cmd + R`).
 
 
 ## 📦 Tech Stack
