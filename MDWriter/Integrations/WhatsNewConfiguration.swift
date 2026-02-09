@@ -11,14 +11,13 @@ import WhatsNewKit
 struct WhatsNewConfiguration {
     /// Current app version (CFBundleShortVersionString)
     static var appVersion: WhatsNew.Version {
-        let versionString =
-            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-            ?? "1.9.12"
-        return WhatsNew.Version(versionString) ?? .init("1.9.12")
+        .current(in: .main)
     }
 
     /// Update this only when there is a major feature release.
-    static let whatsNewVersion: WhatsNew.Version = .init("1.9.11")
+    static var whatsNewVersion: WhatsNew.Version {
+        "1.9.11"
+    }
 
     /// Define the "What's New" content for the current version
     static var current: WhatsNew {
