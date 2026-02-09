@@ -98,6 +98,28 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+      - name: Verify App Bundle Version Keys
+        run: |
+          APP_PATH=$(find build/Build/Products/Release -name "MDWriter.app" -type d | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "CRITICAL ERROR: MDWriter.app not found!"
+            exit 1
+          fi
+          INFO_PLIST="$APP_PATH/Contents/Info.plist"
+          if [ ! -f "$INFO_PLIST" ]; then
+            echo "CRITICAL ERROR: Info.plist not found at $INFO_PLIST"
+            exit 1
+          fi
+          SHORT_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$INFO_PLIST" 2>/dev/null || true)
+          BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFO_PLIST" 2>/dev/null || true)
+          if [ -z "$SHORT_VERSION" ] || [ -z "$BUNDLE_VERSION" ]; then
+            echo "CRITICAL ERROR: Missing CFBundleShortVersionString or CFBundleVersion in Info.plist"
+            echo "CFBundleShortVersionString='$SHORT_VERSION'"
+            echo "CFBundleVersion='$BUNDLE_VERSION'"
+            exit 1
+          fi
+          echo "Info.plist versions OK: CFBundleShortVersionString=$SHORT_VERSION, CFBundleVersion=$BUNDLE_VERSION"
+
       - name: Package App (ZIP and DMG)
         run: |
           rm -rf dmg_root deploy
@@ -161,6 +183,30 @@ jobs:
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
           fi
+
+      - name: Validate Appcast Contents
+        run: |
+          if [ ! -f "appcast.xml" ]; then
+            echo "CRITICAL ERROR: appcast.xml missing"
+            exit 1
+          fi
+          if ! grep -q "<item" appcast.xml; then
+            echo "CRITICAL ERROR: appcast.xml missing <item>"
+            exit 1
+          fi
+          if ! grep -q "<enclosure" appcast.xml; then
+            echo "CRITICAL ERROR: appcast.xml missing <enclosure>"
+            exit 1
+          fi
+          if ! grep -q "sparkle:version" appcast.xml; then
+            echo "CRITICAL ERROR: appcast.xml missing sparkle:version"
+            exit 1
+          fi
+          if ! grep -q "sparkle:shortVersionString" appcast.xml; then
+            echo "CRITICAL ERROR: appcast.xml missing sparkle:shortVersionString"
+            exit 1
+          fi
+          echo "Appcast validation passed."
 
       - name: Extract Release Notes
         run: |
