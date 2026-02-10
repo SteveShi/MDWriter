@@ -32,6 +32,7 @@ struct BackupNote: Codable, Sendable {
     let createdAt: Date
     let modifiedAt: Date
     let isTrashed: Bool
+    let order: Int
     let snapshots: [BackupSnapshot]
 }
 
@@ -92,6 +93,7 @@ class BackupManager {
             createdAt: note.createdAt,
             modifiedAt: note.modifiedAt,
             isTrashed: note.isTrashed,
+            order: note.order,
             snapshots: note.snapshots.map {
                 BackupSnapshot(content: $0.content, createdAt: $0.createdAt)
             }
@@ -148,7 +150,7 @@ class BackupManager {
     }
 
     private func restoreNote(_ backup: BackupNote, context: ModelContext) -> Note {
-        let note = Note(title: backup.title, content: backup.content)
+        let note = Note(title: backup.title, content: backup.content, order: backup.order)
         note.createdAt = backup.createdAt
         note.modifiedAt = backup.modifiedAt
         note.isTrashed = backup.isTrashed

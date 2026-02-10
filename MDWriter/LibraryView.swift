@@ -297,7 +297,16 @@ struct LibraryView: View {
     }
 
     private func createNewNote() {
-        let newNote = Note(title: String(localized: "New Note"))
+        // 计算新的 order 值，使其出现在最顶部（当前最小 order - 1）
+        let fetchDescriptor = FetchDescriptor<Note>(sortBy: [
+            SortDescriptor(\.order, order: .forward)
+        ])
+        let allNotes = (try? modelContext.fetch(fetchDescriptor)) ?? []
+
+        let minOrder = allNotes.first?.order ?? 0
+        let newOrder = minOrder - 1
+
+        let newNote = Note(title: String(localized: "New Note"), order: newOrder)
         if case .folder(let folder) = selectionMode { newNote.folder = folder }
         modelContext.insert(newNote)
         try? modelContext.save()

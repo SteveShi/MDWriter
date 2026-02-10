@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.9.16] - 2026-02-10
+
+### Features
+- **Manual Document Sorting**: Documents no longer jump to the top when edited. You can now manually reorder documents by dragging them in the list. New documents are still placed at the top for easy access.
+
 ## [1.9.15] - 2026-02-10
 
 ### Bug Fixes

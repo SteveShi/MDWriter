@@ -47,6 +47,7 @@ final class Note {
     var createdAt: Date
     var modifiedAt: Date
     var isTrashed: Bool = false
+    var order: Int = 0  // 用于记录手动排序顺序
     var tags: [String] = []  // Keywords
     var folder: Folder?
 
@@ -56,13 +57,14 @@ final class Note {
     @Relationship(deleteRule: .cascade, inverse: \Memo.note)
     var memos: [Memo] = []  // Multiple separate notes
 
-    init(title: String, content: String = "", folder: Folder? = nil) {
+    init(title: String, content: String = "", folder: Folder? = nil, order: Int = 0) {
         self.title = title
         self.content = content
         self.createdAt = Date()
         self.modifiedAt = Date()
         self.isTrashed = false
         self.folder = folder
+        self.order = order
     }
 }
 
