@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.9.15] - 2026-02-10
+
+### Bug Fixes
+- **Resolved Content Bleeding**: Fixed an issue where text from one document would persist when switching to another by ensuring the editor's internal state is fully reset during transitions.
+
 ## [1.9.14] - 2026-02-10
 
 ### Data Persistence & Reliability

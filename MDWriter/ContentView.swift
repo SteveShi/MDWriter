@@ -68,8 +68,8 @@ struct ContentView: View {
                         configuration: editorSettings.configuration,
                         proxy: editorController.proxy
                     )
-                    // 强制 SwiftUI 在配置变化时更新视图
-                    .id(editorSettings.configuration)
+                    // 强制 SwiftUI 在文档切换或配置变化时重启视图，确保状态干净且不串场
+                    .id("\(note.persistentModelID)\(editorSettings.configuration)")
                     .ignoresSafeArea()
                     .onChange(of: note.content) { oldValue, newValue in
                         updateInfo()
