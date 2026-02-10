@@ -422,16 +422,41 @@ class MarkdownTextView: NSTextView {
         let range = selectedRange()
 
         if range.location > 0, let textStorage = textStorage {
-            var attrs = textStorage.attributes(at: range.location - 1, effectiveRange: nil)
+            let prevCharRange = NSRange(location: range.location - 1, length: 1)
+            let prevChar = (textStorage.string as NSString).substring(with: prevCharRange)
 
-            // 解决“符号淡化继承”问题：如果正在继承语法符号的灰色，切换回 Heading 或 Body 的主色
+            // 回车后光标在新行开头时，不应继承上一行的样式（如标题字体）
+            // 而是根据当前行的内容决定样式，空行则使用默认基础样式
+            if prevChar == "\n" {
+                if range.location < textStorage.length {
+                    let currentCharRange = NSRange(location: range.location, length: 1)
+                    let currentChar = (textStorage.string as NSString).substring(with: currentCharRange)
+                    if currentChar != "\n" {
+                        var attrs = textStorage.attributes(at: range.location, effectiveRange: nil)
+                        if (attrs[.foregroundColor] as? NSColor)?.alphaComponent == 0.6 {
+                            attrs[.foregroundColor] = highlighter.isDarkTheme ? NSColor.white : NSColor.black
+                        }
+                        attrs.removeValue(forKey: .attachment)
+                        attrs.removeValue(forKey: NSAttributedString.Key("MarkdownSource"))
+                        typingAttributes = attrs
+                        return
+                    }
+                }
+                let paraStyle = highlighter.createBaseParagraphStyle()
+                typingAttributes = [
+                    .font: highlighter.baseFont,
+                    .paragraphStyle: paraStyle,
+                    .foregroundColor: highlighter.isDarkTheme ? NSColor.white : NSColor.black,
+                ]
+                return
+            }
+
+            var attrs = textStorage.attributes(at: range.location - 1, effectiveRange: nil)
             if (attrs[.foregroundColor] as? NSColor)?.alphaComponent == 0.6 {
                 attrs[.foregroundColor] = highlighter.isDarkTheme ? NSColor.white : NSColor.black
             }
-
             attrs.removeValue(forKey: .attachment)
             attrs.removeValue(forKey: NSAttributedString.Key("MarkdownSource"))
-
             typingAttributes = attrs
             return
         }

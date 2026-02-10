@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.9.17] - 2026-02-11
+
+### Bug Fixes
+- **Editor**: Fixed an issue where the text style (e.g., heading, bold) would persist on the new line after pressing Enter.
+
 ## [1.9.16] - 2026-02-10
 
 ### Features
