@@ -1,20 +1,33 @@
+# Build artifacts
 *.log
-build_output_swift6_final_10.txt
-build_output_swift6_final_11.txt
-build_output_swift6_final_6.txt
-build_output_swift6_final_7.txt
-build_output_swift6_final_8.txt
-build_output_swift6_final_9.txt
-build_output_swift6_restore_verify.txt
-build_output_optimization_verify_final_5.txt
-Sparkle_Integration_Guide.md
-/deploy_final
-/MDEditor/.build
-/MDEditor/.build
-/MDEditor/.build
-/MDEditor/.build/index-build
-/MDEditor/.build/index-build/arm64-apple-macosx
-/MDEditor/.build/index-build/arm64-apple-macosx/debug/index
-/MDEditor/.build/index-build
-MDWriter.xcodeproj/
 /build
+build_output*.txt
+
+# Xcode
+MDWriter.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+/MDEditor/.build
+/MDEditor/.swiftpm/xcode/xcuserdata/
+Package.resolved
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Deploy
+/deploy_final
+
+# Misc docs (not needed for build)
+Sparkle_Integration_Guide.md

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [1.9.14] - 2026-02-10
+
+### Data Persistence & Reliability
+- **Fixed Critical Data Loss**: Resolved an issue where documents could be lost after app restart by migrating to SwiftData's default storage mechanism and ensuring directories are correctly handled by the framework.
+- **Safety Save on Exit**: Added a robust termination handler to force-save all pending changes when the application quits, overcoming unreliable macOS scene phase notifications.
+- **Backup & Restore Hardening**: Fixed several logic bugs in the backup system, including incorrect deletion order, missing object insertions, and relationship timing issues.
+
+### Engineering & Cleanup
+- **Swift 6 Concurrency**: Enhanced strict concurrency compliance by adding `Sendable` support to backup data structures.
+- **Git History Optimization**: Cleaned up the repository by removing hundreds of unnecessary build artifacts and streamlining the `.gitignore` configuration.
+
 ## [1.9.13] - 2026-02-09
 
 ### Data Persistence

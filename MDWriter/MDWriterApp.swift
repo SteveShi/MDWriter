@@ -14,10 +14,10 @@ import WhatsNewKit
 struct MDWriterApp: App {
     // Sparkle Updater
     @StateObject private var updater = Updater()
-    
+
     // Manual WhatsNew State
     @State private var manualWhatsNew: WhatsNew?
-    
+
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
     @AppStorage("showDashboard") var showDashboard: Bool = false
@@ -25,21 +25,6 @@ struct MDWriterApp: App {
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
-    
-    private let modelContainer: ModelContainer = {
-        let schema = Schema([Folder.self, Note.self, Snapshot.self, Memo.self])
-        let appSupport = FileManager.default.urls(
-            for: .applicationSupportDirectory,
-            in: .userDomainMask
-        ).first!
-        let storeURL = appSupport.appendingPathComponent("default.store")
-        let config = ModelConfiguration(schema: schema, url: storeURL)
-        do {
-            return try ModelContainer(for: schema, configurations: [config])
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
-    }()
 
     var body: some Scene {
         // 使用 WindowGroup 替代 DocumentGroup
@@ -47,7 +32,6 @@ struct MDWriterApp: App {
             LibraryView()
                 .frame(minWidth: 800, minHeight: 600)
                 .preferredColorScheme(currentTheme.colorScheme)
-                .modelContainer(modelContainer)
                 .environment(
                     \.whatsNew,
                     WhatsNewEnvironment(
@@ -62,7 +46,10 @@ struct MDWriterApp: App {
                 .onReceive(NotificationCenter.default.publisher(for: .showWhatsNew)) { _ in
                     manualWhatsNew = WhatsNewConfiguration.current
                 }
+
         }
+        // 使用 SwiftData 默认存储：自动处理路径、目录创建和持久化
+        .modelContainer(for: [Folder.self, Note.self, Snapshot.self, Memo.self])
         .windowStyle(.hiddenTitleBar)
         .handlesExternalEvents(matching: ["*"])
         .commands {
@@ -73,10 +60,9 @@ struct MDWriterApp: App {
                 }
                 .disabled(!updater.canCheckForUpdates)
             }
-            
+
             // File Commands
             FileCommands()
-
 
             // Edit Commands (Find/Replace)
             EditCommands()

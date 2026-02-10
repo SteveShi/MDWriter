@@ -12,21 +12,21 @@ import UniformTypeIdentifiers
 
 // MARK: - Backup Models (JSON Codable)
 
-struct BackupRoot: Codable {
+struct BackupRoot: Codable, Sendable {
     let version: String
     let createdAt: Date
     let folders: [BackupFolder]
     let rootNotes: [BackupNote]
 }
 
-struct BackupFolder: Codable {
+struct BackupFolder: Codable, Sendable {
     let name: String
     let icon: String
     let subfolders: [BackupFolder]
     let notes: [BackupNote]
 }
 
-struct BackupNote: Codable {
+struct BackupNote: Codable, Sendable {
     let title: String
     let content: String
     let createdAt: Date
@@ -35,7 +35,7 @@ struct BackupNote: Codable {
     let snapshots: [BackupSnapshot]
 }
 
-struct BackupSnapshot: Codable {
+struct BackupSnapshot: Codable, Sendable {
     let content: String
     let createdAt: Date
 }
@@ -106,18 +106,21 @@ class BackupManager {
         let backup = try decoder.decode(BackupRoot.self, from: data)
 
         if replaceLibrary {
+            // 先删除 Folder（级联删除其下的 Note 和 Snapshot）
             try context.delete(model: Folder.self)
+            // 再删除剩余的无文件夹 Note（级联删除其 Snapshot 和 Memo）
             try context.delete(model: Note.self)
-            // Snapshots cascade delete
+            try context.delete(model: Snapshot.self)
+            try context.delete(model: Memo.self)
         }
 
-        // Restore Folders
+        // Restore Folders（递归插入子文件夹和笔记）
         for backupFolder in backup.folders {
             let folder = restoreFolder(backupFolder, context: context)
             context.insert(folder)
         }
 
-        // Restore Root Notes
+        // Restore Root Notes（无文件夹的笔记）
         for backupNote in backup.rootNotes {
             let note = restoreNote(backupNote, context: context)
             context.insert(note)
@@ -132,11 +135,13 @@ class BackupManager {
         for sub in backup.subfolders {
             let subFolder = restoreFolder(sub, context: context)
             subFolder.parent = folder
+            context.insert(subFolder)
         }
 
         for noteBackup in backup.notes {
             let note = restoreNote(noteBackup, context: context)
             note.folder = folder
+            context.insert(note)
         }
 
         return folder
@@ -148,13 +153,12 @@ class BackupManager {
         note.modifiedAt = backup.modifiedAt
         note.isTrashed = backup.isTrashed
 
+        // 先插入 note，确保 snapshot 的关系能正确建立
+        context.insert(note)
+
         for snapBackup in backup.snapshots {
             let snapshot = Snapshot(content: snapBackup.content, note: note)
             snapshot.createdAt = snapBackup.createdAt
-            // snapshot.note is set in init but SwiftData relationships are managed
-            // Adding to note.snapshots isn't needed if we set inverse, but let's trust the Relationship
-            // Actually, inserting snapshot and setting relationship is key.
-            // But since 'Snapshot' init takes 'note', we are good.
             context.insert(snapshot)
         }
 
