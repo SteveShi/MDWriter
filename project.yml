@@ -6,8 +6,8 @@ options:
     macOS: "14.0"
 
 settings:
-  MARKETING_VERSION: 1.9.17
-  CURRENT_PROJECT_VERSION: 409
+  MARKETING_VERSION: 1.9.18
+  CURRENT_PROJECT_VERSION: 410
   SWIFT_VERSION: 6.0
 
 packages:
@@ -44,7 +44,7 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: listentotherain.MDWriter
       INFOPLIST_FILE: MDWriter/Info.plist
-      CODE_SIGN_ENTITLEMENTS: MDWriter/MDWriter.entitlements
+      ENABLE_APP_SANDBOX: NO
       GENERATE_INFOPLIST_FILE: NO
     dependencies:
       - package: MDEditor

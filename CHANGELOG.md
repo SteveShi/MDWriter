@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.9.18] - 2026-02-12
+
+### Persistence & Stability
+- **Non-Sandbox Deployment**: Disabled App Sandbox for Release builds to eliminate path-drifting issues caused by unsigned bundles in CI/CD.
+- **Stable Database Location**: Forced SwiftData to use a fixed path in `~/Library/Application Support/MDWriter/` to ensure data consistency across local development and GitHub Actions builds.
+- **Code Cleanup**: Removed all debug logging and diagnostic instrumentation used during the data loss investigation.
+
 ## [1.9.17] - 2026-02-11
 
 ### Bug Fixes

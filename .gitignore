@@ -2,6 +2,7 @@
 *.log
 /build
 build_output*.txt
+build_log*.txt
 
 # Xcode
 MDWriter.xcodeproj/

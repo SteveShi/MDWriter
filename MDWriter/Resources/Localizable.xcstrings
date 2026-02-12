@@ -1,22 +1,20 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "···" : {
 
     },
-    "%lld" : {
+    "%@" : {
 
     },
-    "%lld pt" : {
+    "%@ pt" : {
 
     },
-    "%lld px" : {
+    "%@ px" : {
 
     },
     "A complete overhaul of the editor core for massive stability and performance gains." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30,6 +28,7 @@
 
     },
     "Actual Size" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -51,6 +50,7 @@
       }
     },
     "Add Keyword" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -72,6 +72,7 @@
       }
     },
     "Add..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -99,6 +100,7 @@
       }
     },
     "All Documents" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -131,6 +133,7 @@
       }
     },
     "Appearance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -141,6 +144,7 @@
       }
     },
     "Appearance:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -151,6 +155,7 @@
       }
     },
     "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -189,6 +194,7 @@
       }
     },
     "Automatically check for updates" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -199,6 +205,7 @@
       }
     },
     "Average" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -209,6 +216,7 @@
       }
     },
     "Backup Library..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -219,6 +227,7 @@
       }
     },
     "Blockquote" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -229,6 +238,7 @@
       }
     },
     "Bold" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -239,6 +249,7 @@
       }
     },
     "Browse Versions..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -249,6 +260,7 @@
       }
     },
     "Bulleted List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -259,6 +271,7 @@
       }
     },
     "Cancel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -269,6 +282,7 @@
       }
     },
     "Characters" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -279,6 +293,7 @@
       }
     },
     "chars" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -300,6 +315,7 @@
       }
     },
     "Check for Updates..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -332,6 +348,7 @@
       }
     },
     "Choose the look and feel of the application interface." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -353,6 +370,7 @@
       }
     },
     "Close" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -363,6 +381,7 @@
       }
     },
     "Code" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -373,6 +392,7 @@
       }
     },
     "Code Block" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -383,6 +403,7 @@
       }
     },
     "Color Scheme" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -415,6 +436,7 @@
       }
     },
     "Continue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -458,6 +480,7 @@
       }
     },
     "Counters" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -479,6 +502,7 @@
       }
     },
     "Dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -489,6 +513,7 @@
       }
     },
     "Dashboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -516,6 +541,7 @@
       }
     },
     "Delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -526,6 +552,7 @@
       }
     },
     "Delete Permanently" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -536,6 +563,7 @@
       }
     },
     "Delete Version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -546,6 +574,7 @@
       }
     },
     "Display Levels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -556,6 +585,7 @@
       }
     },
     "Done" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -566,6 +596,7 @@
       }
     },
     "Dracula" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -576,6 +607,7 @@
       }
     },
     "Edit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -587,6 +619,7 @@
     },
     "Editor" : {
       "comment" : "Editor",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -608,6 +641,7 @@
       }
     },
     "Empty Trash" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -635,6 +669,7 @@
       }
     },
     "Excluding spaces" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -679,6 +714,7 @@
       }
     },
     "Export Document" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -689,6 +725,7 @@
       }
     },
     "Fast" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -699,6 +736,7 @@
       }
     },
     "File" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -709,6 +747,7 @@
       }
     },
     "Find" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -742,6 +781,7 @@
       }
     },
     "Find & Replace..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -751,10 +791,8 @@
         }
       }
     },
-    "Find and Replace" : {
-
-    },
     "Find Next" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -765,6 +803,7 @@
       }
     },
     "Find Previous" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -775,6 +814,7 @@
       }
     },
     "Find..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -785,6 +825,7 @@
       }
     },
     "Folders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -795,6 +836,7 @@
       }
     },
     "Font Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -805,6 +847,7 @@
       }
     },
     "Font:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -815,6 +858,7 @@
       }
     },
     "Format" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -825,6 +869,7 @@
       }
     },
     "Formatting" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -853,6 +898,7 @@
     },
     "General" : {
       "comment" : "General",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -880,6 +926,7 @@
       }
     },
     "GitHub" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -890,6 +937,7 @@
       }
     },
     "Heading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -899,10 +947,11 @@
         }
       }
     },
-    "Heading %lld" : {
+    "Heading %@" : {
 
     },
     "Heading 1" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -913,6 +962,7 @@
       }
     },
     "Heading 2" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -923,6 +973,7 @@
       }
     },
     "Heading 3" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -933,6 +984,7 @@
       }
     },
     "Heading 4" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -965,6 +1017,7 @@
       }
     },
     "Headings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -975,6 +1028,7 @@
       }
     },
     "Hide Dashboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -985,6 +1039,7 @@
       }
     },
     "Hide Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -995,6 +1050,7 @@
       }
     },
     "Hide Outline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1022,6 +1078,7 @@
       }
     },
     "Highlight" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1032,6 +1089,7 @@
       }
     },
     "Horizontal Rule" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1053,6 +1111,7 @@
       }
     },
     "Image" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1063,6 +1122,7 @@
       }
     },
     "Image..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1073,6 +1133,7 @@
       }
     },
     "Images" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1083,6 +1144,7 @@
       }
     },
     "IME Stability" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1093,6 +1155,7 @@
       }
     },
     "Import..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1103,6 +1166,7 @@
       }
     },
     "Inbox" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1113,6 +1177,7 @@
       }
     },
     "Indent:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1123,6 +1188,7 @@
       }
     },
     "Inline Code" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1133,6 +1199,7 @@
       }
     },
     "Inline Image Preview" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1143,6 +1210,7 @@
       }
     },
     "Insert" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1153,6 +1221,7 @@
       }
     },
     "Insert Image" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1163,6 +1232,7 @@
       }
     },
     "Italic" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1173,6 +1243,7 @@
       }
     },
     "Keeps the cursor centered vertically in the editor." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1183,6 +1254,7 @@
       }
     },
     "Keyboard Shortcuts" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1193,6 +1265,7 @@
       }
     },
     "Keywords" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1203,6 +1276,7 @@
       }
     },
     "Layout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1213,6 +1287,7 @@
       }
     },
     "Levels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1224,6 +1299,7 @@
     },
     "Library" : {
       "comment" : "Library View",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1251,6 +1327,7 @@
       }
     },
     "Light" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1261,6 +1338,7 @@
       }
     },
     "Line Height:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1271,6 +1349,7 @@
       }
     },
     "Line Width:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1281,6 +1360,7 @@
       }
     },
     "Link" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1291,6 +1371,7 @@
       }
     },
     "Link..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1301,6 +1382,7 @@
       }
     },
     "List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1328,6 +1410,7 @@
       }
     },
     "Major Heading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1339,6 +1422,7 @@
     },
     "Markdown" : {
       "comment" : "Markdown",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1349,6 +1433,7 @@
       }
     },
     "Markdown XL" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1359,6 +1444,7 @@
       }
     },
     "Markdown XL keeps headings at body size. Standard scales them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1368,10 +1454,8 @@
         }
       }
     },
-    "MDWriter" : {
-
-    },
     "MDWriter Help" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1399,6 +1483,7 @@
       }
     },
     "Media" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1409,6 +1494,7 @@
       }
     },
     "Monokai" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1419,6 +1505,7 @@
       }
     },
     "Move to Trash" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1429,6 +1516,7 @@
       }
     },
     "Native support for Chinese input and mixed-language writing without cursor jumping." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1439,6 +1527,7 @@
       }
     },
     "New Group" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1466,6 +1555,7 @@
       }
     },
     "New Note" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1476,6 +1566,7 @@
       }
     },
     "New Sheet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1486,6 +1577,7 @@
       }
     },
     "Night Owl" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1496,6 +1588,7 @@
       }
     },
     "No Configuration Options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1506,6 +1599,7 @@
       }
     },
     "No Images" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1516,6 +1610,7 @@
       }
     },
     "No outline content" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1526,6 +1621,7 @@
       }
     },
     "No Selection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1536,6 +1632,7 @@
       }
     },
     "No Structure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1546,6 +1643,7 @@
       }
     },
     "No versions saved" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1556,6 +1654,7 @@
       }
     },
     "Nord" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1566,6 +1665,7 @@
       }
     },
     "Notes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1576,6 +1676,7 @@
       }
     },
     "Numbered List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1584,9 +1685,6 @@
           }
         }
       }
-    },
-    "Ordered List" : {
-
     },
     "Organize your notes into folders and groups effortlessly." : {
       "extractionState" : "manual",
@@ -1606,6 +1704,7 @@
       }
     },
     "Outline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1616,6 +1715,7 @@
       }
     },
     "Pages" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1626,6 +1726,7 @@
       }
     },
     "Par. Space:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1647,6 +1748,7 @@
       }
     },
     "Paragraphs" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1690,6 +1792,7 @@
       }
     },
     "PDF" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1700,6 +1803,7 @@
       }
     },
     "Per line" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1738,6 +1842,7 @@
       }
     },
     "Print..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1748,6 +1853,7 @@
       }
     },
     "Pro Markdown Rendering" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1758,6 +1864,7 @@
       }
     },
     "Progress" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1768,6 +1875,7 @@
       }
     },
     "Pure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1800,6 +1908,7 @@
       }
     },
     "Reading Time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1810,6 +1919,7 @@
       }
     },
     "Rename" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1820,6 +1930,7 @@
       }
     },
     "Replace" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1853,6 +1964,7 @@
       }
     },
     "Restore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1863,6 +1975,7 @@
       }
     },
     "Restore Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1873,6 +1986,7 @@
       }
     },
     "Restore Library..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1883,6 +1997,7 @@
       }
     },
     "Restore to this Version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1904,6 +2019,7 @@
       }
     },
     "Rich Text (Word)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1914,6 +2030,7 @@
       }
     },
     "Save as PDF..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1924,6 +2041,7 @@
       }
     },
     "Save Version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1967,6 +2085,7 @@
       }
     },
     "Select a color scheme for syntax highlighting and preview." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1977,6 +2096,7 @@
       }
     },
     "Select a document to start writing." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1987,6 +2107,7 @@
       }
     },
     "Select a version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1997,6 +2118,7 @@
       }
     },
     "Sentences" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2007,6 +2129,7 @@
       }
     },
     "Separator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2018,6 +2141,7 @@
     },
     "Settings..." : {
       "comment" : "Menu Commands",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2028,6 +2152,7 @@
       }
     },
     "Show Dashboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2038,6 +2163,7 @@
       }
     },
     "Show Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2048,6 +2174,7 @@
       }
     },
     "Show Library Sidebar by default" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2058,6 +2185,7 @@
       }
     },
     "Show Outline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2096,6 +2224,7 @@
       }
     },
     "Show Statistics Dashboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2106,6 +2235,7 @@
       }
     },
     "Sidebar & Panels" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2133,6 +2263,7 @@
       }
     },
     "Slow" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2143,6 +2274,7 @@
       }
     },
     "Small Heading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2153,6 +2285,7 @@
       }
     },
     "Solarized Dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2163,6 +2296,7 @@
       }
     },
     "Solarized Light" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2195,6 +2329,7 @@
       }
     },
     "Standard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2216,6 +2351,7 @@
       }
     },
     "Statistics Configuration (None)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2237,6 +2373,7 @@
       }
     },
     "Strikethrough" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2247,6 +2384,7 @@
       }
     },
     "Structure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2274,6 +2412,7 @@
       }
     },
     "Subheading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2284,6 +2423,7 @@
       }
     },
     "Syntax Standard:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2322,6 +2462,7 @@
       }
     },
     "Task List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2343,6 +2484,7 @@
       }
     },
     "TextKit 2 Engine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2353,6 +2495,7 @@
       }
     },
     "Theme" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2363,6 +2506,7 @@
       }
     },
     "Theme Selection" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2373,6 +2517,7 @@
       }
     },
     "This will replace your current library with the backup. This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2411,6 +2556,7 @@
       }
     },
     "Trash" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2421,6 +2567,7 @@
       }
     },
     "Type and press Enter to add..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2431,6 +2578,7 @@
       }
     },
     "Typewriter Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2441,6 +2589,7 @@
       }
     },
     "Typography" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2468,6 +2617,7 @@
       }
     },
     "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2478,6 +2628,7 @@
       }
     },
     "Unordered List" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2488,6 +2639,7 @@
       }
     },
     "Updates" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2498,6 +2650,7 @@
       }
     },
     "Use ⌘ + I or drag and drop to insert images" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2509,6 +2662,7 @@
     },
     "Versions" : {
       "comment" : "Snapshots & Backup",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2519,6 +2673,7 @@
       }
     },
     "View" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2529,6 +2684,7 @@
       }
     },
     "View Options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2539,6 +2695,7 @@
       }
     },
     "View your local images directly inside the editor and export previews with ease." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2566,6 +2723,7 @@
       }
     },
     "What's New" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2593,6 +2751,7 @@
       }
     },
     "Words" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2602,10 +2761,8 @@
         }
       }
     },
-    "Zoom In" : {
-
-    },
     "Zoom Out" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

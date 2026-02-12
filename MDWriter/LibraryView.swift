@@ -231,12 +231,6 @@ struct LibraryView: View {
         .onReceive(NotificationCenter.default.publisher(for: .restoreLibrary)) { _ in
             importBackup()
         }
-        // 监听应用退出通知，确保数据在退出前强制保存
-        .onReceive(
-            NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
-        ) { _ in
-            try? modelContext.save()
-        }
         .focusedSceneValue(\.hasSelectedNote, selectedNote != nil)
         .onOpenURL { url in
             importSingleNote(from: url)
