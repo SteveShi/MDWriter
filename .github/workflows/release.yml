@@ -159,8 +159,8 @@ jobs:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
           # 1. 下载并解压 Sparkle 工具
-          curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz
-          tar -xf Sparkle-2.8.1.tar.xz
+          curl -L -O https://github.com/sparkle-project/Sparkle/releases/download/2.9.0/Sparkle-2.9.0.tar.xz
+          tar -xf Sparkle-2.9.0.tar.xz
 
           # 2. 极致清理私钥 (确保没有任何不可见字符)
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | sed 's/EdDSAPrivateKey://' | tr -dc 'A-Za-z0-9+/=')
@@ -173,13 +173,14 @@ jobs:
           # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
+          # Sparkle 2.9.0+ 原生支持 Markdown：只需将 .md 文件命名为 "{文件名}.md" 放在同目录即可
+          cp release_notes.md "deploy/${{ env.ZIP_NAME }}.md"
           
           # 4. 执行签名并生成 Appcast
           # 设置动态库路径以确保 bin/generate_appcast 能找到 Sparkle.framework
           export DYLD_FRAMEWORK_PATH="$PWD"
           
-          echo "Running generate_appcast using stdin method (Issue 2670 recommendation)..."
-          # 使用 --ed-key-file - 从标准输入读取私钥，这是在 CI 中绕过 Keychain 的最可靠方式
+          echo "Running generate_appcast using stdin method..."
           echo "$CLEAN_KEY" | ./bin/generate_appcast \
             --ed-key-file - \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
@@ -187,8 +188,7 @@ jobs:
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            python3 scripts/inject_notes.py
-            echo "Appcast generated successfully."
+            echo "Appcast generated successfully with native Markdown support."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
