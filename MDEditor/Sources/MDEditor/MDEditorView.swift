@@ -247,21 +247,8 @@ public struct MDEditorView: NSViewRepresentable {
 
 class MarkdownTextView: NSTextView {
     private lazy var highlighter = MarkdownHighlighter()
-    private var isComposing = false
     private var isHighlighting = false
     private var currentConfiguration: EditorConfiguration?
-
-    override func setMarkedText(_ string: Any, selectedRange: NSRange, replacementRange: NSRange) {
-        isComposing = true
-        super.setMarkedText(
-            string, selectedRange: selectedRange, replacementRange: replacementRange)
-    }
-
-    override func unmarkText() {
-        isComposing = false
-        super.unmarkText()
-        highlightMarkdown()
-    }
 
     override func insertText(_ string: Any, replacementRange: NSRange) {
         guard let string = string as? String, !string.isEmpty else {
@@ -291,7 +278,7 @@ class MarkdownTextView: NSTextView {
 
     override func didChangeText() {
         super.didChangeText()
-        if !isComposing && !isHighlighting {  // 锁住递归
+        if !hasMarkedText() && !isHighlighting {  // 锁住递归
             // 优先使用 textStorage 的 editedRange，它是最准确的变更范围
             // 如果不可用，回退到 rangeForUserTextChange
             let range = textStorage?.editedRange ?? rangeForUserTextChange
@@ -306,7 +293,7 @@ class MarkdownTextView: NSTextView {
     }
 
     func highlightMarkdownForRecentEdit() {
-        guard !isComposing && !isHighlighting else { return }
+        guard !hasMarkedText() && !isHighlighting else { return }
         let range = textStorage?.editedRange ?? rangeForUserTextChange
         if range.location != NSNotFound {
             highlightMarkdown(in: range)
@@ -321,7 +308,7 @@ class MarkdownTextView: NSTextView {
     }
 
     func highlightMarkdown(in range: NSRange) {
-        guard let textStorage = textStorage, !isComposing, !isHighlighting else { return }
+        guard let textStorage = textStorage, !hasMarkedText(), !isHighlighting else { return }
 
         isHighlighting = true
         defer { isHighlighting = false }
