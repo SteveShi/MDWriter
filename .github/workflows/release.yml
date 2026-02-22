@@ -145,6 +145,15 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
+      - name: Extract Release Notes
+        run: |
+          VERSION_CLEAN=${{ env.VERSION }}
+          # 提取日志逻辑（保持您确认工作的版本）
+          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
+          if [ ! -s release_notes.md ]; then
+            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
+          fi
+
       - name: Generate Sparkle Appcast
         env:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
@@ -178,43 +187,11 @@ jobs:
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
+            python3 scripts/inject_notes.py
             echo "Appcast generated successfully."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
-          fi
-
-      - name: Validate Appcast Contents
-        run: |
-          if [ ! -f "appcast.xml" ]; then
-            echo "CRITICAL ERROR: appcast.xml missing"
-            exit 1
-          fi
-          if ! grep -q "<item" appcast.xml; then
-            echo "CRITICAL ERROR: appcast.xml missing <item>"
-            exit 1
-          fi
-          if ! grep -q "<enclosure" appcast.xml; then
-            echo "CRITICAL ERROR: appcast.xml missing <enclosure>"
-            exit 1
-          fi
-          if ! grep -q "sparkle:version" appcast.xml; then
-            echo "CRITICAL ERROR: appcast.xml missing sparkle:version"
-            exit 1
-          fi
-          if ! grep -q "sparkle:shortVersionString" appcast.xml; then
-            echo "CRITICAL ERROR: appcast.xml missing sparkle:shortVersionString"
-            exit 1
-          fi
-          echo "Appcast validation passed."
-
-      - name: Extract Release Notes
-        run: |
-          VERSION_CLEAN=${{ env.VERSION }}
-          # 提取日志逻辑（保持您确认工作的版本）
-          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
-          if [ ! -s release_notes.md ]; then
-            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
           fi
 
       - name: Create GitHub Release

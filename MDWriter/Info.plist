@@ -10,6 +10,8 @@
 	<string>MkHAeSDd//tR7+jzLDuwomA0aHHe5+35hbQ4csagwF0=</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 SteveShi. All rights reserved.</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
