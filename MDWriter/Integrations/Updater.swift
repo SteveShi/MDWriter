@@ -14,7 +14,7 @@ import Combine
 final class SparkleUpdaterDelegate: NSObject, SPUUpdaterDelegate {
     private let logger = Logger(subsystem: "MDWriter", category: "Sparkle")
 
-    func updater(_ updater: SPUUpdater, didAbortUpdateWithError error: Error) {
+    func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
         logError("Update aborted", error: error)
     }
 

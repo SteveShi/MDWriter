@@ -12,7 +12,8 @@ settings:
 
 packages:
   MDEditor:
-    path: MDEditor
+    url: https://github.com/lpgneg19/MDEditor.git
+    from: 1.0.1
   Highlightr:
     url: https://github.com/raspu/Highlightr
     from: 2.3.0
