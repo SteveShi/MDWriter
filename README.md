@@ -43,6 +43,9 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 *   **One-Click Restore**: Easily migrate your library to a new machine or recover from accidental data loss.
 
 ### 🤖 Apple Intelligence Integration (New in v2.0)
+> [!IMPORTANT]
+> **Requirements**: macOS 26.0 or later and an Apple Silicon (M-series) Mac. AI features must be enabled in System Settings.
+
 *   **On-Device AI Assistant**: Privacy-focused AI Assistant panel powered by Apple Foundation Models.
 *   **Writing Tools**: Polish, summarize, translate, and proofread your text with a single click.
 *   **Smart Metadata**: Automatically generate descriptive titles and relevant tags based on your content.
