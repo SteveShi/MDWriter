@@ -16,7 +16,7 @@ struct WhatsNewConfiguration {
 
     /// Update this only when there is a major feature release.
     static var whatsNewVersion: WhatsNew.Version {
-        "1.9.11"
+        "2.0.0"
     }
 
     /// Define the "What's New" content for the current version
@@ -29,6 +29,15 @@ struct WhatsNewConfiguration {
             title: WhatsNew.Title(text: WhatsNew.Text(String(localized: "What's New in MDWriter"))),
 
             features: [
+                WhatsNew.Feature(
+                    image: .init(systemName: "apple.intelligence"),
+                    title: WhatsNew.Text(String(localized: "Apple Intelligence")),
+                    subtitle: WhatsNew.Text(
+                        String(
+                            localized:
+                                "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging."
+                        ))
+                ),
                 WhatsNew.Feature(
                     image: .init(systemName: "cpu"),
                     title: WhatsNew.Text(String(localized: "TextKit 2 Engine")),

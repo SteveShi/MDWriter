@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## [2.0.0] - 2026-02-23
+
+### Apple Intelligence Integration
+- **On-Device AI Assistant**: Introduced a new AI Assistant panel (powered by Apple Foundation Models) for privacy-focused, on-device text processing.
+- **AI Writing Tools**:
+  - **Polish**: Rewrite and improve text while preserving original meaning.
+  - **Summarize**: Generate concise 2-3 sentence summaries of your notes.
+  - **Translate**: Seamless, high-quality translation between Chinese and English.
+  - **Proofread**: Advanced grammar and spelling checks with structured correction suggestions.
+- **Smart Metadata**:
+  - **Smart Title**: Automatically generate descriptive titles for your documents based on content.
+  - **Auto Tags**: AI-powered keyword suggestions to keep your library organized.
+- **AI Dashboard Tab**: A dedicated AI tab in the document sidebar for quick access to summaries and metadata actions.
+- **AI Settings**: New configuration panel to manage Apple Intelligence availability and translation preferences.
+
+### Build & Infrastructure
+- **Backward Compatibility**: Fully conditionalized the AI codebase using `#if canImport(FoundationModels)` and `@available(macOS 26.0, *)` to maintain support for macOS 14.0+ and Intel-based Macs.
+
 ## [1.9.18] - 2026-02-12
 
 ### Persistence & Stability
