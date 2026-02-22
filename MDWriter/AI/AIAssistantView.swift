@@ -92,9 +92,20 @@ struct AIAssistantView: View {
             ], spacing: 12) {
                 ForEach(AIAction.allCases) { action in
                     AIActionCard(action: action) {
-                        guard let note = note else { return }
-                        inputText = controller.proxy.getSelectedText() ?? note.content
-                        guard !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                            let selectedText = controller.proxy.getSelectedText()
+                            let text: String
+                            if let sel = selectedText,
+                                !sel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                            {
+                                text = sel
+                            } else if let noteContent = note?.content,
+                                !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                            {
+                                text = noteContent
+                            } else {
+                                return
+                            }
+                            inputText = text
                         withAnimation(.spring(response: 0.3)) {
                             selectedAction = action
                         }
@@ -357,6 +368,7 @@ struct AIActionCard: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
             .padding(.horizontal, 8)
+                .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(isHovered ? Color.accentColor.opacity(0.08) : Color.secondary.opacity(0.06))

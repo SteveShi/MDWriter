@@ -82,6 +82,103 @@
         }
       }
     },
+    "AI" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI"
+          }
+        }
+      }
+    },
+    "AI Assistant" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 助手"
+          }
+        }
+      }
+    },
+    "AI Features Disabled" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 功能已禁用"
+          }
+        }
+      }
+    },
+    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
+          }
+        }
+      }
+    },
+    "AI is processing..." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 处理中..."
+          }
+        }
+      }
+    },
+    "AI Ready" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 就绪"
+          }
+        }
+      }
+    },
+    "AI Settings" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 设置"
+          }
+        }
+      }
+    },
+    "AI Summary" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 摘要"
+          }
+        }
+      }
+    },
+    "AI Unavailable" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI 不可用"
+          }
+        }
+      }
+    },
     "All" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -154,6 +251,28 @@
         }
       }
     },
+    "Apple Intelligence" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple 智能"
+          }
+        }
+      }
+    },
+    "Apply Tags" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用标签"
+          }
+        }
+      }
+    },
     "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -161,6 +280,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您确定要彻底删除废纸篓中的所有项目吗？该操作无法撤销。"
+          }
+        }
+      }
+    },
+    "Auto Detect" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动检测"
+          }
+        }
+      }
+    },
+    "Auto Tags" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动标签"
           }
         }
       }
@@ -325,6 +466,17 @@
         }
       }
     },
+    "Check grammar and spelling errors" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查语法和拼写错误"
+          }
+        }
+      }
+    },
     "Check Grammar with Spelling" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -365,6 +517,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除全部"
+          }
+        }
+      }
+    },
+    "Click refresh to generate AI summary" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击刷新以生成 AI 摘要"
           }
         }
       }
@@ -475,6 +638,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "修正"
+          }
+        }
+      }
+    },
+    "Corrections" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修正项"
           }
         }
       }
@@ -650,6 +824,31 @@
           }
         }
       }
+    },
+    "Enable AI Features" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用 AI 功能"
+          }
+        }
+      }
+    },
+    "Enable AI features in Settings > AI" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在 设置 > AI 中启用 AI 功能"
+          }
+        }
+      }
+    },
+    "English" : {
+
     },
     "Enhanced Editor" : {
       "extractionState" : "manual",
@@ -904,6 +1103,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用"
+          }
+        }
+      }
+    },
+    "Generate a concise summary of the content" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为内容生成简洁的摘要"
+          }
+        }
+      }
+    },
+    "Generate a descriptive title based on the content" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据内容生成描述性标题"
           }
         }
       }
@@ -1227,6 +1448,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "插入图片"
+          }
+        }
+      }
+    },
+    "Insert Result" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入结果"
           }
         }
       }
@@ -1824,6 +2056,17 @@
         }
       }
     },
+    "Polish" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "润色"
+          }
+        }
+      }
+    },
     "Preview" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1874,6 +2117,17 @@
         }
       }
     },
+    "Proofread" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纠错"
+          }
+        }
+      }
+    },
     "Pure" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1881,6 +2135,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "纯净"
+          }
+        }
+      }
+    },
+    "Quick Actions" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速操作"
           }
         }
       }
@@ -1963,6 +2228,28 @@
         }
       }
     },
+    "Replace Selection" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换选中"
+          }
+        }
+      }
+    },
+    "Requires macOS 26 and Apple Silicon" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要 macOS 26 和 Apple 芯片"
+          }
+        }
+      }
+    },
     "Restore" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2003,6 +2290,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "还原此版本"
+          }
+        }
+      }
+    },
+    "Rewrite and improve the text while preserving its meaning" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在保持原意的同时改写和润色文本"
           }
         }
       }
@@ -2284,6 +2582,17 @@
         }
       }
     },
+    "Smart Title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "智能标题"
+          }
+        }
+      }
+    },
     "Solarized Dark" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2361,6 +2670,17 @@
         }
       }
     },
+    "Status" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态"
+          }
+        }
+      }
+    },
     "Stop Speaking" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2418,6 +2738,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "副标题"
+          }
+        }
+      }
+    },
+    "Suggest keyword tags for the document" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为文档建议关键词标签"
+          }
+        }
+      }
+    },
+    "Suggested Tags" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建议标签"
+          }
+        }
+      }
+    },
+    "Summarize" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摘要"
           }
         }
       }
@@ -2551,6 +2904,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "切换预览"
+          }
+        }
+      }
+    },
+    "Translate" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译"
+          }
+        }
+      }
+    },
+    "Translate between Chinese and English" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中英文互译"
+          }
+        }
+      }
+    },
+    "Translation" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译"
+          }
+        }
+      }
+    },
+    "Translation Target Language" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译目标语言"
           }
         }
       }
@@ -2772,365 +3169,8 @@
         }
       }
     },
-    "AI" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI"
-          }
-        }
-      }
-    },
-    "AI Assistant" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 助手"
-          }
-        }
-      }
-    },
-    "AI Features Disabled" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 功能已禁用"
-          }
-        }
-      }
-    },
-    "AI is processing..." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 处理中..."
-          }
-        }
-      }
-    },
-    "AI Ready" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 就绪"
-          }
-        }
-      }
-    },
-    "AI Settings" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 设置"
-          }
-        }
-      }
-    },
-    "AI Summary" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 摘要"
-          }
-        }
-      }
-    },
-    "AI Unavailable" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 不可用"
-          }
-        }
-      }
-    },
-    "Apple Intelligence" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple 智能"
-          }
-        }
-      }
-    },
-    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
-          }
-        }
-      }
-    },
-    "Apply Tags" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "应用标签"
-          }
-        }
-      }
-    },
-    "Auto Detect" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动检测"
-          }
-        }
-      }
-    },
-    "Auto Tags" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动标签"
-          }
-        }
-      }
-    },
-    "Check grammar and spelling errors" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查语法和拼写错误"
-          }
-        }
-      }
-    },
-    "Click refresh to generate AI summary" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点击刷新以生成 AI 摘要"
-          }
-        }
-      }
-    },
-    "Corrections" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "修正项"
-          }
-        }
-      }
-    },
-    "Enable AI Features" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "启用 AI 功能"
-          }
-        }
-      }
-    },
-    "Enable AI features in Settings > AI" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请在 设置 > AI 中启用 AI 功能"
-          }
-        }
-      }
-    },
-    "Generate a concise summary of the content" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "为内容生成简洁的摘要"
-          }
-        }
-      }
-    },
-    "Generate a descriptive title based on the content" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据内容生成描述性标题"
-          }
-        }
-      }
-    },
-    "Insert Result" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "插入结果"
-          }
-        }
-      }
-    },
-    "Polish" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "润色"
-          }
-        }
-      }
-    },
-    "Proofread" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "纠错"
-          }
-        }
-      }
-    },
-    "Quick Actions" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速操作"
-          }
-        }
-      }
-    },
-    "Replace Selection" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "替换选中"
-          }
-        }
-      }
-    },
-    "Requires macOS 26 and Apple Silicon" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "需要 macOS 26 和 Apple 芯片"
-          }
-        }
-      }
-    },
-    "Rewrite and improve the text while preserving its meaning" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在保持原意的同时改写和润色文本"
-          }
-        }
-      }
-    },
-    "Smart Title" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能标题"
-          }
-        }
-      }
-    },
-    "Status" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "状态"
-          }
-        }
-      }
-    },
-    "Suggest keyword tags for the document" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "为文档建议关键词标签"
-          }
-        }
-      }
-    },
-    "Suggested Tags" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "建议标签"
-          }
-        }
-      }
-    },
-    "Summarize" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "摘要"
-          }
-        }
-      }
-    },
-    "Translate" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "翻译"
-          }
-        }
-      }
-    },
-    "Translate between Chinese and English" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中英文互译"
-          }
-        }
-      }
-    },
-    "Translation" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "翻译"
-          }
-        }
-      }
-    },
-    "Translation Target Language" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "翻译目标语言"
-          }
-        }
-      }
+    "简体中文" : {
+
     }
   },
   "version" : "1.1"
