@@ -173,6 +173,8 @@ jobs:
           # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
+          # Sparkle 2.9.0+ 原生支持 Markdown：只需将 .md 文件命名为 "{文件名}.md" 并在 Appcast 工具运行时存在
+          cp release_notes.md "deploy/${{ env.ZIP_NAME }}.md"
           
           # 4. 执行签名并生成 Appcast
           # 设置动态库路径以确保 bin/generate_appcast 能找到 Sparkle.framework
@@ -186,8 +188,8 @@ jobs:
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            python3 scripts/inject_notes.py
-            echo "Appcast generated successfully."
+            cp "deploy/${{ env.ZIP_NAME }}.md" .
+            echo "Appcast generated successfully with native Markdown support."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
@@ -199,6 +201,7 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
+            ${{ env.ZIP_NAME }}.md
             appcast.xml
           name: Release ${{ env.VERSION_TAG }}
           tag_name: ${{ env.VERSION_TAG }}
