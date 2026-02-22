@@ -365,7 +365,7 @@ struct AIActionCard: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
             }
-            .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, minHeight: 100)
             .padding(.vertical, 16)
             .padding(.horizontal, 8)
                 .contentShape(Rectangle())
