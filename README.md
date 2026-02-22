@@ -37,10 +37,16 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 *   **Drag & Drop**: Intuitive organization—drag notes between folders, to the Trash, or rearrange your hierarchy.
 *   **Smart Lists**: Built-in Inbox and Trash management.
 
-### � Versions & Backups (New in v1.7)
+### 📜 Versions & Backups (New in v1.7)
 *   **Snapshot History**: Manually save "Versions" of your document and browse them purely visually. View character counts, creation times, and restore previous states with one click.
 *   **Full Library Backup**: Export your entire database (Folders, Notes, Snapshots) to a single `.mdwbk` file.
 *   **One-Click Restore**: Easily migrate your library to a new machine or recover from accidental data loss.
+
+### 🤖 Apple Intelligence Integration (New in v2.0)
+*   **On-Device AI Assistant**: Privacy-focused AI Assistant panel powered by Apple Foundation Models.
+*   **Writing Tools**: Polish, summarize, translate, and proofread your text with a single click.
+*   **Smart Metadata**: Automatically generate descriptive titles and relevant tags based on your content.
+*   **Privacy First**: All processing happens on-device; your data never leaves your machine.
 
 ### 📤 Export & Sharing
 *   **PDF Export**: Generate clean, A4-optimized PDFs with styled headers and footers.
