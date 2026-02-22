@@ -18,6 +18,23 @@
 ### Build & Infrastructure
 - **Backward Compatibility**: Fully conditionalized the AI codebase using `#if canImport(FoundationModels)` and `@available(macOS 26.0, *)` to maintain support for macOS 14.0+ and Intel-based Macs.
 
+### Chinese
+### Apple Intelligence 集成
+- **端侧 AI 助手**：引入了全新的 AI 助手面板（由 Apple Foundation Models 驱动），提供专注于隐私的端侧文本处理。
+- **AI 写作工具**：
+  - **润色**：重写并改进文本，同时保留原始含义。
+  - **摘要**：为您的笔记生成简洁的 2-3 句摘要。
+  - **翻译**：中英文之间的无缝、高质量翻译。
+  - **校对**：通过结构化的修正建议进行高级语法和拼写检查。
+- **智能元数据**：
+  - **智能标题**：根据内容自动为您的文档生成描述性标题。
+  - **自动标签**：AI 驱动的关键词建议，让您的库保持井然有序。
+- **AI 仪表盘标签页**：文档侧边栏中专门的 AI 标签页，可快速访问摘要和元数据操作。
+- **AI 设置**：全新的配置面板，用于管理 Apple Intelligence 的可用性和翻译偏好。
+
+### 构建与基础设施
+- **向后兼容性**：完全条件化了 AI 代码库，使用 `#if canImport(FoundationModels)` 和 `@available(macOS 26.0, *)`，以维持对 macOS 14.0+ 和 Intel 芯片 Mac 的支持。
+
 ## [1.9.18] - 2026-02-12
 
 ### Persistence & Stability
