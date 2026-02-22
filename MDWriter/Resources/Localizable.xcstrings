@@ -3235,6 +3235,17 @@
         }
       },
       "extractionState": "manual"
+    },
+    "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "利用端侧 AI 的强大功能进行润色、摘要、翻译和智能标记。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"
