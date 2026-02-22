@@ -36,6 +36,7 @@ struct ContentView: View {
     // UI 状态 (local only)
     @State private var showShortcutsSheet: Bool = false
     @State private var showFontSettings: Bool = false
+    @State private var showAIAssistant: Bool = false
 
     // 导出状态
     @State private var exportItem: ExportItem? = nil
@@ -236,7 +237,22 @@ struct ContentView: View {
                 .disabled(note == nil)
                 .help(LocalizedStringKey("Find and Replace"))
 
-                // 6. 大纲 (Dashboard toggle)
+                // 6. AI 助手 (Apple Intelligence)
+                #if canImport(FoundationModels)
+                    if #available(macOS 26.0, *) {
+                        Button(action: { showAIAssistant.toggle() }) {
+                            Image(systemName: "apple.intelligence")
+                                .foregroundColor(showAIAssistant ? .accentColor : .primary)
+                        }
+                        .disabled(note == nil)
+                        .help(LocalizedStringKey("AI Assistant"))
+                        .popover(isPresented: $showAIAssistant) {
+                            AIAssistantView(controller: editorController, note: note)
+                        }
+                    }
+                #endif
+
+                // 7. 大纲 (Dashboard toggle)
                 Button(action: { withAnimation { showOutline.toggle() } }) {
                     Image(systemName: "sidebar.right")  // More appropriate icon for dashboard
                         .foregroundColor(showOutline ? .accentColor : .secondary)

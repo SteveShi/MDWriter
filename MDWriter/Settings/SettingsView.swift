@@ -29,6 +29,12 @@ struct SettingsView: View {
                     Label(LocalizedStringKey("Markdown"), systemImage: "text.quote")
                 }
                 .tag(3)
+
+            AISettingsView()
+                .tabItem {
+                    Label(LocalizedStringKey("AI"), systemImage: "apple.intelligence")
+                }
+                .tag(4)
         }
         .frame(width: 550, height: 450)
     }
