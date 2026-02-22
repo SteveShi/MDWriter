@@ -145,14 +145,29 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "DMG_NAME=$DMG_NAME" >> $GITHUB_ENV
 
-      - name: Extract Release Notes
+      - name: Extract Release Notes (en & zh)
         run: |
           VERSION_CLEAN=${{ env.VERSION }}
-          # 提取日志逻辑（保持您确认工作的版本）
-          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > release_notes.md
-          if [ ! -s release_notes.md ]; then
-            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes.md
+          # 提取当前版本的全部日志
+          awk "/^## \[$VERSION_CLEAN\]/{flag=1;next} /^## \[/{flag=0} flag" CHANGELOG.md > full_notes.md
+          
+          if [ ! -s full_notes.md ]; then
+            echo "Release for version $VERSION_CLEAN. Check CHANGELOG.md for details." > release_notes_en.md
+            cp release_notes_en.md release_notes_zh.md
+          else
+            # 按照 ### Chinese 分割
+            # 英文部分：从开头到 ### Chinese 之前
+            sed -n '1,/### Chinese/p' full_notes.md | grep -v "### Chinese" > release_notes_en.md
+            # 中文部分：从 ### Chinese 开始到结尾
+            sed -n '/### Chinese/,$p' full_notes.md | sed '1d' > release_notes_zh.md
+            
+            # 如果分割失败（比如没写 ### Chinese），则兜底
+            if [ ! -s release_notes_zh.md ]; then cp release_notes_en.md release_notes_zh.md; fi
+            if [ ! -s release_notes_en.md ]; then cp full_notes.md release_notes_en.md; fi
           fi
+          
+          # 兼容原有的 body_path，使用全量日志作为 GitHub Release 页面展示
+          cp full_notes.md release_notes.md
 
       - name: Generate Sparkle Appcast
         env:
@@ -173,8 +188,11 @@ jobs:
           # 3. 准备发布目录
           mkdir -p deploy
           cp "${{ env.ZIP_NAME }}" deploy/
-          # 按照文档建议，将更新日志命名为独立的 .md 文件
-          cp release_notes.md "deploy/release_notes.md"
+          # 准备多语言更新日志文件
+          cp release_notes_en.md "deploy/release_notes_en.md"
+          cp release_notes_zh.md "deploy/release_notes_zh.md"
+          # 默认版本（供 generate_appcast 自动创建基础项）
+          cp release_notes_en.md "deploy/release_notes.md"
           
           # 4. 执行签名并生成 Appcast
           # 设置动态库路径以确保 bin/generate_appcast 能找到 Sparkle.framework
@@ -189,8 +207,16 @@ jobs:
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            cp "deploy/release_notes.md" .
-            echo "Appcast generated successfully with native Markdown support."
+            # 1. 为原有链接增加 en 语言标识 (使用 perl 以获得更好的跨平台兼容性，或者标准的 sed)
+            sed -i.bak 's|<sparkle:releaseNotesLink>|<sparkle:releaseNotesLink xml:lang="en">|g' appcast.xml
+            
+            # 2. 注入 zh-Hans 链接
+            ZH_LINK="https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_zh.md"
+            sed -i.bak "/xml:lang=\"en\"/a \\
+            <sparkle:releaseNotesLink xml:lang=\"zh-Hans\">$ZH_LINK</sparkle:releaseNotesLink>" appcast.xml
+            
+            rm appcast.xml.bak
+            echo "Appcast generated successfully with localized Markdown support."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
@@ -202,7 +228,8 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
-            release_notes.md
+            release_notes_en.md
+            release_notes_zh.md
             appcast.xml
           name: Release ${{ env.VERSION_TAG }}
           tag_name: ${{ env.VERSION_TAG }}
