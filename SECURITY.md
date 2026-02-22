@@ -6,6 +6,7 @@ We currently provide security updates for the following versions:
 
 | Version | Supported |
 | :--- | :--- |
+|2.x.x| ✅ Supported |
 | 1.9.x | ✅ Supported |
 | < 1.9.0 | ❌ Not Recommended |
 
