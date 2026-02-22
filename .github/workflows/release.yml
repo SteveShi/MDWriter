@@ -202,20 +202,23 @@ jobs:
           echo "$CLEAN_KEY" | ./bin/generate_appcast \
             --ed-key-file - \
             --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
-            --release-notes-file "deploy/release_notes.md" \
             deploy/
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            # 1. 为原有链接增加 en 语言标识 (使用 perl 以获得更好的跨平台兼容性，或者标准的 sed)
-            sed -i.bak 's|<sparkle:releaseNotesLink>|<sparkle:releaseNotesLink xml:lang="en">|g' appcast.xml
             
-            # 2. 注入 zh-Hans 链接
+            # 1. 清理可能自动生成的描述或旧链接，确保注入环境干净
+            sed -i '/<description>/d' appcast.xml
+            sed -i '/<sparkle:releaseNotesLink>/d' appcast.xml
+            
+            # 2. 准备链接内容
+            EN_LINK="https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_en.md"
             ZH_LINK="https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_zh.md"
-            sed -i.bak "/xml:lang=\"en\"/a \\
-            <sparkle:releaseNotesLink xml:lang=\"zh-Hans\">$ZH_LINK</sparkle:releaseNotesLink>" appcast.xml
             
-            rm appcast.xml.bak
+            # 3. 注入Localized链接（在 <enclosure 标签之前）
+            sed -i "/<enclosure/i \            <sparkle:releaseNotesLink xml:lang=\"en\">$EN_LINK</sparkle:releaseNotesLink>" appcast.xml
+            sed -i "/<enclosure/i \            <sparkle:releaseNotesLink xml:lang=\"zh-Hans\">$ZH_LINK</sparkle:releaseNotesLink>" appcast.xml
+            
             echo "Appcast generated successfully with localized Markdown support."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
