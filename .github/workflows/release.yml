@@ -188,8 +188,10 @@ jobs:
           
           if [ -f "deploy/appcast.xml" ]; then
             mv deploy/appcast.xml .
-            cp "deploy/${{ env.ZIP_NAME }}.md" .
-            echo "Appcast generated successfully with native Markdown support."
+            cp "deploy/changelog.md" .
+            # 手动注入 Markdown 链接，确保路径 100% 正确且被 Sparkle 识别
+            python3 scripts/inject_markdown_link.py "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/changelog.md"
+            echo "Appcast generated successfully with manual Markdown link."
           else
             echo "ERROR: generate_appcast failed to produce appcast.xml."
             exit 1
@@ -201,7 +203,7 @@ jobs:
           files: |
             ${{ env.ZIP_NAME }}
             ${{ env.DMG_NAME }}
-            ${{ env.ZIP_NAME }}.md
+            changelog.md
             appcast.xml
           name: Release ${{ env.VERSION_TAG }}
           tag_name: ${{ env.VERSION_TAG }}
