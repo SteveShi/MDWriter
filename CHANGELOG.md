@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## [2.1.0] - 2026-03-02
+
+### Architecture & Engineering
+- **Project Structure Reorganization**: Fully reorganized the codebase into logical modules (`App`, `Features`, `Core`, `UIComponents`) for better maintainability and scalability.
+- **Dependency Optimization**: Removed redundant libraries (`Highlightr`, `SwiftUIKit`, `Textual`) to reduce project bloat and improve build times.
+- **Renamed Components**: Internal `MarkdownRenderer` renamed to `MDWMarkdownRenderer` to prevent naming conflicts with external libraries.
+
+### Markdown & Preview
+- **Native Markdown Preview**: Integrated the `LiYanan2004/MarkdownView` library to provide a native SwiftUI-based Markdown rendering experience.
+- **Improved Responsiveness**: Fixed the preview layout to ensure content expands to the full available width, providing a better reading experience.
+- **Cleaner UI**: Removed the legacy `WebView` in favor of the new native renderer for all exports and previews.
+
+### 中文
+### 架构与工程
+- **项目结构重构**：将代码库完整重构为逻辑模块（`App`、`Features`、`Core`、`UIComponents`），以提高可维护性和扩展性。
+- **依赖优化**：移除了多余的库（`Highlightr`、`SwiftUIKit`、`Textual`），以减少项目体积并缩短构建时间。
+- **组件更名**：内部 `MarkdownRenderer` 更名为 `MDWMarkdownRenderer`，以防止与外部库发生命名冲突。
+
+### Markdown 与预览
+- **原生 Markdown 预览**：集成了 `LiYanan2004/MarkdownView` 库，提供原生 SwiftUI 的 Markdown 渲染体验。
+- **响应式优化**：修复了预览布局，确保内容能够铺满整个可用宽度，提供更好的阅读体验。
+- **界面清理**：移除了旧版的 `WebView`，在所有导出和预览中全面采用全新的原生渲染器。
+
 ## [2.0.0] - 2026-02-23
 
 ### Apple Intelligence Integration

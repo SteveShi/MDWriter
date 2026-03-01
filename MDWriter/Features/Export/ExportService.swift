@@ -7,7 +7,7 @@ import WebKit
 @MainActor
 class ExportService: NSObject {
     static let shared = ExportService()
-    private let renderer = MarkdownRenderer()
+    private let renderer = MDWMarkdownRenderer()
 
     func export(text: String, to url: URL, format: UTType) throws {
         if format.conforms(to: .plainText) || format == .markdownDocument {
@@ -161,7 +161,7 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
 
 // MARK: - Markdown Renderer (Included here to avoid project file issues)
 
-struct MarkdownRenderer {
+struct MDWMarkdownRenderer {
     func renderHTML(from markdown: String, theme: MarkdownTheme) -> String {
         let document = Document(parsing: markdown)
         var visitor = HTMLVisitor()

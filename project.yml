@@ -6,32 +6,26 @@ options:
     macOS: "14.0"
 
 settings:
-  MARKETING_VERSION: 2.0.0
-  CURRENT_PROJECT_VERSION: 200
+  MARKETING_VERSION: 2.1.0
+  CURRENT_PROJECT_VERSION: 210
   SWIFT_VERSION: 6.0
 
 packages:
   MDEditor:
     url: https://github.com/lpgneg19/MDEditor.git
     from: 1.0.1
-  Highlightr:
-    url: https://github.com/raspu/Highlightr
-    from: 2.3.0
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle
     from: 2.9.0
-  SwiftUIKit:
-    url: https://github.com/danielsaidi/SwiftUIKit.git
-    from: 6.1.0
-  textual:
-    url: https://github.com/gonzalezreal/textual
-    from: 0.3.1
   swift-markdown:
     url: https://github.com/swiftlang/swift-markdown
     from: 0.7.3
   WhatsNewKit:
     url: https://github.com/SvenTiigi/WhatsNewKit
     from: 2.2.1
+  MarkdownView:
+    url: https://github.com/LiYanan2004/MarkdownView
+    from: 2.6.0
 
 targets:
   MDWriter:
@@ -44,24 +38,20 @@ targets:
       - path: MDWriter/Resources
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: listentotherain.MDWriter
-      INFOPLIST_FILE: MDWriter/Info.plist
+      INFOPLIST_FILE: MDWriter/App/Info.plist
       ENABLE_APP_SANDBOX: NO
       GENERATE_INFOPLIST_FILE: NO
     dependencies:
       - package: MDEditor
         product: MDEditor
-      - package: Highlightr
-        product: Highlightr
       - package: Sparkle
         product: Sparkle
-      - package: SwiftUIKit
-        product: SwiftUIKit
-      - package: textual
-        product: Textual
       - package: swift-markdown
         product: Markdown
       - package: WhatsNewKit
         product: WhatsNewKit
+      - package: MarkdownView
+        product: MarkdownView
 
 schemes:
   MDWriter:

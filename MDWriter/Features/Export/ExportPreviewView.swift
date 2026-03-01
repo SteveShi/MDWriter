@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import Markdown
 import SwiftUI
 import UniformTypeIdentifiers
 import WebKit
@@ -15,9 +16,12 @@ struct ExportPreviewView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                WebView(html: ExportService.shared.renderHTML(from: text))
-                    .background(Color(NSColor.windowBackgroundColor))
-                    .padding()
+                ScrollView {
+                    MarkdownViewWrapper(text: text)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .padding()
+                }
+                .background(Color(NSColor.windowBackgroundColor))
             }
             // Hide the default navigation title to make it cleaner
             .navigationTitle("") 

@@ -8,32 +8,7 @@
 import MDEditor
 import SwiftUI
 
-// Simplified Theme Model for Markdown
-enum MarkdownTheme: String, CaseIterable, Identifiable {
-    case pure = "Pure"
-    case solarizedLight = "Solarized Light"
-    case solarizedDark = "Solarized Dark"
-    case github = "GitHub"
-    case dracula = "Dracula"
-    case nord = "Nord"
-    case monokai = "Monokai"
-    case nightOwl = "Night Owl"
-
-    var id: String { rawValue }
-
-    var displayName: LocalizedStringKey {
-        switch self {
-        case .pure: return LocalizedStringKey("Pure")
-        case .solarizedLight: return LocalizedStringKey("Solarized Light")
-        case .solarizedDark: return LocalizedStringKey("Solarized Dark")
-        case .github: return LocalizedStringKey("GitHub")
-        case .dracula: return LocalizedStringKey("Dracula")
-        case .nord: return LocalizedStringKey("Nord")
-        case .monokai: return LocalizedStringKey("Monokai")
-        case .nightOwl: return LocalizedStringKey("Night Owl")
-        }
-    }
-}
+// Simplified Theme Model is now in Models.swift
 
 struct MarkdownSettingsView: View {
     @AppStorage("markdownTheme") private var selectedTheme: MarkdownTheme = .pure
