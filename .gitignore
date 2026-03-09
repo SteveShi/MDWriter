@@ -32,3 +32,11 @@ Package.resolved
 
 # Misc docs (not needed for build)
 Sparkle_Integration_Guide.md
+.agents/skills/swiftui-expert-skill/references/animation-advanced.md
+.agents/skills/swiftui-expert-skill/references/latest-apis.md
+.agents/skills/swiftui-expert-skill/references/liquid-glass.md
+.agents/skills/swiftui-expert-skill/references/performance-patterns.md
+.agents/skills/swiftui-expert-skill/references/state-management.md
+.agents/skills/swiftui-expert-skill/references/view-structure.md
+.agents/skills/swiftui-expert-skill/SKILL.md
+skills-lock.json
