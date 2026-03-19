@@ -12,6 +12,182 @@
       },
       "extractionState": "manual"
     },
+    "Actual Size": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实际大小"
+          }
+        }
+      }
+    },
+    "Show/Hide Library": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示/隐藏文稿库"
+          }
+        }
+      }
+    },
+    "Show/Hide Sheet List": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示/隐藏文章列表"
+          }
+        }
+      }
+    },
+    "Show/Hide Dashboard": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示/隐藏操作面板"
+          }
+        }
+      }
+    },
+    "Show/Hide Preview": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示/隐藏预览"
+          }
+        }
+      }
+    },
+    "Show/Hide Outline": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示/隐藏大纲"
+          }
+        }
+      }
+    },
+    "Zoom In": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放大"
+          }
+        }
+      }
+    },
+    "Heading 1-6": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标题 1-6"
+          }
+        }
+      }
+    },
+    "Review Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复阅模式"
+          }
+        }
+      }
+    },
+    "Lists": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "列表"
+          }
+        }
+      }
+    },
+    "Heading %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "层级 %lld"
+          }
+        }
+      }
+    },
+    "Untitled": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未命名文稿"
+          }
+        }
+      }
+    },
+    "px": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " 像素"
+          }
+        }
+      }
+    },
+    "pt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " 磅"
+          }
+        }
+      }
+    },
+    "%lld px": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 像素"
+          }
+        }
+      }
+    },
+    "%lld pt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 磅"
+          }
+        }
+      }
+    },
     "%@": {
       "localizations": {
         "zh-Hans": {

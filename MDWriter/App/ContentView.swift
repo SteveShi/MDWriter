@@ -61,6 +61,18 @@ struct ContentView: View {
             ZStack(alignment: .topTrailing) {
                 currentTheme.paperColor
                     .ignoresSafeArea()
+                
+                // Subtle Paper Gradient
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        currentTheme.paperColor,
+                        currentTheme.paperColor.opacity(0.95),
+                        currentTheme.paperColor
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
                 if let note = note {
                     @Bindable var bindableNote = note
@@ -72,25 +84,23 @@ struct ContentView: View {
                     // 强制 SwiftUI 在文档切换或配置变化时重启视图，确保状态干净且不串场
                     .id("\(note.persistentModelID)\(editorSettings.configuration)")
                     .ignoresSafeArea()
+                    .padding(.top, 40) // Add room for top fade/title
                     .onChange(of: note.content) { oldValue, newValue in
                         updateInfo()
-
+                        
                         // Auto-update title from first line
                         let lines = newValue.components(separatedBy: .newlines)
-                        if let firstLine = lines.first,
-                            !firstLine.trimmingCharacters(in: .whitespaces).isEmpty
-                        {
+                        if let firstLine = lines.first, 
+                           !firstLine.trimmingCharacters(in: .whitespaces).isEmpty {
                             // Strip markdown headers (# )
-                            let titleText = firstLine.trimmingCharacters(
-                                in: CharacterSet(charactersIn: "# ")
-                            ).trimmingCharacters(in: .whitespaces)
+                            let titleText = firstLine.trimmingCharacters(in: CharacterSet(charactersIn: "# ")).trimmingCharacters(in: .whitespaces)
                             if !titleText.isEmpty && note.title != titleText {
                                 note.title = titleText
                             }
                         } else if note.content.isEmpty {
                             note.title = String(localized: "New Note")
                         }
-
+                        
                         // 更新修改时间并触发自动保存
                         note.modifiedAt = Date()
                         scheduleAutoSave()
@@ -103,20 +113,22 @@ struct ContentView: View {
                         Text(LocalizedStringKey("Select a document to start writing."))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.ultraThinMaterial)
                 }
 
                 // Top Gradient Fade
                 if note != nil {
                     VStack {
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                currentTheme.paperColor, currentTheme.paperColor.opacity(0),
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .frame(height: 80)
-                        .ignoresSafeArea(.all, edges: .top)
+                        currentTheme.paperColor
+                            .frame(height: 50)
+                            .mask(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [.black, .black.opacity(0)]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            .ignoresSafeArea(.all, edges: .top)
 
                         Spacer()
                     }
@@ -127,9 +139,13 @@ struct ContentView: View {
                 if note != nil {
                     VStack(spacing: 0) {
                         Spacer()
-
+                        
                         UlyssesMarkupBar(controller: editorController)
-                            .background(currentTheme.paperColor)  // Ensure solid background behind bar
+                            .background(currentTheme.paperColor.opacity(0.8))
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(12)
+                            .padding(.bottom, 20)
+                            .padding(.horizontal)
                     }
                 }
 
@@ -137,7 +153,10 @@ struct ContentView: View {
                 if editorController.isSearchVisible {
                     VStack {
                         UlyssesSearchBar(controller: editorController)
-                            .padding(.top, 50)  // Pin to top but below title bar
+                            .padding(.top, 50) // Pin to top but below title bar
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
                             .transition(.move(edge: .top).combined(with: .opacity))
                         Spacer()
                     }
@@ -267,7 +286,7 @@ struct ContentView: View {
         .sheet(isPresented: $showExportPreview) {
             if let note = note {
                 ExportPreviewView(
-                    text: note.content, fileName: note.title.isEmpty ? "Untitled" : note.title)
+                    text: note.content, fileName: note.title.isEmpty ? String(localized: "Untitled") : note.title)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .showKeyboardShortcuts)) { _ in

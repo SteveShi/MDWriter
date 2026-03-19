@@ -40,7 +40,8 @@ struct AIAssistantView: View {
                 actionGrid
             }
         }
-        .frame(width: 360, height: 420)
+        .frame(width: 380, height: 460)
+        .background(.ultraThinMaterial)
     }
 
     // MARK: - Header
@@ -49,25 +50,26 @@ struct AIAssistantView: View {
         HStack {
             if selectedAction != nil {
                 Button {
-                    withAnimation(.spring(response: 0.3)) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         selectedAction = nil
                         aiService.reset()
                     }
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.accentColor)
                 }
                 .buttonStyle(.plain)
             }
 
             Spacer()
 
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 Image(systemName: "apple.intelligence")
-                    .font(.system(size: 14))
+                    .font(.system(size: 16))
                     .symbolRenderingMode(.multicolor)
                 Text(LocalizedStringKey("AI Assistant"))
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
             }
 
             Spacer()
@@ -75,10 +77,11 @@ struct AIAssistantView: View {
             // Status indicator
             Circle()
                 .fill(aiService.isAvailable ? Color.green : Color.red)
-                .frame(width: 7, height: 7)
+                .frame(width: 8, height: 8)
+                .shadow(color: (aiService.isAvailable ? Color.green : Color.red).opacity(0.5), radius: 2)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
         .background(.ultraThinMaterial)
     }
 
@@ -87,33 +90,33 @@ struct AIAssistantView: View {
     private var actionGrid: some View {
         ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12),
-            ], spacing: 12) {
+                GridItem(.flexible(), spacing: 16),
+                GridItem(.flexible(), spacing: 16),
+            ], spacing: 16) {
                 ForEach(AIAction.allCases) { action in
                     AIActionCard(action: action) {
-                            let selectedText = controller.proxy.getSelectedText()
-                            let text: String
-                            if let sel = selectedText,
-                                !sel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                            {
-                                text = sel
-                            } else if let noteContent = note?.content,
-                                !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                            {
-                                text = noteContent
-                            } else {
-                                return
-                            }
-                            inputText = text
-                        withAnimation(.spring(response: 0.3)) {
+                        let selectedText = controller.proxy.getSelectedText()
+                        let text: String
+                        if let sel = selectedText,
+                            !sel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        {
+                            text = sel
+                        } else if let noteContent = note?.content,
+                            !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        {
+                            text = noteContent
+                        } else {
+                            return
+                        }
+                        inputText = text
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                             selectedAction = action
                         }
                         executeAction(action)
                     }
                 }
             }
-            .padding(16)
+            .padding(20)
         }
     }
 

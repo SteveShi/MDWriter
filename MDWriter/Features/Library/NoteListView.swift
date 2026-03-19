@@ -104,7 +104,7 @@ struct NoteListView: View {
     var body: some View {
         List(selection: $selectedNote) {
             ForEach(notes) { note in
-                NoteRowView(note: note, searchText: searchText)
+                NoteRowView(note: note, searchText: searchText, isSelected: selectedNote == note)
                     .tag(note)
                     .draggable(NoteTransfer(id: note.persistentModelID))
                     .contextMenu {

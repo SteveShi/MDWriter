@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## [2.1.1] - 2026-03-20
+
+### UI & UX
+- **Note List Selection**: Fixed a visual conflict where the card background and list selection highlight overlapped, ensuring a clean native feel.
+- **Dashboard Enhancements**: Applied material backgrounds (`ultraThinMaterial`) and refined the layout of the top tab bar and bottom toolbar.
+- **AI Assistant Redesign**: Improved the AI Assistant view with better contrast, bolder typography, and more robust response display.
+- **Visual Polish**: Re-aligned several UI components and improved the Sepia theme for better readability.
+
+### Localization
+- **Comprehensive Audit**: Completed a full audit and localization of hardcoded strings across the entire application.
+- **Improved Translations**: Added missing Chinese translations for keyboard shortcuts, settings units ("px", "pt"), and dynamic UI labels (e.g., "Heading %lld").
+- **Localized Components**: Ensured all user-facing text in the AI Assistant, Settings, and Dashboard views are correctly localized.
+
+### Stability & Cleanup
+- **Bug Fixes**: Resolved several critical compilation errors and warnings related to SwiftUI API deprecations and type inference.
+- **Core Improvements**: Updated `Updater` and `AIService` to modern Swift coding standards, removing redundant code and improving reliability.
+
+### 中文
+### 界面与体验 (UI & UX)
+- **列表显示优化**：修复了文稿列表选中时卡片背景与原身高亮色的叠加问题，确保界面视觉纯净。
+- **操作面板增强**：在仪表盘顶部和底部应用了材质效果（`ultraThinMaterial`），并精简了布局。
+- **AI 助手重构**：优化了 AI 助手视图，增强了对比度、排版及响应内容的显示效果。
+- **细节打磨**：对多个 UI 组件进行了精细对齐，并优化了“深褐（Sepia）”主题的阅读体验。
+
+### 本地化 (Localization)
+- **全面审计**：完成了全代码库的硬编码字串审计与本地化工作。
+- **翻译补全**：新增并补全了键盘快捷键说明、设置单位（“像素”、“磅”）以及动态标签（如“层级 %lld”）的中文翻译。
+- **组件本地化**：确保 AI 助手、设置及仪表盘视图中的所有用户可见文本均已正确本地化。
+
+### 稳定性与清理 (Stability & Cleanup)
+- **缺陷修复**：解决了数个与 SwiftUI API 废弃及类型推断相关的编译错误和警告。
+- **核心改进**：根据现代 Swift 编码标准更新了更新程序及 AI 服务模块，移除了冗余代码并提升了可靠性。
+
+
 ## [2.1.0] - 2026-03-02
 
 ### Architecture & Engineering

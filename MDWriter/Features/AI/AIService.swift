@@ -85,8 +85,6 @@ class AIService {
             return NSLocalizedString("AI Ready", comment: "")
         case .unavailable:
             return NSLocalizedString("AI Unavailable", comment: "")
-        default:
-            return NSLocalizedString("AI Unavailable", comment: "")
         }
     }
 

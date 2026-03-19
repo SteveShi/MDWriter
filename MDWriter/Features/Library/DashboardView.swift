@@ -27,64 +27,78 @@ struct DashboardView: View {
     @Binding var text: String  // Need binding to text for realtime updates
     @State private var selectedTab: DashboardTab = .overview
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
 
     var body: some View {
         VStack(spacing: 0) {
             // Top Tab Bar
-            HStack(spacing: 0) {
+            HStack(spacing: 4) {
                 ForEach(DashboardTab.allCases) { tab in
                     Button {
-                        selectedTab = tab
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedTab = tab
+                        }
                     } label: {
-                        Image(systemName: tab.rawValue)
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundColor(selectedTab == tab ? .accentColor : .secondary)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 32)
-                            .contentShape(Rectangle())
+                        VStack(spacing: 4) {
+                            Image(systemName: tab.rawValue)
+                                .font(.system(size: 14, weight: .medium))
+                            
+                            if selectedTab == tab {
+                                Circle()
+                                    .fill(Color.accentColor)
+                                    .frame(width: 4, height: 4)
+                            }
+                        }
+                        .foregroundColor(selectedTab == tab ? .accentColor : .secondary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 40)
+                        .background(selectedTab == tab ? Color.accentColor.opacity(0.1) : Color.clear)
+                        .cornerRadius(8)
                     }
                     .buttonStyle(.plain)
                 }
-
-                // Check/Status Icon (Visual only for now, mirroring Ulysses)
-                Image(systemName: "checkmark.circle")
-                    .font(.system(size: 13))
-                    .foregroundColor(.secondary.opacity(0.5))
-                    .frame(width: 32)
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(Color(nsColor: .controlBackgroundColor))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(.ultraThinMaterial)
 
             Divider()
 
             // Content Area
             ZStack {
-                Color(nsColor: .windowBackgroundColor).opacity(0.5)
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay(currentTheme.paperColor.opacity(0.3))
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 24) {
                         switch selectedTab {
                         case .overview:
                             OverviewTab(note: note, text: text)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .statistics:
                             StatisticsTab(text: text)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .outline:
                             StructureTab(text: text)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .media:
                             MediaTab(text: text)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .notes:
                             NotesTab(note: note)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
                         #if canImport(FoundationModels)
                             case .ai:
                                 if #available(macOS 26.0, *) {
                                     AITab(note: note, text: text)
+                                        .transition(.opacity.combined(with: .move(edge: .trailing)))
                                 }
                         #endif
                         }
                     }
-                    .padding()
+                    .padding(16)
                 }
             }
 
@@ -104,7 +118,7 @@ struct DashboardView: View {
                         Text(LocalizedStringKey("Display Levels"))
                         Picker(LocalizedStringKey("Levels"), selection: $outlineMaxDepth) {
                             ForEach(1...6, id: \.self) { level in
-                                Text("Heading \(level)").tag(level)
+                                Text(LocalizedStringKey("Heading \(level)")).tag(level)
                             }
                         }
                     default:
@@ -118,10 +132,11 @@ struct DashboardView: View {
                 .menuStyle(.borderlessButton)
                 .frame(width: 30, height: 30)
             }
-            .padding(.horizontal, 8)
-            .background(Color(nsColor: .controlBackgroundColor))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
+            .background(.ultraThinMaterial)
         }
-        .frame(minWidth: 250)
+        .frame(minWidth: 260)
     }
 
     // Configuration States (Shared with subviews via AppStorage)

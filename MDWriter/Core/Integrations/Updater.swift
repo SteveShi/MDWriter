@@ -23,8 +23,8 @@ final class SparkleUpdaterDelegate: NSObject, SPUUpdaterDelegate {
     }
 
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
-        let version = item.versionString ?? "unknown"
-        let shortVersion = item.displayVersionString ?? "unknown"
+        let version = item.versionString
+        let shortVersion = item.displayVersionString
         logger.info("Found valid update: version=\(version, privacy: .public), shortVersion=\(shortVersion, privacy: .public)")
     }
 

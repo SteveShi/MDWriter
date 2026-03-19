@@ -64,54 +64,35 @@ struct LibraryView: View {
                 Section(LocalizedStringKey("Library")) {
                     Label(LocalizedStringKey("All Documents"), systemImage: "tray.full")
                         .tag(SelectionMode.all)
-
+                    
                     Label(LocalizedStringKey("Inbox"), systemImage: "tray")
-
                         .tag(SelectionMode.inbox)
-
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                        .contentShape(Rectangle())
-
                         .dropDestination(for: URL.self) { items, _ in
                             handleNoteDrop(urls: items, to: nil)
                             return true
                         }
 
                     Label(LocalizedStringKey("Trash"), systemImage: "trash")
-
                         .tag(SelectionMode.trash)
-
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                        .contentShape(Rectangle())
-
                         .dropDestination(for: URL.self) { items, _ in
                             handleNoteDrop(urls: items, to: nil, trash: true)
                             return true
                         }
-
                 }
 
                 Section(LocalizedStringKey("Folders")) {
-
                     ForEach(folders.filter { $0.parent == nil }) { folder in
-
                         FolderRow(
-
-                            folder: folder, selection: $selectionMode,
-
-                            renamingFolder: $renamingFolder, isRenaming: $isRenaming,
-
+                            folder: folder, 
+                            selection: $selectionMode,
+                            renamingFolder: $renamingFolder, 
+                            isRenaming: $isRenaming,
                             newName: $newName,
                             onMoveNote: { urls, targetFolder in
                                 handleNoteDrop(urls: urls, to: targetFolder)
                             })
-
                     }
-
                 }
-
             }
             .listStyle(.sidebar)
             .navigationTitle(LocalizedStringKey("Library"))
@@ -127,6 +108,7 @@ struct LibraryView: View {
                     .help(LocalizedStringKey("New Group"))
                 }
             }
+            .background(.ultraThinMaterial)
         } content: {
             Group {
                 // 使用优化后的 NoteListView 替代原来的 List
@@ -157,6 +139,7 @@ struct LibraryView: View {
                     }
                 }
             }
+            .background(.thinMaterial)
         } detail: {
             EditorWrapper(
                 note: selectedNote, searchText: $searchText, isSearching: $isSearching,
@@ -164,14 +147,14 @@ struct LibraryView: View {
                 textZoom: Binding(get: { CGFloat(textZoom) }, set: { textZoom = Double($0) })
             )
         }
-        .onChange(of: showLibrary) { newValue in
+        .onChange(of: showLibrary) { _, newValue in
             if (newValue && columnVisibility.wrappedValue == .doubleColumn)
                 || (!newValue && columnVisibility.wrappedValue == .all)
             {
                 withAnimation { columnVisibility.wrappedValue = newValue ? .all : .doubleColumn }
             }
         }
-        .onChange(of: columnVisibility.wrappedValue) { newValue in
+        .onChange(of: columnVisibility.wrappedValue) { _, newValue in
             let isVisible = (newValue == .all)
             if showLibrary != isVisible {
                 showLibrary = isVisible
@@ -462,6 +445,8 @@ struct FolderRow: View {
 struct NoteRowView: View {
     let note: Note
     let searchText: String
+    var isSelected: Bool = false
+    @Environment(\.colorScheme) var colorScheme
 
     // 使用 AttributedString 进行高保真 Markdown 解析
     private var summaryAttributedString: AttributedString {
@@ -478,16 +463,37 @@ struct NoteRowView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(note.title).font(.headline).lineLimit(1)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(note.title)
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .lineLimit(1)
+                    .foregroundColor(isSelected ? .white : .primary)
+                Spacer()
+                Text(note.modifiedAt, style: .date)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary.opacity(0.8))
+            }
+
             // 渲染解析后的 AttributedString
             Text(summaryAttributedString)
-                .font(.caption)
-                .foregroundColor(.secondary)
+                .font(.system(size: 12))
+                .foregroundColor(isSelected ? .white.opacity(0.9) : .secondary)
                 .lineLimit(2)
-                .frame(maxHeight: 35, alignment: .topLeading)
-            Text(note.modifiedAt, style: .date).font(.caption2).foregroundColor(.tertiaryLabel)
-        }.padding(.vertical, 4)
+                .frame(maxHeight: 32, alignment: .topLeading)
+                .lineSpacing(2)
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(isSelected ? Color.clear : Color.primary.opacity(colorScheme == .dark ? 0.05 : 0.03))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isSelected ? Color.clear : Color.primary.opacity(0.05), lineWidth: 0.5)
+        )
+        .padding(.vertical, 4)
     }
 
     private func summary(from text: String) -> String {
