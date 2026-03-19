@@ -65,6 +65,12 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 ### Download
 Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
 
+### Homebrew
+Install via Homebrew tap:
+```bash
+brew tap lpgneg19/tap
+brew install --cask mdwriter
+```
 
 ### Build from Source
 **Requirements:**

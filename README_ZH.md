@@ -65,6 +65,13 @@ MDWriter 采用 **SwiftUI** 和 **SwiftData** 构建，提供原生性能、流�
 ### 下载
 从 [Releases](https://github.com/lpgneg19/MDWriter/releases) 页面下载最新的 **Universal Binary**（同时支持 Apple Silicon 和 Intel 芯片）。
 
+### Homebrew
+通过 Homebrew tap 安装：
+```bash
+brew tap lpgneg19/tap
+brew install --cask mdwriter
+```
+
 ### 从源码编译
 **要求：**
 *   macOS 14.0+
