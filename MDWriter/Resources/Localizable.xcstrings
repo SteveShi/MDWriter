@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "···" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12,6 +13,7 @@
       }
     },
     "%@" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22,6 +24,7 @@
       }
     },
     "%@ pt" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32,6 +35,7 @@
       }
     },
     "%@ px" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42,6 +46,7 @@
       }
     },
     "%lld pt" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52,6 +57,7 @@
       }
     },
     "%lld px" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -62,6 +68,7 @@
       }
     },
     "A complete overhaul of the editor core for massive stability and performance gains." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -72,6 +79,7 @@
       }
     },
     "Aa" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -82,6 +90,7 @@
       }
     },
     "Actual Size" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -92,6 +101,7 @@
       }
     },
     "Add Bookmark" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -102,6 +112,7 @@
       }
     },
     "Add Keyword" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -112,6 +123,7 @@
       }
     },
     "Add Sketch" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -122,6 +134,7 @@
       }
     },
     "Add..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -132,6 +145,7 @@
       }
     },
     "AI" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -142,6 +156,7 @@
       }
     },
     "AI Assistant" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -152,6 +167,7 @@
       }
     },
     "AI Features Disabled" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -162,6 +178,7 @@
       }
     },
     "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -172,6 +189,7 @@
       }
     },
     "AI is processing..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -182,6 +200,7 @@
       }
     },
     "AI Ready" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -192,6 +211,7 @@
       }
     },
     "AI Settings" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -202,6 +222,7 @@
       }
     },
     "AI Summary" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -212,6 +233,7 @@
       }
     },
     "AI Unavailable" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -222,6 +244,7 @@
       }
     },
     "All" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -238,6 +261,7 @@
       }
     },
     "All Documents" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -248,6 +272,7 @@
       }
     },
     "Analyze here" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -258,6 +283,7 @@
       }
     },
     "Annotation" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -268,6 +294,7 @@
       }
     },
     "Appearance" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -278,6 +305,7 @@
       }
     },
     "Appearance:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -288,6 +316,7 @@
       }
     },
     "Apple Intelligence" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -298,6 +327,7 @@
       }
     },
     "Apply Tags" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -308,6 +338,7 @@
       }
     },
     "Are you sure you want to permanently delete all items in the Trash? This action cannot be undone." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -318,6 +349,7 @@
       }
     },
     "Auto Detect" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -328,6 +360,7 @@
       }
     },
     "Auto Tags" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -338,6 +371,7 @@
       }
     },
     "Auto-fill" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -348,6 +382,7 @@
       }
     },
     "Auto-Updates" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -364,6 +399,7 @@
       }
     },
     "Automatically check for updates" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -374,6 +410,7 @@
       }
     },
     "Average" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -384,6 +421,7 @@
       }
     },
     "Backup Library..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -394,6 +432,7 @@
       }
     },
     "Blockquote" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -404,6 +443,7 @@
       }
     },
     "Bold" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -414,6 +454,7 @@
       }
     },
     "Browse Versions..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -424,6 +465,7 @@
       }
     },
     "Bulleted List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -434,6 +476,7 @@
       }
     },
     "Cancel" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -444,6 +487,7 @@
       }
     },
     "Characters" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -454,6 +498,7 @@
       }
     },
     "chars" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -464,6 +509,7 @@
       }
     },
     "Check Document Now" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -474,6 +520,7 @@
       }
     },
     "Check for Updates..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -484,6 +531,7 @@
       }
     },
     "Check grammar and spelling errors" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -494,6 +542,7 @@
       }
     },
     "Check Grammar with Spelling" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -504,6 +553,7 @@
       }
     },
     "Check Spelling While Typing" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -514,6 +564,7 @@
       }
     },
     "Choose the look and feel of the application interface." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -524,6 +575,7 @@
       }
     },
     "Clear All" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -534,6 +586,7 @@
       }
     },
     "Click refresh to generate AI summary" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -544,6 +597,7 @@
       }
     },
     "Close" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -554,6 +608,7 @@
       }
     },
     "Code" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -564,6 +619,7 @@
       }
     },
     "Code Block" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -574,6 +630,7 @@
       }
     },
     "Color Scheme" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -584,6 +641,7 @@
       }
     },
     "Comment" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -594,6 +652,7 @@
       }
     },
     "Comment block" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -604,6 +663,7 @@
       }
     },
     "Continue" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -614,6 +674,7 @@
       }
     },
     "Copy" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -624,6 +685,7 @@
       }
     },
     "Correct Spelling Automatically" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -634,6 +696,7 @@
       }
     },
     "Correction" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -644,6 +707,7 @@
       }
     },
     "Corrections" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -654,6 +718,7 @@
       }
     },
     "Counters" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -664,6 +729,7 @@
       }
     },
     "Cut" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -674,6 +740,7 @@
       }
     },
     "Dark" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -684,6 +751,7 @@
       }
     },
     "Dashboard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -700,6 +768,7 @@
       }
     },
     "Dashed List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -710,6 +779,7 @@
       }
     },
     "Delete" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -720,6 +790,7 @@
       }
     },
     "Delete Permanently" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -730,6 +801,7 @@
       }
     },
     "Delete Version" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -740,6 +812,7 @@
       }
     },
     "Display Levels" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -750,6 +823,7 @@
       }
     },
     "Done" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -760,6 +834,7 @@
       }
     },
     "Dracula" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -770,6 +845,7 @@
       }
     },
     "Edit" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -781,6 +857,7 @@
     },
     "Editor" : {
       "comment" : "Editor",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -791,6 +868,7 @@
       }
     },
     "Emphasis" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -801,6 +879,7 @@
       }
     },
     "Empty Trash" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -811,6 +890,7 @@
       }
     },
     "Enable AI Features" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -821,6 +901,7 @@
       }
     },
     "Enable AI features in Settings > AI" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -831,6 +912,7 @@
       }
     },
     "English" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -841,6 +923,7 @@
       }
     },
     "Enhanced Editor" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -857,6 +940,7 @@
       }
     },
     "Excluding spaces" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -867,6 +951,7 @@
       }
     },
     "Experience a distraction-free writing environment with new formatting tools." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -883,6 +968,7 @@
       }
     },
     "Export" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -899,6 +985,7 @@
       }
     },
     "Export Document" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -909,6 +996,7 @@
       }
     },
     "Fast" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -919,6 +1007,7 @@
       }
     },
     "File" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -929,6 +1018,7 @@
       }
     },
     "Find" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -945,6 +1035,7 @@
       }
     },
     "Find & Replace" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -961,6 +1052,7 @@
       }
     },
     "Find & Replace..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -971,6 +1063,7 @@
       }
     },
     "Find Next" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -981,6 +1074,7 @@
       }
     },
     "Find Previous" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -991,6 +1085,7 @@
       }
     },
     "Find..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1001,6 +1096,7 @@
       }
     },
     "Folders" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1011,6 +1107,7 @@
       }
     },
     "Font Settings" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1021,6 +1118,7 @@
       }
     },
     "Font:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1031,6 +1129,7 @@
       }
     },
     "Format" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1041,6 +1140,7 @@
       }
     },
     "Formatting" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1051,6 +1151,7 @@
       }
     },
     "Fully localized interface for English and Simplified Chinese." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1068,6 +1169,7 @@
     },
     "General" : {
       "comment" : "General",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1078,6 +1180,7 @@
       }
     },
     "Generate a concise summary of the content" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1088,6 +1191,7 @@
       }
     },
     "Generate a descriptive title based on the content" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1098,6 +1202,7 @@
       }
     },
     "Get Started" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1114,6 +1219,7 @@
       }
     },
     "GitHub" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1124,6 +1230,7 @@
       }
     },
     "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1134,6 +1241,7 @@
       }
     },
     "Heading" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1144,6 +1252,7 @@
       }
     },
     "Heading %@" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1154,6 +1263,7 @@
       }
     },
     "Heading %lld" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1164,6 +1274,7 @@
       }
     },
     "Heading 1" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1174,6 +1285,7 @@
       }
     },
     "Heading 1-6" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1184,6 +1296,7 @@
       }
     },
     "Heading 2" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1194,6 +1307,7 @@
       }
     },
     "Heading 3" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1204,6 +1318,7 @@
       }
     },
     "Heading 4" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1214,6 +1329,7 @@
       }
     },
     "Heading 5" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1224,6 +1340,7 @@
       }
     },
     "Heading 6" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1234,6 +1351,7 @@
       }
     },
     "Headings" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1244,6 +1362,7 @@
       }
     },
     "Hide Dashboard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1254,6 +1373,7 @@
       }
     },
     "Hide Library" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1264,6 +1384,7 @@
       }
     },
     "Hide Outline" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1274,6 +1395,7 @@
       }
     },
     "Hide Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1290,6 +1412,7 @@
       }
     },
     "Highlight" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1300,6 +1423,7 @@
       }
     },
     "Horizontal Rule" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1310,6 +1434,7 @@
       }
     },
     "HTML" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1320,6 +1445,7 @@
       }
     },
     "Image" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1330,6 +1456,7 @@
       }
     },
     "Image..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1340,6 +1467,7 @@
       }
     },
     "Images" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1350,6 +1478,7 @@
       }
     },
     "IME Stability" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1360,6 +1489,7 @@
       }
     },
     "Import..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1370,6 +1500,7 @@
       }
     },
     "Inbox" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1380,6 +1511,7 @@
       }
     },
     "Indent:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1390,6 +1522,7 @@
       }
     },
     "Inline Code" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1400,6 +1533,7 @@
       }
     },
     "Inline Image Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1410,6 +1544,7 @@
       }
     },
     "Insert" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1420,6 +1555,7 @@
       }
     },
     "Insert Image" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1430,6 +1566,7 @@
       }
     },
     "Insert Result" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1440,6 +1577,7 @@
       }
     },
     "Italic" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1450,6 +1588,7 @@
       }
     },
     "Keeps the cursor centered vertically in the editor." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1460,6 +1599,7 @@
       }
     },
     "Keyboard Shortcuts" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1470,6 +1610,7 @@
       }
     },
     "Keywords" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1480,6 +1621,7 @@
       }
     },
     "Layout" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1490,6 +1632,7 @@
       }
     },
     "Levels" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1501,6 +1644,7 @@
     },
     "Library" : {
       "comment" : "Library View",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1511,6 +1655,7 @@
       }
     },
     "Library Management" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1527,6 +1672,7 @@
       }
     },
     "Light" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1537,6 +1683,7 @@
       }
     },
     "Line Height:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1547,6 +1694,7 @@
       }
     },
     "Line Width:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1557,6 +1705,7 @@
       }
     },
     "Link" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1567,6 +1716,7 @@
       }
     },
     "Link..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1577,6 +1727,7 @@
       }
     },
     "List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1587,6 +1738,7 @@
       }
     },
     "Lists" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1597,6 +1749,7 @@
       }
     },
     "Localization" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1613,6 +1766,7 @@
       }
     },
     "Major Heading" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1624,6 +1778,7 @@
     },
     "Markdown" : {
       "comment" : "Markdown",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1634,6 +1789,7 @@
       }
     },
     "Markdown XL" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1644,6 +1800,7 @@
       }
     },
     "Markdown XL keeps headings at body size. Standard scales them." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1654,6 +1811,7 @@
       }
     },
     "MDWriter Help" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1664,6 +1822,7 @@
       }
     },
     "MDWriter now keeps itself up to date automatically." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1680,6 +1839,7 @@
       }
     },
     "Media" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1690,6 +1850,7 @@
       }
     },
     "Monokai" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1700,6 +1861,7 @@
       }
     },
     "Move to Trash" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1710,6 +1872,7 @@
       }
     },
     "Native support for Chinese input and mixed-language writing without cursor jumping." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1720,6 +1883,7 @@
       }
     },
     "New Group" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1730,6 +1894,7 @@
       }
     },
     "New Name" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1746,6 +1911,7 @@
       }
     },
     "New Note" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1756,6 +1922,7 @@
       }
     },
     "New Sheet" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1766,6 +1933,7 @@
       }
     },
     "Night Owl" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1776,6 +1944,7 @@
       }
     },
     "No Configuration Options" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1786,6 +1955,7 @@
       }
     },
     "No Images" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1796,6 +1966,7 @@
       }
     },
     "No outline content" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1806,6 +1977,7 @@
       }
     },
     "No Selection" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1816,6 +1988,7 @@
       }
     },
     "No Structure" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1826,6 +1999,7 @@
       }
     },
     "No versions saved" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1836,6 +2010,7 @@
       }
     },
     "Nord" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1846,6 +2021,7 @@
       }
     },
     "Notes" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1856,6 +2032,7 @@
       }
     },
     "Numbered List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1866,6 +2043,7 @@
       }
     },
     "Organize your notes into folders and groups effortlessly." : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1882,6 +2060,7 @@
       }
     },
     "Outline" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1892,6 +2071,7 @@
       }
     },
     "Pages" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1902,6 +2082,7 @@
       }
     },
     "Par. Space:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1912,6 +2093,7 @@
       }
     },
     "Paragraph" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1922,6 +2104,7 @@
       }
     },
     "Paragraphs" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1932,6 +2115,7 @@
       }
     },
     "Paste" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1942,6 +2126,7 @@
       }
     },
     "Paste As" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1952,6 +2137,7 @@
       }
     },
     "Paste From" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1962,6 +2148,7 @@
       }
     },
     "PDF" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1972,6 +2159,7 @@
       }
     },
     "Per line" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1982,6 +2170,7 @@
       }
     },
     "Plain Text" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1992,6 +2181,7 @@
       }
     },
     "Polish" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2002,6 +2192,7 @@
       }
     },
     "Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2018,6 +2209,7 @@
       }
     },
     "Print..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2028,6 +2220,7 @@
       }
     },
     "Pro Markdown Rendering" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2038,6 +2231,7 @@
       }
     },
     "Progress" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2048,6 +2242,7 @@
       }
     },
     "Proofread" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2058,6 +2253,7 @@
       }
     },
     "pt" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2068,6 +2264,7 @@
       }
     },
     "Pure" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2078,6 +2275,7 @@
       }
     },
     "px" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2088,6 +2286,7 @@
       }
     },
     "Quick Actions" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2098,6 +2297,7 @@
       }
     },
     "Raw Source" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2108,6 +2308,7 @@
       }
     },
     "Raw source block" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2118,6 +2319,7 @@
       }
     },
     "Reading Time" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2128,6 +2330,7 @@
       }
     },
     "Rename" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2138,6 +2341,7 @@
       }
     },
     "Replace" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2154,6 +2358,7 @@
       }
     },
     "Replace All" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2170,6 +2375,7 @@
       }
     },
     "Replace Selection" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2180,6 +2386,7 @@
       }
     },
     "Requires macOS 26 and Apple Silicon" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2190,6 +2397,7 @@
       }
     },
     "Restore" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2200,6 +2408,7 @@
       }
     },
     "Restore Library" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2210,6 +2419,7 @@
       }
     },
     "Restore Library..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2220,6 +2430,7 @@
       }
     },
     "Restore to this Version" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2230,6 +2441,7 @@
       }
     },
     "Review Mode" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2240,6 +2452,7 @@
       }
     },
     "Rewrite and improve the text while preserving its meaning" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2250,6 +2463,7 @@
       }
     },
     "Rich Text" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2260,6 +2474,7 @@
       }
     },
     "Rich Text (Word)" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2270,6 +2485,7 @@
       }
     },
     "Save as PDF..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2280,6 +2496,7 @@
       }
     },
     "Save Version" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2290,6 +2507,7 @@
       }
     },
     "Scan Document" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2301,6 +2519,7 @@
     },
     "Search" : {
       "comment" : "Content View & Toolbar",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2311,6 +2530,7 @@
       }
     },
     "Seconds" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2321,6 +2541,7 @@
       }
     },
     "Select a color scheme for syntax highlighting and preview." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2331,6 +2552,7 @@
       }
     },
     "Select a document to start writing." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2341,6 +2563,7 @@
       }
     },
     "Select a version" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2351,6 +2574,7 @@
       }
     },
     "Sentences" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2361,6 +2585,7 @@
       }
     },
     "Separator" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2372,6 +2597,7 @@
     },
     "Settings..." : {
       "comment" : "Menu Commands",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2382,6 +2608,7 @@
       }
     },
     "Show Dashboard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2392,6 +2619,7 @@
       }
     },
     "Show Library" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2402,6 +2630,7 @@
       }
     },
     "Show Library Sidebar by default" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2412,6 +2641,7 @@
       }
     },
     "Show Outline" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2422,6 +2652,7 @@
       }
     },
     "Show Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2438,6 +2669,7 @@
       }
     },
     "Show Spelling and Grammar" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2448,6 +2680,7 @@
       }
     },
     "Show Statistics Dashboard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2458,6 +2691,7 @@
       }
     },
     "Show/Hide Dashboard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2468,6 +2702,7 @@
       }
     },
     "Show/Hide Library" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2478,6 +2713,7 @@
       }
     },
     "Show/Hide Outline" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2488,6 +2724,7 @@
       }
     },
     "Show/Hide Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2498,6 +2735,7 @@
       }
     },
     "Show/Hide Sheet List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2508,6 +2746,7 @@
       }
     },
     "Sidebar & Panels" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2518,6 +2757,7 @@
       }
     },
     "Size:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2534,6 +2774,7 @@
       }
     },
     "Slow" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2544,6 +2785,7 @@
       }
     },
     "Small Heading" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2554,6 +2796,7 @@
       }
     },
     "Smart Title" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2564,6 +2807,7 @@
       }
     },
     "Solarized Dark" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2574,6 +2818,7 @@
       }
     },
     "Solarized Light" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2584,6 +2829,7 @@
       }
     },
     "Speech" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2594,6 +2840,7 @@
       }
     },
     "Spelling and Grammar" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2604,6 +2851,7 @@
       }
     },
     "Standard" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2614,6 +2862,7 @@
       }
     },
     "Start Speaking" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2624,6 +2873,7 @@
       }
     },
     "Statistics Configuration (None)" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2634,6 +2884,7 @@
       }
     },
     "Status" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2644,6 +2895,7 @@
       }
     },
     "Stop Speaking" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2654,6 +2906,7 @@
       }
     },
     "Strikethrough" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2664,6 +2917,7 @@
       }
     },
     "Structure" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2674,6 +2928,7 @@
       }
     },
     "Style" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2690,6 +2945,7 @@
       }
     },
     "Subheading" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2700,6 +2956,7 @@
       }
     },
     "Suggest keyword tags for the document" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2710,6 +2967,7 @@
       }
     },
     "Suggested Tags" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2720,6 +2978,7 @@
       }
     },
     "Summarize" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2730,6 +2989,7 @@
       }
     },
     "Syntax Standard:" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2740,6 +3000,7 @@
       }
     },
     "System Font" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2756,6 +3017,7 @@
       }
     },
     "Take Photo" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2766,6 +3028,7 @@
       }
     },
     "Task List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2776,6 +3039,7 @@
       }
     },
     "Text" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2786,6 +3050,7 @@
       }
     },
     "TextKit 2 Engine" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2796,6 +3061,7 @@
       }
     },
     "Theme" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2806,6 +3072,7 @@
       }
     },
     "Theme Selection" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2816,6 +3083,7 @@
       }
     },
     "This will replace your current library with the backup. This action cannot be undone." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2826,6 +3094,7 @@
       }
     },
     "Toggle Outline" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2836,6 +3105,7 @@
       }
     },
     "Toggle Preview" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2852,6 +3122,7 @@
       }
     },
     "Translate" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2862,6 +3133,7 @@
       }
     },
     "Translate between Chinese and English" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2872,6 +3144,7 @@
       }
     },
     "Translation" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2882,6 +3155,7 @@
       }
     },
     "Translation Target Language" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2892,6 +3166,7 @@
       }
     },
     "Trash" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2902,6 +3177,7 @@
       }
     },
     "Type and press Enter to add..." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2912,6 +3188,7 @@
       }
     },
     "Typewriter Mode" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2922,6 +3199,7 @@
       }
     },
     "Typography" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2932,6 +3210,7 @@
       }
     },
     "Typography Settings" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2948,6 +3227,7 @@
       }
     },
     "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2958,6 +3238,7 @@
       }
     },
     "Unordered List" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2968,6 +3249,7 @@
       }
     },
     "Untitled" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2978,6 +3260,7 @@
       }
     },
     "Updates" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2988,6 +3271,7 @@
       }
     },
     "Use ⌘ + I or drag and drop to insert images" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2999,6 +3283,7 @@
     },
     "Versions" : {
       "comment" : "Snapshots & Backup",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3009,6 +3294,7 @@
       }
     },
     "View" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3019,6 +3305,7 @@
       }
     },
     "View Options" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3029,6 +3316,7 @@
       }
     },
     "View your local images directly inside the editor and export previews with ease." : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3039,6 +3327,7 @@
       }
     },
     "Welcome to MDWriter" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3055,6 +3344,7 @@
       }
     },
     "What's New" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3065,6 +3355,7 @@
       }
     },
     "What's New in MDWriter" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3081,6 +3372,7 @@
       }
     },
     "Words" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3091,6 +3383,7 @@
       }
     },
     "Zoom In" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3101,6 +3394,7 @@
       }
     },
     "Zoom Out" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3111,6 +3405,7 @@
       }
     },
     "简体中文" : {
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
