@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## [2.1.2] - 2026-03-29
+
+### Added
+- Expanded import functionality to clearly support both Markdown (`.md`) and Plain Text (`.txt`) files through the "Import..." menu.
+
+### Removed
+- Removed system-level Markdown file association to prevent the application from automatically claiming ownership of all `.md` files, giving users more control over their default editor settings.
+
+---
+
+### Chinese
+### 新功能
+- 增强了导入功能，现在通过“导入...”菜单可以明确支持 Markdown (`.md`) 和纯文本 (`.txt`) 文件的导入。
+
+### 移除
+- 取消了系统层级的 Markdown 文件关联，防止应用程序自动占用所有 `.md` 文件的默认打开权限，让用户能更灵活地选择默认编辑器。
+
+
 ## [2.1.1] - 2026-03-20
 
 ### UI & UX
@@ -17,7 +35,7 @@
 - **Bug Fixes**: Resolved several critical compilation errors and warnings related to SwiftUI API deprecations and type inference.
 - **Core Improvements**: Updated `Updater` and `AIService` to modern Swift coding standards, removing redundant code and improving reliability.
 
-### 中文
+### Chinese
 ### 界面与体验 (UI & UX)
 - **列表显示优化**：修复了文稿列表选中时卡片背景与原身高亮色的叠加问题，确保界面视觉纯净。
 - **操作面板增强**：在仪表盘顶部和底部应用了材质效果（`ultraThinMaterial`），并精简了布局。
@@ -46,7 +64,7 @@
 - **Improved Responsiveness**: Fixed the preview layout to ensure content expands to the full available width, providing a better reading experience.
 - **Cleaner UI**: Removed the legacy `WebView` in favor of the new native renderer for all exports and previews.
 
-### 中文
+### Chinese
 ### 架构与工程
 - **项目结构重构**：将代码库完整重构为逻辑模块（`App`、`Features`、`Core`、`UIComponents`），以提高可维护性和扩展性。
 - **依赖优化**：移除了多余的库（`Highlightr`、`SwiftUIKit`、`Textual`），以减少项目体积并缩短构建时间。

@@ -332,7 +332,7 @@ struct LibraryView: View {
     private func importNotes() {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.plainText, .text]
+        panel.allowedContentTypes = [.plainText, .text, .markdownDocument]
         panel.begin { response in
             if response == .OK {
                 for url in panel.urls {
