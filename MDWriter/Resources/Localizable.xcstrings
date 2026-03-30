@@ -2042,6 +2042,17 @@
         }
       }
     },
+    "Ordered List" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有序列表"
+          }
+        }
+      }
+    },
     "Organize your notes into folders and groups effortlessly." : {
       "extractionState" : "manual",
       "localizations" : {
