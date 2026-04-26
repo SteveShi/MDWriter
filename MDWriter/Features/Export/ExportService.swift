@@ -361,49 +361,38 @@ private struct HTMLVisitor: MarkupVisitor {
         let title = image.title ?? ""
         let alt = image.plainText
 
-        // 如果是网络图片或 Base64，直接返回
         if source.lowercased().hasPrefix("http") || source.hasPrefix("data:") {
-            return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
+            return imageTag(source: source, title: title, alt: alt)
         }
 
-        // 处理本地文件路径
         var cleanPath = source
         if cleanPath.hasPrefix("file://") {
             cleanPath = String(cleanPath.dropFirst(7))
         }
         let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
 
-        // 获取 Documents 目录
-        guard
-            let documentsURL = FileManager.default.urls(
-                for: .documentDirectory, in: .userDomainMask
-            ).first
-        else {
-            return "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
+        var possibleURLs: [URL] = [URL(fileURLWithPath: decodedPath)]
+        if
+            !decodedPath.hasPrefix("/"),
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                .first
+        {
+            possibleURLs.append(
+                documentsURL.appendingPathComponent("Images").appendingPathComponent(decodedPath))
+            possibleURLs.append(documentsURL.appendingPathComponent(decodedPath))
         }
 
-        // 智能尝试解析路径
-        let possibleURLs: [URL] = [
-            documentsURL.appendingPathComponent("Images").appendingPathComponent(decodedPath),  // Documents/Images/file
-            documentsURL.appendingPathComponent(decodedPath),  // Documents/file
-            URL(fileURLWithPath: decodedPath),  // Absolute path
-        ]
-
         for url in possibleURLs {
-            // 检查文件是否存在
             if FileManager.default.fileExists(atPath: url.path) {
-                // 找到文件，使用绝对文件路径
-                // 注意：必须对路径进行百分号编码，否则 WebKit 可能无法加载带空格的路径
-                let absoluteString = url.absoluteString
-                return "<img src=\"\(absoluteString)\" title=\"\(title)\" alt=\"\(alt)\" />"
+                return imageTag(source: url.absoluteString, title: title, alt: alt)
             }
         }
 
-        // 如果没找到文件，尝试构建一个合理的 Fallback (假设它在 Documents/Images 下)
-        // 这样如果文件后续被放入，或许能加载（但在 WebKit 中通常需要绝对路径）
-        let fallbackURL = documentsURL.appendingPathComponent("Images").appendingPathComponent(
-            decodedPath)
-        return "<img src=\"\(fallbackURL.absoluteString)\" title=\"\(title)\" alt=\"\(alt)\" />"
+        return imageTag(source: source, title: title, alt: alt)
+    }
+
+    private func imageTag(source: String, title: String, alt: String) -> String {
+        "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
     }
 
     mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> String {
@@ -480,12 +469,5 @@ extension String {
             .replacingOccurrences(of: ">", with: "&gt;")
             .replacingOccurrences(of: "\"", with: "&quot;")
             .replacingOccurrences(of: "'", with: "&#39;")
-    }
-}
-
-// 扩展 UTType 以支持 Word
-extension UTType {
-    static var wordDocument: UTType {
-        UTType(importedAs: "com.microsoft.word.doc")
     }
 }
