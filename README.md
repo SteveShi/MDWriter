@@ -63,12 +63,12 @@ Built with **SwiftUI** and **SwiftData**, MDWriter offers native performance, se
 ## 🚀 Installation
 
 ### Download
-Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/lpgneg19/MDWriter/releases) page.
+Download the latest **Universal Binary** (supports both Apple Silicon and Intel) from the [Releases](https://github.com/SteveShi/MDWriter/releases) page.
 
 ### Homebrew
 Install via Homebrew tap:
 ```bash
-brew tap lpgneg19/tap
+brew tap SteveShi/tap
 brew install --cask mdwriter
 ```
 
@@ -79,7 +79,7 @@ brew install --cask mdwriter
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/lpgneg19/MDWriter.git
+    git clone https://github.com/SteveShi/MDWriter.git
     cd MDWriter
     ```
 2.  Generate the Xcode project with XcodeGen:

@@ -65,7 +65,7 @@ jobs:
           echo "VERSION_TAG=${{ needs.inspect.outputs.version_tag }}" >> $GITHUB_ENV
 
       - name: Set up Xcode
-        uses: lpgneg19/setup-xcode@v2
+        uses: SteveShi/setup-xcode@v2
         with:
           xcode-version: 'latest-stable'
 
@@ -201,7 +201,7 @@ jobs:
           echo "Running generate_appcast using stdin method..."
           echo "$CLEAN_KEY" | ./bin/generate_appcast \
             --ed-key-file - \
-            --download-url-prefix "https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
+            --download-url-prefix "https://github.com/SteveShi/MDWriter/releases/download/${{ env.VERSION_TAG }}/" \
             deploy/
           
           if [ -f "deploy/appcast.xml" ]; then
@@ -212,8 +212,8 @@ jobs:
             sed -i.bak '/<sparkle:releaseNotesLink>/d' appcast.xml
             
             # 2. 准备链接内容
-            EN_LINK="https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_en.md"
-            ZH_LINK="https://github.com/lpgneg19/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_zh.md"
+            EN_LINK="https://github.com/SteveShi/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_en.md"
+            ZH_LINK="https://github.com/SteveShi/MDWriter/releases/download/${{ env.VERSION_TAG }}/release_notes_zh.md"
             
             # 3. 注入Localized链接（在 <enclosure 标签之前）
             # 注意：BSD sed 的 i 指令后面需要换行符
@@ -253,7 +253,7 @@ jobs:
           VERSION="${{ env.VERSION }}"
           SHA256=$(shasum -a 256 "${{ env.DMG_NAME }}" | awk '{print $1}')
           
-          git clone https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/lpgneg19/homebrew-tap.git tap-repo
+          git clone https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/SteveShi/homebrew-tap.git tap-repo
           cd tap-repo
           
           sed -i '' "s/version \".*\"/version \"$VERSION\"/" Casks/mdwriter.rb

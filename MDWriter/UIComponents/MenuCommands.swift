@@ -307,7 +307,7 @@ struct HelpCommands: Commands {
     var body: some Commands {
         CommandGroup(replacing: .help) {
             Button(LocalizedStringKey("MDWriter Help")) {
-                if let url = URL(string: "https://github.com/lpgneg19/MDWriter") {
+                if let url = URL(string: "https://github.com/SteveShi/MDWriter") {
                     NSWorkspace.shared.open(url)
                 }
             }

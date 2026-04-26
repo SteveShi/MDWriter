@@ -12,7 +12,7 @@ settings:
 
 packages:
   MDEditor:
-    url: https://github.com/lpgneg19/MDEditor.git
+    url: https://github.com/SteveShi/MDEditor.git
     from: 1.0.1
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle

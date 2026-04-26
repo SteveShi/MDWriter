@@ -16,7 +16,7 @@ Please ensure you are updated to the latest version to receive the latest featur
 
 If you discover any security vulnerabilities, please report them through the following methods:
 
-1. **GitHub Private Vulnerability Reporting**: Go to the [Security](https://github.com/lpgneg19/MDWriter/security) tab of this repository and click "Report a vulnerability". This is the preferred method.
+1. **GitHub Private Vulnerability Reporting**: Go to the [Security](https://github.com/SteveShi/MDWriter/security) tab of this repository and click "Report a vulnerability". This is the preferred method.
 2. **Email**: If you are unable to use the above method or prefer to communicate via email, please contact us at [xuanlian@gmail.com](mailto:xuanlian@gmail.com).
 
 ### Reporting Requirements
