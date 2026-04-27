@@ -27,6 +27,9 @@ Package.resolved
 *.swp
 *~
 
+# Claude Code local state
+.claude/
+
 # Deploy
 /deploy_final
 

@@ -82,9 +82,9 @@ class AIService {
     var availabilityDescription: String {
         switch SystemLanguageModel.default.availability {
         case .available:
-            return NSLocalizedString("AI Ready", comment: "")
+            return String(localized: "AI Ready")
         case .unavailable:
-            return NSLocalizedString("AI Unavailable", comment: "")
+            return String(localized: "AI Unavailable")
         }
     }
 

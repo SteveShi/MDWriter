@@ -80,61 +80,51 @@ final class ImageManager: @unchecked Sendable {
         }
     }
 
-    /// 根据文件名或路径读取图片
-    nonisolated func loadImage(named pathOrFilename: String) -> NSImage? {
-        print("[ImageManager] Loading: \(pathOrFilename)")
-
-        // 先剥离可能存在的 file:// 协议头
+    /// 解析外部传入的字符串路径：剥离 file:// 前缀、URL 解码、解析绝对/家目录/相对到沙盒图片目录的 URL
+    nonisolated private func resolve(_ pathOrFilename: String) -> (decoded: String, url: URL)? {
         var cleanPath = pathOrFilename
         if cleanPath.hasPrefix("file://") {
             cleanPath = String(cleanPath.dropFirst(7))
         }
-
-        // 再对路径进行 URL 解码，处理可能存在的 %20 等字符
         let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
 
-        if let cached = imageCache.object(forKey: decodedPath as NSString) {
+        if decodedPath.hasPrefix("/") {
+            return (decodedPath, URL(fileURLWithPath: decodedPath))
+        } else if decodedPath.hasPrefix("~") {
+            return (decodedPath, URL(fileURLWithPath: (decodedPath as NSString).expandingTildeInPath))
+        } else {
+            guard let imagesDir = imagesDirectoryURL else { return nil }
+            return (decodedPath, imagesDir.appendingPathComponent(decodedPath))
+        }
+    }
+
+    /// 根据文件名或路径读取图片
+    nonisolated func loadImage(named pathOrFilename: String) -> NSImage? {
+        print("[ImageManager] Loading: \(pathOrFilename)")
+
+        guard let resolved = resolve(pathOrFilename) else {
+            print("[ImageManager] Error: Could not resolve images directory")
+            return nil
+        }
+
+        if let cached = imageCache.object(forKey: resolved.decoded as NSString) {
             return cached
         }
 
-        let fileURL: URL
-        if decodedPath.hasPrefix("/") {
-            fileURL = URL(fileURLWithPath: decodedPath)
-        } else if decodedPath.hasPrefix("~") {
-            fileURL = URL(fileURLWithPath: (decodedPath as NSString).expandingTildeInPath)
-        } else {
-            guard let imagesDir = imagesDirectoryURL else {
-                print("[ImageManager] Error: Could not resolve images directory")
-                return nil
-            }
-            fileURL = imagesDir.appendingPathComponent(decodedPath)
-        }
+        print("[ImageManager] Resolved URL: \(resolved.url.path)")
 
-        print("[ImageManager] Resolved URL: \(fileURL.path)")
-
-        if let image = NSImage(contentsOf: fileURL) {
-            print("[ImageManager] Success: Loaded \(decodedPath)")
-            imageCache.setObject(image, forKey: decodedPath as NSString)
+        if let image = NSImage(contentsOf: resolved.url) {
+            print("[ImageManager] Success: Loaded \(resolved.decoded)")
+            imageCache.setObject(image, forKey: resolved.decoded as NSString)
             return image
         } else {
-            print("[ImageManager] Failure: Could not load image at \(fileURL.path)")
+            print("[ImageManager] Failure: Could not load image at \(resolved.url.path)")
             return nil
         }
     }
 
     /// 获取图片的完整路径（用于 QuickLook 或其他用途）
     nonisolated func fileURL(for pathOrFilename: String) -> URL? {
-        var cleanPath = pathOrFilename
-        if cleanPath.hasPrefix("file://") {
-            cleanPath = String(cleanPath.dropFirst(7))
-        }
-        let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
-
-        if decodedPath.hasPrefix("/") {
-            return URL(fileURLWithPath: decodedPath)
-        } else if decodedPath.hasPrefix("~") {
-            return URL(fileURLWithPath: (decodedPath as NSString).expandingTildeInPath)
-        }
-        return imagesDirectoryURL?.appendingPathComponent(decodedPath)
+        return resolve(pathOrFilename)?.url
     }
 }

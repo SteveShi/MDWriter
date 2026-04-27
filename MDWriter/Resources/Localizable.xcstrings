@@ -100,17 +100,6 @@
         }
       }
     },
-    "Add Bookmark" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加书签"
-          }
-        }
-      }
-    },
     "Add Keyword" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -118,17 +107,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "添加关键字"
-          }
-        }
-      }
-    },
-    "Add Sketch" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加速绘"
           }
         }
       }
@@ -188,17 +166,6 @@
         }
       }
     },
-    "AI is processing..." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 处理中..."
-          }
-        }
-      }
-    },
     "AI Ready" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -206,17 +173,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "AI 就绪"
-          }
-        }
-      }
-    },
-    "AI Settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI 设置"
           }
         }
       }
@@ -267,28 +223,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "所有文稿"
-          }
-        }
-      }
-    },
-    "Analyze here" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在这里分析"
-          }
-        }
-      }
-    },
-    "Annotation" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "批注"
           }
         }
       }
@@ -366,34 +300,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自动标签"
-          }
-        }
-      }
-    },
-    "Auto-fill" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动填充"
-          }
-        }
-      }
-    },
-    "Auto-Updates" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auto-Updates"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动更新"
           }
         }
       }
@@ -504,17 +410,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "字符"
-          }
-        }
-      }
-    },
-    "Check Document Now" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即检查文稿"
           }
         }
       }
@@ -651,17 +546,6 @@
         }
       }
     },
-    "Comment block" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注释块"
-          }
-        }
-      }
-    },
     "Continue" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -763,17 +647,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "操作面板"
-          }
-        }
-      }
-    },
-    "Dashed List" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "带虚线的列表"
           }
         }
       }
@@ -922,23 +795,6 @@
         }
       }
     },
-    "Enhanced Editor" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enhanced Editor"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "增强型编辑器"
-          }
-        }
-      }
-    },
     "Excluding spaces" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -946,23 +802,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不计空格"
-          }
-        }
-      }
-    },
-    "Experience a distraction-free writing environment with new formatting tools." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Experience a distraction-free writing environment with new formatting tools."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体验无干扰的写作环境和全新的格式工具。"
           }
         }
       }
@@ -1150,23 +989,6 @@
         }
       }
     },
-    "Fully localized interface for English and Simplified Chinese." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fully localized interface for English and Simplified Chinese."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完全本地化的英语和简体中文界面。"
-          }
-        }
-      }
-    },
     "General" : {
       "comment" : "General",
       "extractionState" : "manual",
@@ -1197,23 +1019,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根据内容生成描述性标题"
-          }
-        }
-      }
-    },
-    "Get Started" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Get Started"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始使用"
           }
         }
       }
@@ -1654,23 +1459,6 @@
         }
       }
     },
-    "Library Management" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Library Management"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文稿库管理"
-          }
-        }
-      }
-    },
     "Light" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1748,23 +1536,6 @@
         }
       }
     },
-    "Localization" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Localization"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本地化"
-          }
-        }
-      }
-    },
     "Major Heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1821,23 +1592,6 @@
         }
       }
     },
-    "MDWriter now keeps itself up to date automatically." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MDWriter now keeps itself up to date automatically."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MDWriter 现在会自动保持最新。"
-          }
-        }
-      }
-    },
     "Media" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1889,23 +1643,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建分组"
-          }
-        }
-      }
-    },
-    "New Name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Name"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新名称"
           }
         }
       }
@@ -2049,23 +1786,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有序列表"
-          }
-        }
-      }
-    },
-    "Organize your notes into folders and groups effortlessly." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Organize your notes into folders and groups effortlessly."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "轻松将笔记整理到文件夹和分组中。"
           }
         }
       }
@@ -2318,17 +2038,6 @@
         }
       }
     },
-    "Raw source block" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原始源块"
-          }
-        }
-      }
-    },
     "Reading Time" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2513,17 +2222,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保存版本"
-          }
-        }
-      }
-    },
-    "Scan Document" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "扫描文稿"
           }
         }
       }
@@ -3027,17 +2725,6 @@
         }
       }
     },
-    "Take Photo" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拍照"
-          }
-        }
-      }
-    },
     "Task List" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3100,34 +2787,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此操作将用备份文件替换您当前的文稿库。该操作无法撤销。"
-          }
-        }
-      }
-    },
-    "Toggle Outline" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换大纲"
-          }
-        }
-      }
-    },
-    "Toggle Preview" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Preview"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换预览"
           }
         }
       }
@@ -3216,23 +2875,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "排版"
-          }
-        }
-      }
-    },
-    "Typography Settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Typography Settings"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "排版设置"
           }
         }
       }
@@ -3333,23 +2975,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "直接在编辑器中查看本地图片，并轻松导出预览。"
-          }
-        }
-      }
-    },
-    "Welcome to MDWriter" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welcome to MDWriter"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "欢迎使用 MDWriter"
           }
         }
       }

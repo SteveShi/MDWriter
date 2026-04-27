@@ -510,17 +510,3 @@ struct MarkdownPackageDocument: FileDocument {
     }
 }
 
-// Ulysses 风格底部工具栏按钮
-struct BottomToolbarButton: View {
-    let text: String
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(text)
-                .font(.system(size: 12, weight: .regular))
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(.secondary.opacity(0.6))
-    }
-}

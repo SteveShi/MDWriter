@@ -45,59 +45,44 @@ struct NoteListView: View {
 
         // 捕获搜索文本到本地变量以供 Predicate 使用
         let queryText = searchText
+        let isEmpty = queryText.isEmpty
 
-        // 根据选择模式和搜索文本构建谓词
-        // 为了避免复杂的 Predicate 表达式导致编译错误，我们保持逻辑扁平化
-        if queryText.isEmpty {
-            switch selectionMode {
-            case .all:
-                _notes = Query(filter: #Predicate<Note> { !$0.isTrashed }, sort: \.order)
-            case .inbox:
-                _notes = Query(
-                    filter: #Predicate<Note> { $0.folder == nil && !$0.isTrashed }, sort: \.order)
-            case .trash:
-                _notes = Query(
-                    filter: #Predicate<Note> { $0.isTrashed }, sort: \.modifiedAt, order: .reverse)
-            case .folder(let folder):
-                let folderID = folder.persistentModelID
-                _notes = Query(
-                    filter: #Predicate<Note> {
-                        $0.folder?.persistentModelID == folderID && !$0.isTrashed
-                    }, sort: \.order)
-            }
-        } else {
-            // 当有搜索文本时，应用搜索过滤
-            switch selectionMode {
-            case .all:
-                _notes = Query(
-                    filter: #Predicate<Note> { note in
-                        !note.isTrashed
-                            && (note.title.localizedStandardContains(queryText)
-                                || note.content.localizedStandardContains(queryText))
-                    }, sort: \.order)
-            case .inbox:
-                _notes = Query(
-                    filter: #Predicate<Note> { note in
-                        note.folder == nil && !note.isTrashed
-                            && (note.title.localizedStandardContains(queryText)
-                                || note.content.localizedStandardContains(queryText))
-                    }, sort: \.order)
-            case .trash:
-                _notes = Query(
-                    filter: #Predicate<Note> { note in
-                        note.isTrashed
-                            && (note.title.localizedStandardContains(queryText)
-                                || note.content.localizedStandardContains(queryText))
-                    }, sort: \.modifiedAt, order: .reverse)
-            case .folder(let folder):
-                let folderID = folder.persistentModelID
-                _notes = Query(
-                    filter: #Predicate<Note> { note in
-                        note.folder?.persistentModelID == folderID && !note.isTrashed
-                            && (note.title.localizedStandardContains(queryText)
-                                || note.content.localizedStandardContains(queryText))
-                    }, sort: \.order)
-            }
+        // 根据选择模式构建谓词；搜索过滤合并进同一个 Predicate，由 isEmpty 短路
+        // 保持每个 case 各自的 #Predicate，以避开 Predicate 宏对复杂表达式的限制
+        switch selectionMode {
+        case .all:
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    !note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.order)
+        case .inbox:
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    note.folder == nil && !note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.order)
+        case .trash:
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.modifiedAt, order: .reverse)
+        case .folder(let folder):
+            let folderID = folder.persistentModelID
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    note.folder?.persistentModelID == folderID && !note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.order)
         }
     }
 

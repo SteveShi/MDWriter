@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## [2.2.0] - 2026-04-27
+
+### Refactoring & Cleanup
+- **Dashboard Refactor**: Split the 819-line `DashboardView.swift` into focused files under `Features/Library/Dashboard/` (Overview, Statistics, Structure, Media, Notes, AI tabs, plus shared components) for clearer ownership and faster compile cycles.
+- **Markdown Renderer Extraction**: Moved `MDWMarkdownRenderer` and the HTML visitor out of `ExportService` into `Core/Services/MarkdownRenderService.swift`, isolating the rendering pipeline from export glue.
+- **ImageManager Consolidation**: Unified the `file://`/percent-encoded/relative path resolution between `loadImage(named:)` and `fileURL(for:)` into a single helper.
+- **NoteListView Predicate Consolidation**: Collapsed eight near-identical SwiftData query branches into four by short-circuiting the search filter inside each predicate.
+
+### Removed
+- **Unused Sepia Theme**: Removed the `AppTheme.sepia` case which was no longer wired to any UI.
+- **Dead UI Component**: Removed the unused `BottomToolbarButton` view from `ContentView`.
+- **Orphan Localization Keys**: Trimmed 27 unused keys from `Localizable.xcstrings` (legacy "What's New" copy, retired UI strings).
+
+### Localization
+- Standardized on `String(localized:)` in place of the legacy `NSLocalizedString` calls in `AIService` and the Dashboard reading-time rows.
+
+---
+
+### Chinese
+### 重构与清理
+- **仪表盘拆分**：将 819 行的 `DashboardView.swift` 拆分到 `Features/Library/Dashboard/` 下的多个独立文件（概览、统计、结构、媒体、笔记、AI 各 Tab 与共享组件），提升职责清晰度并加快编译循环。
+- **Markdown 渲染器外移**：将 `MDWMarkdownRenderer` 与 HTML Visitor 从 `ExportService` 抽到 `Core/Services/MarkdownRenderService.swift`，让渲染流程独立于导出胶水代码。
+- **图片管理整合**：合并 `loadImage(named:)` 与 `fileURL(for:)` 中重复的 `file://` / URL 编码 / 相对路径解析逻辑。
+- **笔记列表查询合并**：将 SwiftData 中 8 段几乎相同的查询分支收敛为 4 段，把搜索过滤短路写进单个 Predicate。
+
+### 移除
+- **未使用的 Sepia 主题**：删除已不再连接任何 UI 的 `AppTheme.sepia` 分支。
+- **冗余 UI 组件**：删除 `ContentView` 中无引用的 `BottomToolbarButton`。
+- **本地化孤儿键**：在 `Localizable.xcstrings` 中清理了 27 条未使用条目（旧版 What's New 文案、已下线的界面字串）。
+
+### 本地化
+- 在 `AIService` 与 Dashboard 阅读时长展示处，将旧的 `NSLocalizedString` 统一改为 `String(localized:)`。
+
+
 ## [2.1.2] - 2026-03-29
 
 ### Added
