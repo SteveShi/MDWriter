@@ -63,7 +63,6 @@ jobs:
         run: |
           echo "VERSION=${{ needs.inspect.outputs.version }}" >> $GITHUB_ENV
           echo "VERSION_TAG=${{ needs.inspect.outputs.version_tag }}" >> $GITHUB_ENV
-          echo "SPARKLE_VERSION=2.9.1" >> $GITHUB_ENV
 
       - name: Set up Xcode
         uses: SteveShi/setup-xcode@v2
@@ -173,10 +172,12 @@ jobs:
       - name: Generate Sparkle Appcast
         env:
           SPARKLE_SECRET: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 1. 下载并解压 Sparkle 工具
-          curl -L -O "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
-          tar -xf "Sparkle-${SPARKLE_VERSION}.tar.xz"
+          # 1. 获取最新 Sparkle 版本并下载工具
+          SPARKLE_VERSION=$(gh api repos/sparkle-project/Sparkle/releases/latest --jq '.tag_name' | sed 's/^v//')
+          curl -fL -H "User-Agent: curl" -o Sparkle.tar.xz "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
+          tar -xf Sparkle.tar.xz
 
           # 2. 极致清理私钥 (确保没有任何不可见字符)
           CLEAN_KEY=$(echo "$SPARKLE_SECRET" | sed 's/EdDSAPrivateKey://' | tr -dc 'A-Za-z0-9+/=')
