@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [2.3.1] - 2026-05-17
+
+### Markdown Engine
+- **MDEditor 1.6.2 Integration**: Updated the editor dependency to 1.6.2, which features a unified Markdown parsing stack backed by `MarkdownParser`.
+- **Improved Performance**: Benefiting from the refactored `MarkdownConverter` in MDEditor for faster heading extraction and document statistics.
+- **Unified Parsing Stack**: Aligned internal markdown processing with the updated MDEditor architecture for better consistency across the app.
+
+---
+
+### Chinese
+### Markdown 引擎
+- **接入 MDEditor 1.6.2**：将编辑器依赖更新至 1.6.2 版本，该版本采用了基于 `MarkdownParser` 的统一 Markdown 解析栈。
+- **性能提升**：得益于 MDEditor 中重构的 `MarkdownConverter`，提升了标题提取和文档统计的执行效率。
+- **统一解析栈**：使内部 Markdown 处理逻辑与更新后的 MDEditor 架构保持一致，确保全应用的效果一致性。
+
+
 ## [2.3.0] - 2026-05-17
 
 ### Markdown Engine
