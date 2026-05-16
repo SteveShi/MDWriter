@@ -6,14 +6,43 @@
 //
 
 import Foundation
-import Markdown
+import MDEditor
 
 struct MDWMarkdownRenderer {
     func renderHTML(from markdown: String, theme: MarkdownTheme) -> String {
-        let document = Document(parsing: markdown)
-        var visitor = HTMLVisitor()
-        let body = visitor.visit(document)
+        let body = MarkdownConverter.toHTML(markdown, imageResolver: resolveImageSource)
         return wrapHTML(body: body, theme: theme)
+    }
+
+    private func resolveImageSource(_ source: String) -> String {
+        if source.lowercased().hasPrefix("http") || source.hasPrefix("data:") {
+            return source
+        }
+
+        var cleanPath = source
+        if cleanPath.hasPrefix("file://") {
+            cleanPath = String(cleanPath.dropFirst(7))
+        }
+        let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
+
+        var possibleURLs: [URL] = [URL(fileURLWithPath: decodedPath)]
+        if
+            !decodedPath.hasPrefix("/"),
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                .first
+        {
+            possibleURLs.append(
+                documentsURL.appendingPathComponent("Images").appendingPathComponent(decodedPath))
+            possibleURLs.append(documentsURL.appendingPathComponent(decodedPath))
+        }
+
+        for url in possibleURLs {
+            if FileManager.default.fileExists(atPath: url.path) {
+                return url.absoluteString
+            }
+        }
+
+        return source
     }
 
     private func wrapHTML(body: String, theme: MarkdownTheme) -> String {
@@ -162,158 +191,5 @@ struct MDWMarkdownRenderer {
                 }
             </style>
             """
-    }
-}
-
-private struct HTMLVisitor: MarkupVisitor {
-    typealias Result = String
-
-    mutating func defaultVisit(_ markup: Markup) -> String {
-        return markup.children.map { visit($0) }.joined()
-    }
-
-    mutating func visitDocument(_ document: Document) -> String {
-        return document.children.map { visit($0) }.joined()
-    }
-
-    mutating func visitHeading(_ heading: Heading) -> String {
-        let tag = "h\(heading.level)"
-        return "<\(tag)>\(heading.children.map { visit($0) }.joined())</\(tag)>"
-    }
-
-    mutating func visitParagraph(_ paragraph: Paragraph) -> String {
-        return "<p>\(paragraph.children.map { visit($0) }.joined())</p>"
-    }
-
-    mutating func visitText(_ text: Markdown.Text) -> String {
-        return text.string.htmlEscaped()
-    }
-
-    mutating func visitEmphasis(_ emphasis: Emphasis) -> String {
-        return "<em>\(emphasis.children.map { visit($0) }.joined())</em>"
-    }
-
-    mutating func visitStrong(_ strong: Strong) -> String {
-        return "<strong>\(strong.children.map { visit($0) }.joined())</strong>"
-    }
-
-    mutating func visitLink(_ link: Markdown.Link) -> String {
-        let dest = link.destination ?? ""
-        return "<a href=\"\(dest)\">\(link.children.map { visit($0) }.joined())</a>"
-    }
-
-    mutating func visitImage(_ image: Markdown.Image) -> String {
-        let source = image.source ?? ""
-        let title = image.title ?? ""
-        let alt = image.plainText
-
-        if source.lowercased().hasPrefix("http") || source.hasPrefix("data:") {
-            return imageTag(source: source, title: title, alt: alt)
-        }
-
-        var cleanPath = source
-        if cleanPath.hasPrefix("file://") {
-            cleanPath = String(cleanPath.dropFirst(7))
-        }
-        let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
-
-        var possibleURLs: [URL] = [URL(fileURLWithPath: decodedPath)]
-        if
-            !decodedPath.hasPrefix("/"),
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                .first
-        {
-            possibleURLs.append(
-                documentsURL.appendingPathComponent("Images").appendingPathComponent(decodedPath))
-            possibleURLs.append(documentsURL.appendingPathComponent(decodedPath))
-        }
-
-        for url in possibleURLs {
-            if FileManager.default.fileExists(atPath: url.path) {
-                return imageTag(source: url.absoluteString, title: title, alt: alt)
-            }
-        }
-
-        return imageTag(source: source, title: title, alt: alt)
-    }
-
-    private func imageTag(source: String, title: String, alt: String) -> String {
-        "<img src=\"\(source)\" title=\"\(title)\" alt=\"\(alt)\" />"
-    }
-
-    mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> String {
-        let langClass = codeBlock.language.map { " class=\"language-\($0)\"" } ?? ""
-        return "<pre><code\(langClass)>\(codeBlock.code.htmlEscaped())</code></pre>"
-    }
-
-    mutating func visitInlineCode(_ inlineCode: InlineCode) -> String {
-        return "<code>\(inlineCode.code.htmlEscaped())</code>"
-    }
-
-    mutating func visitUnorderedList(_ list: Markdown.UnorderedList) -> String {
-        return "<ul>\(list.children.map { visit($0) }.joined())</ul>"
-    }
-
-    mutating func visitOrderedList(_ list: Markdown.OrderedList) -> String {
-        return "<ol>\(list.children.map { visit($0) }.joined())</ol>"
-    }
-
-    mutating func visitListItem(_ listItem: ListItem) -> String {
-        return "<li>\(listItem.children.map { visit($0) }.joined())</li>"
-    }
-
-    mutating func visitBlockQuote(_ blockQuote: BlockQuote) -> String {
-        return "<blockquote>\(blockQuote.children.map { visit($0) }.joined())</blockquote>"
-    }
-
-    mutating func visitThematicBreak(_ thematicBreak: ThematicBreak) -> String {
-        return "<hr />"
-    }
-
-    mutating func visitSoftBreak(_ softBreak: SoftBreak) -> String {
-        return " "
-    }
-
-    mutating func visitLineBreak(_ lineBreak: LineBreak) -> String {
-        return "<br />"
-    }
-
-    mutating func visitInlineHTML(_ inlineHTML: InlineHTML) -> String {
-        return inlineHTML.rawHTML
-    }
-
-    mutating func visitHTMLBlock(_ htmlBlock: HTMLBlock) -> String {
-        return htmlBlock.rawHTML
-    }
-
-    mutating func visitTable(_ table: Markdown.Table) -> String {
-        return "<table>\(table.children.map { visit($0) }.joined())</table>"
-    }
-
-    mutating func visitTableHead(_ tableHead: Markdown.Table.Head) -> String {
-        return "<thead>\(tableHead.children.map { visit($0) }.joined())</thead>"
-    }
-
-    mutating func visitTableBody(_ tableBody: Markdown.Table.Body) -> String {
-        return "<tbody>\(tableBody.children.map { visit($0) }.joined())</tbody>"
-    }
-
-    mutating func visitTableRow(_ tableRow: Markdown.Table.Row) -> String {
-        return "<tr>\(tableRow.children.map { visit($0) }.joined())</tr>"
-    }
-
-    mutating func visitTableCell(_ tableCell: Markdown.Table.Cell) -> String {
-        let tag = tableCell.parent is Markdown.Table.Head ? "th" : "td"
-        return "<\(tag)>\(tableCell.children.map { visit($0) }.joined())</\(tag)>"
-    }
-}
-
-extension String {
-    fileprivate func htmlEscaped() -> String {
-        return self.replacingOccurrences(of: "&", with: "&amp;")
-            .replacingOccurrences(of: "<", with: "&lt;")
-            .replacingOccurrences(of: ">", with: "&gt;")
-            .replacingOccurrences(of: "\"", with: "&quot;")
-            .replacingOccurrences(of: "'", with: "&#39;")
     }
 }

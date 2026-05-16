@@ -1,6 +1,6 @@
 import AppKit
 import Foundation
-import Markdown
+import MDEditor
 import SwiftUI
 import UniformTypeIdentifiers
 import WebKit
@@ -12,12 +12,16 @@ struct ExportPreviewView: View {
     @State private var isExporting = false
     @State private var showFileExporter = false
     @State private var pdfData: Data?
+    @ObservedObject private var editorSettings = EditorSettings.shared
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 ScrollView {
-                    MarkdownViewWrapper(text: text)
+                    MarkdownViewWrapper(
+                        text: text,
+                        configuration: editorSettings.configuration
+                    )
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .padding()
                 }

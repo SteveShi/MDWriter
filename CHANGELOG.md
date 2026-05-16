@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## [2.3.0] - 2026-05-17
+
+### Markdown Engine
+- **MDEditor 1.6.0 Integration**: Updated the editor dependency to the online `SteveShi/MDEditor` 1.6.0 release, keeping the WYSIWYG editing path owned by MDEditor.
+- **Centralized Markdown Parsing**: Moved Markdown heading extraction, plain-text statistics, and HTML conversion behind MDEditor's `MarkdownConverter` API so MDWriter no longer depends directly on `swift-markdown`.
+- **Preview Dependency Cleanup**: Removed MDWriter's direct `MarkdownView` dependency and routed export preview rendering through `MDEditorMarkdownPreview`.
+
+### Export & Stability
+- **Export Renderer Compatibility**: Preserved MDWriter's export theme CSS and local image path resolution while delegating Markdown AST conversion to MDEditor.
+- **Stable Package Resolution**: MDEditor now consumes `SteveShi/MarkdownView` through a stable tagged release, allowing MDWriter to reference MDEditor through a normal version requirement.
+
+---
+
+### Chinese
+### Markdown 引擎
+- **接入 MDEditor 1.6.0**：将编辑器依赖更新到线上 `SteveShi/MDEditor` 1.6.0 版本，继续由 MDEditor 负责所见即所得编辑路径。
+- **集中 Markdown 解析**：将标题提取、纯文本统计和 HTML 转换统一收敛到 MDEditor 的 `MarkdownConverter` API，MDWriter 不再直接依赖 `swift-markdown`。
+- **预览依赖清理**：移除 MDWriter 对 `MarkdownView` 的直接依赖，导出预览改为通过 `MDEditorMarkdownPreview` 渲染。
+
+### 导出与稳定性
+- **导出渲染兼容**：保留 MDWriter 自己的导出主题 CSS 和本地图片路径解析，同时将 Markdown AST 转换交给 MDEditor。
+- **稳定包解析**：MDEditor 现在通过稳定 tag 使用 `SteveShi/MarkdownView`，MDWriter 可以用普通版本约束引用 MDEditor。
+
+
 ## [2.2.0] - 2026-04-27
 
 ### Refactoring & Cleanup
