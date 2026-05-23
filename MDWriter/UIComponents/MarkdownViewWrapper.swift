@@ -4,7 +4,8 @@ import MDEditor
 struct MarkdownViewWrapper: View {
     let text: String
     let configuration: EditorConfiguration
-    
+    @AppStorage("markdownTheme") private var markdownTheme: MarkdownTheme = .pure
+
     var body: some View {
         MDEditorMarkdownPreview(
             text: text,
@@ -13,5 +14,8 @@ struct MarkdownViewWrapper: View {
         )
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
+            .background(markdownTheme.paperColor)
+            .foregroundStyle(markdownTheme.textColor)
+            .environment(\.colorScheme, markdownTheme.isDark ? .dark : .light)
     }
 }

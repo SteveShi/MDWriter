@@ -46,6 +46,15 @@ class EditorSettings: ObservableObject {
         didSet { notifyChange() }
     }
 
+    // 配色主题（与预览/导出一致）
+    @AppStorage("markdownTheme") var markdownThemeRaw: String = MarkdownTheme.pure.rawValue {
+        didSet { notifyChange() }
+    }
+
+    private var currentMarkdownTheme: MarkdownTheme {
+        MarkdownTheme(rawValue: markdownThemeRaw) ?? .pure
+    }
+
     // 对外发布的配置快照
     @Published var configuration: EditorConfiguration
 
@@ -59,7 +68,8 @@ class EditorSettings: ObservableObject {
             paragraphSpacing: 18.0,
             firstLineIndent: 0.0,
             typewriterMode: true,
-            markdownStandard: .markdownXL
+            markdownStandard: .markdownXL,
+            theme: MarkdownTheme.pure.editorTheme()
         )
 
         // Initial sync
@@ -88,6 +98,7 @@ class EditorSettings: ObservableObject {
             firstLineIndent: CGFloat(firstLineIndent),
             typewriterMode: typewriterMode,
             markdownStandard: markdownStandard,
+            theme: currentMarkdownTheme.editorTheme(),
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)
             }

@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## [2.5.0] - 2026-05-23
+
+### Editor
+- **Live Color Schemes**: All 8 Markdown themes (Pure, Solarized Light/Dark, GitHub, Dracula, Nord, Monokai, Night Owl) now drive the editor's paper color, body text, headings, syntax markers, inline/block code background, blockquote, link, and caret color in real time — no more theme switches that only affect PDF export.
+- **Editor Background Sync**: Editor canvas, top fade, and the bottom markup bar share the active theme's paper color for a seamless Ulysses-like surface.
+- **Preview & Export Alignment**: Markdown preview and PDF export honor the same theme palette, including dark backgrounds and accent colors.
+
+### Settings
+- **Markdown Settings Panel**: New dedicated panel under Settings groups syntax standard, color scheme (with a short description for each theme), markup visibility, and a toggleable Markup Reference cheat sheet.
+- **Markup Feature Toggles**: Enable or disable Strikethrough, Task Lists, Tables, and Footnotes; the renderer suppresses them dynamically when off.
+- **Show Markup Characters**: Toggle marker visibility (`#`, `*`, `_`, etc.) in the editor.
+
+### Reliability
+- **Sandboxed Theme Source**: Theme resolution flows through a single `MarkdownTheme` source of truth — preview, export, and editor settings cannot drift apart.
+
+---
+
+### 编辑器
+- **配色方案实时联动**：8 套 Markdown 主题（Pure、Solarized Light/Dark、GitHub、Dracula、Nord、Monokai、Night Owl）现在会同步驱动编辑器的纸面底色、正文、标题、语法标记、行内/代码块底色、引用、链接与光标颜色，不再仅作用于 PDF 导出。
+- **编辑器背景同步**：编辑画布、顶部渐隐与底部快捷输入栏共享当前主题的纸面色，呈现接近 Ulysses 的整片书写表面。
+- **预览与导出对齐**：Markdown 预览与 PDF 导出沿用同一套主题色板，深色背景与强调色保持一致。
+
+### 设置
+- **Markdown 设置面板**：设置中新增独立的 Markdown 面板，集中管理语法标准、配色方案（每个主题附带说明）、标记可见性，以及可折叠的语法参考速查表。
+- **标记功能开关**：可独立开启或关闭删除线、任务列表、表格、脚注，渲染器会动态屏蔽未启用的语法。
+- **显示标记字符**：开关编辑器内 `#`、`*`、`_` 等 Markdown 标记的可见性。
+
+### 稳定性
+- **主题来源唯一**：主题解析统一走 `MarkdownTheme`，预览、导出与编辑器设置不再出现来源漂移。
+
 ## [2.4.0] - 2026-05-23
 
 ### Editor

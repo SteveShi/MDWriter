@@ -55,19 +55,25 @@ struct ContentView: View {
     // Animation namespace
     @Namespace private var animation
 
+    /// 纸面背景：优先尊重 markdownTheme，Pure 时回退到 AppTheme 的本来 paperColor，
+    /// 保证 8 个配色方案在编辑器画布上有可见差异。
+    private var canvasPaperColor: Color {
+        markdownTheme == .pure ? currentTheme.paperColor : markdownTheme.paperColor
+    }
+
     var body: some View {
         HSplitView {
             // MARK: - Pane 1: Editor Area
             ZStack(alignment: .topTrailing) {
-                currentTheme.paperColor
+                canvasPaperColor
                     .ignoresSafeArea()
-                
+
                 // Subtle Paper Gradient
                 LinearGradient(
                     gradient: Gradient(colors: [
-                        currentTheme.paperColor,
-                        currentTheme.paperColor.opacity(0.95),
-                        currentTheme.paperColor
+                        canvasPaperColor,
+                        canvasPaperColor.opacity(0.95),
+                        canvasPaperColor
                     ]),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
@@ -119,7 +125,7 @@ struct ContentView: View {
                 // Top Gradient Fade
                 if note != nil {
                     VStack {
-                        currentTheme.paperColor
+                        canvasPaperColor
                             .frame(height: 50)
                             .mask(
                                 LinearGradient(
@@ -139,9 +145,9 @@ struct ContentView: View {
                 if note != nil {
                     VStack(spacing: 0) {
                         Spacer()
-                        
+
                         UlyssesMarkupBar(controller: editorController)
-                            .background(currentTheme.paperColor.opacity(0.8))
+                            .background(canvasPaperColor.opacity(0.8))
                             .background(.ultraThinMaterial)
                             .cornerRadius(12)
                             .padding(.bottom, 20)

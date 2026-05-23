@@ -14,8 +14,8 @@ class ExportService: NSObject {
             return
         }
 
-        let themeName = UserDefaults.standard.string(forKey: "markdownTheme") ?? "Pure"
-        let theme = MarkdownTheme(rawValue: themeName) ?? .pure
+        let storedThemeID = UserDefaults.standard.string(forKey: "markdownTheme")
+        let theme = storedThemeID.flatMap(MarkdownTheme.init(rawValue:)) ?? .pure
 
         switch format {
         case .pdf:

@@ -109,8 +109,29 @@ struct MDWMarkdownRenderer {
             )
         }
 
-        let isDark = [MarkdownTheme.dracula, .nord, .monokai, .nightOwl, .solarizedDark].contains(
-            theme)
+        let isDark = theme.isDark
+
+        // 读取 Markdown 特性开关；缺省值与 MarkdownSettingsView 中的 @AppStorage 默认值保持一致。
+        let defaults = UserDefaults.standard
+        let featureStrikethrough = defaults.object(forKey: "markdownFeatureStrikethrough") as? Bool ?? true
+        let featureTaskList = defaults.object(forKey: "markdownFeatureTaskList") as? Bool ?? true
+        let featureTable = defaults.object(forKey: "markdownFeatureTable") as? Bool ?? true
+        let featureFootnote = defaults.object(forKey: "markdownFeatureFootnote") as? Bool ?? false
+
+        var extras: [String] = []
+        if !featureStrikethrough {
+            extras.append("del, s { text-decoration: none; }")
+        }
+        if !featureTaskList {
+            extras.append("input[type=\"checkbox\"] { display: none; }")
+        }
+        if !featureTable {
+            extras.append("table, thead, tbody, tr, th, td { display: block; border: none; padding: 0; }")
+        }
+        if !featureFootnote {
+            extras.append(".footnote-ref, .footnote-backref, .footnotes { display: none; }")
+        }
+        let extrasCSS = extras.joined(separator: "\n                ")
 
         return """
             <style>
@@ -131,6 +152,10 @@ struct MDWMarkdownRenderer {
                 h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.25; margin-top: 24px; margin-bottom: 16px; color: \(colors.text); }
                 h1 { font-size: 2em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
                 h2 { font-size: 1.5em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
+                h3 { font-size: 1.25em; }
+                h4 { font-size: 1em; }
+                h5 { font-size: .875em; }
+                h6 { font-size: .85em; color: \(colors.text); opacity: 0.75; }
                 p { margin-top: 0; margin-bottom: 16px; }
                 code {
                     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -189,6 +214,7 @@ struct MDWMarkdownRenderer {
                     background-color: \(colors.border);
                     border: 0;
                 }
+                \(extrasCSS)
             </style>
             """
     }
