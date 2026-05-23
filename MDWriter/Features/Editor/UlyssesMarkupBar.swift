@@ -14,38 +14,43 @@ import SwiftUI
 
 // MARK: - 选区上下文类型
 
+/// Ulysses 风格的上下文枚举：根据光标/选区所在位置切换按钮组。
 enum SelectionContext: Equatable {
-    case none  // 无选区
-    case inlineText  // 选中行内文本
-    case fullLines  // 选中完整行
-    case mixedContent  // 混合内容
-
-    var isVisible: Bool {
-        self != .none
-    }
+    /// 无选区，普通段落
+    case empty
+    /// 无选区，光标位于标题行（# / ## / ###）
+    case headingLine
+    /// 无选区，光标位于列表行（- / 1. / - [ ]）
+    case listLine
+    /// 无选区，光标位于引用行（>）
+    case quoteLine
+    /// 无选区，光标位于围栏代码块内
+    case codeBlock
+    /// 选中行内文本
+    case inlineText
+    /// 选中整行或跨行
+    case fullLines
 }
 
 // MARK: - Markup Bar View Model
 
 class MarkupBarViewModel: ObservableObject {
-    @Published var context: SelectionContext = .none
+    @Published var context: SelectionContext = .empty
     @Published var selectedText: String = ""
 
     /// 更新选区上下文
     func updateContext(selectedRange: NSRange, fullText: String) {
-        guard selectedRange.length > 0 else {
-            withAnimation(.easeOut(duration: 0.15)) {
-                context = .none
-                selectedText = ""
-            }
+        let nsText = fullText as NSString
+        // 防御性边界检查，避免 MDEditor 偶发越界
+        guard selectedRange.location <= nsText.length,
+            NSMaxRange(selectedRange) <= nsText.length
+        else {
             return
         }
 
-        let nsText = fullText as NSString
-        let selection = nsText.substring(with: selectedRange)
-        selectedText = selection
-
-        let newContext = analyzeSelection(range: selectedRange, in: nsText)
+        selectedText =
+            selectedRange.length > 0 ? nsText.substring(with: selectedRange) : ""
+        let newContext = analyze(range: selectedRange, in: nsText)
 
         if context != newContext {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
@@ -54,23 +59,76 @@ class MarkupBarViewModel: ObservableObject {
         }
     }
 
-    private func analyzeSelection(range: NSRange, in text: NSString) -> SelectionContext {
-        let lineRange = text.lineRange(for: range)
-        let isFullLine =
-            (range.location == lineRange.location)
-            && (NSMaxRange(range) >= NSMaxRange(lineRange) - 1
-                || NSMaxRange(range) == NSMaxRange(lineRange))
-
-        let selectedText = text.substring(with: range)
-        let containsNewline = selectedText.contains("\n")
-
-        if containsNewline {
-            return .fullLines
-        } else if isFullLine {
-            return .fullLines
-        } else {
-            return .inlineText
+    private func analyze(range: NSRange, in text: NSString) -> SelectionContext {
+        // 有选区：判定行内 vs 跨行
+        if range.length > 0 {
+            let selected = text.substring(with: range)
+            if selected.contains("\n") {
+                return .fullLines
+            }
+            let lineRange = text.lineRange(for: range)
+            let isFullLine =
+                range.location == lineRange.location
+                && (NSMaxRange(range) >= NSMaxRange(lineRange) - 1
+                    || NSMaxRange(range) == NSMaxRange(lineRange))
+            return isFullLine ? .fullLines : .inlineText
         }
+
+        // 无选区：根据光标所在行的开头标记决定上下文
+        if isInsideFencedCodeBlock(location: range.location, in: text) {
+            return .codeBlock
+        }
+
+        let lineRange = text.lineRange(for: NSRange(location: range.location, length: 0))
+        let line = text.substring(with: lineRange)
+        let trimmed = line.trimmingCharacters(in: .init(charactersIn: " \t"))
+
+        if trimmed.hasPrefix("# ") || trimmed.hasPrefix("## ") || trimmed.hasPrefix("### ")
+            || trimmed.hasPrefix("#### ") || trimmed.hasPrefix("##### ")
+            || trimmed.hasPrefix("###### ")
+        {
+            return .headingLine
+        }
+        if trimmed.hasPrefix(">") {
+            return .quoteLine
+        }
+        if trimmed.hasPrefix("- [ ]") || trimmed.hasPrefix("- [x]")
+            || trimmed.hasPrefix("- [X]") || trimmed.hasPrefix("- ")
+            || trimmed.hasPrefix("* ") || trimmed.hasPrefix("+ ")
+            || isOrderedListPrefix(trimmed)
+        {
+            return .listLine
+        }
+        return .empty
+    }
+
+    /// 判断 "1. " / "12. " 等有序列表行
+    private func isOrderedListPrefix(_ s: String) -> Bool {
+        var idx = s.startIndex
+        var sawDigit = false
+        while idx < s.endIndex, s[idx].isNumber {
+            sawDigit = true
+            idx = s.index(after: idx)
+        }
+        guard sawDigit, idx < s.endIndex, s[idx] == "." else { return false }
+        let afterDot = s.index(after: idx)
+        return afterDot < s.endIndex && s[afterDot] == " "
+    }
+
+    /// 判断光标是否位于围栏代码块（``` … ```）内：统计光标前 ``` 出现次数为奇数。
+    private func isInsideFencedCodeBlock(location: Int, in text: NSString) -> Bool {
+        guard location > 0 else { return false }
+        let prefix = text.substring(with: NSRange(location: 0, length: location)) as NSString
+        var count = 0
+        var searchRange = NSRange(location: 0, length: prefix.length)
+        while searchRange.location < prefix.length {
+            let found = prefix.range(of: "```", options: [], range: searchRange)
+            if found.location == NSNotFound { break }
+            count += 1
+            let next = NSMaxRange(found)
+            searchRange = NSRange(location: next, length: prefix.length - next)
+        }
+        return count % 2 == 1
     }
 }
 
@@ -92,15 +150,11 @@ struct UlyssesMarkupBar: View {
             HStack(spacing: 0) {
                 Spacer()
 
-                // 主要内容
+                // 主要内容：始终根据上下文渲染按钮组
                 HStack(spacing: 28) {
-                    if viewModel.context.isVisible {
-                        contextualButtons
-                            .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                    } else {
-                        defaultButtons
-                            .transition(.opacity)
-                    }
+                    contextualButtons
+                        .id(viewModel.context)
+                        .transition(.opacity.combined(with: .scale(scale: 0.97)))
 
                     // 更多选项
                     moreButton
@@ -118,27 +172,75 @@ struct UlyssesMarkupBar: View {
         }
     }
 
-    // MARK: - 默认按钮组
-
-    private var defaultButtons: some View {
-        HStack(spacing: 28) {
-            MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
-                controller.insertMarkup("## ")
-            }
-            MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
-                controller.insertMarkup("- ")
-            }
-            MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
-                controller.insertMarkup("> ")
-            }
-        }
-    }
-
     // MARK: - 上下文按钮组
 
     @ViewBuilder
     private var contextualButtons: some View {
         switch viewModel.context {
+        case .empty:
+            HStack(spacing: 28) {
+                MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
+                    controller.insertMarkup("## ")
+                }
+                MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
+                    controller.insertMarkup("- ")
+                }
+                MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
+                    controller.insertMarkup("> ")
+                }
+            }
+        case .headingLine:
+            // 光标在标题行：在不同标题级别之间切换
+            HStack(spacing: 28) {
+                MarkupButton(symbol: "#", label: LocalizedStringKey("Major Heading")) {
+                    controller.insertMarkup("# ")
+                }
+                MarkupButton(symbol: "##", label: LocalizedStringKey("Heading")) {
+                    controller.insertMarkup("## ")
+                }
+                MarkupButton(symbol: "###", label: LocalizedStringKey("Subheading")) {
+                    controller.insertMarkup("### ")
+                }
+            }
+        case .listLine:
+            // 光标在列表行：列表类型快捷切换
+            HStack(spacing: 28) {
+                MarkupButton(symbol: "-", label: LocalizedStringKey("Bulleted List")) {
+                    controller.insertMarkup("- ")
+                }
+                MarkupButton(symbol: "1.", label: LocalizedStringKey("Numbered List")) {
+                    controller.insertMarkup("1. ")
+                }
+                MarkupButton(symbol: "[ ]", label: LocalizedStringKey("Task List")) {
+                    controller.insertMarkup("- [ ] ")
+                }
+            }
+        case .quoteLine:
+            // 光标在引用行：常见的引用内补充
+            HStack(spacing: 28) {
+                MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
+                    controller.insertMarkup("> ")
+                }
+                MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
+                    controller.insertMarkup("- ")
+                }
+                MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
+                    controller.insertMarkup("## ")
+                }
+            }
+        case .codeBlock:
+            // 光标在围栏代码块内：仅提供与代码相关的格式
+            HStack(spacing: 28) {
+                MarkupButton(symbol: "`", label: LocalizedStringKey("Inline Code")) {
+                    controller.toggleInlineCode()
+                }
+                MarkupButton(symbol: "```", label: LocalizedStringKey("Code Block")) {
+                    controller.insertMarkup("```\n\n```")
+                }
+                MarkupButton(symbol: "---", label: LocalizedStringKey("Horizontal Rule")) {
+                    controller.insertMarkup("\n---\n")
+                }
+            }
         case .inlineText:
             HStack(spacing: 28) {
                 MarkupButton(symbol: "**", label: LocalizedStringKey("Bold")) {
@@ -151,7 +253,7 @@ struct UlyssesMarkupBar: View {
                     controller.insertLinkMarkup()
                 }
             }
-        case .fullLines, .mixedContent:
+        case .fullLines:
             HStack(spacing: 28) {
                 MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
                     controller.insertMarkup("## ")
@@ -163,8 +265,6 @@ struct UlyssesMarkupBar: View {
                     controller.insertMarkup("> ")
                 }
             }
-        case .none:
-            EmptyView()
         }
     }
 

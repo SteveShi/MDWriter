@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## [2.4.0] - 2026-05-23
+
+### Editor
+- **Context-Aware Markup Bar**: The bottom shortcut bar now adapts to the cursor and selection in real time, in the spirit of Ulysses.
+- **Heading Line Context**: Placing the cursor inside a heading line surfaces `#` / `##` / `###` to switch between heading levels.
+- **List Line Context**: Inside a bullet, numbered, or task list, the bar exposes `-` / `1.` / `[ ]` so list types can be swapped without leaving the keyboard.
+- **Blockquote Line Context**: Inside a `>` quote, the bar offers nested quote, list, and small heading insertion.
+- **Fenced Code Block Context**: When the cursor sits inside a ```` ``` ```` fenced block, the bar replaces structural buttons with code-relevant items (inline code, code block, horizontal rule).
+- **Inline vs Block Selection**: Selecting a word still shows `**` / `*` / `[` for inline formatting; selecting whole lines reverts to `##` / `-` / `>` for block formatting.
+
+### Reliability
+- **Selection Bounds Guard**: Hardened the markup bar's selection analyzer against out-of-range notifications from the editor to avoid rare crashes when the document is being rewritten.
+
+---
+
+### Chinese
+### 编辑器
+- **上下文敏感的快捷输入栏**：编辑器底部的快捷输入按钮现在会根据光标与选区实时变化，体验贴近 Ulysses。
+- **标题行上下文**：光标位于标题行时，按钮组切换为 `#` / `##` / `###`，方便在标题级别之间快速切换。
+- **列表行上下文**：光标位于无序、有序或任务列表时，按钮组变为 `-` / `1.` / `[ ]`，便于直接切换列表类型。
+- **引用行上下文**：光标位于 `>` 引用块内时，提供嵌套引用、列表与副标题的快速插入。
+- **围栏代码块上下文**：光标位于 ```` ``` ```` 围栏代码块内时，按钮组自动替换为与代码相关的行内代码、代码块、分隔线。
+- **行内与整行选区区分**：选中行内文本时显示 `**` / `*` / `[` 行内格式；选中整行或多行时回到 `##` / `-` / `>` 块级格式。
+
+### 稳定性
+- **选区边界防御**：为快捷输入栏的选区分析器加入越界保护，避免编辑器在文档高频重写时偶发的范围异常。
+
+
 ## [2.3.1] - 2026-05-17
 
 ### Markdown Engine
