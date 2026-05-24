@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [2.5.1] - 2026-05-24
+
+### Editor
+- **Heading Toggle, Not Append**: Tapping a heading button on the markup bar while the caret sits on a heading line now switches the heading level in place (Ulysses-style) instead of appending stray `##`/`###` to the line.
+- **Context-Aware Empty Line**: On a blank paragraph, the primary heading button adapts to the previous heading — H1   suggests H2, H2   suggests H3, otherwise   H1 — so the next logical level is always one click away.
+- **Clean Block-Prefix Switching**: List, task list, blockquote, and heading buttons now strip the existing block prefix before inserting the new one, preventing stacked markers like `# 标题 ##`.
+
+### Dependencies
+- **MDEditor 1.7.2**: New `replace(range:with:)` and `setSelectedRange(_:)` proxy APIs enable atomic row-level rewrites with correct caret placement; required by the new markup bar behavior.
+
+---
+
+### Chinese
+### 编辑器
+- **标题按钮切换而非追加**：光标停在标题行时点击 Markup Bar 的标题按钮，会以 Ulysses 风格"原地切换"标题级别，不再在行尾追加多余的 `##`/`###`。
+- **空行上下文继承**：空段落上的首要标题按钮会根据上一行的标题级别自适应——上一行 H1 推荐 H2，H2 推荐 H3，其他情况推荐 H1，下一级标题始终一键可达。
+- **干净的块前缀切换**：列表、任务列表、引用、标题按钮在写入新前缀前会先剥离原有的 block 前缀，避免出现 `# 标题 ##` 之类的层层叠加。
+
+### 依赖
+- **MDEditor 1.7.2**：新增 `replace(range:with:)` 与 `setSelectedRange(_:)` 代理 API，可在保持光标位置正确的前提下原子地改写整行；为新的 Markup Bar 行为所必需。
+
 ## [2.5.0] - 2026-05-23
 
 ### Editor
@@ -17,6 +38,7 @@
 
 ---
 
+### Chinese
 ### 编辑器
 - **配色方案实时联动**：8 套 Markdown 主题（Pure、Solarized Light/Dark、GitHub、Dracula、Nord、Monokai、Night Owl）现在会同步驱动编辑器的纸面底色、正文、标题、语法标记、行内/代码块底色、引用、链接与光标颜色，不再仅作用于 PDF 导出。
 - **编辑器背景同步**：编辑画布、顶部渐隐与底部快捷输入栏共享当前主题的纸面色，呈现接近 Ulysses 的整片书写表面。
@@ -40,6 +62,12 @@
 - **Fenced Code Block Context**: When the cursor sits inside a ```` ``` ```` fenced block, the bar replaces structural buttons with code-relevant items (inline code, code block, horizontal rule).
 - **Inline vs Block Selection**: Selecting a word still shows `**` / `*` / `[` for inline formatting; selecting whole lines reverts to `##` / `-` / `>` for block formatting.
 
+### Dependencies
+- **MDEditor 1.7.1**: Updated MDEditor to 1.7.1, which exposes real-time selection observation via `MDEditorProxy.onSelectionChange` plus synchronous `getSelectedRange()` / `getFullText()` queries. Required to drive the new context-aware markup bar.
+
+### Theming
+- **Pure Theme Dark Mode Fix**: The Pure (default) theme now ships a dedicated dark variant so the editor body, headings, and accents stay readable when the app is switched to dark appearance. Previously the canvas turned dark while the text kept its light-mode dark color, sinking the content into the background.
+
 ### Reliability
 - **Selection Bounds Guard**: Hardened the markup bar's selection analyzer against out-of-range notifications from the editor to avoid rare crashes when the document is being rewritten.
 
@@ -53,6 +81,12 @@
 - **引用行上下文**：光标位于 `>` 引用块内时，提供嵌套引用、列表与副标题的快速插入。
 - **围栏代码块上下文**：光标位于 ```` ``` ```` 围栏代码块内时，按钮组自动替换为与代码相关的行内代码、代码块、分隔线。
 - **行内与整行选区区分**：选中行内文本时显示 `**` / `*` / `[` 行内格式；选中整行或多行时回到 `##` / `-` / `>` 块级格式。
+
+### 依赖
+- **MDEditor 1.7.1**：将 MDEditor 升级至 1.7.1，新版通过 `MDEditorProxy.onSelectionChange` 提供实时选区订阅，并新增同步查询接口 `getSelectedRange()` / `getFullText()`。新上下文敏感快捷栏依赖该能力。
+
+### 主题
+- **纯净主题暗色模式修复**：为纯净（默认）主题补上专属的暗色配色，切到深色外观时编辑器正文、标题与强调色都保持高对比度，可清晰阅读。此前画布会变暗但文字仍保留浅色模式下的深色，整段正文沉入背景几乎不可见。
 
 ### 稳定性
 - **选区边界防御**：为快捷输入栏的选区分析器加入越界保护，避免编辑器在文档高频重写时偶发的范围异常。

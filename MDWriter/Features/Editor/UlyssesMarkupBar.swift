@@ -15,11 +15,15 @@ import SwiftUI
 // MARK: - 选区上下文类型
 
 /// Ulysses 风格的上下文枚举：根据光标/选区所在位置切换按钮组。
-enum SelectionContext: Equatable {
-    /// 无选区，普通段落
-    case empty
-    /// 无选区，光标位于标题行（# / ## / ###）
-    case headingLine
+enum SelectionContext: Equatable, Hashable {
+    /// 无选区，空段落。关联值是"基于上一行 heading 推荐"的下一级标题级别（1…3）。
+    /// - 纯空白文档或上一行不是 heading → 1（默认大标题）
+    /// - 上一行是 `# H1` → 2
+    /// - 上一行是 `## H2` → 3
+    /// - 上一行是 `### H3` 及更深 → 1（不再继续下沉）
+    case empty(suggestedHeadingLevel: Int)
+    /// 无选区，光标位于标题行（# / ## / ###）。关联值是当前行的 heading 级别（1…6）。
+    case headingLine(level: Int)
     /// 无选区，光标位于列表行（- / 1. / - [ ]）
     case listLine
     /// 无选区，光标位于引用行（>）
@@ -35,7 +39,7 @@ enum SelectionContext: Equatable {
 // MARK: - Markup Bar View Model
 
 class MarkupBarViewModel: ObservableObject {
-    @Published var context: SelectionContext = .empty
+    @Published var context: SelectionContext = .empty(suggestedHeadingLevel: 1)
     @Published var selectedText: String = ""
 
     /// 更新选区上下文
@@ -81,13 +85,10 @@ class MarkupBarViewModel: ObservableObject {
 
         let lineRange = text.lineRange(for: NSRange(location: range.location, length: 0))
         let line = text.substring(with: lineRange)
-        let trimmed = line.trimmingCharacters(in: .init(charactersIn: " \t"))
+        let trimmed = line.trimmingCharacters(in: .init(charactersIn: " \t\n\r"))
 
-        if trimmed.hasPrefix("# ") || trimmed.hasPrefix("## ") || trimmed.hasPrefix("### ")
-            || trimmed.hasPrefix("#### ") || trimmed.hasPrefix("##### ")
-            || trimmed.hasPrefix("###### ")
-        {
-            return .headingLine
+        if let level = Self.headingLevel(of: trimmed) {
+            return .headingLine(level: level)
         }
         if trimmed.hasPrefix(">") {
             return .quoteLine
@@ -99,7 +100,53 @@ class MarkupBarViewModel: ObservableObject {
         {
             return .listLine
         }
-        return .empty
+
+        // 空行（或不带任何 block 前缀的普通段落）：基于上一行 heading 级别给出推荐。
+        return .empty(suggestedHeadingLevel: suggestedHeadingLevel(
+            for: lineRange, in: text))
+    }
+
+    /// 解析行首 `#…#` 后跟空格的 heading 级别（1…6）；非 heading 返回 nil。
+    private static func headingLevel(of line: String) -> Int? {
+        var count = 0
+        for ch in line {
+            if ch == "#" {
+                count += 1
+                if count > 6 { return nil }
+            } else if ch == " " || ch == "\t" {
+                return count >= 1 ? count : nil
+            } else {
+                return nil
+            }
+        }
+        return nil
+    }
+
+    /// 当光标在空行/普通段落时，根据上一行 heading 级别推荐应当出现的下一级标题。
+    /// - 上一行是 H1 → 2；H2 → 3；其它（含 H3+/列表/正文/无上一行）→ 1。
+    private func suggestedHeadingLevel(for lineRange: NSRange, in text: NSString) -> Int {
+        var cursor = lineRange.location
+        // 向上跨过空白行
+        while cursor > 0 {
+            // 拿到前一行
+            let prevLineRange = text.lineRange(
+                for: NSRange(location: cursor - 1, length: 0))
+            let prevLine = text.substring(with: prevLineRange)
+                .trimmingCharacters(in: .init(charactersIn: " \t\n\r"))
+            if prevLine.isEmpty {
+                cursor = prevLineRange.location
+                continue
+            }
+            if let level = Self.headingLevel(of: prevLine) {
+                switch level {
+                case 1: return 2
+                case 2: return 3
+                default: return 1
+                }
+            }
+            return 1
+        }
+        return 1
     }
 
     /// 判断 "1. " / "12. " 等有序列表行
@@ -166,9 +213,19 @@ struct UlyssesMarkupBar: View {
             // 透明背景，与编辑器融为一体
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.context)
-        .onReceive(NotificationCenter.default.publisher(for: .editorSelectionChanged)) {
-            notification in
-            handleSelectionChange(notification)
+        // 跟随 EditorController 直接订阅 MDEditor 1.7.1+ 的实时选区/文本，
+        // 不再依赖 NotificationCenter，纯光标移动也能驱动上下文切换。
+        .onReceive(controller.$selectedRange) { range in
+            viewModel.updateContext(selectedRange: range, fullText: controller.fullText)
+        }
+        .onReceive(controller.$fullText) { text in
+            viewModel.updateContext(selectedRange: controller.selectedRange, fullText: text)
+        }
+        .onAppear {
+            viewModel.updateContext(
+                selectedRange: controller.selectedRange,
+                fullText: controller.fullText
+            )
         }
     }
 
@@ -177,55 +234,55 @@ struct UlyssesMarkupBar: View {
     @ViewBuilder
     private var contextualButtons: some View {
         switch viewModel.context {
-        case .empty:
+        case .empty(let suggestedLevel):
+            // 空段落：根据上一行 heading 推荐的下一级标题作为首要按钮。
+            // suggestedLevel=1 → 主推 H1；2 → 主推 H2；3 → 主推 H3。
             HStack(spacing: 28) {
-                MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
-                    controller.insertMarkup("## ")
-                }
+                emptyHeadingButton(for: suggestedLevel)
                 MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
-                    controller.insertMarkup("- ")
+                    controller.applyBlockPrefix("- ")
                 }
                 MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
-                    controller.insertMarkup("> ")
+                    controller.applyBlockPrefix("> ")
                 }
             }
         case .headingLine:
-            // 光标在标题行：在不同标题级别之间切换
+            // 光标在标题行：直接切换标题级别（替换前缀，而不是追加）
             HStack(spacing: 28) {
                 MarkupButton(symbol: "#", label: LocalizedStringKey("Major Heading")) {
-                    controller.insertMarkup("# ")
+                    controller.applyBlockPrefix("# ")
                 }
                 MarkupButton(symbol: "##", label: LocalizedStringKey("Heading")) {
-                    controller.insertMarkup("## ")
+                    controller.applyBlockPrefix("## ")
                 }
                 MarkupButton(symbol: "###", label: LocalizedStringKey("Subheading")) {
-                    controller.insertMarkup("### ")
+                    controller.applyBlockPrefix("### ")
                 }
             }
         case .listLine:
-            // 光标在列表行：列表类型快捷切换
+            // 光标在列表行：列表类型快捷切换（替换前缀）
             HStack(spacing: 28) {
                 MarkupButton(symbol: "-", label: LocalizedStringKey("Bulleted List")) {
-                    controller.insertMarkup("- ")
+                    controller.applyBlockPrefix("- ")
                 }
                 MarkupButton(symbol: "1.", label: LocalizedStringKey("Numbered List")) {
-                    controller.insertMarkup("1. ")
+                    controller.applyBlockPrefix("1. ")
                 }
                 MarkupButton(symbol: "[ ]", label: LocalizedStringKey("Task List")) {
-                    controller.insertMarkup("- [ ] ")
+                    controller.applyBlockPrefix("- [ ] ")
                 }
             }
         case .quoteLine:
-            // 光标在引用行：常见的引用内补充
+            // 光标在引用行：常见的引用内补充（替换前缀）
             HStack(spacing: 28) {
                 MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
-                    controller.insertMarkup("> ")
+                    controller.applyBlockPrefix("> ")
                 }
                 MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
-                    controller.insertMarkup("- ")
+                    controller.applyBlockPrefix("- ")
                 }
                 MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
-                    controller.insertMarkup("## ")
+                    controller.applyBlockPrefix("## ")
                 }
             }
         case .codeBlock:
@@ -256,14 +313,33 @@ struct UlyssesMarkupBar: View {
         case .fullLines:
             HStack(spacing: 28) {
                 MarkupButton(symbol: "##", label: LocalizedStringKey("Small Heading")) {
-                    controller.insertMarkup("## ")
+                    controller.applyBlockPrefix("## ")
                 }
                 MarkupButton(symbol: "-", label: LocalizedStringKey("List")) {
-                    controller.insertMarkup("- ")
+                    controller.applyBlockPrefix("- ")
                 }
                 MarkupButton(symbol: ">", label: LocalizedStringKey("Blockquote")) {
-                    controller.insertMarkup("> ")
+                    controller.applyBlockPrefix("> ")
                 }
+            }
+        }
+    }
+
+    /// 空段落首要标题按钮：根据上一行 heading 推荐当前应该呈现的级别。
+    @ViewBuilder
+    private func emptyHeadingButton(for level: Int) -> some View {
+        switch level {
+        case 1:
+            MarkupButton(symbol: "#", label: LocalizedStringKey("Major Heading")) {
+                controller.applyBlockPrefix("# ")
+            }
+        case 2:
+            MarkupButton(symbol: "##", label: LocalizedStringKey("Heading")) {
+                controller.applyBlockPrefix("## ")
+            }
+        default:
+            MarkupButton(symbol: "###", label: LocalizedStringKey("Subheading")) {
+                controller.applyBlockPrefix("### ")
             }
         }
     }
@@ -284,13 +360,6 @@ struct UlyssesMarkupBar: View {
         }
     }
 
-    private func handleSelectionChange(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let range = userInfo["range"] as? NSRange,
-            let text = userInfo["text"] as? String
-        else { return }
-        viewModel.updateContext(selectedRange: range, fullText: text)
-    }
 }
 
 // MARK: - Markup 按钮（仿 Ulysses 样式）
@@ -489,8 +558,6 @@ private struct PopoverItem: View {
         }
     }
 }
-
-// 注意: Notification.Name.editorSelectionChanged 已在 UlyssesTextView.swift 中定义
 
 #Preview {
     VStack {

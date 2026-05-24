@@ -96,10 +96,34 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
     }
 
     /// 将枚举映射成 MDEditor 编辑器主题，使 8 个配色在编辑器画面内生效。
-    func editorTheme() -> EditorTheme {
+    /// - Parameter appTheme: 当前 AppTheme，仅在 Pure 主题需要根据明暗切换文字配色时生效；
+    ///   其它主题自带固定明暗，不依赖此参数。
+    func editorTheme(for appTheme: AppTheme = .light) -> EditorTheme {
         switch self {
         case .pure:
-            return .default
+            switch appTheme {
+            case .light:
+                return .default
+            case .dark:
+                // Pure + Dark：使用与 AppTheme.dark.paperColor 一致的深色纸面，
+                // 文字与标题切到高对比度亮色，避免出现"黑底接近黑字"的不可读情况。
+                return EditorTheme(
+                    background: EditorThemeColor(red: 0.08, green: 0.08, blue: 0.09),
+                    foreground: EditorThemeColor(red: 0.90, green: 0.90, blue: 0.92),
+                    heading: EditorThemeColor(red: 1.00, green: 1.00, blue: 1.00),
+                    syntaxMarker: EditorThemeColor(
+                        red: 0.55, green: 0.55, blue: 0.60, alpha: 0.7),
+                    emphasis: EditorThemeColor(red: 0.97, green: 0.83, blue: 0.45),
+                    inlineCode: EditorThemeColor(red: 0.95, green: 0.60, blue: 0.55),
+                    inlineCodeBackground: EditorThemeColor(
+                        red: 0.16, green: 0.16, blue: 0.19),
+                    codeBlockBackground: EditorThemeColor(
+                        red: 0.16, green: 0.16, blue: 0.19),
+                    blockquote: EditorThemeColor(red: 0.65, green: 0.67, blue: 0.72),
+                    link: EditorThemeColor(red: 0.40, green: 0.60, blue: 1.00),
+                    insertionPoint: EditorThemeColor(red: 1.00, green: 1.00, blue: 1.00)
+                )
+            }
 
         case .solarizedLight:
             return EditorTheme(

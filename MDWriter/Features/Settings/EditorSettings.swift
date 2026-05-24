@@ -51,8 +51,17 @@ class EditorSettings: ObservableObject {
         didSet { notifyChange() }
     }
 
+    // 应用明暗主题（与 AppTheme 同源），用于决定 Pure 主题下编辑器文字颜色
+    @AppStorage("appTheme") var appThemeRaw: String = AppTheme.light.rawValue {
+        didSet { notifyChange() }
+    }
+
     private var currentMarkdownTheme: MarkdownTheme {
         MarkdownTheme(rawValue: markdownThemeRaw) ?? .pure
+    }
+
+    private var currentAppTheme: AppTheme {
+        AppTheme(rawValue: appThemeRaw) ?? .light
     }
 
     // 对外发布的配置快照
@@ -69,7 +78,7 @@ class EditorSettings: ObservableObject {
             firstLineIndent: 0.0,
             typewriterMode: true,
             markdownStandard: .markdownXL,
-            theme: MarkdownTheme.pure.editorTheme()
+            theme: MarkdownTheme.pure.editorTheme(for: AppTheme.light)
         )
 
         // Initial sync
@@ -98,7 +107,7 @@ class EditorSettings: ObservableObject {
             firstLineIndent: CGFloat(firstLineIndent),
             typewriterMode: typewriterMode,
             markdownStandard: markdownStandard,
-            theme: currentMarkdownTheme.editorTheme(),
+            theme: currentMarkdownTheme.editorTheme(for: currentAppTheme),
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)
             }
