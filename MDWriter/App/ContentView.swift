@@ -6,7 +6,7 @@
 //
 
 import AppKit
-import MDEditor
+import MDEditorKit
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
@@ -392,7 +392,11 @@ struct ContentView: View {
 
         panel.begin { response in
             if response == .OK, let url = panel.url {
-                if let filename = ImageManager.shared.saveImage(from: url) {
+                // 优先走 NSImage → imageSaver 路径，让 MDEditor 1.8.0 统一处理 markdown 注入；
+                // 若文件无法读为 NSImage，回退到原 URL 直接落盘的旧路径。
+                if let image = NSImage(contentsOf: url) {
+                    editorController.insertImage(image)
+                } else if let filename = ImageManager.shared.saveImage(from: url) {
                     editorController.insert("![](\(filename))")
                 }
             }

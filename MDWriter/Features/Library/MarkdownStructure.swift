@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MDEditor
+import MDEditorKit
 
 struct DocumentHeader: Identifiable, Hashable {
     let id = UUID()

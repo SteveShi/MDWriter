@@ -6,14 +6,14 @@ options:
     macOS: "14.0"
 
 settings:
-  MARKETING_VERSION: 2.5.1
-  CURRENT_PROJECT_VERSION: 251
+  MARKETING_VERSION: 2.5.3
+  CURRENT_PROJECT_VERSION: 253
   SWIFT_VERSION: 6.0
 
 packages:
-  MDEditor:
-    url: https://github.com/SteveShi/MDEditor.git
-    from: 1.7.2
+  MDEditorKit:
+    url: https://github.com/SteveShi/MDEditorKit.git
+    from: 2.0.0
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle
     from: 2.9.2
@@ -35,8 +35,8 @@ targets:
       ENABLE_APP_SANDBOX: NO
       GENERATE_INFOPLIST_FILE: NO
     dependencies:
-      - package: MDEditor
-        product: MDEditor
+      - package: MDEditorKit
+        product: MDEditorKit
       - package: Sparkle
         product: Sparkle
       - package: WhatsNewKit

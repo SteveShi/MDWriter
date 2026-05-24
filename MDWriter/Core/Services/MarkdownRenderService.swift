@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MDEditor
+import MDEditorKit
 
 struct MDWMarkdownRenderer {
     func renderHTML(from markdown: String, theme: MarkdownTheme) -> String {

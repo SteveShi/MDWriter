@@ -5,7 +5,7 @@
 //  Ulysses 风格的底部快捷工具栏
 //
 
-import MDEditor
+import MDEditorKit
 import SwiftUI
 
 struct UlyssesBottomToolbar: View {

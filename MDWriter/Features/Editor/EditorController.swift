@@ -3,9 +3,10 @@
 //  MDWriter
 //
 
+import AppKit
 import Combine
 import Foundation
-import MDEditor
+import MDEditorKit
 
 class EditorController: ObservableObject {
 
@@ -29,15 +30,23 @@ class EditorController: ObservableObject {
     @Published var selectedRange: NSRange = NSRange(location: 0, length: 0)
     @Published var fullText: String = ""
 
+    /// 编辑器文本统计 —— 由 MDEditor 1.8.0 的 onTextChange 实时驱动。
+    @Published var stats: EditorStats = EditorStats(
+        characterCount: 0, wordCount: 0, lineCount: 0)
+
     // MARK: - Init
 
     init() {
-        // 在 MDEditor 派发选区/光标变化时同步到 @Published。
-        // onSelectionChange 在主线程调用，可直接赋值给 @Published。
+        // 选区 / 光标变化
         proxy.onSelectionChange = { [weak self] range, text in
             guard let self = self else { return }
             self.selectedRange = range
             self.fullText = text
+        }
+        // 文本变化（驱动统计快照，避免每次 UI 查询时重新计算全文）
+        proxy.onTextChange = { [weak self] _ in
+            guard let self = self else { return }
+            self.stats = self.proxy.stats()
         }
     }
 
@@ -57,13 +66,10 @@ class EditorController: ObservableObject {
     /// - Parameter prefix: 新前缀，含尾随空格，如 `"## "`、`"- "`、`"1. "`、`"- [ ] "`、`"> "`。
     ///                     传 `""` 表示去掉所有 block 前缀（变回普通段落）。
     func applyBlockPrefix(_ prefix: String) {
-        let text = proxy.getFullText() as NSString
+        // 直接使用 MDEditor 1.8.0 提供的行级 helper，避免外部再算一次 lineRange。
+        let lineRange = proxy.getCurrentLineRange()
+        var line = proxy.getCurrentLineText()
         let selection = proxy.getSelectedRange()
-        guard selection.location <= text.length else { return }
-
-        let lineRange = text.lineRange(
-            for: NSRange(location: selection.location, length: 0))
-        var line = text.substring(with: lineRange)
 
         // 保留行尾换行符；切换前缀只影响行内文本。
         var trailingNewline = ""
@@ -81,7 +87,7 @@ class EditorController: ObservableObject {
         let body = Self.stripBlockPrefix(afterIndent)
 
         let newLine = leadingWhitespace + prefix + body + trailingNewline
-        proxy.replace(range: lineRange, with: newLine)
+        proxy.replaceCurrentLine(with: newLine)
 
         // 把光标维持在"正文的相对偏移"上，避免跳到行首打断输入。
         let oldPrefixLen = (afterIndent as NSString).length - (body as NSString).length
@@ -152,6 +158,12 @@ class EditorController: ObservableObject {
         proxy.insert("![alt text](image_url)")
     }
 
+    /// 插入一张 NSImage —— 透过 EditorConfiguration.imageSaver 完成落盘，
+    /// 编辑器会自动写入 `![alt](filename)`。宿主未配置 imageSaver 时不插入任何内容。
+    func insertImage(_ image: NSImage, altText: String = "") {
+        proxy.insertImage(image, altText: altText)
+    }
+
     // MARK: - Markup Bar Toggle
 
     func toggleMarkupBar() {
@@ -175,4 +187,34 @@ class EditorController: ObservableObject {
     func replaceAll() {
         proxy.replaceAll(search: searchText, with: replaceText)
     }
+
+    // MARK: - Undo / Redo
+
+    func undo() { proxy.undo() }
+    func redo() { proxy.redo() }
+    var canUndo: Bool { proxy.canUndo }
+    var canRedo: Bool { proxy.canRedo }
+
+    // MARK: - Focus
+
+    /// 让编辑器拿回第一响应者身份（例如关闭 Find Bar 后回到正文）。
+    func focusEditor() { proxy.focus() }
+    func resignEditorFocus() { proxy.resignFocus() }
+
+    // MARK: - Scroll
+
+    func scrollRangeToVisible(_ range: NSRange) { proxy.scrollRangeToVisible(range) }
+    func scrollToTop() { proxy.scrollToTop() }
+    func scrollToBottom() { proxy.scrollToBottom() }
+
+    // MARK: - Selection Helpers
+
+    func selectAll() { proxy.selectAll() }
+    func selectCurrentLine() { proxy.selectLine() }
+    func selectCurrentParagraph() { proxy.selectParagraph() }
+
+    // MARK: - Caret Geometry
+
+    /// 当前光标在所属窗口坐标系内的矩形，可用于浮动气泡或内联补全弹层定位。
+    func caretFrameInWindow() -> CGRect? { proxy.caretFrameInWindow() }
 }

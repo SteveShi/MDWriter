@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## [2.5.3] - 2026-05-24
+
+### Dependencies
+- **MDEditor → MDEditorKit**: The editor package has been renamed `MDEditorKit` (now hosted at `github.com/SteveShi/MDEditorKit`) and bumped to **2.0.0**. All Swift sources now `import MDEditorKit`; the public type names (`MDEditorView`, `MDEditorProxy`, `EditorConfiguration`, `EditorTheme`, `EditorStats`) are unchanged.
+- **Prebuilt XCFramework Available**: Each MDEditorKit release now ships a prebuilt `MDEditorKit.xcframework.zip` as a GitHub Release asset, so downstream Xcode projects can integrate via SwiftPM (from source) or by dragging the XCFramework in directly.
+
+---
+
+### Chinese
+### 依赖
+- **MDEditor → MDEditorKit**：编辑器包改名为 `MDEditorKit`（仓库迁移到 `github.com/SteveShi/MDEditorKit`），版本升至 **2.0.0**。所有 Swift 源文件改用 `import MDEditorKit`；`MDEditorView`、`MDEditorProxy`、`EditorConfiguration`、`EditorTheme`、`EditorStats` 等公开类型名保持不变。
+- **预编译 XCFramework 可用**：MDEditorKit 每个 release 都会作为 GitHub Release 资产附带 `MDEditorKit.xcframework.zip`，下游 Xcode 项目可继续走 SwiftPM 源码集成，也可直接拖入 XCFramework。
+
+## [2.5.2] - 2026-05-24
+
+### Editor
+- **Live Document Stats**: Character / word / line counts now refresh through the editor's own `onTextChange` stream — no more recomputing the whole document inside SwiftUI on every keystroke.
+- **Smarter Image Insertion**: The toolbar's image picker now hands the picked file to MDEditor as an `NSImage`; the editor saves it through the configured `imageSaver` and writes the Markdown reference in one atomic step.
+- **Block-Prefix Switching Uses Editor Helpers**: The Ulysses-style heading / list / quote toggle now relies on `proxy.getCurrentLineRange()` and `proxy.replaceCurrentLine(_:)` instead of recomputing line ranges in the host app — fewer chances for caret drift.
+
+### Internals
+- **EditorController API Surface**: New host-side methods for undo/redo, focus management, scroll, line/paragraph selection, and caret rect — wired through the editor proxy, ready to back up future popovers, mini-map jumps, and stats UI.
+
+### Dependencies
+- **MDEditor 1.8.0**: Adds `onTextChange`, current-line helpers, undo/redo, focus, scroll, caret-in-window, selection helpers, `EditorStats`, `insertImage`, attributed-string export, and indent / outdent on the proxy. `EditorConfiguration` gains an `imageSaver` hook so hosts can decide image storage policy.
+
+---
+
+### Chinese
+### 编辑器
+- **实时文档统计**：字符 / 词 / 行数改由编辑器的 `onTextChange` 事件驱动，每次按键不再让 SwiftUI 重新遍历整篇文本。
+- **更聪明的图片插入**：工具栏的图片选择器现在把所选文件以 `NSImage` 交给 MDEditor，由编辑器统一通过 `imageSaver` 落盘并一次性写入 Markdown 引用。
+- **块前缀切换走编辑器辅助方法**：Ulysses 风格的标题 / 列表 / 引用切换改用 `proxy.getCurrentLineRange()` 与 `proxy.replaceCurrentLine(_:)`，宿主不再自己算行边界，光标更稳。
+
+### 内部架构
+- **EditorController 接口扩面**：新增撤销/重做、焦点切换、滚动、行/段选中、光标矩形等宿主侧方法，全部经由编辑器代理实现，为后续浮动气泡、小地图跳转、统计 UI 等留好接口。
+
+### 依赖
+- **MDEditor 1.8.0**：代理新增 `onTextChange`、当前行辅助、撤销/重做、焦点、滚动、窗口内光标矩形、选择辅助、`EditorStats`、`insertImage`、富文本导出、缩进 / 反缩进；`EditorConfiguration` 增加 `imageSaver`，由宿主决定图片落盘策略。
+
 ## [2.5.1] - 2026-05-24
 
 ### Editor

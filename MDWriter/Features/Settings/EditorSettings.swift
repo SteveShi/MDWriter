@@ -1,5 +1,5 @@
 import Combine
-import MDEditor
+import MDEditorKit
 import SwiftUI
 
 extension MarkdownStandard {
@@ -110,6 +110,9 @@ class EditorSettings: ObservableObject {
             theme: currentMarkdownTheme.editorTheme(for: currentAppTheme),
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)
+            },
+            imageSaver: { image in
+                ImageManager.shared.saveImage(image)
             }
         )
 

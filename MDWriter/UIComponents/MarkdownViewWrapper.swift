@@ -1,5 +1,5 @@
 import SwiftUI
-import MDEditor
+import MDEditorKit
 
 struct MarkdownViewWrapper: View {
     let text: String

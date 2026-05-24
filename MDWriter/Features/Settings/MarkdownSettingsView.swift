@@ -5,7 +5,7 @@
 //  Created by Gemini on 2026/01/13.
 //
 
-import MDEditor
+import MDEditorKit
 import SwiftUI
 
 // MARK: - Ulysses 风格语法元素描述

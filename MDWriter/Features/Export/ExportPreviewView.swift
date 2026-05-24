@@ -1,6 +1,6 @@
 import AppKit
 import Foundation
-import MDEditor
+import MDEditorKit
 import SwiftUI
 import UniformTypeIdentifiers
 import WebKit

@@ -9,7 +9,7 @@
 //
 
 import Combine
-import MDEditor
+import MDEditorKit
 import SwiftUI
 
 // MARK: - 选区上下文类型

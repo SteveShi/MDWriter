@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MDEditor
+import MDEditorKit
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
