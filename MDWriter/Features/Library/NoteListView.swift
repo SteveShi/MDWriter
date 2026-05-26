@@ -14,6 +14,7 @@ struct NoteListView: View {
     @Query private var notes: [Note]
 
     @Binding var selectedNote: Note?
+    @FocusState private var isListFocused: Bool
     let selectionMode: LibraryView.SelectionMode
     let searchText: String
 
@@ -89,7 +90,7 @@ struct NoteListView: View {
     var body: some View {
         List(selection: $selectedNote) {
             ForEach(notes) { note in
-                NoteRowView(note: note, searchText: searchText, isSelected: selectedNote == note)
+                NoteRowView(note: note, searchText: searchText, isSelected: selectedNote == note, isListFocused: isListFocused)
                     .tag(note)
                     .draggable(NoteTransfer(id: note.persistentModelID))
                     .contextMenu {
@@ -123,6 +124,7 @@ struct NoteListView: View {
             }
             .onMove(perform: moveNotes)
         }
+        .focused($isListFocused)
         .listStyle(.inset)
     }
 

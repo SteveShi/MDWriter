@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [2.5.6] - 2026-05-26
+
+### Library
+- **Focused Selection Contrast Fix**: Resolved an issue where selected document row text was white and illegible against the light gray background when the document list lost focus in light mode.
+
+---
+
+### Chinese
+### 文稿库
+- **焦点切换后的选中对比度修复**：修复了在浅色模式下，当文档列表失去焦点后，选中行文字呈白色导致在浅灰色非活动选中背景下难以识别的缺陷。
+
 ## [2.5.5] - 2026-05-26
 
 ### Library

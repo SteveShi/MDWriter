@@ -446,11 +446,12 @@ struct NoteRowView: View {
     let note: Note
     let searchText: String
     var isSelected: Bool = false
+    var isListFocused: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.controlActiveState) private var controlActiveState
 
     private var usesMutedSelectionText: Bool {
-        isSelected && controlActiveState != .key && colorScheme == .light
+        isSelected && (controlActiveState != .key || !isListFocused) && colorScheme == .light
     }
 
     private var titleColor: Color {
