@@ -447,6 +447,26 @@ struct NoteRowView: View {
     let searchText: String
     var isSelected: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.controlActiveState) private var controlActiveState
+
+    private var usesInactiveSelectionText: Bool {
+        isSelected && controlActiveState == .inactive && colorScheme == .light
+    }
+
+    private var titleColor: Color {
+        guard isSelected else { return .primary }
+        return usesInactiveSelectionText ? .primary : .white
+    }
+
+    private var dateColor: Color {
+        guard isSelected else { return .secondary.opacity(0.8) }
+        return usesInactiveSelectionText ? .secondary.opacity(0.85) : .white.opacity(0.8)
+    }
+
+    private var summaryColor: Color {
+        guard isSelected else { return .secondary }
+        return usesInactiveSelectionText ? .secondary : .white.opacity(0.9)
+    }
 
     // 使用 AttributedString 进行高保真 Markdown 解析
     private var summaryAttributedString: AttributedString {
@@ -468,17 +488,17 @@ struct NoteRowView: View {
                 Text(note.title)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .lineLimit(1)
-                    .foregroundColor(isSelected ? .white : .primary)
+                    .foregroundColor(titleColor)
                 Spacer()
                 Text(note.modifiedAt, style: .date)
                     .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary.opacity(0.8))
+                    .foregroundColor(dateColor)
             }
 
             // 渲染解析后的 AttributedString
             Text(summaryAttributedString)
                 .font(.system(size: 12))
-                .foregroundColor(isSelected ? .white.opacity(0.9) : .secondary)
+                .foregroundColor(summaryColor)
                 .lineLimit(2)
                 .frame(maxHeight: 32, alignment: .topLeading)
                 .lineSpacing(2)

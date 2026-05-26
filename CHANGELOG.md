@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [2.5.4] - 2026-05-26
+
+### Library
+- **Inactive Selection Readability**: Selected document rows now switch back to primary and secondary text colors when the app window loses focus in light mode, keeping the highlighted document title and summary readable against macOS's inactive selection background.
+
+---
+
+### Chinese
+### 文稿库
+- **失焦选中态可读性**：浅色模式下，当应用窗口失去焦点时，已选中文稿行会切回主文本与次级文本颜色，让高亮文稿的标题和摘要在 macOS 非活动选中背景上依然清晰。
+
 ## [2.5.3] - 2026-05-24
 
 ### Dependencies
