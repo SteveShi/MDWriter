@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [2.5.5] - 2026-05-26
+
+### Library
+- **Focused Selection Contrast**: Document rows now keep readable primary and secondary text colors whenever the note list selection is muted in light mode, including the common case where the editor keeps focus while the selected document remains highlighted in gray.
+
+---
+
+### Chinese
+### 文稿库
+- **焦点切换后的选中对比度**：浅色模式下，只要文稿列表选区进入灰色弱化状态，文稿行文字就会保持主文本与次级文本颜色；包括编辑器仍然获得焦点、但选中文稿在列表中以灰色高亮保留的常见场景。
+
 ## [2.5.4] - 2026-05-26
 
 ### Library

@@ -449,23 +449,23 @@ struct NoteRowView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.controlActiveState) private var controlActiveState
 
-    private var usesInactiveSelectionText: Bool {
-        isSelected && controlActiveState == .inactive && colorScheme == .light
+    private var usesMutedSelectionText: Bool {
+        isSelected && controlActiveState != .key && colorScheme == .light
     }
 
     private var titleColor: Color {
         guard isSelected else { return .primary }
-        return usesInactiveSelectionText ? .primary : .white
+        return usesMutedSelectionText ? .primary : .white
     }
 
     private var dateColor: Color {
         guard isSelected else { return .secondary.opacity(0.8) }
-        return usesInactiveSelectionText ? .secondary.opacity(0.85) : .white.opacity(0.8)
+        return usesMutedSelectionText ? .secondary.opacity(0.85) : .white.opacity(0.8)
     }
 
     private var summaryColor: Color {
         guard isSelected else { return .secondary }
-        return usesInactiveSelectionText ? .secondary : .white.opacity(0.9)
+        return usesMutedSelectionText ? .secondary : .white.opacity(0.9)
     }
 
     // 使用 AttributedString 进行高保真 Markdown 解析
