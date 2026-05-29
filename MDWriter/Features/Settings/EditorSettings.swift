@@ -99,7 +99,17 @@ class EditorSettings: ObservableObject {
     }
 
     private func updateConfiguration() {
-        let newConfig = EditorConfiguration(
+        let zoom = UserDefaults.standard.double(forKey: "textZoom")
+        let textZoom = zoom > 0 ? zoom : 1.0
+        
+        let showMarkup = UserDefaults.standard.object(forKey: "markdownShowMarkup") as? Bool ?? true
+        
+        var theme = currentMarkdownTheme.editorTheme(for: currentAppTheme)
+        if !showMarkup {
+            theme.syntaxMarker = theme.syntaxMarker.opacity(0.0)
+        }
+
+        var newConfig = EditorConfiguration(
             fontName: fontName,
             lineHeightMultiple: CGFloat(lineHeightMultiple),
             contentWidth: CGFloat(contentWidth),
@@ -107,7 +117,7 @@ class EditorSettings: ObservableObject {
             firstLineIndent: CGFloat(firstLineIndent),
             typewriterMode: typewriterMode,
             markdownStandard: markdownStandard,
-            theme: currentMarkdownTheme.editorTheme(for: currentAppTheme),
+            theme: theme,
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)
             },
@@ -115,6 +125,7 @@ class EditorSettings: ObservableObject {
                 ImageManager.shared.saveImage(image)
             }
         )
+        newConfig.fontSize = 17.0 * CGFloat(textZoom)
 
         if self.configuration != newConfig {
             self.configuration = newConfig

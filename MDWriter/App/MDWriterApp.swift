@@ -20,7 +20,6 @@ struct MDWriterApp: App {
 
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
-    @AppStorage("showDashboard") var showDashboard: Bool = false
     @AppStorage("showOutline") var showOutline: Bool = false
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
@@ -102,7 +101,7 @@ struct MDWriterApp: App {
             EditCommands()
             ViewCommands(
                 showLibrary: $showLibrary,
-                showDashboard: $showDashboard,
+                showDashboard: $showOutline,
                 showOutline: $showOutline,
                 textZoom: Binding(get: { CGFloat(textZoom) }, set: { textZoom = Double($0) }),
                 currentTheme: $currentTheme

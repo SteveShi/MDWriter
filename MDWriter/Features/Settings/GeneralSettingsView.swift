@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GeneralSettingsView: View {
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
-    @AppStorage("showDashboard") private var showDashboard: Bool = false
+    @AppStorage("showOutline") private var showOutline: Bool = false
     @AppStorage("showLibrary") private var showLibrary: Bool = true
     @AppStorage("SUEnableAutomaticChecks") private var automaticallyCheckForUpdates: Bool = true
     
@@ -34,7 +34,7 @@ struct GeneralSettingsView: View {
             // Section 2: Sidebar & Panels
             Section(header: Text(LocalizedStringKey("Sidebar & Panels"))) {
                 Toggle(LocalizedStringKey("Show Library Sidebar by default"), isOn: $showLibrary)
-                Toggle(LocalizedStringKey("Show Statistics Dashboard"), isOn: $showDashboard)
+                Toggle(LocalizedStringKey("Show Statistics Dashboard"), isOn: $showOutline)
             }
 
             // Section 3: Updates

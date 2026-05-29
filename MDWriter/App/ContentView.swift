@@ -48,7 +48,6 @@ struct ContentView: View {
     @ObservedObject private var editorSettings = EditorSettings.shared
 
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
-    @AppStorage("showDashboard") private var showDashboard: Bool = false
     @AppStorage("markdownTheme") private var markdownTheme: MarkdownTheme = .pure
     @Environment(\.colorScheme) var systemScheme
 

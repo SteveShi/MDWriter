@@ -106,10 +106,18 @@ class AIService {
                 Output only the summary, nothing else.
                 """
         case .translate:
+            let target = UserDefaults.standard.string(forKey: "aiTranslationTarget") ?? "auto"
+            let targetInstruction: String
+            switch target {
+            case "en":
+                targetInstruction = "Translate the input text to English."
+            case "zh-Hans":
+                targetInstruction = "Translate the input text to Simplified Chinese."
+            default:
+                targetInstruction = "If the input text is in Chinese, translate it to English. If the input text is in English or another language, translate it to Simplified Chinese."
+            }
             instructions = """
-                You are a professional translator. If the input text is in Chinese, translate it \
-                to English. If the input text is in English or another language, translate it to \
-                Simplified Chinese. Preserve formatting including Markdown syntax. \
+                You are a professional translator. \(targetInstruction) Preserve formatting including Markdown syntax. \
                 Output only the translated text, nothing else.
                 """
         case .generateTitle:

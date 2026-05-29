@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## [2.5.7] - 2026-05-30
+
+### Settings
+- **Dashboard Synchronization**: Unified the sidebar control logic under a single `showOutline` state key, resolving a bug where the general settings toggle and view menu commands for the statistics dashboard had no visual effect.
+- **Editor Text Zoom**: Connected the view menu's Zoom In, Zoom Out, and Actual Size commands to the editor, allowing fluid real-time scaling of the editing text font size.
+- **Show Markup Characters**: Linked the Markdown settings' "Show Markup Characters" toggle to the editor view, enabling users to hide markdown markers (like `#`, `*`, `_`) by making them transparent.
+- **AI Translation Target Language**: Connected the AI settings' translation target language picker (English, Simplified Chinese, Auto Detect) to the Apple Intelligence translation assistant.
+
+---
+
+### Chinese
+### 设置
+- **侧边栏同步**：将 Dashboard 右侧栏的控制逻辑统一至 `showOutline` 状态，修复了通用设置中的“显示统计控制面板”开关和视图菜单中的“显示统计控制面板”命令无效的缺陷。
+- **编辑器文本缩放**：将视图菜单中的放大、缩小、实际大小命令与编辑器字号对接，实现了对编辑文本字号的实时缩放。
+- **显示标记字符**：将 Markdown 设置中的“显示标记字符”开关与编辑器对接，支持通过将 `#`、`*`、`_` 等标记字符设为透明色在视觉上予以隐藏。
+- **AI 翻译目标语言**：将 AI 设置中的翻译目标语言选择（英文、简体中文、自动检测）与 Apple Intelligence 翻译助手对接。
+
 ## [2.5.6] - 2026-05-26
 
 ### Library
