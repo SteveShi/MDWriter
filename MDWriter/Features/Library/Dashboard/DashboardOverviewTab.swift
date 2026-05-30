@@ -1,8 +1,3 @@
-//
-//  DashboardOverviewTab.swift
-//  MDWriter
-//
-
 import SwiftUI
 
 struct OverviewTab: View {
@@ -13,9 +8,8 @@ struct OverviewTab: View {
     @AppStorage("dashboard.overview.showKeywords") private var showKeywords = true
     @AppStorage("dashboard.overview.showOutline") private var showOutline = true
 
-    private var stats: DocumentStatistics {
-        DocumentStatistics.calculate(from: text)
-    }
+    @State private var stats: DocumentStatistics?
+    @State private var firstHeader: DocumentHeader?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -24,21 +18,26 @@ struct OverviewTab: View {
                 VStack(alignment: .leading, spacing: 12) {
                     SectionHeader(title: LocalizedStringKey("Progress"), icon: "target")
 
-                    HStack {
-                        StatCompactRow(
-                            label: LocalizedStringKey("Characters"), value: "\(stats.characters)")
-                        Spacer()
-                    }
-                    HStack {
-                        StatCompactRow(label: LocalizedStringKey("Words"), value: "\(stats.words)")
-                        Spacer()
-                    }
-                    HStack {
-                        StatCompactRow(
-                            label: LocalizedStringKey("Average"),
-                            value:
-                                "\(stats.readingTime) \(String(localized: "Seconds"))")
-                        Spacer()
+                    if let stats = stats {
+                        HStack {
+                            StatCompactRow(
+                                label: LocalizedStringKey("Characters"), value: "\(stats.characters)")
+                            Spacer()
+                        }
+                        HStack {
+                            StatCompactRow(label: LocalizedStringKey("Words"), value: "\(stats.words)")
+                            Spacer()
+                        }
+                        HStack {
+                            StatCompactRow(
+                                label: LocalizedStringKey("Average"),
+                                value:
+                                    "\(stats.readingTime) \(String(localized: "Seconds"))")
+                            Spacer()
+                        }
+                    } else {
+                        ProgressView()
+                            .controlSize(.small)
                     }
                 }
                 Divider().opacity(0.5)
@@ -100,8 +99,7 @@ struct OverviewTab: View {
                 VStack(alignment: .leading, spacing: 12) {
                     SectionHeader(title: LocalizedStringKey("Outline"), icon: nil)
 
-                    let headers = MDHeaderParser.parseHeaders(from: text)
-                    if let first = headers.first {
+                    if let first = firstHeader {
                         HStack {
                             Image(systemName: "circle")
                                 .font(.system(size: 8))
@@ -120,6 +118,17 @@ struct OverviewTab: View {
                     }
                 }
             }
+        }
+        .task(id: text) {
+            // 后台计算统计信息和第一个标题
+            let result = await Task.detached {
+                let newStats = DocumentStatistics.calculate(from: text)
+                let headers = MDHeaderParser.parseHeaders(from: text)
+                return (newStats, headers.first)
+            }.value
+
+            stats = result.0
+            firstHeader = result.1
         }
     }
 }

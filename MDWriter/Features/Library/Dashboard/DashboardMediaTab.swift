@@ -1,21 +1,9 @@
-//
-//  DashboardMediaTab.swift
-//  MDWriter
-//
-
 import SwiftUI
 
 struct MediaTab: View {
     var text: String
 
-    private var images: [String] {
-        let pattern = #"!\[.*?\]\((.*?)\)"#
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return [] }
-        let nsString = text as NSString
-        let results = regex.matches(
-            in: text, options: [], range: NSRange(location: 0, length: nsString.length))
-        return results.map { nsString.substring(with: $0.range(at: 1)) }
-    }
+    @State private var images: [String] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -82,6 +70,18 @@ struct MediaTab: View {
                 .font(.caption)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundColor(.secondary)
+        }
+        .task(id: text) {
+            // 后台解析图片路径
+            let parsed = await Task.detached { () -> [String] in
+                let pattern = #"!\[.*?\]\((.*?)\)"#
+                guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return [] }
+                let nsString = text as NSString
+                let results = regex.matches(
+                    in: text, options: [], range: NSRange(location: 0, length: nsString.length))
+                return results.map { nsString.substring(with: $0.range(at: 1)) }
+            }.value
+            images = parsed
         }
     }
 }

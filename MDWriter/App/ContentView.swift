@@ -43,6 +43,7 @@ struct ContentView: View {
     @State private var showExporter: Bool = false
     @State private var showExportPreview: Bool = false
     @State private var autosaveTask: Task<Void, Never>? = nil
+    @State private var updateInfoTask: Task<Void, Never>? = nil
 
     @StateObject private var editorController = EditorController()
     @ObservedObject private var editorSettings = EditorSettings.shared
@@ -91,11 +92,17 @@ struct ContentView: View {
                     .ignoresSafeArea()
                     .padding(.top, 40) // Add room for top fade/title
                     .onChange(of: note.content) { oldValue, newValue in
-                        updateInfo()
-                        
+                        // 使用防抖机制，避免每次输入都触发解析
+                        updateInfoTask?.cancel()
+                        updateInfoTask = Task { @MainActor in
+                            try? await Task.sleep(nanoseconds: 500_000_000) // 500ms 防抖
+                            guard !Task.isCancelled else { return }
+                            updateInfo()
+                        }
+
                         // Auto-update title from first line
                         let lines = newValue.components(separatedBy: .newlines)
-                        if let firstLine = lines.first, 
+                        if let firstLine = lines.first,
                            !firstLine.trimmingCharacters(in: .whitespaces).isEmpty {
                             // Strip markdown headers (# )
                             let titleText = firstLine.trimmingCharacters(in: CharacterSet(charactersIn: "# ")).trimmingCharacters(in: .whitespaces)
@@ -105,7 +112,7 @@ struct ContentView: View {
                         } else if note.content.isEmpty {
                             note.title = String(localized: "New Note")
                         }
-                        
+
                         // 更新修改时间并触发自动保存
                         note.modifiedAt = Date()
                         scheduleAutoSave()
@@ -428,11 +435,13 @@ struct ContentView: View {
             return
         }
 
-        Task {
+        Task.detached {
             let newHeaders = MDHeaderParser.parseHeaders(from: content)
             let newStats = DocumentStatistics.calculate(from: content)
-            self.headers = newHeaders
-            self.stats = newStats
+            await MainActor.run {
+                self.headers = newHeaders
+                self.stats = newStats
+            }
         }
     }
 }

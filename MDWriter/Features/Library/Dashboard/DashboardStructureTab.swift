@@ -1,19 +1,14 @@
-//
-//  DashboardStructureTab.swift
-//  MDWriter
-//
-
 import SwiftUI
 
 struct StructureTab: View {
     var text: String
     @AppStorage("dashboard.outline.maxDepth") private var maxDepth = 6
 
+    @State private var headers: [DocumentHeader] = []
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionHeader(title: LocalizedStringKey("Outline"), icon: nil)
-
-            let headers = MDHeaderParser.parseHeaders(from: text).filter { $0.level <= maxDepth }
 
             if headers.isEmpty {
                 Text(LocalizedStringKey("No Structure"))
@@ -35,6 +30,13 @@ struct StructureTab: View {
                     .padding(.vertical, 4)
                 }
             }
+        }
+        .task(id: text) {
+            // 后台解析标题结构
+            let parsed = await Task.detached {
+                MDHeaderParser.parseHeaders(from: text).filter { $0.level <= maxDepth }
+            }.value
+            headers = parsed
         }
     }
 }

@@ -369,8 +369,7 @@ struct LibraryView: View {
         openPanel.begin { response in
             if response == .OK, let url = openPanel.url, let data = try? Data(contentsOf: url) {
 
-                // Alert confirm replace or merge?
-                // For simplified UX, let's ask: "Replace Library" or "Cancel" (since restore implies full restore usually)
+                // 第一次确认
                 let alert = NSAlert()
                 alert.messageText = String(localized: "Restore Library")
                 alert.informativeText =
@@ -380,10 +379,53 @@ struct LibraryView: View {
                     )
                 alert.addButton(withTitle: String(localized: "Restore"))
                 alert.addButton(withTitle: String(localized: "Cancel"))
+                alert.alertStyle = .warning
 
                 if alert.runModal() == .alertFirstButtonReturn {
-                    try? BackupManager.shared.restoreBackup(
-                        from: data, context: modelContext, replaceLibrary: true)
+                    // 第二次确认（严重操作）
+                    let confirmAlert = NSAlert()
+                    confirmAlert.messageText = String(localized: "Final Confirmation")
+                    confirmAlert.informativeText =
+                        String(
+                            localized:
+                                "All current notes and folders will be permanently deleted. Are you absolutely sure?"
+                        )
+                    confirmAlert.addButton(withTitle: String(localized: "Yes, Replace All Data"))
+                    confirmAlert.addButton(withTitle: String(localized: "Cancel"))
+                    confirmAlert.alertStyle = .critical
+
+                    if confirmAlert.runModal() == .alertFirstButtonReturn {
+                        // 在删除前自动创建安全备份
+                        let safetyBackupData = try? BackupManager.shared.createBackupData(
+                            context: modelContext)
+                        if let safetyBackupData = safetyBackupData {
+                            let timestamp = ISO8601DateFormatter().string(from: Date())
+                            let safetyBackupURL = FileManager.default.temporaryDirectory
+                                .appendingPathComponent("MDWriter_SafetyBackup_\(timestamp).mdwbk")
+                            try? safetyBackupData.write(to: safetyBackupURL)
+                            print("[Safety] Created backup at: \(safetyBackupURL.path)")
+                        }
+
+                        // 执行恢复
+                        do {
+                            try BackupManager.shared.restoreBackup(
+                                from: data, context: modelContext, replaceLibrary: true)
+
+                            // 成功提示
+                            let successAlert = NSAlert()
+                            successAlert.messageText = String(localized: "Restore Complete")
+                            successAlert.informativeText = String(localized: "Library has been restored successfully.")
+                            successAlert.alertStyle = .informational
+                            successAlert.runModal()
+                        } catch {
+                            // 错误提示
+                            let errorAlert = NSAlert()
+                            errorAlert.messageText = String(localized: "Restore Failed")
+                            errorAlert.informativeText = error.localizedDescription
+                            errorAlert.alertStyle = .critical
+                            errorAlert.runModal()
+                        }
+                    }
                 }
             }
         }

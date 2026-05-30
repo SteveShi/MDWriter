@@ -313,9 +313,11 @@ struct NoteTransfer: Codable, Transferable, Sendable {
 
     static var transferRepresentation: some TransferRepresentation {
         ProxyRepresentation(exporting: { noteTransfer in
-            let data = try! JSONEncoder().encode(noteTransfer.id)
-            let base64 = data.base64EncodedString()
-            return URL(string: "mdwriter://note/\(base64)")!
+            guard let data = try? JSONEncoder().encode(noteTransfer.id),
+                  let url = URL(string: "mdwriter://note/\(data.base64EncodedString())") else {
+                return URL(string: "mdwriter://note/invalid")!
+            }
+            return url
         })
     }
 }

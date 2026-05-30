@@ -88,14 +88,48 @@ final class ImageManager: @unchecked Sendable {
         }
         let decodedPath = cleanPath.removingPercentEncoding ?? cleanPath
 
+        // 安全检查：拒绝包含路径遍历的路径
+        if decodedPath.contains("..") {
+            print("[ImageManager] Security: Rejected path with '..' traversal: \(decodedPath)")
+            return nil
+        }
+
+        var resolvedURL: URL?
         if decodedPath.hasPrefix("/") {
-            return (decodedPath, URL(fileURLWithPath: decodedPath))
+            resolvedURL = URL(fileURLWithPath: decodedPath)
         } else if decodedPath.hasPrefix("~") {
-            return (decodedPath, URL(fileURLWithPath: (decodedPath as NSString).expandingTildeInPath))
+            resolvedURL = URL(fileURLWithPath: (decodedPath as NSString).expandingTildeInPath)
         } else {
             guard let imagesDir = imagesDirectoryURL else { return nil }
-            return (decodedPath, imagesDir.appendingPathComponent(decodedPath))
+            resolvedURL = imagesDir.appendingPathComponent(decodedPath)
         }
+
+        guard let url = resolvedURL else { return nil }
+
+        // 规范化路径并验证安全性
+        let canonicalURL = url.resolvingSymlinksInPath()
+
+        // 定义允许的目录白名单
+        let fm = FileManager.default
+        guard let documentsURL = fm.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let imagesDir = imagesDirectoryURL else {
+            return nil
+        }
+
+        let allowedPaths = [
+            imagesDir.resolvingSymlinksInPath().path,
+            documentsURL.resolvingSymlinksInPath().path
+        ]
+
+        let canonicalPath = canonicalURL.path
+        let isAllowed = allowedPaths.contains { canonicalPath.hasPrefix($0) }
+
+        if !isAllowed {
+            print("[ImageManager] Security: Rejected path outside allowed directories: \(canonicalPath)")
+            return nil
+        }
+
+        return (decodedPath, canonicalURL)
     }
 
     /// 根据文件名或路径读取图片
