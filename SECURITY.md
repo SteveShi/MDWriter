@@ -7,8 +7,7 @@ We currently provide security updates for the following versions:
 | Version | Supported |
 | :--- | :--- |
 |2.x.x| ✅ Supported |
-| 1.9.x | ✅ Supported |
-| < 1.9.0 | ❌ Not Recommended |
+| < 2.0.0 | ❌ Not Recommended |
 
 Please ensure you are updated to the latest version to receive the latest features and security fixes.
 
