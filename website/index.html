@@ -179,10 +179,7 @@ Approve Hero before I continue into the full build.
       gap: 12px;
     }
     .eyebrow::before {
-      content: "";
-      width: 28px;
-      height: 1px;
-      background: var(--accent);
+      display: none;
     }
     .eyebrow .lang-zh { letter-spacing: 0.18em; }
 
@@ -302,7 +299,7 @@ Approve Hero before I continue into the full build.
       inset: -20% -10% auto auto;
       width: 70%;
       height: 60%;
-      background: radial-gradient(ellipse at top right, rgba(184,110,61,0.18), transparent 60%);
+      background: none;
       pointer-events: none;
       z-index: -1;
     }
@@ -531,11 +528,7 @@ Approve Hero before I continue into the full build.
     }
     .section-eyebrow::before,
     .section-eyebrow::after {
-      content: "";
-      width: 22px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.55;
+      display: none;
     }
     .section-title {
       font-family: var(--serif);
@@ -637,8 +630,8 @@ Approve Hero before I continue into the full build.
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(184,110,61,0.10), transparent 60%),
-        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(42,72,102,0.18), transparent 60%);
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(184,110,61,0.04), transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(42,72,102,0.08), transparent 60%);
       pointer-events: none;
     }
     .ai .container { position: relative; }
@@ -728,7 +721,7 @@ Approve Hero before I continue into the full build.
       border: 1px solid rgba(216,164,122,0.18);
       border-radius: 14px;
       padding: 28px;
-      box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+      box-shadow: 0 12px 32px -12px rgba(0,0,0,0.4);
     }
     .ai-panel-head {
       display: flex;
@@ -804,7 +797,6 @@ Approve Hero before I continue into the full build.
     }
     .ai-output .label {
       display: block;
-      font-family: var(--mono);
       font-style: normal;
       font-size: 10px;
       letter-spacing: 0.16em;
