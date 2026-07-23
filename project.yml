@@ -6,20 +6,17 @@ options:
     macOS: "14.0"
 
 settings:
-  MARKETING_VERSION: 2.6.0
-  CURRENT_PROJECT_VERSION: 260
+  MARKETING_VERSION: 2.7.0
+  CURRENT_PROJECT_VERSION: 270
   SWIFT_VERSION: 6.0
 
 packages:
   MDEditorKit:
     url: https://github.com/SteveShi/MDEditorKit.git
-    from: 2.0.0
+    from: 2.1.0
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle
     from: 2.0.0
-  WhatsNewKit:
-    url: https://github.com/SvenTiigi/WhatsNewKit
-    from: 2.2.1
 targets:
   MDWriter:
     type: application
@@ -39,8 +36,6 @@ targets:
         product: MDEditorKit
       - package: Sparkle
         product: Sparkle
-      - package: WhatsNewKit
-        product: WhatsNewKit
 
 schemes:
   MDWriter:

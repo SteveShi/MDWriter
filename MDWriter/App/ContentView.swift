@@ -367,13 +367,6 @@ struct ContentView: View {
             }
 
             HStack {
-                Text(LocalizedStringKey("Indent:"))
-                Slider(value: $editorSettings.firstLineIndent, in: 0...100, step: 5)
-                Text("\(Int(editorSettings.firstLineIndent))")
-                    .frame(width: 30)
-            }
-
-            HStack {
                 Text(LocalizedStringKey("Line Width:"))
                 Slider(value: $editorSettings.contentWidth, in: 400...1200, step: 50)
                 Text("\(Int(editorSettings.contentWidth))")

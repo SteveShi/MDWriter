@@ -8,7 +8,6 @@
 import Foundation
 import SwiftData
 import SwiftUI
-import WhatsNewKit
 
 @main
 struct MDWriterApp: App {
@@ -16,7 +15,7 @@ struct MDWriterApp: App {
     @StateObject private var updater = Updater()
 
     // Manual WhatsNew State
-    @State private var manualWhatsNew: WhatsNew?
+    @State private var showWhatsNewSheet: Bool = false
 
     // 全局视图状态 (用于菜单命令)
     @AppStorage("showLibrary") var showLibrary: Bool = true
@@ -60,19 +59,11 @@ struct MDWriterApp: App {
             LibraryView()
                 .frame(minWidth: 800, minHeight: 600)
                 .preferredColorScheme(currentTheme.colorScheme)
-                .environment(
-                    \.whatsNew,
-                    WhatsNewEnvironment(
-                        currentVersion: WhatsNewConfiguration.appVersion,
-                        whatsNewCollection: [WhatsNewConfiguration.current]
-                    )
-                )
-                .whatsNewSheet()
-                .sheet(item: $manualWhatsNew) { whatsNew in
-                    WhatsNewView(whatsNew: whatsNew)
+                .sheet(isPresented: $showWhatsNewSheet) {
+                    WhatsNewSheetView()
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .showWhatsNew)) { _ in
-                    manualWhatsNew = WhatsNewConfiguration.current
+                    showWhatsNewSheet = true
                 }
                 .onChange(of: scenePhase) { _, newPhase in
                     if newPhase != .active {

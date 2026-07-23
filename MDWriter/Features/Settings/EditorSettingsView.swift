@@ -74,18 +74,6 @@ struct EditorSettingsView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
-                    // First Line Indent
-                    GridRow {
-                        Text(LocalizedStringKey("Indent:"))
-                        HStack {
-                            Slider(value: $settings.firstLineIndent, in: 0...100, step: 5)
-                            Text("\(Int(settings.firstLineIndent)) pt")
-                                .monospacedDigit()
-                                .frame(width: 55, alignment: .trailing)
-                                .foregroundColor(.secondary)
-                        }
-                    }
                 }
             } header: {
                 Text(LocalizedStringKey("Layout"))

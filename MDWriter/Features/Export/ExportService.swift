@@ -86,7 +86,6 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     private var webView: WKWebView?
     private var completion: ((Result<Data, Error>) -> Void)?
     private var selfRetain: PDFGenerator?
-    private var tempURL: URL?
 
     func generate(html: String, completion: @escaping (Result<Data, Error>) -> Void) {
         self.completion = completion
@@ -99,31 +98,7 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
                 frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: config)
             webView.navigationDelegate = self
             self.webView = webView
-
-            // 使用 Documents 下的临时目录，确保 WebKit 权限一致
-            guard
-                let documentsURL = FileManager.default.urls(
-                    for: .documentDirectory, in: .userDomainMask
-                ).first
-            else {
-                webView.loadHTMLString(html, baseURL: nil)
-                return
-            }
-
-            let tempDir = documentsURL.appendingPathComponent(".mdwriter_temp")
-            try? FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
-
-            let tempURL = tempDir.appendingPathComponent("export_\(UUID().uuidString).html")
-            self.tempURL = tempURL
-
-            do {
-                try html.write(to: tempURL, atomically: true, encoding: .utf8)
-                // 授权 Documents 目录读取权限
-                webView.loadFileURL(tempURL, allowingReadAccessTo: documentsURL)
-            } catch {
-                print("Failed to save temp html: \(error)")
-                webView.loadHTMLString(html, baseURL: nil)
-            }
+            webView.loadHTMLString(html, baseURL: nil)
         }
     }
 
@@ -146,9 +121,6 @@ private class PDFGenerator: NSObject, WKNavigationDelegate {
     }
 
     private func cleanup() {
-        if let tempURL = tempURL {
-            try? FileManager.default.removeItem(at: tempURL)
-        }
         webView = nil
         completion = nil
         selfRetain = nil

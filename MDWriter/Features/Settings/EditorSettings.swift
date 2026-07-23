@@ -2,15 +2,6 @@ import Combine
 import MDEditorKit
 import SwiftUI
 
-extension MarkdownStandard {
-    var displayName: LocalizedStringKey {
-        switch self {
-        case .markdownXL: return LocalizedStringKey("Markdown XL")
-        case .standard: return LocalizedStringKey("Standard")
-        }
-    }
-}
-
 @MainActor
 class EditorSettings: ObservableObject {
     static let shared = EditorSettings()
@@ -19,7 +10,6 @@ class EditorSettings: ObservableObject {
     @AppStorage("editorFontName") var fontName: String = "System" {
         didSet { notifyChange() }
     }
-    // 取消 fontSize 设置
 
     @AppStorage("editorLineHeight") var lineHeightMultiple: Double = 1.7 {
         didSet { notifyChange() }
@@ -32,17 +22,9 @@ class EditorSettings: ObservableObject {
     @AppStorage("editorParagraphSpacing") var paragraphSpacing: Double = 18.0 {
         didSet { notifyChange() }
     }
-    @AppStorage("editorFirstLineIndent") var firstLineIndent: Double = 0.0 {
-        didSet { notifyChange() }
-    }
 
     // 行为
     @AppStorage("editorTypewriterMode") var typewriterMode: Bool = true {
-        didSet { notifyChange() }
-    }
-
-    // Markdown
-    @AppStorage("markdownStandard") var markdownStandard: MarkdownStandard = .markdownXL {
         didSet { notifyChange() }
     }
 
@@ -75,9 +57,7 @@ class EditorSettings: ObservableObject {
             lineHeightMultiple: 1.7,
             contentWidth: 750.0,
             paragraphSpacing: 18.0,
-            firstLineIndent: 0.0,
             typewriterMode: true,
-            markdownStandard: .markdownXL,
             theme: MarkdownTheme.pure.editorTheme(for: AppTheme.light)
         )
 
@@ -101,9 +81,10 @@ class EditorSettings: ObservableObject {
     private func updateConfiguration() {
         let zoom = UserDefaults.standard.double(forKey: "textZoom")
         let textZoom = zoom > 0 ? zoom : 1.0
-        
-        let showMarkup = UserDefaults.standard.object(forKey: "markdownShowMarkup") as? Bool ?? true
-        
+
+        let showMarkup =
+            UserDefaults.standard.object(forKey: "markdownShowMarkup") as? Bool ?? true
+
         var theme = currentMarkdownTheme.editorTheme(for: currentAppTheme)
         if !showMarkup {
             theme.syntaxMarker = theme.syntaxMarker.opacity(0.0)
@@ -114,9 +95,7 @@ class EditorSettings: ObservableObject {
             lineHeightMultiple: CGFloat(lineHeightMultiple),
             contentWidth: CGFloat(contentWidth),
             paragraphSpacing: CGFloat(paragraphSpacing),
-            firstLineIndent: CGFloat(firstLineIndent),
             typewriterMode: typewriterMode,
-            markdownStandard: markdownStandard,
             theme: theme,
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)

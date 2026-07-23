@@ -119,19 +119,11 @@ struct MDWMarkdownRenderer {
         let featureFootnote = defaults.object(forKey: "markdownFeatureFootnote") as? Bool ?? false
 
         var extras: [String] = []
-        if !featureStrikethrough {
-            extras.append("del, s { text-decoration: none; }")
-        }
-        if !featureTaskList {
-            extras.append("input[type=\"checkbox\"] { display: none; }")
-        }
-        if !featureTable {
-            extras.append("table, thead, tbody, tr, th, td { display: block; border: none; padding: 0; }")
-        }
-        if !featureFootnote {
-            extras.append(".footnote-ref, .footnote-backref, .footnotes { display: none; }")
-        }
-        let extrasCSS = extras.joined(separator: "\n                ")
+        if !featureStrikethrough { extras.append("del, s { text-decoration: none; }") }
+        if !featureTaskList { extras.append("input[type=\"checkbox\"] { display: none; }") }
+        if !featureTable { extras.append("table, thead, tbody, tr, th, td { display: block; border: none; padding: 0; }") }
+        if !featureFootnote { extras.append(".footnote-ref, .footnote-backref, .footnotes { display: none; }") }
+        let extrasCSS = extras.joined(separator: "\n")
 
         return """
             <style>

@@ -65,7 +65,6 @@ private let markupCatalog: [MarkupElement] = [
 
 struct MarkdownSettingsView: View {
     @AppStorage("markdownTheme") private var selectedTheme: MarkdownTheme = .pure
-    @AppStorage("markdownStandard") private var selectedStandard: MarkdownStandard = .markdownXL
 
     // Ulysses 风格语法特性开关（影响 HTML 渲染层；编辑器侧由 MDEditor 包决定能否响应）
     @AppStorage("markdownFeatureStrikethrough") private var featureStrikethrough: Bool = true
@@ -85,27 +84,6 @@ struct MarkdownSettingsView: View {
 
     var body: some View {
         Form {
-            // MARK: 排版标准
-            Section {
-                VStack(alignment: .leading, spacing: 10) {
-                    Picker(LocalizedStringKey("Syntax Standard:"), selection: $selectedStandard) {
-                        ForEach(MarkdownStandard.allCases) { standard in
-                            Text(standard.displayName).tag(standard)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-
-                    Text(
-                        LocalizedStringKey(
-                            "Markdown XL keeps headings at body size. Standard scales them.")
-                    )
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                }
-                .padding(.vertical, 4)
-            } header: {
-                Text(LocalizedStringKey("Formatting"))
-            }
 
             // MARK: 配色方案
             Section {

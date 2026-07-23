@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## [2.7.0] - 2026-07-23
+
+### Refactor
+- **Dependencies Optimization**: Removed external `WhatsNewKit` package dependency in favor of a native SwiftUI `WhatsNewSheetView`, reducing package overhead and binary size.
+- **MDEditorKit Upgrade**: Upgraded `MDEditorKit` to `2.1.0`, taking advantage of unified syntax marker fading, improved line index calculation performance, and cleaned up deprecated parameters.
+- **PDF Export Optimization**: Refactored `PDFGenerator` to render HTML directly in memory, eliminating temporary disk directory creation and unnecessary I/O operations.
+- **Codebase Clean-up**: Removed obsolete `MarkupBarView` component, unused theme helper methods, and redundant editor settings options.
+
+---
+
+### Chinese
+### 重构
+- **依赖优化**：移除了外部 `WhatsNewKit` 依赖包，改用原生 SwiftUI `WhatsNewSheetView` 实现，降低了包开销与体积。
+- **MDEditorKit 升级**：将 `MDEditorKit` 升级至 `2.1.0`，享受统一语法标记淡化、提升的行索引计算性能，并同步清理了废弃参数。
+- **PDF 导出优化**：重构 `PDFGenerator` 改为内存直接加载 HTML 渲染，消除了磁盘临时文件目录的创建与写盘开销。
+- **代码库清理**：彻底删除已废弃的 `MarkupBarView` 组件、未使用的主题辅助函数以及冗余的编辑器设置属性。
+
 ## [2.6.0] - 2026-05-31
 
 ### Security

@@ -2,80 +2,102 @@
 //  WhatsNewConfiguration.swift
 //  MDWriter
 //
-//  Created for WhatsNewKit Integration.
-//
 
-import Foundation
-import WhatsNewKit
+import SwiftUI
 
-struct WhatsNewConfiguration {
-    /// Current app version (CFBundleShortVersionString)
-    static var appVersion: WhatsNew.Version {
-        .current(in: .main)
-    }
+struct WhatsNewItem: Identifiable {
+    let id = UUID()
+    let icon: String
+    let title: String
+    let subtitle: String
+}
 
-    /// Update this only when there is a major feature release.
-    static var whatsNewVersion: WhatsNew.Version {
-        "2.0.0"
-    }
+struct WhatsNewSheetView: View {
+    @Environment(\.dismiss) private var dismiss
 
-    /// Define the "What's New" content for the current version
-    static var current: WhatsNew {
-        WhatsNew(
-            // The version identifying these features.
-            // Usually matches your Bundle Version.
-            version: whatsNewVersion,
+    let title: String = String(localized: "What's New in MDWriter")
 
-            title: WhatsNew.Title(text: WhatsNew.Text(String(localized: "What's New in MDWriter"))),
+    let features: [WhatsNewItem] = [
+        WhatsNewItem(
+            icon: "apple.intelligence",
+            title: String(localized: "Apple Intelligence"),
+            subtitle: String(
+                localized:
+                    "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging."
+            )
+        ),
+        WhatsNewItem(
+            icon: "cpu",
+            title: String(localized: "TextKit 2 Engine"),
+            subtitle: String(
+                localized:
+                    "A complete overhaul of the editor core for massive stability and performance gains."
+            )
+        ),
+        WhatsNewItem(
+            icon: "paintpalette",
+            title: String(localized: "Pro Markdown Rendering"),
+            subtitle: String(
+                localized:
+                    "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience."
+            )
+        ),
+        WhatsNewItem(
+            icon: "keyboard",
+            title: String(localized: "IME Stability"),
+            subtitle: String(
+                localized:
+                    "Native support for Chinese input and mixed-language writing without cursor jumping."
+            )
+        ),
+        WhatsNewItem(
+            icon: "photo",
+            title: String(localized: "Inline Image Preview"),
+            subtitle: String(
+                localized:
+                    "View your local images directly inside the editor and export previews with ease."
+            )
+        ),
+    ]
 
-            features: [
-                WhatsNew.Feature(
-                    image: .init(systemName: "apple.intelligence"),
-                    title: WhatsNew.Text(String(localized: "Apple Intelligence")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging."
-                        ))
-                ),
-                WhatsNew.Feature(
-                    image: .init(systemName: "cpu"),
-                    title: WhatsNew.Text(String(localized: "TextKit 2 Engine")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "A complete overhaul of the editor core for massive stability and performance gains."
-                        ))
-                ),
-                WhatsNew.Feature(
-                    image: .init(systemName: "paintpalette"),
-                    title: WhatsNew.Text(String(localized: "Pro Markdown Rendering")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience."
-                        ))
-                ),
-                WhatsNew.Feature(
-                    image: .init(systemName: "keyboard"),
-                    title: WhatsNew.Text(String(localized: "IME Stability")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "Native support for Chinese input and mixed-language writing without cursor jumping."
-                        ))
-                ),
-                WhatsNew.Feature(
-                    image: .init(systemName: "photo"),
-                    title: WhatsNew.Text(String(localized: "Inline Image Preview")),
-                    subtitle: WhatsNew.Text(
-                        String(
-                            localized:
-                                "View your local images directly inside the editor and export previews with ease."
-                        ))
-                ),
-            ],
-            primaryAction: .init(title: WhatsNew.Text(String(localized: "Continue")))
-        )
+    var body: some View {
+        VStack(spacing: 24) {
+            Text(title)
+                .font(.system(size: 24, weight: .bold))
+                .padding(.top, 24)
+
+            VStack(alignment: .leading, spacing: 18) {
+                ForEach(features) { item in
+                    HStack(alignment: .top, spacing: 14) {
+                        Image(systemName: item.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(.accentColor)
+                            .frame(width: 32, height: 32)
+
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(item.title)
+                                .font(.system(size: 14, weight: .semibold))
+                            Text(item.subtitle)
+                                .font(.system(size: 12))
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal, 28)
+
+            Spacer()
+
+            Button(action: { dismiss() }) {
+                Text(LocalizedStringKey("Continue"))
+                    .font(.system(size: 14, weight: .medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(.horizontal, 28)
+            .padding(.bottom, 24)
+        }
+        .frame(width: 480, height: 500)
     }
 }

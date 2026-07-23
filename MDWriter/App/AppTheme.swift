@@ -56,8 +56,4 @@ extension AppTheme {
         case .dark: return .ultraThinMaterial
         }
     }
-
-    func resolvePaperColor(scheme: ColorScheme) -> Color {
-        return paperColor
-    }
 }
