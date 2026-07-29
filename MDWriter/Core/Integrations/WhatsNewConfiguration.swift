@@ -2,6 +2,8 @@
 //  WhatsNewConfiguration.swift
 //  MDWriter
 //
+//  v3.1 Highlights Sheet Configuration (Keeping v3.0 core + appending v3.1 features)
+//
 
 import SwiftUI
 
@@ -15,7 +17,7 @@ struct WhatsNewItem: Identifiable {
 struct WhatsNewSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
-    let title: String = String(localized: "What's New in MDWriter 3.0")
+    let title: String = String(localized: "What's New in MDWriter 3.1")
 
     let features: [WhatsNewItem] = [
         WhatsNewItem(
@@ -43,19 +45,19 @@ struct WhatsNewSheetView: View {
             )
         ),
         WhatsNewItem(
-            icon: "magnifyingglass",
-            title: String(localized: "Multi-Engine Web Search"),
+            icon: "lock.shield.fill",
+            title: String(localized: "Encrypted Backup & Dropbox Sync"),
             subtitle: String(
                 localized:
-                    "Fetch real-time web info with DuckDuckGo, SearXNG, Brave, Tavily, Exa, Google, or Bing."
+                    "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization."
             )
         ),
         WhatsNewItem(
-            icon: "apple.intelligence",
-            title: String(localized: "On-Device Apple Intelligence"),
+            icon: "textformat.italic",
+            title: String(localized: "CJK Italic & Export Alignment"),
             subtitle: String(
                 localized:
-                    "Lightweight summaries, title generation, auto-tagging, and fast translation running on-device."
+                    "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports."
             )
         ),
     ]
@@ -66,13 +68,13 @@ struct WhatsNewSheetView: View {
                 .font(.system(size: 24, weight: .bold))
                 .padding(.top, 24)
 
-            VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: 16) {
                 ForEach(features) { item in
                     HStack(alignment: .top, spacing: 14) {
                         Image(systemName: item.icon)
-                            .font(.system(size: 24))
+                            .font(.system(size: 22))
                             .foregroundColor(.accentColor)
-                            .frame(width: 32, height: 32)
+                            .frame(width: 28, height: 28)
 
                         VStack(alignment: .leading, spacing: 3) {
                             Text(item.title)
@@ -98,6 +100,6 @@ struct WhatsNewSheetView: View {
             .padding(.horizontal, 28)
             .padding(.bottom, 24)
         }
-        .frame(width: 480, height: 520)
+        .frame(width: 480, height: 530)
     }
 }

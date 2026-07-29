@@ -5203,6 +5203,91 @@
           }
         }
       }
+    },
+    "What's New in MDWriter 3.1": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's New in MDWriter 3.1"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 3.1 新特性"
+          }
+        }
+      }
+    },
+    "Encrypted Backup & Dropbox Sync": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypted Backup & Dropbox Sync"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加密备份与 Dropbox 同步"
+          }
+        }
+      }
+    },
+    "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AES-256 全库加密备份 (.mdwbk) 与 Dropbox 端到端零知识加密（E2EE）同步。"
+          }
+        }
+      }
+    },
+    "CJK Italic & Export Alignment": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CJK Italic & Export Alignment"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中文斜体与导出换行对齐"
+          }
+        }
+      }
+    },
+    "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持中文字符倾斜斜体渲染，且 PDF/HTML 导出排版与编辑器 100% 保持一致。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"
