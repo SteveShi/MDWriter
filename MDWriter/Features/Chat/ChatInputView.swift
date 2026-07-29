@@ -13,31 +13,66 @@ struct ChatInputView: View {
     @ObservedObject var controller: EditorController
     var note: Note?
 
+    @AppStorage("aiThinkingEnabled") private var isThinkingEnabled: Bool = false
+    @AppStorage("searchEnabled") private var searchEnabled: Bool = true
+    @AppStorage("mcpToolsEnabled") private var mcpToolsEnabled: Bool = true
+    @AppStorage("aiContextLevel") private var contextLevelRaw: String = AIContextLevel.metadata.rawValue
+
+    private var currentContextLevel: AIContextLevel {
+        AIContextLevel(rawValue: contextLevelRaw) ?? .metadata
+    }
+
     var body: some View {
         VStack(spacing: 8) {
-            // Context Quick Attach Pills
-            HStack(spacing: 8) {
-                Button {
-                    if let sel = controller.proxy.getSelectedText(), !sel.isEmpty {
-                        text += "\n[Selected Text Context:\n\(sel)\n]"
-                    }
-                } label: {
-                    Label(LocalizedStringKey("Selected Text"), systemImage: "selection.pin.in.out")
-                        .font(.system(size: 10, weight: .medium))
+            // Quick Control Toggles Bar
+            HStack(spacing: 6) {
+                // Thinking Toggle
+                TogglePill(
+                    icon: "brain",
+                    label: LocalizedStringKey("Thinking"),
+                    isActive: isThinkingEnabled
+                ) {
+                    isThinkingEnabled.toggle()
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
 
-                Button {
-                    if let content = note?.content, !content.isEmpty {
-                        text += "\n[Document Content Context:\n\(content)\n]"
-                    }
-                } label: {
-                    Label(LocalizedStringKey("Full Document"), systemImage: "doc.text")
-                        .font(.system(size: 10, weight: .medium))
+                // Web Search Toggle
+                TogglePill(
+                    icon: "globe",
+                    label: LocalizedStringKey("Search"),
+                    isActive: searchEnabled
+                ) {
+                    searchEnabled.toggle()
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
+
+                // MCP Tools Toggle
+                TogglePill(
+                    icon: "cpu",
+                    label: LocalizedStringKey("MCP"),
+                    isActive: mcpToolsEnabled
+                ) {
+                    mcpToolsEnabled.toggle()
+                }
+
+                // Context Level Cycle Toggle
+                Button {
+                    cycleContextLevel()
+                } label: {
+                    HStack(spacing: 3) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: 10))
+                        Text(LocalizedStringKey(currentContextLevel.displayName))
+                            .font(.system(size: 10, weight: .medium))
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(currentContextLevel != .none ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
+                    )
+                    .foregroundStyle(currentContextLevel != .none ? Color.accentColor : Color.secondary)
+                }
+                .buttonStyle(.plain)
+                .help(LocalizedStringKey("Toggle Document Context Level"))
 
                 Spacer()
             }
@@ -76,5 +111,39 @@ struct ChatInputView: View {
         }
         .padding(12)
         .background(.ultraThinMaterial)
+    }
+
+    private func cycleContextLevel() {
+        switch currentContextLevel {
+        case .none: contextLevelRaw = AIContextLevel.metadata.rawValue
+        case .metadata: contextLevelRaw = AIContextLevel.full.rawValue
+        case .full: contextLevelRaw = AIContextLevel.none.rawValue
+        }
+    }
+}
+
+struct TogglePill: View {
+    let icon: String
+    let label: LocalizedStringKey
+    let isActive: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 3) {
+                Image(systemName: icon)
+                    .font(.system(size: 10))
+                Text(label)
+                    .font(.system(size: 10, weight: .medium))
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isActive ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
+            )
+            .foregroundStyle(isActive ? Color.accentColor : Color.secondary)
+        }
+        .buttonStyle(.plain)
     }
 }

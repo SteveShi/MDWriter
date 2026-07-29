@@ -5288,6 +5288,138 @@
           }
         }
       }
+    },
+    "Tags": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标签"
+          }
+        }
+      }
+    },
+    "Thinking": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考"
+          }
+        }
+      }
+    },
+    "MCP": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MCP"
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元数据"
+          }
+        }
+      }
+    },
+    "Full Doc": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整文档"
+          }
+        }
+      }
+    },
+    "Toggle Document Context Level": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换文档上下文级别"
+          }
+        }
+      }
+    },
+    "Document Context Level": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文档上下文级别"
+          }
+        }
+      }
+    },
+    "Off (No Context)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭（无上下文）"
+          }
+        }
+      }
+    },
+    "Metadata (Title, Tags, Stats)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元数据（标题、标签、字数）"
+          }
+        }
+      }
+    },
+    "Custom System Prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义系统提示词"
+          }
+        }
+      }
+    },
+    "AI Context & Prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 上下文与提示词"
+          }
+        }
+      }
+    },
+    "Custom instructions are appended to the system prompt. LLMs automatically receive document context according to the selected level.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义指令将附加在系统提示词末尾。大模型将根据选定的级别自动接收文档上下文。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

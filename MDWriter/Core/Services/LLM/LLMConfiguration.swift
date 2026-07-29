@@ -6,6 +6,22 @@
 import Foundation
 import SwiftUI
 
+enum AIContextLevel: String, CaseIterable, Identifiable, Sendable {
+    case none
+    case metadata
+    case full
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .none: return "Off"
+        case .metadata: return "Metadata"
+        case .full: return "Full Doc"
+        }
+    }
+}
+
 /// Configuration & state manager for local LLM engine connections.
 @Observable
 @MainActor
@@ -46,6 +62,45 @@ final class LLMConfiguration {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "llmEnabled")
+        }
+    }
+
+    // MARK: - Advanced AI Settings
+
+    var contextLevel: AIContextLevel {
+        get {
+            let raw = UserDefaults.standard.string(forKey: "aiContextLevel") ?? AIContextLevel.metadata.rawValue
+            return AIContextLevel(rawValue: raw) ?? .metadata
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "aiContextLevel")
+        }
+    }
+
+    var customSystemPrompt: String {
+        get {
+            UserDefaults.standard.string(forKey: "aiCustomSystemPrompt") ?? ""
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "aiCustomSystemPrompt")
+        }
+    }
+
+    var isThinkingEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "aiThinkingEnabled")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "aiThinkingEnabled")
+        }
+    }
+
+    var isMCPToolsEnabled: Bool {
+        get {
+            UserDefaults.standard.object(forKey: "mcpToolsEnabled") == nil ? true : UserDefaults.standard.bool(forKey: "mcpToolsEnabled")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "mcpToolsEnabled")
         }
     }
 

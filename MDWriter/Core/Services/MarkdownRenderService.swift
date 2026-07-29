@@ -140,6 +140,10 @@ struct MDWMarkdownRenderer {
                 }
                 a { color: \(colors.link); text-decoration: none; }
                 a:hover { text-decoration: underline; }
+                em { font-style: italic; color: inherit; text-decoration: none; }
+                strong { font-weight: bold; color: inherit; text-decoration: none; }
+                u { text-decoration: underline; }
+                del { text-decoration: line-through; opacity: 0.75; }
 
                 h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.25; margin-top: 24px; margin-bottom: 16px; color: \(colors.text); }
                 h1 { font-size: 2em; border-bottom: 1px solid \(colors.border); padding-bottom: .3em; }
@@ -148,7 +152,8 @@ struct MDWMarkdownRenderer {
                 h4 { font-size: 1em; }
                 h5 { font-size: .875em; }
                 h6 { font-size: .85em; color: \(colors.text); opacity: 0.75; }
-                p { margin-top: 0; margin-bottom: 16px; white-space: pre-wrap; }
+                p { margin-top: 0; margin-bottom: 16px; white-space: pre-wrap; word-break: break-word; line-height: 1.7; }
+                br { display: inline; }
                 code {
                     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
                     background-color: \(colors.codeBg);
@@ -198,6 +203,9 @@ struct MDWMarkdownRenderer {
                 }
                 img { max-width: 100%; box-sizing: content-box; background-color: #fff; }
                 ul, ol { padding-left: 2em; margin-bottom: 16px; }
+                ul.task-list { list-style-type: none; padding-left: 0; }
+                ul.task-list li { list-style-type: none; }
+                ul.task-list input[type="checkbox"] { margin-right: 6px; vertical-align: middle; }
                 li + li { margin-top: .25em; }
                 hr {
                     height: .25em;

@@ -12,6 +12,21 @@ import UniformTypeIdentifiers
 struct LibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Folder.name) private var folders: [Folder]
+    @Query(filter: #Predicate<Note> { !$0.isTrashed }) private var nonTrashedNotes: [Note]
+
+    private var allTagsWithCount: [(tag: String, count: Int)] {
+        var counts: [String: Int] = [:]
+        for note in nonTrashedNotes {
+            for tag in note.tags {
+                let trimmed = tag.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmed.isEmpty {
+                    counts[trimmed, default: 0] += 1
+                }
+            }
+        }
+        return counts.map { (tag: $0.key, count: $0.value) }
+            .sorted { $0.tag.localizedStandardCompare($1.tag) == .orderedAscending }
+    }
     // 移除 @Query allNotes 以避免一次性加载所有笔记，提高性能。
     // 笔记列表现在由 NoteListView 管理，它使用带谓词的 @Query 按需加载。
 
@@ -24,6 +39,7 @@ struct LibraryView: View {
         case inbox
         case trash
         case folder(Folder)
+        case tag(String)
     }
 
     @SceneStorage("columnVisibility") private var columnVisibilityRaw: String = "all"
@@ -91,6 +107,21 @@ struct LibraryView: View {
                             onMoveNote: { urls, targetFolder in
                                 handleNoteDrop(urls: urls, to: targetFolder)
                             })
+                    }
+                }
+
+                if !allTagsWithCount.isEmpty {
+                    Section(LocalizedStringKey("Tags")) {
+                        ForEach(allTagsWithCount, id: \.tag) { item in
+                            HStack {
+                                Label(item.tag, systemImage: "tag")
+                                Spacer()
+                                Text("\(item.count)")
+                                    .font(.system(size: 11, weight: .regular, design: .monospaced))
+                                    .foregroundStyle(.secondary)
+                            }
+                            .tag(SelectionMode.tag(item.tag))
+                        }
                     }
                 }
             }
@@ -270,6 +301,7 @@ struct LibraryView: View {
         case .inbox: return String(localized: "Inbox")
         case .trash: return String(localized: "Trash")
         case .folder(let folder): return folder.name
+        case .tag(let tag): return "# \(tag)"
         }
     }
 

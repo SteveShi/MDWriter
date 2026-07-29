@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## [3.2.1] - 2026-07-30
+
+### Added
+- **Automatic AI Document Context Awareness**: LLMs automatically perceive active document metadata, word statistics, tags, and content according to configurable context levels (Off / Metadata / Full Document), eliminating manual copy-pasting.
+- **AI Quick Control Toggles Bar**: Added quick toggle pill buttons directly inside the chat input box for Extended Thinking, Web Search, MCP extensions, and Document Context levels.
+- **Customizable System Prompt**: Enhanced default writing assistant prompt with support for user-defined custom system instructions in AI Settings pane.
+- **Sidebar Tags Classification & Filtering**: Introduced a dedicated Tags section in the library sidebar, listing all document tags with real-time note counts for instant tag-based filtering.
+- **Markdown Emphasis & Export PDF Styling Fix**: Fixed an issue where italic text (*text*) was wrongly tinted with gold/yellow emphasis colors in the editor, and normalized line breaks & CSS rules in exported PDF and HTML documents.
+
+---
+
+### Chinese
+### 新增与修复
+- **AI 智能文档上下文自动感知**：大模型可根据配置的上下文层级（关闭 / 元数据 / 完整文档）自动感知当前文档标题、标签、字数及文本内容，告别手动复制粘贴与文本拼接。
+- **AI 对话控制快捷开关栏**：在对话输入框上方集成一键控制胶囊按钮，可实时开关深度思考 (Thinking)、联网搜索 (Web Search)、MCP 扩展工具以及一键循环切换文档上下文层级。
+- **自定义 System Prompt 系统提示词**：升级了内置的 macOS 原生写作助手提示词，并在 AI 设置面板中提供了可自定义的 Prompt 编辑器。
+- **侧边栏 Tags 标签分类与自动筛选**：在侧边栏导航中新增 Tags 专属分组，实时汇总呈现全库所有笔记标签及对应的关联文档数量，点击即可瞬间筛选对应标签文档。
+- **Markdown 强调样式与 PDF 导出对齐修复**：彻底修正了编辑器中 `*斜体*` 被误染成黄色高亮下划线的问题（使强调样式精准继承正文色彩），并补齐了导出 PDF/HTML 中的段落与换行 CSS 规范。
+
 ## [3.1.0] - 2026-07-29
 
 ### Added

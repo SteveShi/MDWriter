@@ -15,6 +15,9 @@ struct AISettingsView: View {
     @AppStorage("llmCustomBaseURL") private var customBaseURL: String = LLMProvider.ollama.defaultBaseURL
     @AppStorage("llmSelectedModel") private var selectedModel: String = ""
 
+    @AppStorage("aiContextLevel") private var contextLevelRaw: String = AIContextLevel.metadata.rawValue
+    @AppStorage("aiCustomSystemPrompt") private var customSystemPrompt: String = ""
+
     // Web Search Options
     @AppStorage("searchEnabled") private var searchEnabled: Bool = true
     @AppStorage("searchEngine") private var searchEngineRaw: String = WebSearchEngineProvider.duckDuckGo.rawValue
@@ -135,7 +138,50 @@ struct AISettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                // Section 3: MCP Servers
+                // Section 3: AI Context & System Prompt
+                Section {
+                    Picker(LocalizedStringKey("Document Context Level"), selection: $contextLevelRaw) {
+                        Text(LocalizedStringKey("Off (No Context)")).tag(AIContextLevel.none.rawValue)
+                        Text(LocalizedStringKey("Metadata (Title, Tags, Stats)")).tag(AIContextLevel.metadata.rawValue)
+                        Text(LocalizedStringKey("Full Document")).tag(AIContextLevel.full.rawValue)
+                    }
+                    .pickerStyle(.menu)
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text(LocalizedStringKey("Custom System Prompt"))
+                                .font(.system(size: 12, weight: .medium))
+                            Spacer()
+                            if !customSystemPrompt.isEmpty {
+                                Button(LocalizedStringKey("Reset")) {
+                                    customSystemPrompt = ""
+                                }
+                                .font(.system(size: 11))
+                                .buttonStyle(.plain)
+                                .foregroundStyle(Color.accentColor)
+                            }
+                        }
+
+                        TextEditor(text: $customSystemPrompt)
+                            .font(.system(size: 12, design: .monospaced))
+                            .frame(minHeight: 80, maxHeight: 160)
+                            .padding(4)
+                            .background(Color.secondary.opacity(0.06))
+                            .cornerRadius(6)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(Color.secondary.opacity(0.15), lineWidth: 1)
+                            )
+                    }
+                } header: {
+                    Label(LocalizedStringKey("AI Context & Prompt"), systemImage: "text.badge.plus")
+                } footer: {
+                    Text(LocalizedStringKey("Custom instructions are appended to the system prompt. LLMs automatically receive document context according to the selected level."))
+                        .font(.system(size: 10))
+                        .foregroundStyle(.secondary)
+                }
+
+                // Section 4: MCP Servers
                 MCPSettingsView()
 
                 // Section 4: Web Search (Multi-Engine, Cherry Studio inspired)

@@ -66,13 +66,7 @@ final class LLMService {
         // 2. Prepare conversation history for OpenAI request
         var openAIMessages: [OpenAIMessage] = []
 
-        // System prompt with contextual instructions
-        let systemPrompt = """
-            You are MDWriter AI, an intelligent native macOS Markdown writing assistant.
-            Help the user write, edit, polish, organize, search, and manage notes.
-            Use available tools when necessary to read document content, perform edits, manage library notes, or search the web.
-            Format responses in clean Markdown.
-            """
+        let systemPrompt = buildSystemPrompt(note: note, editorController: editorController)
         openAIMessages.append(OpenAIMessage(role: "system", content: systemPrompt))
 
         // Inject past messages for current note
@@ -87,9 +81,15 @@ final class LLMService {
             }
         }
 
-        // Merge built-in tools with active MCP tools
+        // Filter built-in tools & active MCP tools based on user toggles
         var allTools = LLMToolDefinitions.allTools
-        allTools.append(contentsOf: MCPClientManager.shared.activeTools)
+        let searchEnabled = UserDefaults.standard.object(forKey: "searchEnabled") == nil ? true : UserDefaults.standard.bool(forKey: "searchEnabled")
+        if !searchEnabled {
+            allTools.removeAll(where: { $0.function.name == "web_search" })
+        }
+        if config.isMCPToolsEnabled {
+            allTools.append(contentsOf: MCPClientManager.shared.activeTools)
+        }
 
         let router = ToolRouter(
             editorController: editorController,
@@ -213,5 +213,47 @@ final class LLMService {
     func cancel() {
         currentTask?.cancel()
         isProcessing = false
+    }
+
+    // MARK: - Prompt & Context Builder
+
+    private func buildSystemPrompt(note: Note?, editorController: EditorController?) -> String {
+        var prompt = """
+            You are MDWriter AI — an intelligent native macOS Markdown writing assistant.
+            Help the user write, edit, polish, organize, search, and manage notes.
+            Use available tools when necessary to read document content, perform edits, manage library notes, or search the web.
+            Always format responses in clean Markdown.
+            """
+
+        let custom = config.customSystemPrompt.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !custom.isEmpty {
+            prompt += "\n\n[User Custom Instructions]\n\(custom)"
+        }
+
+        switch config.contextLevel {
+        case .none:
+            break
+        case .metadata:
+            if let note = note {
+                prompt += "\n\n[Active Document Context]\nTitle: \(note.title)\nTags: \(note.tags.joined(separator: ", "))"
+                let text = editorController?.fullText ?? note.content
+                let wordCount = text.split(whereSeparator: \.isWhitespace).count
+                prompt += "\nCharacter Count: \(text.count)\nWord Count: \(wordCount)"
+                if let selected = editorController?.proxy.getSelectedText(), !selected.isEmpty {
+                    let snippet = selected.count > 200 ? String(selected.prefix(200)) + "..." : selected
+                    prompt += "\nSelected Text Snippet: \"\(snippet)\""
+                }
+            }
+        case .full:
+            if let note = note {
+                let content = editorController?.fullText ?? note.content
+                prompt += "\n\n[Active Document Context (Full)]\nTitle: \(note.title)\nTags: \(note.tags.joined(separator: ", "))\nContent:\n\(content)"
+                if let selected = editorController?.proxy.getSelectedText(), !selected.isEmpty {
+                    prompt += "\nSelected Text: \"\(selected)\""
+                }
+            }
+        }
+
+        return prompt
     }
 }

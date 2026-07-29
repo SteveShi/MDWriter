@@ -105,15 +105,14 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             case .light:
                 return .default
             case .dark:
-                // Pure + Dark：使用与 AppTheme.dark.paperColor 一致的深色纸面，
-                // 文字与标题切到高对比度亮色，避免出现"黑底接近黑字"的不可读情况。
+                let fg = EditorThemeColor(red: 0.90, green: 0.90, blue: 0.92)
                 return EditorTheme(
                     background: EditorThemeColor(red: 0.08, green: 0.08, blue: 0.09),
-                    foreground: EditorThemeColor(red: 0.90, green: 0.90, blue: 0.92),
+                    foreground: fg,
                     heading: EditorThemeColor(red: 1.00, green: 1.00, blue: 1.00),
                     syntaxMarker: EditorThemeColor(
                         red: 0.55, green: 0.55, blue: 0.60, alpha: 0.7),
-                    emphasis: EditorThemeColor(red: 0.97, green: 0.83, blue: 0.45),
+                    emphasis: fg,
                     inlineCode: EditorThemeColor(red: 0.95, green: 0.60, blue: 0.55),
                     inlineCodeBackground: EditorThemeColor(
                         red: 0.16, green: 0.16, blue: 0.19),
@@ -126,12 +125,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .solarizedLight:
+            let fg = EditorThemeColor(red: 0.40, green: 0.48, blue: 0.51)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.99, green: 0.96, blue: 0.89),
-                foreground: EditorThemeColor(red: 0.40, green: 0.48, blue: 0.51),
+                foreground: fg,
                 heading: EditorThemeColor(red: 0.34, green: 0.43, blue: 0.46),
                 syntaxMarker: EditorThemeColor(red: 0.58, green: 0.63, blue: 0.63, alpha: 0.7),
-                emphasis: EditorThemeColor(red: 0.71, green: 0.54, blue: 0.00),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.86, green: 0.20, blue: 0.18),
                 inlineCodeBackground: EditorThemeColor(red: 0.93, green: 0.91, blue: 0.84),
                 codeBlockBackground: EditorThemeColor(red: 0.93, green: 0.91, blue: 0.84),
@@ -141,12 +141,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             )
 
         case .solarizedDark:
+            let fg = EditorThemeColor(red: 0.51, green: 0.58, blue: 0.59)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.00, green: 0.17, blue: 0.21),
-                foreground: EditorThemeColor(red: 0.51, green: 0.58, blue: 0.59),
+                foreground: fg,
                 heading: EditorThemeColor(red: 0.93, green: 0.91, blue: 0.84),
                 syntaxMarker: EditorThemeColor(red: 0.40, green: 0.48, blue: 0.51, alpha: 0.7),
-                emphasis: EditorThemeColor(red: 0.71, green: 0.54, blue: 0.00),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.86, green: 0.20, blue: 0.18),
                 inlineCodeBackground: EditorThemeColor(red: 0.03, green: 0.21, blue: 0.26),
                 codeBlockBackground: EditorThemeColor(red: 0.03, green: 0.21, blue: 0.26),
@@ -156,12 +157,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             )
 
         case .github:
+            let fg = EditorThemeColor(red: 0.14, green: 0.16, blue: 0.18)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.96, green: 0.97, blue: 0.98),
-                foreground: EditorThemeColor(red: 0.14, green: 0.16, blue: 0.18),
+                foreground: fg,
                 heading: EditorThemeColor(red: 0.10, green: 0.12, blue: 0.14),
                 syntaxMarker: EditorThemeColor(red: 0.42, green: 0.46, blue: 0.49, alpha: 0.65),
-                emphasis: EditorThemeColor(red: 0.85, green: 0.30, blue: 0.20),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.85, green: 0.30, blue: 0.20),
                 inlineCodeBackground: EditorThemeColor(red: 0.91, green: 0.93, blue: 0.95),
                 codeBlockBackground: EditorThemeColor(red: 0.91, green: 0.93, blue: 0.95),
@@ -171,12 +173,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             )
 
         case .dracula:
+            let fg = EditorThemeColor(red: 0.97, green: 0.97, blue: 0.95)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.16, green: 0.16, blue: 0.21),
-                foreground: EditorThemeColor(red: 0.97, green: 0.97, blue: 0.95),
+                foreground: fg,
                 heading: EditorThemeColor(red: 1.00, green: 0.47, blue: 0.78),
                 syntaxMarker: EditorThemeColor(red: 0.45, green: 0.45, blue: 0.55, alpha: 0.75),
-                emphasis: EditorThemeColor(red: 1.00, green: 0.72, blue: 0.42),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.55, green: 0.91, blue: 0.99),
                 inlineCodeBackground: EditorThemeColor(red: 0.27, green: 0.28, blue: 0.35),
                 codeBlockBackground: EditorThemeColor(red: 0.27, green: 0.28, blue: 0.35),
@@ -186,12 +189,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             )
 
         case .nord:
+            let fg = EditorThemeColor(red: 0.85, green: 0.87, blue: 0.91)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.18, green: 0.20, blue: 0.25),
-                foreground: EditorThemeColor(red: 0.85, green: 0.87, blue: 0.91),
+                foreground: fg,
                 heading: EditorThemeColor(red: 0.93, green: 0.94, blue: 0.96),
                 syntaxMarker: EditorThemeColor(red: 0.50, green: 0.55, blue: 0.62, alpha: 0.75),
-                emphasis: EditorThemeColor(red: 0.92, green: 0.80, blue: 0.55),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.65, green: 0.85, blue: 0.85),
                 inlineCodeBackground: EditorThemeColor(red: 0.23, green: 0.26, blue: 0.32),
                 codeBlockBackground: EditorThemeColor(red: 0.23, green: 0.26, blue: 0.32),
@@ -201,12 +205,13 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             )
 
         case .monokai:
+            let fg = EditorThemeColor(red: 0.97, green: 0.97, blue: 0.95)
             return EditorTheme(
                 background: EditorThemeColor(red: 0.15, green: 0.15, blue: 0.13),
-                foreground: EditorThemeColor(red: 0.97, green: 0.97, blue: 0.95),
+                foreground: fg,
                 heading: EditorThemeColor(red: 0.96, green: 0.26, blue: 0.45),
                 syntaxMarker: EditorThemeColor(red: 0.46, green: 0.46, blue: 0.43, alpha: 0.75),
-                emphasis: EditorThemeColor(red: 0.65, green: 0.89, blue: 0.18),
+                emphasis: fg,
                 inlineCode: EditorThemeColor(red: 0.40, green: 0.85, blue: 0.94),
                 inlineCodeBackground: EditorThemeColor(red: 0.24, green: 0.24, blue: 0.20),
                 codeBlockBackground: EditorThemeColor(red: 0.24, green: 0.24, blue: 0.20),

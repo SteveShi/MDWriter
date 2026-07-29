@@ -84,6 +84,14 @@ struct NoteListView: View {
                             || note.title.localizedStandardContains(queryText)
                             || note.content.localizedStandardContains(queryText))
                 }, sort: \.order)
+        case .tag(let tag):
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    note.tags.contains(tag) && !note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.order)
         }
     }
 
