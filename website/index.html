@@ -182,12 +182,6 @@
       border-radius: 20px;
       border: 1px solid rgba(42,72,102,0.15);
     }
-    .eyebrow-badge {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent-2);
-    }
 
     .hero-title {
       font-family: var(--serif);
@@ -282,165 +276,39 @@
       border-radius: 50%;
     }
 
-    /* Modern Mockup Shell for Hero */
-    .mockup-shell {
-      background: #FBF7EC;
-      border-radius: 14px;
+    /* High-Res Hero Screenshot Container */
+    .hero-shot {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
       border: 1px solid var(--rule);
       box-shadow:
         0 1px 0 rgba(255,255,255,0.7) inset,
-        0 30px 60px -30px rgba(31,27,22,0.35),
-        0 80px 120px -60px rgba(31,27,22,0.22);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+        0 24px 50px -20px rgba(31,27,22,0.35),
+        0 60px 100px -40px rgba(31,27,22,0.25);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
-    .mockup-titlebar {
-      height: 38px;
-      background: linear-gradient(180deg, #F0E9D6 0%, #E9E1CB 100%);
-      border-bottom: 1px solid var(--rule);
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      gap: 8px;
+    .hero-shot:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.7) inset,
+        0 30px 60px -20px rgba(31,27,22,0.4),
+        0 70px 110px -40px rgba(31,27,22,0.3);
     }
-    .mockup-dots {
-      display: flex;
-      gap: 6px;
+    .hero-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 11px;
     }
-    .dot-red { width: 11px; height: 11px; border-radius: 50%; background: #ED6A5E; border: 1px solid rgba(0,0,0,0.1); }
-    .dot-yellow { width: 11px; height: 11px; border-radius: 50%; background: #F4BF4F; border: 1px solid rgba(0,0,0,0.1); }
-    .dot-green { width: 11px; height: 11px; border-radius: 50%; background: #61C554; border: 1px solid rgba(0,0,0,0.1); }
-    .mockup-title {
-      flex: 1;
-      text-align: center;
-      font-family: var(--serif);
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .mockup-body {
-      display: grid;
-      grid-template-columns: 140px 170px 1fr 220px;
-      min-height: 440px;
-    }
-    .m-sidebar {
-      background: rgba(238,231,214,0.65);
-      border-right: 1px solid var(--rule-soft);
-      padding: 14px 10px;
-      font-size: 12px;
-    }
-    .m-sidebar h5 {
-      font-family: var(--serif);
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted-2);
-      margin: 10px 4px 6px;
-      font-weight: 600;
-    }
-    .m-side-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 8px;
-      border-radius: 5px;
-      color: var(--ink-soft);
-    }
-    .m-side-item.active {
-      background: rgba(42,72,102,0.12);
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .m-doclist {
-      background: rgba(244,239,227,0.55);
-      border-right: 1px solid var(--rule-soft);
-      padding: 10px 0;
-    }
-    .m-doc {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--rule-soft);
-    }
-    .m-doc.active { background: rgba(42,72,102,0.08); }
-    .m-doc-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
-    .m-doc-preview { font-size: 11px; color: var(--muted); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .m-editor {
-      background: var(--card);
-      padding: 24px 28px;
-      font-size: 14.5px;
-      line-height: 1.7;
-    }
-    .m-editor h2 { font-size: 20px; font-weight: 700; margin: 0 0 12px; color: var(--ink); }
-    .m-editor p { margin: 0 0 12px; color: var(--ink-soft); }
-    .m-editor code { font-family: var(--mono); font-size: 12px; background: rgba(31,27,22,0.06); padding: 1px 5px; border-radius: 4px; color: var(--accent); }
-
-    .m-chat {
-      background: #1F1B16;
-      color: #E7DECC;
-      border-left: 1px solid var(--rule-soft);
-      display: flex;
-      flex-direction: column;
-      padding: 12px;
-      font-size: 12px;
-    }
-    .m-chat-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      font-weight: 600;
-      color: var(--gold);
-    }
-    .m-chat-model {
-      font-family: var(--mono);
-      font-size: 10px;
-      background: rgba(216,164,122,0.15);
-      color: var(--gold);
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-left: auto;
-    }
-    .m-chat-body {
-      flex: 1;
-      padding: 10px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      overflow: hidden;
-    }
-    .m-msg-user {
-      align-self: flex-end;
-      background: rgba(42,72,102,0.4);
-      color: #FFF;
-      padding: 6px 10px;
-      border-radius: 8px 8px 2px 8px;
-      max-width: 90%;
-      font-size: 11.5px;
-    }
-    .m-msg-ai {
-      align-self: flex-start;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #C8BFAE;
-      padding: 8px 10px;
-      border-radius: 8px 8px 8px 2px;
-      font-size: 11.5px;
-      line-height: 1.5;
-    }
-    .m-tool-badge {
-      font-family: var(--mono);
-      font-size: 9.5px;
-      background: rgba(27,94,85,0.3);
-      border: 1px solid rgba(27,94,85,0.5);
-      color: #5BE0CE;
-      padding: 2px 6px;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 4px;
+    .hero-shot-glow {
+      position: absolute;
+      inset: -20% -10% auto auto;
+      width: 70%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(216,164,122,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* Section Styles */
@@ -600,7 +468,7 @@
       color: var(--gold);
     }
 
-    /* Interactive AI / MCP Console Card */
+    /* Interactive Terminal Console Showcase */
     .console-card {
       background: linear-gradient(180deg, #2A241E 0%, #1F1B16 100%);
       border: 1px solid rgba(216,164,122,0.22);
@@ -825,8 +693,6 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-      .mockup-body { grid-template-columns: 1fr; }
-      .m-sidebar, .m-doclist, .m-chat { display: none; }
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .ai-grid { grid-template-columns: 1fr; }
       .themes-grid { grid-template-columns: repeat(2, 1fr); }
@@ -899,65 +765,13 @@
           </div>
         </div>
 
-        <!-- Four-Column Interactive App Mockup -->
-        <div class="mockup-shell">
-          <div class="mockup-titlebar">
-            <div class="mockup-dots">
-              <span class="dot-red"></span>
-              <span class="dot-yellow"></span>
-              <span class="dot-green"></span>
-            </div>
-            <div class="mockup-title">MDWriter 3.0 — 我的长篇小说草稿.md</div>
-          </div>
-          <div class="mockup-body">
-            <!-- Sidebar -->
-            <div class="m-sidebar">
-              <h5>资料库</h5>
-              <div class="m-side-item active">📁 全部文稿</div>
-              <div class="m-side-item">📥 临时收件箱</div>
-              <div class="m-side-item">🗑️ 废纸篓</div>
-              <h5>自定义分类</h5>
-              <div class="m-side-item">🏷️ 读书笔记</div>
-              <div class="m-side-item">🏷️ 架构设计</div>
-            </div>
-            <!-- Doclist -->
-            <div class="m-doclist">
-              <div class="m-doc active">
-                <div class="m-doc-title">我的长篇小说草稿</div>
-                <div class="m-doc-preview">当星海沉寂，人类的终极哲思...</div>
-              </div>
-              <div class="m-doc">
-                <div class="m-doc-title">MCP 扩展协同设计</div>
-                <div class="m-doc-preview">使用 StdioTransport 建立...</div>
-              </div>
-              <div class="m-doc">
-                <div class="m-doc-title">本地 LLM 性能测试</div>
-                <div class="m-doc-preview">qwen2.5-7b 推理速度达到...</div>
-              </div>
-            </div>
-            <!-- Editor -->
-            <div class="m-editor">
-              <h2># 当星海沉寂</h2>
-              <p>深邃的暗空下，探针正缓缓穿过小行星带。人类对于知识的渴望，从不因距离而熄灭。</p>
-              <p>正如写作者手中的文字，在干净的界面中一点点汇聚成海。</p>
-              <p><code>MarkX 语法高亮引擎已就绪 | 选区: 42 字</code></p>
-            </div>
-            <!-- Chat Panel -->
-            <div class="m-chat">
-              <div class="m-chat-header">
-                <span>🤖 AI 助手</span>
-                <span class="m-chat-model">Ollama: qwen2.5</span>
-              </div>
-              <div class="m-chat-body">
-                <div class="m-msg-user">帮我把选中段落润色得更有史诗感，并搜索关于星云的资料。</div>
-                <div class="m-msg-ai">
-                  已完成文字润色。
-                  <div class="m-tool-badge">⚡ web_search: 蟹状星云</div>
-                  <div style="margin-top:4px;">“夜色凝重，银河如倾泻的琉璃...”</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- High-Res Native UI Screenshot Mockup -->
+        <div class="hero-shot" aria-hidden="true">
+          <picture>
+            <source type="image/webp" srcset="assets/hero-screenshot.webp 1x, assets/hero-screenshot@2x.webp 2x" />
+            <img src="assets/hero-screenshot.png" alt="MDWriter 3.0 native macOS UI screenshot" loading="eager" width="1600" height="900" />
+          </picture>
+          <span class="hero-shot-glow"></span>
         </div>
       </div>
     </div>
