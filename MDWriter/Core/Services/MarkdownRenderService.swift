@@ -148,7 +148,7 @@ struct MDWMarkdownRenderer {
                 h4 { font-size: 1em; }
                 h5 { font-size: .875em; }
                 h6 { font-size: .85em; color: \(colors.text); opacity: 0.75; }
-                p { margin-top: 0; margin-bottom: 16px; }
+                p { margin-top: 0; margin-bottom: 16px; white-space: pre-wrap; }
                 code {
                     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
                     background-color: \(colors.codeBg);
