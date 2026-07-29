@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [3.0.0] - 2026-07-29
+
+### Added
+- **Local LLM Engine Integration**: Full support for local OpenAI-compatible AI engines including Ollama, LM Studio, oMLX, llama.cpp, MLX, Jan, and custom endpoints with zero data cloud uploads.
+- **AI Chat Panel**: Integrated right sidebar panel (`⇧⌘L`) with instant model switching, note-bound SwiftData message history, and rich Markdown response rendering.
+- **Full Tool Calling Suite**: Built-in 18-tool execution engine allowing AI to manipulate active document selections, manage library notes, edit metadata, format Markdown tables/code, and configure MCP servers.
+- **Model Context Protocol (MCP)**: Native MCP Host integration powered by `mcp-swift-sdk @ 0.12.1`. Supports stdio servers, visual preset templates (Filesystem, Fetch, Puppeteer, Brave, GitHub), native folder picking, and AI-driven server registration.
+- **Multi-Engine Privacy Web Search**: Integrated DuckDuckGo (zero API key), SearXNG (self-hosted), Brave, Tavily, Exa, Google, and Bing web search with collapsible search source cards in chat.
+- **Apple Intelligence Division**: Clear functional division reserving Apple Intelligence for lightweight on-device summaries, title generation, auto-tagging, and translation, while offloading complex creative tasks to local LLMs.
+
+---
+
+### Chinese
+### 新增
+- **本地大模型引擎接入**：全量支持 Ollama、LM Studio、oMLX、llama.cpp、MLX、Jan 及自定义端点等本地大模型引擎，执行本地优先策略，数据绝不上云。
+- **AI 对话面板**：新增右侧独立 AI 对话面板（快捷键 `⇧⌘L`），支持实时模型选择、与笔记绑定持久化的 SwiftData 对话历史以及 Markdown 富文本渲染。
+- **全量 Tool Calling 工具链**：内置 18 个操控工具，允许大模型直接接管编辑器选区操控、文稿库笔记管理、元数据设置、Markdown 表格与代码块格式化及 MCP 服务管理。
+- **Model Context Protocol (MCP) 扩展支持**：基于 `mcp-swift-sdk @ 0.12.1` 实现原生 MCP 宿主，内置零门槛预设库（文件系统、网页抓取、Puppeteer、Brave 搜索、GitHub）、原生文件夹选择器，并支持大模型通过对话直接添加扩展。
+- **多引擎隐私网络搜索**：支持 DuckDuckGo（内置免 Key）、SearXNG（自建实例）、Brave、Tavily、Exa、Google、Bing 等 7 大搜索引擎，对话框中提供可折叠搜索来源卡片。
+- **Apple Intelligence 分工优化**：明确端侧分工，Apple Intelligence 专注于轻量级摘要、标题生成、标签提取与快速翻译，复杂创作与功能操控交由本地大模型。
+
 ## [2.7.0] - 2026-07-23
 
 ### Refactor

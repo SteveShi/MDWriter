@@ -45,7 +45,7 @@ struct MDWriterApp: App {
 
             let sqliteURL = dataFolderURL.appendingPathComponent("library.sqlite")
 
-            let schema = Schema([Folder.self, Note.self, Snapshot.self, Memo.self])
+            let schema = Schema([Folder.self, Note.self, Snapshot.self, Memo.self, ChatMessage.self])
             let config = ModelConfiguration(url: sqliteURL, allowsSave: true)
 
             container = try ModelContainer(for: schema, configurations: [config])

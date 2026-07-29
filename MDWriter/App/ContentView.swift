@@ -37,6 +37,7 @@ struct ContentView: View {
     @State private var showShortcutsSheet: Bool = false
     @State private var showFontSettings: Bool = false
     @State private var showAIAssistant: Bool = false
+    @State private var showChatPanel: Bool = false
 
     // 导出状态
     @State private var exportItem: ExportItem? = nil
@@ -177,7 +178,7 @@ struct ContentView: View {
             }
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
 
-            // MARK: - Pane 2: Right Sidebar (Dashboard)
+            // MARK: - Pane 2: Right Sidebar (Dashboard or AI Chat)
             if showOutline, let currentNote = note {
                 DashboardView(
                     note: currentNote,
@@ -187,6 +188,12 @@ struct ContentView: View {
                     )
                 )
                 .frame(minWidth: 240, maxWidth: 300, maxHeight: .infinity)
+            } else if showChatPanel {
+                ChatPanelView(
+                    controller: editorController,
+                    note: note,
+                    isPresented: $showChatPanel
+                )
             }
         }
         .preferredColorScheme(currentTheme.colorScheme)
@@ -272,7 +279,7 @@ struct ContentView: View {
                 #if canImport(FoundationModels)
                     if #available(macOS 26.0, *) {
                         Button(action: { showAIAssistant.toggle() }) {
-                            Image(systemName: "apple.intelligence")
+                            Image(systemName: "sparkles")
                                 .foregroundColor(showAIAssistant ? .accentColor : .primary)
                         }
                         .disabled(note == nil)
@@ -283,9 +290,35 @@ struct ContentView: View {
                     }
                 #endif
 
-                // 7. 大纲 (Dashboard toggle)
-                Button(action: { withAnimation { showOutline.toggle() } }) {
-                    Image(systemName: "sidebar.right")  // More appropriate icon for dashboard
+                // 7. AI 对话窗口 (Chat Panel Toggle)
+                Button(action: {
+                    withAnimation {
+                        if showChatPanel {
+                            showChatPanel = false
+                        } else {
+                            showOutline = false
+                            showChatPanel = true
+                        }
+                    }
+                }) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .foregroundColor(showChatPanel ? .accentColor : .secondary)
+                }
+                .disabled(note == nil)
+                .help(LocalizedStringKey("AI Chat"))
+
+                // 8. 大纲 (Dashboard toggle)
+                Button(action: {
+                    withAnimation {
+                        if showOutline {
+                            showOutline = false
+                        } else {
+                            showChatPanel = false
+                            showOutline = true
+                        }
+                    }
+                }) {
+                    Image(systemName: "sidebar.right")
                         .foregroundColor(showOutline ? .accentColor : .secondary)
                 }
                 .disabled(note == nil)
@@ -321,6 +354,16 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .findPrevious)) { _ in
             editorController.findPrevious()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .toggleAIChat)) { _ in
+            withAnimation {
+                if showChatPanel {
+                    showChatPanel = false
+                } else {
+                    showOutline = false
+                    showChatPanel = true
+                }
+            }
         }
     }
 

@@ -18,11 +18,19 @@
 ---
 [English](./README.md)
 
-MDWriter 是一款专为 macOS 设计的现代、优雅且功能强大的 Markdown 编辑器，基于 SwiftUI 和 SwiftData 开发。灵感源自 Ulysses 等专业写作工具，它为你提供了一个专注的写作环境，同时具备强大的库管理和导出功能。
+MDWriter 是一款专为 macOS 设计的现代、优雅且功能强大的 Markdown 编辑器，基于 SwiftUI 和 SwiftData 开发。灵感源自 Ulysses 等专业写作工具，它为你提供了一个专注的写作环境，同时具备强大的库管理、本地优先 AI 接入和导出功能。
 
 MDWriter 采用 **SwiftUI** 和 **SwiftData** 构建，提供原生性能、流畅的动画以及稳健的数据库架构。
 
 ## ✨ 特性
+
+### 🧠 本地优先 AI 与本地大模型接入 (v3.0 新特性)
+*   **本地大模型支持**：全量接入 Ollama、LM Studio、oMLX、llama.cpp、MLX、Jan 及自定义 OpenAI 兼容本地引擎，执行本地优先策略，数据绝不上云。
+*   **AI 对话面板 (`⇧⌘L`)**：右侧独立对话面板，支持实时模型选择、与笔记绑定持久化的 SwiftData 对话历史及 Markdown 富文本渲染。
+*   **全量 Tool Calling 工具链**：内置 18 个操控工具，允许大模型直接接管编辑器选区操控、文稿库笔记管理、元数据设置、Markdown 表格/代码块格式化及 MCP 服务管理。
+*   **Model Context Protocol (MCP) 扩展支持**：基于 `mcp-swift-sdk @ 0.12.1` 实现原生 MCP 宿主，内置零门槛预设库（文件系统、网页抓取、Puppeteer、Brave 搜索、GitHub）、原生文件夹选择器，并支持大模型通过对话直接添加扩展。
+*   **多引擎隐私网络搜索**：支持 DuckDuckGo（内置免 Key）、SearXNG（自建实例）、Brave、Tavily、Exa、Google、Bing 等 7 大搜索引擎，对话框中提供可折叠搜索来源卡片。
+*   **Apple Intelligence 分工优化**：明确端侧分工，Apple Intelligence 专注于轻量级摘要、标题生成、标签提取与快速翻译，复杂创作与功能操控交由本地大模型。
 
 ### ✍️ 专业级编辑器
 *   **排版至上**：精心调整的行高、段落间距和页边距，确保最佳阅读体验（针对英文及中日韩/CJK 文字进行了优化）。
@@ -37,19 +45,10 @@ MDWriter 采用 **SwiftUI** 和 **SwiftData** 构建，提供原生性能、流�
 *   **拖拽操作**：直观的组织方式——在文件夹、废纸篓之间拖动笔记，或重新排列层级结构。
 *   **智能列表**：内置收件箱（Inbox）和废纸篓（Trash）管理。
 
-### 📜 版本与备份 (v1.7 新特性)
+### 📜 版本与备份
 *   **快照历史**：手动保存文档“版本”，并能以纯视觉方式浏览。查看字数、创建时间，并一键恢复至之前的状态。
 *   **完整库备份**：将整个数据库（文件夹、笔记、快照）导出为单个 `.mdwbk` 文件。
 *   **一键恢复**：轻松将你的库迁移到新机器，或从意外数据丢失中恢复。
-
-### 🤖 Apple Intelligence 集成 (v2.0 新特性)
-> [!IMPORTANT]
-> **运行要求**：需要 macOS 26.0 或更高版本，以及搭载 Apple Silicon (M 系列) 芯片的 Mac。需在系统设置中开启 Apple Intelligence。
-
-*   **端侧 AI 助手**：基于 Apple Foundation Models 的隐私优先 AI 助手面板。
-*   **写作工具**：一键进行润色、摘要、翻译和校对。
-*   **智能元数据**：根据内容自动生成描述性标题和相关标签。
-*   **隐私至上**：所有处理均在本地进行，数据绝不离开你的设备。
 
 ### 📤 导出与分享
 *   **PDF 导出**：生成简洁、针对 A4 优化的 PDF，包含精美的页眉和页脚。
@@ -75,7 +74,7 @@ brew install --cask mdwriter
 ### 从源码编译
 **要求：**
 *   macOS 14.0+
-*   Xcode 15.0+
+*   Xcode 16.0+
 
 1.  克隆仓库：
     ```bash
@@ -96,14 +95,13 @@ brew install --cask mdwriter
 MDWriter 利用了几个强大的开源库：
 - **SwiftUI**：构建现代、原生的 macOS 用户界面。
 - **SwiftData**：负责持久化存储和数据管理。
-- **swift-markdown**：高性能 Markdown 解析。
-- **Highlightr**：实现实时的代码和语法高亮。
+- **MDEditorKit**：高性能编辑器集成包。
+- **mcp-swift-sdk**：Model Context Protocol 客户端实现。
 - **Sparkle**：提供流畅的应用自动更新。
-- **WhatsNewKit**：在版本更新后展示新功能。
 
 ### 运行环境
 - macOS 14.0 或更高版本
-- Xcode 15.0 或更高版本
+- Xcode 16.0 或更高版本
 
 ## 开源协议
 

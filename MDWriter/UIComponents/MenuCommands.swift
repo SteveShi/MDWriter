@@ -157,6 +157,11 @@ struct ViewCommands: Commands {
                 withAnimation { showOutline.toggle() }
             }
             .keyboardShortcut("o", modifiers: [.command, .option])
+
+            Button(LocalizedStringKey("AI Chat")) {
+                NotificationCenter.default.post(name: .toggleAIChat, object: nil)
+            }
+            .keyboardShortcut("l", modifiers: [.command, .shift])
         }
 
         CommandGroup(replacing: .toolbar) {
@@ -362,6 +367,7 @@ extension Notification.Name {
     static let printDocument = Notification.Name("printDocument")
     static let showKeyboardShortcuts = Notification.Name("showKeyboardShortcuts")
     static let showWhatsNew = Notification.Name("showWhatsNew")
+    static let toggleAIChat = Notification.Name("toggleAIChat")
 
     // File
     static let newNote = Notification.Name("newNote")

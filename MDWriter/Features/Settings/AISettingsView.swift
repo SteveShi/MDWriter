@@ -2,7 +2,7 @@
 //  AISettingsView.swift
 //  MDWriter
 //
-//  AI settings panel for preferences window.
+//  Comprehensive AI, Local LLM, MCP, and Web Search settings panel.
 //
 
 import SwiftUI
@@ -10,64 +10,247 @@ import SwiftUI
 struct AISettingsView: View {
     @AppStorage("aiEnabled") private var aiEnabled: Bool = true
     @AppStorage("aiTranslationTarget") private var translationTarget: String = "auto"
+    @AppStorage("llmEnabled") private var llmEnabled: Bool = true
+    @AppStorage("llmProvider") private var providerRaw: String = LLMProvider.ollama.rawValue
+    @AppStorage("llmCustomBaseURL") private var customBaseURL: String = LLMProvider.ollama.defaultBaseURL
+    @AppStorage("llmSelectedModel") private var selectedModel: String = ""
+
+    // Web Search Options
+    @AppStorage("searchEnabled") private var searchEnabled: Bool = true
+    @AppStorage("searchEngine") private var searchEngineRaw: String = WebSearchEngineProvider.duckDuckGo.rawValue
+    @AppStorage("searchCustomURL") private var searchCustomURL: String = ""
+    @AppStorage("searchBraveKey") private var searchBraveKey: String = ""
+    @AppStorage("searchTavilyKey") private var searchTavilyKey: String = ""
+    @AppStorage("searchExaKey") private var searchExaKey: String = ""
+    @AppStorage("searchGoogleKey") private var searchGoogleKey: String = ""
+    @AppStorage("searchGoogleCX") private var searchGoogleCX: String = ""
+    @AppStorage("searchBingKey") private var searchBingKey: String = ""
+
+    @State private var llmService = LLMService()
+    @State private var isDetecting: Bool = false
 
     var body: some View {
-        Form {
-            Section {
-                Toggle(LocalizedStringKey("Enable AI Features"), isOn: $aiEnabled)
+        ScrollView(.vertical, showsIndicators: true) {
+            Form {
+                // Section 1: Apple Intelligence
+                Section {
+                    Toggle(LocalizedStringKey("Enable On-Device Apple Intelligence"), isOn: $aiEnabled)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(LocalizedStringKey("AI features use Apple Intelligence for on-device processing. No data is sent to the cloud."))
-                        .font(.system(size: 11))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(LocalizedStringKey("Apple Intelligence provides lightweight on-device summary, title generation, and auto-tagging. Zero data leaves your device."))
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Picker(LocalizedStringKey("Translation Target Language"), selection: $translationTarget) {
+                        Text(LocalizedStringKey("Auto Detect")).tag("auto")
+                        Divider()
+                        Text("English").tag("en")
+                        Text("简体中文").tag("zh-Hans")
+                    }
+                    .pickerStyle(.menu)
+                } header: {
+                    Label(LocalizedStringKey("Apple Intelligence"), systemImage: "apple.intelligence")
+                }
+
+                // Section 2: Local LLM Engines
+                Section {
+                    Toggle(LocalizedStringKey("Enable Local LLM Engine"), isOn: $llmEnabled)
+
+                    if llmEnabled {
+                        Picker(LocalizedStringKey("Engine Provider"), selection: $providerRaw) {
+                            ForEach(LLMProvider.allCases) { provider in
+                                Label(provider.displayName, systemImage: provider.iconName)
+                                    .tag(provider.rawValue)
+                            }
+                        }
+                        .onChange(of: providerRaw) { _, newRaw in
+                            if let provider = LLMProvider(rawValue: newRaw) {
+                                customBaseURL = provider.defaultBaseURL
+                                Task { await llmService.fetchAvailableModels() }
+                            }
+                        }
+
+                        HStack {
+                            TextField(LocalizedStringKey("Server Base URL"), text: $customBaseURL)
+                                .font(.system(size: 12, design: .monospaced))
+
+                            Button {
+                                isDetecting = true
+                                Task {
+                                    _ = await llmService.config.autoDetectProvider()
+                                    await llmService.fetchAvailableModels()
+                                    isDetecting = false
+                                }
+                            } label: {
+                                if isDetecting {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                } else {
+                                    Text(LocalizedStringKey("Auto Detect"))
+                                }
+                            }
+                            .disabled(isDetecting)
+                        }
+
+                        HStack {
+                            Picker(LocalizedStringKey("Active Model"), selection: $selectedModel) {
+                                if llmService.availableModels.isEmpty {
+                                    Text(selectedModel.isEmpty ? LocalizedStringKey("No models found") : LocalizedStringKey(selectedModel))
+                                        .tag(selectedModel)
+                                } else {
+                                    ForEach(llmService.availableModels) { model in
+                                        Text(model.id).tag(model.id)
+                                    }
+                                }
+                            }
+                            .pickerStyle(.menu)
+
+                            Button {
+                                Task { await llmService.fetchAvailableModels() }
+                            } label: {
+                                Image(systemName: "arrow.clockwise")
+                            }
+                        }
+
+                        HStack {
+                            Text(LocalizedStringKey("Connection Status"))
+                                .font(.system(size: 11))
+                            Spacer()
+                            HStack(spacing: 6) {
+                                Circle()
+                                    .fill(llmService.availableModels.isEmpty ? Color.red : Color.green)
+                                    .frame(width: 8, height: 8)
+                                Text(llmService.availableModels.isEmpty ? LocalizedStringKey("Disconnected") : LocalizedStringKey("Connected"))
+                                    .font(.system(size: 11))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                } header: {
+                    Label(LocalizedStringKey("Local LLM Engine"), systemImage: "cpu")
+                } footer: {
+                    Text(LocalizedStringKey("Supports Ollama, LM Studio, oMLX, llama.cpp, MLX, Jan, and custom OpenAI-compatible local endpoints."))
+                        .font(.system(size: 10))
                         .foregroundStyle(.secondary)
                 }
-            } header: {
-                Label(LocalizedStringKey("Apple Intelligence"), systemImage: "apple.intelligence")
-            }
 
-            Section {
-                Picker(LocalizedStringKey("Translation Target Language"), selection: $translationTarget) {
-                    Text(LocalizedStringKey("Auto Detect")).tag("auto")
-                    Divider()
-                    Text("English").tag("en")
-                    Text("简体中文").tag("zh-Hans")
-                }
-                .pickerStyle(.menu)
-            } header: {
-                Label(LocalizedStringKey("Translation"), systemImage: "globe")
-            }
+                // Section 3: MCP Servers
+                MCPSettingsView()
 
-            #if canImport(FoundationModels)
-            if #available(macOS 26.0, *) {
+                // Section 4: Web Search (Multi-Engine, Cherry Studio inspired)
                 Section {
-                    statusRow
+                    Toggle(LocalizedStringKey("Enable Web Search"), isOn: $searchEnabled)
+
+                    if searchEnabled {
+                        Picker(LocalizedStringKey("Search Engine"), selection: $searchEngineRaw) {
+                            ForEach(WebSearchEngineProvider.allCases) { engine in
+                                Text(LocalizedStringKey(engine.displayName)).tag(engine.rawValue)
+                            }
+                        }
+                        .pickerStyle(.menu)
+
+                        let currentEngine = WebSearchEngineProvider(rawValue: searchEngineRaw) ?? .duckDuckGo
+
+                        switch currentEngine {
+                        case .duckDuckGo:
+                            Text(LocalizedStringKey("Built-in Web Search uses DuckDuckGo HTML by default (Zero API Key, Zero Data Upload)."))
+                                .font(.system(size: 11))
+                                .foregroundStyle(.secondary)
+
+                        case .searxng:
+                            HStack {
+                                Text(LocalizedStringKey("SearXNG Instance URL"))
+                                    .font(.system(size: 11))
+                                Spacer()
+                                TextField("https://searx.be", text: $searchCustomURL)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(width: 240)
+                            }
+
+                        case .brave:
+                            HStack {
+                                Text(LocalizedStringKey("Brave Search API Key"))
+                                    .font(.system(size: 11))
+                                Spacer()
+                                SecureField("BS-xxxxxx", text: $searchBraveKey)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(width: 240)
+                            }
+
+                        case .tavily:
+                            HStack {
+                                Text(LocalizedStringKey("Tavily API Key"))
+                                    .font(.system(size: 11))
+                                Spacer()
+                                SecureField("tvly-xxxxxx", text: $searchTavilyKey)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(width: 240)
+                            }
+
+                        case .exa:
+                            HStack {
+                                Text(LocalizedStringKey("Exa API Key"))
+                                    .font(.system(size: 11))
+                                Spacer()
+                                SecureField("exa-xxxxxx", text: $searchExaKey)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(width: 240)
+                            }
+
+                        case .google:
+                            VStack(spacing: 8) {
+                                HStack {
+                                    Text(LocalizedStringKey("Google API Key"))
+                                        .font(.system(size: 11))
+                                    Spacer()
+                                    SecureField("AIzaSy-xxxxxx", text: $searchGoogleKey)
+                                        .font(.system(size: 12, design: .monospaced))
+                                        .multilineTextAlignment(.trailing)
+                                        .frame(width: 240)
+                                }
+                                HStack {
+                                    Text(LocalizedStringKey("Google Engine ID (CX)"))
+                                        .font(.system(size: 11))
+                                    Spacer()
+                                    TextField("0123456789...", text: $searchGoogleCX)
+                                        .font(.system(size: 12, design: .monospaced))
+                                        .multilineTextAlignment(.trailing)
+                                        .frame(width: 240)
+                                }
+                            }
+
+                        case .bing:
+                            HStack {
+                                Text(LocalizedStringKey("Bing Search API Key"))
+                                    .font(.system(size: 11))
+                                Spacer()
+                                SecureField("bing-key-xxxxxx", text: $searchBingKey)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(width: 240)
+                            }
+                        }
+                    }
                 } header: {
-                    Label(LocalizedStringKey("Status"), systemImage: "info.circle")
+                    Label(LocalizedStringKey("Web Search"), systemImage: "magnifyingglass")
+                } footer: {
+                    Text(LocalizedStringKey("Built-in Web Search allows local LLMs to fetch live information directly without uploading personal documents."))
+                        .font(.system(size: 10))
+                        .foregroundStyle(.secondary)
                 }
             }
-            #endif
+            .formStyle(.grouped)
+            .padding(.vertical, 8)
         }
-        .formStyle(.grouped)
-        .frame(width: 450)
-    }
-
-    #if canImport(FoundationModels)
-    @available(macOS 26.0, *)
-    @ViewBuilder
-    private var statusRow: some View {
-        let service = AIService()
-        HStack {
-            Text(LocalizedStringKey("Apple Intelligence"))
-            Spacer()
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(service.isAvailable ? Color.green : Color.red)
-                    .frame(width: 8, height: 8)
-                Text(service.availabilityDescription)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.secondary)
+        .onAppear {
+            Task {
+                await llmService.fetchAvailableModels()
             }
         }
     }
-    #endif
 }

@@ -1,6 +1,29 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "···": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "···"
+          }
+        }
+      }
+    },
+    "(%@ tools)": {},
+    "(%lld tools)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%lld 个工具)"
+          }
+        }
+      }
+    },
     "%@": {
       "extractionState": "manual",
       "localizations": {
@@ -8,6 +31,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@"
+          }
+        }
+      }
+    },
+    "%@ %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ %2$@"
           }
         }
       }
@@ -34,6 +67,7 @@
         }
       }
     },
+    "%@ Search Sources": {},
     "%lld pt": {
       "extractionState": "manual",
       "localizations": {
@@ -56,6 +90,28 @@
         }
       }
     },
+    "%lld Search Source": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个搜索来源"
+          }
+        }
+      }
+    },
+    "%lld Search Sources": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个搜索来源"
+          }
+        }
+      }
+    },
     "A complete overhaul of the editor core for massive stability and performance gains.": {
       "extractionState": "manual",
       "localizations": {
@@ -63,6 +119,105 @@
           "stringUnit": {
             "state": "translated",
             "value": "全面重构核心编辑器，带来巨大的稳定性与性能提升。"
+          }
+        }
+      }
+    },
+    "Aa": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aa"
+          }
+        }
+      }
+    },
+    "Active Model": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前模型"
+          }
+        }
+      }
+    },
+    "Actual Size": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实际大小"
+          }
+        }
+      }
+    },
+    "Add & Connect": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加并连接"
+          }
+        }
+      }
+    },
+    "Add Keyword": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加关键字"
+          }
+        }
+      }
+    },
+    "Add MCP Server": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 MCP 服务器"
+          }
+        }
+      }
+    },
+    "Add Server": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加服务器"
+          }
+        }
+      }
+    },
+    "Add...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加..."
+          }
+        }
+      }
+    },
+    "Adjust Tone": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语气调整"
           }
         }
       }
@@ -89,6 +244,17 @@
         }
       }
     },
+    "AI Chat": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 对话"
+          }
+        }
+      }
+    },
     "AI Features Disabled": {
       "extractionState": "manual",
       "localizations": {
@@ -96,6 +262,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "AI 功能已禁用"
+          }
+        }
+      }
+    },
+    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
           }
         }
       }
@@ -129,61 +306,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "AI 不可用"
-          }
-        }
-      }
-    },
-    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
-          }
-        }
-      }
-    },
-    "Aa": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aa"
-          }
-        }
-      }
-    },
-    "Actual Size": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "实际大小"
-          }
-        }
-      }
-    },
-    "Add Keyword": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加关键字"
-          }
-        }
-      }
-    },
-    "Add...": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加..."
           }
         }
       }
@@ -249,6 +371,28 @@
         }
       }
     },
+    "Apple Intelligence (On-Device)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Intelligence (端侧)"
+          }
+        }
+      }
+    },
+    "Apple Intelligence provides lightweight on-device summary, title generation, and auto-tagging. Zero data leaves your device.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Intelligence 提供端侧轻量级摘要、标题生成与自动标签。数据绝不出门。"
+          }
+        }
+      }
+    },
     "Apply Tags": {
       "extractionState": "manual",
       "localizations": {
@@ -267,6 +411,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "您确定要彻底删除废纸篓中的所有项目吗？该操作无法撤销。"
+          }
+        }
+      }
+    },
+    "Arguments (space separated)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参数 (空格分隔)"
+          }
+        }
+      }
+    },
+    "Ask AI anything or type a prompt...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "询问 AI 任何问题或输入 Prompt..."
           }
         }
       }
@@ -370,6 +536,28 @@
         }
       }
     },
+    "Built-in Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内置网络搜索"
+          }
+        }
+      }
+    },
+    "Built-in Web Search uses DuckDuckGo HTML by default (Zero API Key, Zero Data Upload).": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内置网络搜索默认使用 DuckDuckGo HTML (零 API Key，零数据上传)。"
+          }
+        }
+      }
+    },
     "Bullet List": {
       "extractionState": "manual",
       "localizations": {
@@ -414,24 +602,13 @@
         }
       }
     },
-    "Check Grammar with Spelling": {
+    "chars": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "检查拼写和语法"
-          }
-        }
-      }
-    },
-    "Check Spelling While Typing": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "键入时检查拼写"
+            "value": "字符"
           }
         }
       }
@@ -458,6 +635,28 @@
         }
       }
     },
+    "Check Grammar with Spelling": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查拼写和语法"
+          }
+        }
+      }
+    },
+    "Check Spelling While Typing": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键入时检查拼写"
+          }
+        }
+      }
+    },
     "Choose the look and feel of the application interface.": {
       "extractionState": "manual",
       "localizations": {
@@ -465,6 +664,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择应用程序界面的外观和感觉。"
+          }
+        }
+      }
+    },
+    "Clean up and format Markdown syntax": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "整理与格式化 Markdown 语法"
           }
         }
       }
@@ -546,6 +756,39 @@
         }
       }
     },
+    "Configurations are saved to ~/Library/Application Support/MDWriter/mcp.json": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置文件已保存至 ~/Library/Application Support/MDWriter/mcp.json"
+          }
+        }
+      }
+    },
+    "Connected": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接"
+          }
+        }
+      }
+    },
+    "Connection Status": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接状态"
+          }
+        }
+      }
+    },
     "Continue": {
       "extractionState": "manual",
       "localizations": {
@@ -557,6 +800,17 @@
         }
       }
     },
+    "Convert to Table": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转换为表格"
+          }
+        }
+      }
+    },
     "Copy": {
       "extractionState": "manual",
       "localizations": {
@@ -564,6 +818,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "拷贝"
+          }
+        }
+      }
+    },
+    "Copy Code": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制代码"
+          }
+        }
+      }
+    },
+    "Copy Message": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制消息"
           }
         }
       }
@@ -612,6 +888,17 @@
         }
       }
     },
+    "Custom SearXNG Instance URL (Optional)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义 SearXNG 实例 URL (可选)"
+          }
+        }
+      }
+    },
     "Cut": {
       "extractionState": "manual",
       "localizations": {
@@ -651,6 +938,28 @@
         }
       }
     },
+    "Deep grammar and spelling correction": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深度语法与拼写校对"
+          }
+        }
+      }
+    },
+    "Deep Proofread": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深度校对"
+          }
+        }
+      }
+    },
     "Delete": {
       "extractionState": "manual",
       "localizations": {
@@ -680,6 +989,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "删除版本"
+          }
+        }
+      }
+    },
+    "Disconnected": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "断开连接"
           }
         }
       }
@@ -784,6 +1104,50 @@
         }
       }
     },
+    "Enable Local LLM Engine": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用本地大模型引擎"
+          }
+        }
+      }
+    },
+    "Enable On-Device Apple Intelligence": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用 Apple Intelligence 端侧引擎"
+          }
+        }
+      }
+    },
+    "Enable Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用网络搜索"
+          }
+        }
+      }
+    },
+    "Engine Provider": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎提供商"
+          }
+        }
+      }
+    },
     "English": {
       "extractionState": "manual",
       "localizations": {
@@ -802,6 +1166,39 @@
           "stringUnit": {
             "state": "translated",
             "value": "不计空格"
+          }
+        }
+      }
+    },
+    "Executable Command": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可执行命令"
+          }
+        }
+      }
+    },
+    "Expand Content": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内容扩写"
+          }
+        }
+      }
+    },
+    "Expand outline points into detailed paragraphs": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将大纲扩展为详细段落"
           }
         }
       }
@@ -852,6 +1249,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "快"
+          }
+        }
+      }
+    },
+    "Fast on-device translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速端侧翻译"
           }
         }
       }
@@ -1011,6 +1419,17 @@
         }
       }
     },
+    "Format Markdown": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "格式化 Markdown"
+          }
+        }
+      }
+    },
     "Formatting": {
       "extractionState": "manual",
       "localizations": {
@@ -1018,6 +1437,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "格式化"
+          }
+        }
+      }
+    },
+    "Full Document": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全篇文档"
           }
         }
       }
@@ -1063,17 +1493,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "GitHub"
-          }
-        }
-      }
-    },
-    "HTML": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "HTML"
           }
         }
       }
@@ -1282,13 +1701,13 @@
         }
       }
     },
-    "IME Stability": {
+    "HTML": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "输入法稳定性"
+            "value": "HTML"
           }
         }
       }
@@ -1326,6 +1745,17 @@
         }
       }
     },
+    "IME Stability": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入法稳定性"
+          }
+        }
+      }
+    },
     "Import...": {
       "extractionState": "manual",
       "localizations": {
@@ -1333,6 +1763,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "导入..."
+          }
+        }
+      }
+    },
+    "Improve clarity, tone, and flow using local LLM": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用本地大模型提升文档清晰度、语气与流畅度"
           }
         }
       }
@@ -1399,6 +1840,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "插入"
+          }
+        }
+      }
+    },
+    "Insert at Cursor": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在光标处插入"
           }
         }
       }
@@ -1591,13 +2043,24 @@
         }
       }
     },
-    "MDWriter Help": {
+    "Local LLM (Complex Operations)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MDWriter 帮助"
+            "value": "本地大模型 (复杂创作与操控)"
+          }
+        }
+      }
+    },
+    "Local LLM Engine": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地大模型引擎"
           }
         }
       }
@@ -1669,6 +2132,28 @@
         }
       }
     },
+    "MCP Servers": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MCP 服务器"
+          }
+        }
+      }
+    },
+    "MDWriter Help": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 帮助"
+          }
+        }
+      }
+    },
     "Media": {
       "extractionState": "manual",
       "localizations": {
@@ -1676,6 +2161,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体"
+          }
+        }
+      }
+    },
+    "Model Context Protocol (MCP) allows local LLMs to connect with external tools and external context.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model Context Protocol (MCP) 允许本地大模型与外部工具和上下文协同工作。"
           }
         }
       }
@@ -1779,6 +2275,50 @@
         }
       }
     },
+    "No MCP servers configured. Click 'Add Server' to integrate external tools.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未配置 MCP 服务器。点击“添加服务器”以集成外部工具。"
+          }
+        }
+      }
+    },
+    "No models found": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到模型"
+          }
+        }
+      }
+    },
+    "No models found. Ensure local engine is running.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到模型。请确保本地引擎已启动。"
+          }
+        }
+      }
+    },
+    "No outline content": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无大纲内容"
+          }
+        }
+      }
+    },
     "No Selection": {
       "extractionState": "manual",
       "localizations": {
@@ -1797,17 +2337,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "无结构"
-          }
-        }
-      }
-    },
-    "No outline content": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无大纲内容"
           }
         }
       }
@@ -1874,17 +2403,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "大纲"
-          }
-        }
-      }
-    },
-    "PDF": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PDF文档"
           }
         }
       }
@@ -1966,6 +2484,17 @@
         }
       }
     },
+    "PDF": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF文档"
+          }
+        }
+      }
+    },
     "Per line": {
       "extractionState": "manual",
       "localizations": {
@@ -1995,6 +2524,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "润色"
+          }
+        }
+      }
+    },
+    "Polish & Rewrite": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "润色改写"
           }
         }
       }
@@ -2060,6 +2600,17 @@
         }
       }
     },
+    "pt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " 磅"
+          }
+        }
+      }
+    },
     "Pure": {
       "extractionState": "manual",
       "localizations": {
@@ -2071,6 +2622,17 @@
         }
       }
     },
+    "px": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " 像素"
+          }
+        }
+      }
+    },
     "Quick Actions": {
       "extractionState": "manual",
       "localizations": {
@@ -2078,6 +2640,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "快速操作"
+          }
+        }
+      }
+    },
+    "Quick Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速翻译"
           }
         }
       }
@@ -2155,7 +2728,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "替换选中"
+            "value": "替换选区"
           }
         }
       }
@@ -2215,6 +2788,17 @@
         }
       }
     },
+    "Result": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结果"
+          }
+        }
+      }
+    },
     "Review Mode": {
       "extractionState": "manual",
       "localizations": {
@@ -2259,17 +2843,6 @@
         }
       }
     },
-    "Save Version": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存版本"
-          }
-        }
-      }
-    },
     "Save as PDF...": {
       "extractionState": "manual",
       "localizations": {
@@ -2277,6 +2850,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存为PDF…"
+          }
+        }
+      }
+    },
+    "Save Version": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存版本"
           }
         }
       }
@@ -2326,6 +2910,17 @@
         }
       }
     },
+    "Select a note to start AI conversation": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择一篇笔记以开始 AI 对话"
+          }
+        }
+      }
+    },
     "Select a version": {
       "extractionState": "manual",
       "localizations": {
@@ -2333,6 +2928,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择一个版本"
+          }
+        }
+      }
+    },
+    "Selected Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所选文本"
           }
         }
       }
@@ -2355,6 +2961,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "分隔线"
+          }
+        }
+      }
+    },
+    "Server Base URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务器基础 URL"
+          }
+        }
+      }
+    },
+    "Server Name": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务器名称"
           }
         }
       }
@@ -2763,6 +3391,28 @@
         }
       }
     },
+    "Supports Ollama, LM Studio, oMLX, llama.cpp, MLX, Jan, and custom OpenAI-compatible local endpoints.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持 Ollama、LM Studio、oMLX、llama.cpp、MLX、Jan 及自定义 OpenAI 兼容本地端点。"
+          }
+        }
+      }
+    },
+    "Switch between academic, casual, or professional tone": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在学术、随性或专业语气间切换"
+          }
+        }
+      }
+    },
     "Syntax Cheat Sheet": {
       "extractionState": "manual",
       "localizations": {
@@ -2879,17 +3529,6 @@
         }
       }
     },
-    "Theme Selection": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "主题选择"
-          }
-        }
-      }
-    },
     "Theme drives the editor canvas, preview background and exported PDF/RTF.": {
       "extractionState": "manual",
       "localizations": {
@@ -2897,6 +3536,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "主题会作用于编辑器画布、预览背景与导出的 PDF / RTF。"
+          }
+        }
+      }
+    },
+    "Theme Selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题选择"
           }
         }
       }
@@ -2919,6 +3569,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "开关作用于 HTML / PDF / RTF 渲染；编辑器内显示由 MDEditor 能力决定。"
+          }
+        }
+      }
+    },
+    "Tool Calls (%lld)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具调用 (%lld)"
+          }
+        }
+      }
+    },
+    "Transform unorganized text into Markdown table": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将散乱文本转化为 Markdown 表格"
           }
         }
       }
@@ -3111,6 +3783,17 @@
         }
       }
     },
+    "Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络搜索"
+          }
+        }
+      }
+    },
     "What's New": {
       "extractionState": "manual",
       "localizations": {
@@ -3172,50 +3855,6 @@
         }
       }
     },
-    "chars": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "字符"
-          }
-        }
-      }
-    },
-    "pt": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " 磅"
-          }
-        }
-      }
-    },
-    "px": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " 像素"
-          }
-        }
-      }
-    },
-    "···": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "···"
-          }
-        }
-      }
-    },
     "简体中文": {
       "extractionState": "manual",
       "localizations": {
@@ -3223,6 +3862,545 @@
           "stringUnit": {
             "state": "translated",
             "value": "简体中文"
+          }
+        }
+      }
+    },
+    "Search Engine": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索引擎"
+          }
+        }
+      }
+    },
+    "DuckDuckGo (Built-in Zero API Key)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuckDuckGo (内置零 API Key)"
+          }
+        }
+      }
+    },
+    "SearXNG (Self-Hosted)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SearXNG (自建实例)"
+          }
+        }
+      }
+    },
+    "SearXNG Instance URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SearXNG 实例 URL"
+          }
+        }
+      }
+    },
+    "Built-in Web Search allows local LLMs to fetch live information directly without uploading personal documents.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络搜索允许本地大模型直接获取实时信息，且无需上传任何个人文档。"
+          }
+        }
+      }
+    },
+    "DuckDuckGo (Built-in Free)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuckDuckGo (内置免费)"
+          }
+        }
+      }
+    },
+    "Brave Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brave Search"
+          }
+        }
+      }
+    },
+    "Tavily Search (AI)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tavily Search (AI 专用)"
+          }
+        }
+      }
+    },
+    "Exa Search (AI)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exa Search (AI 专用)"
+          }
+        }
+      }
+    },
+    "Google Custom Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Custom Search"
+          }
+        }
+      }
+    },
+    "Bing Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bing Web Search"
+          }
+        }
+      }
+    },
+    "Brave Search API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brave Search API Key"
+          }
+        }
+      }
+    },
+    "Tavily API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tavily API Key"
+          }
+        }
+      }
+    },
+    "Exa API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exa API Key"
+          }
+        }
+      }
+    },
+    "Google API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google API Key"
+          }
+        }
+      }
+    },
+    "Google Engine ID (CX)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google 搜索引擎 ID (CX)"
+          }
+        }
+      }
+    },
+    "Bing Search API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bing Search API Key"
+          }
+        }
+      }
+    },
+    "💡 What is MCP? Model Context Protocol (MCP) is an open plugin standard that lets local LLMs securely access local files, web scraping tools, or external APIs.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "💡 什么是 MCP？Model Context Protocol (MCP) 是一种开放扩展协议，允许本地大模型安全地访问你的本地文件、网页抓取工具或第三方 API。"
+          }
+        }
+      }
+    },
+    "No MCP servers configured yet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂未配置 MCP 服务器。"
+          }
+        }
+      }
+    },
+    "Add Recommended MCP Extension": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一键添加推荐 MCP 扩展"
+          }
+        }
+      }
+    },
+    "Add MCP Extension": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 MCP 扩展"
+          }
+        }
+      }
+    },
+    "📦 Recommended Presets": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📦 推荐预设"
+          }
+        }
+      }
+    },
+    "⚙️ Custom Command": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⚙️ 高级自定义"
+          }
+        }
+      }
+    },
+    "Select Template": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择预设模板"
+          }
+        }
+      }
+    },
+    "Target Folder Path": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标文件夹路径"
+          }
+        }
+      }
+    },
+    "Browse...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览..."
+          }
+        }
+      }
+    },
+    "Select Folder": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文件夹"
+          }
+        }
+      }
+    },
+    "Executable Command (e.g. npx / uvx)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可执行命令 (例如 npx 或 uvx)"
+          }
+        }
+      }
+    },
+    "📁 本地文件夹管理 (Filesystem)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📁 本地文件夹管理 (Filesystem)"
+          }
+        }
+      }
+    },
+    "🌐 网页内容抓取 (Fetch)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🌐 网页内容抓取 (Fetch)"
+          }
+        }
+      }
+    },
+    "🖥️ 浏览器渲染 (Puppeteer)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🖥️ 浏览器渲染 (Puppeteer)"
+          }
+        }
+      }
+    },
+    "🔍 Brave 网络搜索 (Brave)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔍 Brave 网络搜索 (Brave)"
+          }
+        }
+      }
+    },
+    "🐙 GitHub 仓库集成 (GitHub)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🐙 GitHub 仓库集成 (GitHub)"
+          }
+        }
+      }
+    },
+    "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件"
+          }
+        }
+      }
+    },
+    "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容"
+          }
+        }
+      }
+    },
+    "使用无头浏览器渲染高级动态网页并执行页面操作": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用无头浏览器渲染高级动态网页并执行页面操作"
+          }
+        }
+      }
+    },
+    "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力"
+          }
+        }
+      }
+    },
+    "支持搜索 GitHub 仓库、代码文件、Issues 和 Pull Requests": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持搜索 GitHub 仓库、代码文件、Issues 和 Pull Requests"
+          }
+        }
+      }
+    },
+    "What's New in MDWriter 3.0": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 3.0 新特性"
+          }
+        }
+      }
+    },
+    "Local LLM Engines": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地大模型引擎接入"
+          }
+        }
+      }
+    },
+    "Connect to Ollama, LM Studio, oMLX, llama.cpp, MLX, and Jan with complete privacy and zero cloud uploads.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持连接 Ollama、LM Studio、oMLX、llama.cpp、MLX 和 Jan 等本地引擎，数据零上云，隐私百分百安全。"
+          }
+        }
+      }
+    },
+    "AI Chat & Tool Calling": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 对话与 Tool Calling"
+          }
+        }
+      }
+    },
+    "Chat with AI to edit selections, manage library notes, update metadata, or format Markdown tables.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "与 AI 对话操控选区、管理文稿库笔记、更新元数据或一键插入 Markdown 表格。"
+          }
+        }
+      }
+    },
+    "Model Context Protocol (MCP)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model Context Protocol (MCP) 扩展"
+          }
+        }
+      }
+    },
+    "Extend AI with local filesystem access, web fetch, Puppeteer, and custom stdio server tools.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于 MCP 协议扩展 AI 能力，支持本地文件系统、网页抓取、Puppeteer 渲染与自定义工具。"
+          }
+        }
+      }
+    },
+    "Multi-Engine Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多引擎隐私网络搜索"
+          }
+        }
+      }
+    },
+    "Fetch real-time web info with DuckDuckGo, SearXNG, Brave, Tavily, Exa, Google, or Bing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持 DuckDuckGo、SearXNG、Brave、Tavily、Exa、Google 及 Bing 实时获取网络最新资讯。"
+          }
+        }
+      }
+    },
+    "On-Device Apple Intelligence": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端侧 Apple Intelligence"
+          }
+        }
+      }
+    },
+    "Lightweight summaries, title generation, auto-tagging, and fast translation running on-device.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于端侧模型高效完成快速摘要、标题生成、智能标签提取与多语言翻译。"
           }
         }
       }

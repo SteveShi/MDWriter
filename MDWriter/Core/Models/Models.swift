@@ -271,6 +271,9 @@ final class Note {
     @Relationship(deleteRule: .cascade, inverse: \Memo.note)
     var memos: [Memo] = []  // Multiple separate notes
 
+    @Relationship(deleteRule: .cascade, inverse: \ChatMessage.note)
+    var chatMessages: [ChatMessage] = []
+
     init(title: String, content: String = "", folder: Folder? = nil, order: Int = 0) {
         self.title = title
         self.content = content

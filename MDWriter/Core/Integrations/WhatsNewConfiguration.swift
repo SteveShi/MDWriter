@@ -15,47 +15,47 @@ struct WhatsNewItem: Identifiable {
 struct WhatsNewSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
-    let title: String = String(localized: "What's New in MDWriter")
+    let title: String = String(localized: "What's New in MDWriter 3.0")
 
     let features: [WhatsNewItem] = [
         WhatsNewItem(
+            icon: "cpu.fill",
+            title: String(localized: "Local LLM Engines"),
+            subtitle: String(
+                localized:
+                    "Connect to Ollama, LM Studio, oMLX, llama.cpp, MLX, and Jan with complete privacy and zero cloud uploads."
+            )
+        ),
+        WhatsNewItem(
+            icon: "bubble.left.and.bubble.right.fill",
+            title: String(localized: "AI Chat & Tool Calling"),
+            subtitle: String(
+                localized:
+                    "Chat with AI to edit selections, manage library notes, update metadata, or format Markdown tables."
+            )
+        ),
+        WhatsNewItem(
+            icon: "network",
+            title: String(localized: "Model Context Protocol (MCP)"),
+            subtitle: String(
+                localized:
+                    "Extend AI with local filesystem access, web fetch, Puppeteer, and custom stdio server tools."
+            )
+        ),
+        WhatsNewItem(
+            icon: "magnifyingglass",
+            title: String(localized: "Multi-Engine Web Search"),
+            subtitle: String(
+                localized:
+                    "Fetch real-time web info with DuckDuckGo, SearXNG, Brave, Tavily, Exa, Google, or Bing."
+            )
+        ),
+        WhatsNewItem(
             icon: "apple.intelligence",
-            title: String(localized: "Apple Intelligence"),
+            title: String(localized: "On-Device Apple Intelligence"),
             subtitle: String(
                 localized:
-                    "Harness the power of on-device AI for polishing, summarizing, translating, and smart tagging."
-            )
-        ),
-        WhatsNewItem(
-            icon: "cpu",
-            title: String(localized: "TextKit 2 Engine"),
-            subtitle: String(
-                localized:
-                    "A complete overhaul of the editor core for massive stability and performance gains."
-            )
-        ),
-        WhatsNewItem(
-            icon: "paintpalette",
-            title: String(localized: "Pro Markdown Rendering"),
-            subtitle: String(
-                localized:
-                    "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience."
-            )
-        ),
-        WhatsNewItem(
-            icon: "keyboard",
-            title: String(localized: "IME Stability"),
-            subtitle: String(
-                localized:
-                    "Native support for Chinese input and mixed-language writing without cursor jumping."
-            )
-        ),
-        WhatsNewItem(
-            icon: "photo",
-            title: String(localized: "Inline Image Preview"),
-            subtitle: String(
-                localized:
-                    "View your local images directly inside the editor and export previews with ease."
+                    "Lightweight summaries, title generation, auto-tagging, and fast translation running on-device."
             )
         ),
     ]
@@ -98,6 +98,6 @@ struct WhatsNewSheetView: View {
             .padding(.horizontal, 28)
             .padding(.bottom, 24)
         }
-        .frame(width: 480, height: 500)
+        .frame(width: 480, height: 520)
     }
 }

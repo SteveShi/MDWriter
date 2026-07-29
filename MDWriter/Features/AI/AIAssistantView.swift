@@ -2,7 +2,7 @@
 //  AIAssistantView.swift
 //  MDWriter
 //
-//  AI Assistant popover panel with all AI writing features.
+//  AI Assistant popover panel with categorized Apple Intelligence & Local LLM writing features.
 //
 
 import SwiftUI
@@ -16,10 +16,12 @@ struct AIAssistantView: View {
     var note: Note?
 
     @State private var aiService = AIService()
+    @State private var llmService = LLMService()
     @State private var selectedAction: AIAction?
     @State private var inputText: String = ""
 
     @AppStorage("aiEnabled") private var aiEnabled: Bool = true
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         VStack(spacing: 0) {
@@ -36,11 +38,11 @@ struct AIAssistantView: View {
                 // Result view
                 resultView(for: action)
             } else {
-                // Action grid
+                // Categorized Action grid
                 actionGrid
             }
         }
-        .frame(width: 380, height: 460)
+        .frame(width: 380, height: 480)
         .background(.ultraThinMaterial)
     }
 
@@ -65,9 +67,9 @@ struct AIAssistantView: View {
             Spacer()
 
             HStack(spacing: 8) {
-                Image(systemName: "apple.intelligence")
+                Image(systemName: "sparkles")
                     .font(.system(size: 16))
-                    .symbolRenderingMode(.multicolor)
+                    .foregroundStyle(Color.accentColor)
                 Text(LocalizedStringKey("AI Assistant"))
                     .font(.system(size: 15, weight: .bold, design: .rounded))
             }
@@ -81,7 +83,7 @@ struct AIAssistantView: View {
                 .shadow(color: (aiService.isAvailable ? Color.green : Color.red).opacity(0.5), radius: 2)
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
         .background(.ultraThinMaterial)
     }
 
@@ -89,35 +91,74 @@ struct AIAssistantView: View {
 
     private var actionGrid: some View {
         ScrollView {
-            LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 16),
-                GridItem(.flexible(), spacing: 16),
-            ], spacing: 16) {
-                ForEach(AIAction.allCases) { action in
-                    AIActionCard(action: action) {
-                        let selectedText = controller.proxy.getSelectedText()
-                        let text: String
-                        if let sel = selectedText,
-                            !sel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                        {
-                            text = sel
-                        } else if let noteContent = note?.content,
-                            !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                        {
-                            text = noteContent
-                        } else {
-                            return
+            VStack(alignment: .leading, spacing: 16) {
+                // Apple Intelligence Section
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "apple.intelligence")
+                            .font(.system(size: 12))
+                            .symbolRenderingMode(.multicolor)
+                        Text(LocalizedStringKey("Apple Intelligence (On-Device)"))
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                    ], spacing: 12) {
+                        ForEach(AIAction.allCases.filter { $0.backend == .appleAI }) { action in
+                            AIActionCard(action: action) {
+                                triggerAction(action)
+                            }
                         }
-                        inputText = text
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                            selectedAction = action
+                    }
+                }
+
+                Divider()
+
+                // Local LLM Section
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "cpu")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.accentColor)
+                        Text(LocalizedStringKey("Local LLM Engine"))
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                    ], spacing: 12) {
+                        ForEach(AIAction.allCases.filter { $0.backend == .localLLM }) { action in
+                            AIActionCard(action: action) {
+                                triggerAction(action)
+                            }
                         }
-                        executeAction(action)
                     }
                 }
             }
-            .padding(20)
+            .padding(16)
         }
+    }
+
+    private func triggerAction(_ action: AIAction) {
+        let selectedText = controller.proxy.getSelectedText()
+        let text: String
+        if let sel = selectedText, !sel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            text = sel
+        } else if let noteContent = note?.content, !noteContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            text = noteContent
+        } else {
+            return
+        }
+        inputText = text
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            selectedAction = action
+        }
+        executeAction(action)
     }
 
     // MARK: - Result View
@@ -135,7 +176,7 @@ struct AIAssistantView: View {
                     .foregroundStyle(.secondary)
                 Spacer()
 
-                if aiService.isProcessing {
+                if aiService.isProcessing || llmService.isProcessing {
                     ProgressView()
                         .controlSize(.small)
                 }
@@ -147,7 +188,7 @@ struct AIAssistantView: View {
             // Result content
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    if let error = aiService.errorMessage {
+                    if let error = aiService.errorMessage ?? llmService.errorMessage {
                         Label(error, systemImage: "exclamationmark.triangle")
                             .font(.system(size: 12))
                             .foregroundStyle(.red)
@@ -157,22 +198,17 @@ struct AIAssistantView: View {
                             .cornerRadius(8)
                     }
 
-                    if !aiService.result.isEmpty {
-                        Text(aiService.result)
+                    let currentResult = action.backend == .appleAI ? aiService.result : llmService.currentStreamingText
+                    if !currentResult.isEmpty {
+                        Text(currentResult)
                             .font(.system(size: 13))
                             .lineSpacing(4)
                             .textSelection(.enabled)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    // Tags display (for suggestTags)
                     if !aiService.suggestedTags.isEmpty {
                         tagResultView
-                    }
-
-                    // Corrections list (for proofread)
-                    if !aiService.corrections.isEmpty {
-                        correctionsView
                     }
                 }
                 .padding(16)
@@ -180,9 +216,9 @@ struct AIAssistantView: View {
 
             Divider()
 
-            // Action buttons
-            if !aiService.isProcessing && !aiService.result.isEmpty {
-                resultActions(for: action)
+            let currentResult = action.backend == .appleAI ? aiService.result : llmService.currentStreamingText
+            if !currentResult.isEmpty {
+                resultActions(for: action, text: currentResult)
             }
         }
     }
@@ -205,32 +241,11 @@ struct AIAssistantView: View {
         }
     }
 
-    private var correctionsView: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(LocalizedStringKey("Corrections"))
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.secondary)
-
-            ForEach(aiService.corrections, id: \.self) { correction in
-                HStack(alignment: .top, spacing: 6) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.green)
-                        .padding(.top, 2)
-                    Text(correction)
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
-
-    private func resultActions(for action: AIAction) -> some View {
+    private func resultActions(for action: AIAction, text: String) -> some View {
         HStack(spacing: 12) {
-            // Copy
             Button {
                 NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString(aiService.result, forType: .string)
+                NSPasteboard.general.setString(text, forType: .string)
             } label: {
                 Label(LocalizedStringKey("Copy"), systemImage: "doc.on.doc")
                     .font(.system(size: 12))
@@ -240,7 +255,6 @@ struct AIAssistantView: View {
 
             Spacer()
 
-            // Apply tags to note
             if action == .suggestTags, let note = note {
                 Button {
                     for tag in aiService.suggestedTags {
@@ -256,29 +270,14 @@ struct AIAssistantView: View {
                 .controlSize(.small)
             }
 
-            // Replace selected text
-            if action == .polish || action == .translate || action == .proofread {
-                Button {
-                    controller.proxy.insert(aiService.result)
-                } label: {
-                    Label(LocalizedStringKey("Replace Selection"), systemImage: "arrow.turn.down.left")
-                        .font(.system(size: 12, weight: .medium))
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
+            Button {
+                controller.proxy.insert(text)
+            } label: {
+                Label(LocalizedStringKey("Replace Selection"), systemImage: "arrow.turn.down.left")
+                    .font(.system(size: 12, weight: .medium))
             }
-
-            // Insert at cursor
-            if action == .summarize || action == .generateTitle {
-                Button {
-                    controller.proxy.insert(aiService.result)
-                } label: {
-                    Label(LocalizedStringKey("Insert Result"), systemImage: "text.insert")
-                        .font(.system(size: 12, weight: .medium))
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
-            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.small)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
@@ -323,19 +322,22 @@ struct AIAssistantView: View {
 
     private func executeAction(_ action: AIAction) {
         Task {
-            switch action {
-            case .polish:
-                await aiService.polish(text: inputText)
-            case .summarize:
-                await aiService.summarize(text: inputText)
-            case .translate:
-                await aiService.translate(text: inputText)
-            case .generateTitle:
-                await aiService.generateTitle(for: inputText)
-            case .proofread:
-                await aiService.proofread(text: inputText)
-            case .suggestTags:
-                await aiService.suggestTags(for: inputText)
+            if action.backend == .appleAI {
+                switch action {
+                case .summarize: await aiService.summarize(text: inputText)
+                case .translate: await aiService.translate(text: inputText)
+                case .generateTitle: await aiService.generateTitle(for: inputText)
+                case .suggestTags: await aiService.suggestTags(for: inputText)
+                default: break
+                }
+            } else {
+                let prompt = "\(action.description):\n\n\(inputText)"
+                await llmService.sendMessage(
+                    userText: prompt,
+                    note: note,
+                    editorController: controller,
+                    modelContext: modelContext
+                )
             }
         }
     }
@@ -352,26 +354,26 @@ struct AIActionCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 10) {
+            VStack(spacing: 8) {
                 Image(systemName: action.icon)
-                    .font(.system(size: 22))
+                    .font(.system(size: 20))
                     .foregroundStyle(Color.accentColor)
-                    .frame(height: 28)
+                    .frame(height: 24)
 
                 Text(action.displayName)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.primary)
 
                 Text(action.description)
-                    .font(.system(size: 10))
+                    .font(.system(size: 9))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
             }
-                .frame(maxWidth: .infinity, minHeight: 100)
-            .padding(.vertical, 16)
-            .padding(.horizontal, 8)
-                .contentShape(Rectangle())
+            .frame(maxWidth: .infinity, minHeight: 90)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 6)
+            .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(isHovered ? Color.accentColor.opacity(0.08) : Color.secondary.opacity(0.06))

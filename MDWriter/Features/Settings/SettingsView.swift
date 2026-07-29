@@ -36,6 +36,6 @@ struct SettingsView: View {
                 }
                 .tag(4)
         }
-        .frame(width: 550, height: 450)
+        .frame(width: 560, height: 500)
     }
 }
