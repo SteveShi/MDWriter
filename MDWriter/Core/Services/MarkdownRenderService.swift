@@ -140,8 +140,9 @@ struct MDWMarkdownRenderer {
                 }
                 a { color: \(colors.link); text-decoration: none; }
                 a:hover { text-decoration: underline; }
-                em { font-style: italic; color: inherit; text-decoration: none; }
-                strong { font-weight: bold; color: inherit; text-decoration: none; }
+                em { font-style: italic; color: \(colors.text); text-decoration: none !important; border-bottom: none !important; }
+                strong { font-weight: bold; color: \(colors.text); text-decoration: none !important; }
+                strong em, em strong { font-weight: bold; font-style: italic; color: \(colors.text); text-decoration: none !important; }
                 u { text-decoration: underline; }
                 del { text-decoration: line-through; opacity: 0.75; }
 
