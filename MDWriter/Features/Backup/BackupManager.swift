@@ -2,7 +2,7 @@
 //  BackupManager.swift
 //  MDWriter
 //
-//  Created for v1.7.0
+//  Created for v1.7.0 & v3.0 Encrypted Backup
 //
 
 import Foundation
@@ -49,32 +49,33 @@ class BackupManager {
 
     // MARK: - Export
 
-    func createBackupData(context: ModelContext) throws -> Data {
-        // Fetch all root folders
+    func createBackupData(context: ModelContext, password: String? = nil) throws -> Data {
         let folderDescriptor = FetchDescriptor<Folder>(predicate: #Predicate { $0.parent == nil })
         let rootFolders = try context.fetch(folderDescriptor)
 
-        // Fetch all root notes (notes without folder)
         let noteDescriptor = FetchDescriptor<Note>(predicate: #Predicate { $0.folder == nil })
         let rootNotesModels = try context.fetch(noteDescriptor)
 
-        // Map to backup models
         let backupFolders = rootFolders.map { mapFolder($0) }
         let backupRootNotes = rootNotesModels.map { mapNote($0) }
 
-        // Create root object
         let backup = BackupRoot(
-            version: "1.0",
+            version: "3.0",
             createdAt: Date(),
             folders: backupFolders,
             rootNotes: backupRootNotes
         )
 
-        // Encode to JSON
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        return try encoder.encode(backup)
+        let rawJSON = try encoder.encode(backup)
+
+        if let pwd = password, !pwd.isEmpty {
+            return try CryptoManager.shared.encrypt(data: rawJSON, password: pwd)
+        } else {
+            return rawJSON
+        }
     }
 
     private func mapFolder(_ folder: Folder) -> BackupFolder {
@@ -102,27 +103,32 @@ class BackupManager {
 
     // MARK: - Import
 
-    func restoreBackup(from data: Data, context: ModelContext, replaceLibrary: Bool) throws {
+    func restoreBackup(from data: Data, password: String? = nil, context: ModelContext, replaceLibrary: Bool) throws {
+        var payload = data
+
+        if CryptoManager.shared.isEncrypted(data: data) {
+            guard let pwd = password, !pwd.isEmpty else {
+                throw CryptoError.missingPassword
+            }
+            payload = try CryptoManager.shared.decrypt(data: data, password: pwd)
+        }
+
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        let backup = try decoder.decode(BackupRoot.self, from: data)
+        let backup = try decoder.decode(BackupRoot.self, from: payload)
 
         if replaceLibrary {
-            // 先删除 Folder（级联删除其下的 Note 和 Snapshot）
             try context.delete(model: Folder.self)
-            // 再删除剩余的无文件夹 Note（级联删除其 Snapshot 和 Memo）
             try context.delete(model: Note.self)
             try context.delete(model: Snapshot.self)
             try context.delete(model: Memo.self)
         }
 
-        // Restore Folders（递归插入子文件夹和笔记）
         for backupFolder in backup.folders {
             let folder = restoreFolder(backupFolder, context: context)
             context.insert(folder)
         }
 
-        // Restore Root Notes（无文件夹的笔记）
         for backupNote in backup.rootNotes {
             let note = restoreNote(backupNote, context: context)
             context.insert(note)
@@ -155,7 +161,6 @@ class BackupManager {
         note.modifiedAt = backup.modifiedAt
         note.isTrashed = backup.isTrashed
 
-        // 先插入 note，确保 snapshot 的关系能正确建立
         context.insert(note)
 
         for snapBackup in backup.snapshots {

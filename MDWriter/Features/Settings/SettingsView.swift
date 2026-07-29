@@ -35,7 +35,13 @@ struct SettingsView: View {
                     Label(LocalizedStringKey("AI"), systemImage: "apple.intelligence")
                 }
                 .tag(4)
+
+            BackupSyncSettingsView()
+                .tabItem {
+                    Label(LocalizedStringKey("Backup & Sync"), systemImage: "arrow.triangle.2.circlepath.circle")
+                }
+                .tag(5)
         }
-        .frame(width: 560, height: 500)
+        .frame(width: 620, height: 540)
     }
 }
