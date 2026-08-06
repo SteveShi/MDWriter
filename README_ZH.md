@@ -81,9 +81,9 @@ brew install --cask mdwriter
     git clone https://github.com/SteveShi/MDWriter.git
     cd MDWriter
     ```
-2.  使用 XcodeGen 生成项目文件：
+2.  使用 Tuist 生成项目文件：
     ```bash
-    xcodegen generate --spec project.yml
+    tuist generate
     ```
 3.  在 Xcode 中打开 `MDWriter.xcodeproj`。
 4.  确保 Swift Package 依赖解析成功。
@@ -98,6 +98,7 @@ MDWriter 利用了几个强大的开源库：
 - **MDEditorKit**：高性能编辑器集成包。
 - **mcp-swift-sdk**：Model Context Protocol 客户端实现。
 - **Sparkle**：提供流畅的应用自动更新。
+- **Tuist**：声明式管理 Xcode 工程。
 
 ### 运行环境
 - macOS 14.0 或更高版本

@@ -81,9 +81,9 @@ brew install --cask mdwriter
     git clone https://github.com/SteveShi/MDWriter.git
     cd MDWriter
     ```
-2.  Generate the Xcode project with XcodeGen:
+2.  Generate the Xcode project with Tuist:
     ```bash
-    xcodegen generate --spec project.yml
+    tuist generate
     ```
 3.  Open `MDWriter.xcodeproj` in Xcode.
 4.  Ensure package dependencies resolve.
@@ -98,6 +98,7 @@ MDWriter leverages several powerful open-source libraries:
 - **MDEditorKit**: High-performance editor view wrapper.
 - **mcp-swift-sdk**: Model Context Protocol client implementation.
 - **Sparkle**: For seamless app updates.
+- **Tuist**: Declarative Xcode project management.
 
 ### Prerequisites
 - macOS 14.0 or later
