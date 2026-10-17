@@ -128,6 +128,7 @@ struct ChatPanelView: View {
         }
         .frame(minWidth: 300, idealWidth: 360, maxWidth: 420)
         .background(.ultraThinMaterial)
+        .ignoresSafeArea(.all, edges: .top)
         .onAppear {
             Task {
                 await llmService.fetchAvailableModels()
@@ -139,14 +140,14 @@ struct ChatPanelView: View {
     // MARK: - Header Bar
 
     private var headerBar: some View {
-        HStack {
+        HStack(spacing: 8) {
             HStack(spacing: 6) {
                 Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .font(.system(size: 13))
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(Color.accentColor)
 
                 Text(LocalizedStringKey("AI Chat"))
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 13, weight: .semibold))
             }
 
             Spacer()
@@ -154,16 +155,21 @@ struct ChatPanelView: View {
             ChatModelPicker(llmService: llmService)
 
             Button {
-                isPresented = false
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+                    isPresented = false
+                }
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(.secondary)
+                    .frame(width: 22, height: 22)
+                    .contentShape(Circle())
             }
             .buttonStyle(.plain)
+            .help(LocalizedStringKey("Close"))
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .frame(height: 52)
         .background(.ultraThinMaterial)
     }
 }

@@ -31,129 +31,169 @@ struct ChatInputView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            // Quick Control Toggles Bar
-            HStack(spacing: 6) {
-                // Thinking Toggle
-                TogglePill(
-                    icon: "brain",
-                    label: LocalizedStringKey("Thinking"),
-                    isActive: isThinkingEnabled
-                ) {
-                    isThinkingEnabled.toggle()
-                }
+            // MARK: - Quick Control Toggles Bar (Horizontal Scrollable Capsule Pills)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    // 1. Thinking Toggle (Purple semantic)
+                    TogglePill(
+                        icon: "brain",
+                        label: LocalizedStringKey("Thinking"),
+                        isActive: isThinkingEnabled,
+                        activeColor: .purple
+                    ) {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
+                            isThinkingEnabled.toggle()
+                        }
+                    }
+                    .help(LocalizedStringKey("Toggle Extended Thinking Reasoning"))
 
-                // Web Search Toggle
-                TogglePill(
-                    icon: "globe",
-                    label: LocalizedStringKey("Search"),
-                    isActive: searchEnabled
-                ) {
-                    searchEnabled.toggle()
-                }
+                    // 2. Web Search Toggle (Blue semantic)
+                    TogglePill(
+                        icon: "globe",
+                        label: LocalizedStringKey("Search"),
+                        isActive: searchEnabled,
+                        activeColor: .blue
+                    ) {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
+                            searchEnabled.toggle()
+                        }
+                    }
+                    .help(LocalizedStringKey("Toggle Web Search Grounding"))
 
-                // MCP Tools Toggle
-                TogglePill(
-                    icon: "cpu",
-                    label: LocalizedStringKey("MCP"),
-                    isActive: mcpToolsEnabled
-                ) {
-                    mcpToolsEnabled.toggle()
-                }
+                    // 3. MCP Tools Toggle (Orange semantic)
+                    TogglePill(
+                        icon: "cpu",
+                        label: LocalizedStringKey("MCP"),
+                        isActive: mcpToolsEnabled,
+                        activeColor: .orange
+                    ) {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
+                            mcpToolsEnabled.toggle()
+                        }
+                    }
+                    .help(LocalizedStringKey("Toggle Model Context Protocol (MCP) Tools"))
 
-                // Mention Context Menu
-                Menu {
-                    if !recentNotes.isEmpty {
-                        Menu(LocalizedStringKey("Insert Note Reference")) {
-                            ForEach(recentNotes.prefix(8)) { n in
-                                Button {
-                                    insertMention("@Note: \"\(n.title)\" ")
-                                } label: {
-                                    Label(n.title, systemImage: "doc.text")
+                    // 4. Mention Context Menu
+                    Menu {
+                        if !recentNotes.isEmpty {
+                            Menu(LocalizedStringKey("Insert Note Reference")) {
+                                ForEach(recentNotes.prefix(8)) { n in
+                                    Button {
+                                        insertMention("@Note: \"\(n.title)\" ")
+                                    } label: {
+                                        Label(n.title, systemImage: "doc.text")
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if !folders.isEmpty {
-                        Menu(LocalizedStringKey("Insert Folder Reference")) {
-                            ForEach(folders) { f in
-                                Button {
-                                    insertMention("@Folder: \"\(f.name)\" ")
-                                } label: {
-                                    Label(f.name, systemImage: "folder")
+                        if !folders.isEmpty {
+                            Menu(LocalizedStringKey("Insert Folder Reference")) {
+                                ForEach(folders) { f in
+                                    Button {
+                                        insertMention("@Folder: \"\(f.name)\" ")
+                                    } label: {
+                                        Label(f.name, systemImage: "folder")
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if let note = note, !note.memos.isEmpty {
-                        Button {
-                            insertMention("@Memo ")
-                        } label: {
-                            Label(LocalizedStringKey("Insert Active Memos (@Memo)"), systemImage: "note.text")
+                        if let note = note, !note.memos.isEmpty {
+                            Button {
+                                insertMention("@Memo ")
+                            } label: {
+                                Label(LocalizedStringKey("Insert Active Memos (@Memo)"), systemImage: "note.text")
+                            }
                         }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "at")
+                                .font(.system(size: 10, weight: .semibold))
+                            Text(LocalizedStringKey("Mention"))
+                                .font(.system(size: 11, weight: .medium))
+                                .lineLimit(1)
+                                .fixedSize(horizontal: true, vertical: false)
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 7, weight: .bold))
+                                .opacity(0.6)
+                        }
+                        .padding(.horizontal, 9)
+                        .frame(height: 24)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(Color.primary.opacity(0.05))
+                        )
+                        .overlay(
+                            Capsule(style: .continuous)
+                                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5)
+                        )
+                        .foregroundStyle(Color.secondary)
+                        .contentShape(Capsule())
                     }
-                } label: {
-                    HStack(spacing: 3) {
-                        Image(systemName: "at")
-                            .font(.system(size: 10, weight: .bold))
-                        Text(LocalizedStringKey("Mention"))
-                            .font(.system(size: 10, weight: .medium))
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.secondary.opacity(0.08))
-                    )
-                    .foregroundStyle(Color.secondary)
-                }
-                .buttonStyle(.plain)
-                .help(LocalizedStringKey("Mention Note, Folder, or Memos (@)"))
+                    .buttonStyle(.plain)
+                    .help(LocalizedStringKey("Mention Note, Folder, or Memos (@)"))
 
-                // Context Level Cycle Toggle
-                Button {
-                    cycleContextLevel()
-                } label: {
-                    HStack(spacing: 3) {
-                        Image(systemName: "doc.text")
-                            .font(.system(size: 10))
-                        Text(LocalizedStringKey(currentContextLevel.displayName))
-                            .font(.system(size: 10, weight: .medium))
+                    // 5. Context Level Cycle Toggle
+                    Button {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.75)) {
+                            cycleContextLevel()
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: contextLevelIcon)
+                                .font(.system(size: 10, weight: currentContextLevel != .none ? .semibold : .regular))
+                            Text(LocalizedStringKey(currentContextLevel.displayName))
+                                .font(.system(size: 11, weight: currentContextLevel != .none ? .semibold : .medium))
+                                .lineLimit(1)
+                                .fixedSize(horizontal: true, vertical: false)
+                        }
+                        .padding(.horizontal, 9)
+                        .frame(height: 24)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(currentContextLevel != .none ? Color.accentColor.opacity(0.14) : Color.primary.opacity(0.05))
+                        )
+                        .overlay(
+                            Capsule(style: .continuous)
+                                .strokeBorder(currentContextLevel != .none ? Color.accentColor.opacity(0.3) : Color.primary.opacity(0.08), lineWidth: 0.5)
+                        )
+                        .foregroundStyle(currentContextLevel != .none ? Color.accentColor : Color.secondary)
+                        .contentShape(Capsule())
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(currentContextLevel != .none ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
-                    )
-                    .foregroundStyle(currentContextLevel != .none ? Color.accentColor : Color.secondary)
-                }
-                .buttonStyle(.plain)
-                .help(LocalizedStringKey("Toggle Document Context Level"))
+                    .buttonStyle(.plain)
+                    .help(LocalizedStringKey("Toggle Document Context Level"))
 
-                // Vision OCR Button
-                Button {
-                    importAndRecognizeImage()
-                } label: {
-                    HStack(spacing: 3) {
-                        Image(systemName: "camera.viewfinder")
-                            .font(.system(size: 10, weight: .bold))
-                        Text(LocalizedStringKey("OCR"))
-                            .font(.system(size: 10, weight: .medium))
+                    // 6. Vision OCR Button
+                    Button {
+                        importAndRecognizeImage()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "camera.viewfinder")
+                                .font(.system(size: 10, weight: .medium))
+                            Text(LocalizedStringKey("OCR"))
+                                .font(.system(size: 11, weight: .medium))
+                                .lineLimit(1)
+                                .fixedSize(horizontal: true, vertical: false)
+                        }
+                        .padding(.horizontal, 9)
+                        .frame(height: 24)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(Color.primary.opacity(0.05))
+                        )
+                        .overlay(
+                            Capsule(style: .continuous)
+                                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5)
+                        )
+                        .foregroundStyle(Color.secondary)
+                        .contentShape(Capsule())
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.secondary.opacity(0.08))
-                    )
-                    .foregroundStyle(Color.secondary)
+                    .buttonStyle(.plain)
+                    .help(LocalizedStringKey("Extract text from image using on-device OCR"))
                 }
-                .buttonStyle(.plain)
-                .help(LocalizedStringKey("Extract text from image using on-device OCR"))
-
-                Spacer()
+                .padding(.horizontal, 2)
+                .padding(.vertical, 2)
             }
 
             // Input Area
@@ -190,6 +230,14 @@ struct ChatInputView: View {
         }
         .padding(12)
         .background(.ultraThinMaterial)
+    }
+
+    private var contextLevelIcon: String {
+        switch currentContextLevel {
+        case .full: return "doc.text.fill"
+        case .metadata: return "doc.text"
+        case .none: return "doc.badge.slash"
+        }
     }
 
     private func cycleContextLevel() {
@@ -238,23 +286,31 @@ struct TogglePill: View {
     let icon: String
     let label: LocalizedStringKey
     let isActive: Bool
+    var activeColor: Color = .accentColor
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 3) {
+            HStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, weight: isActive ? .semibold : .regular))
                 Text(label)
-                    .font(.system(size: 10, weight: .medium))
+                    .font(.system(size: 11, weight: isActive ? .semibold : .medium))
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 9)
+            .frame(height: 24)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(isActive ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
+                Capsule(style: .continuous)
+                    .fill(isActive ? activeColor.opacity(0.14) : Color.primary.opacity(0.05))
             )
-            .foregroundStyle(isActive ? Color.accentColor : Color.secondary)
+            .overlay(
+                Capsule(style: .continuous)
+                    .strokeBorder(isActive ? activeColor.opacity(0.3) : Color.primary.opacity(0.08), lineWidth: 0.5)
+            )
+            .foregroundStyle(isActive ? activeColor : Color.secondary)
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
     }

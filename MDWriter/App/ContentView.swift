@@ -53,6 +53,8 @@ struct ContentView: View {
 
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
     @AppStorage("markdownTheme") private var markdownTheme: MarkdownTheme = .pure
+    @AppStorage("dashboardSidebarWidth") private var dashboardSidebarWidth: Double = 280
+    @AppStorage("chatPanelSidebarWidth") private var chatPanelSidebarWidth: Double = 360
     @Environment(\.colorScheme) var systemScheme
 
     // Animation namespace
@@ -65,7 +67,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             // MARK: - Pane 1: Editor Area
             ZStack(alignment: .topTrailing) {
                 canvasPaperColor
@@ -195,8 +197,14 @@ struct ContentView: View {
             }
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
 
-            // MARK: - Pane 2: Right Sidebar (Dashboard or AI Chat)
+            // MARK: - Pane 2: Right Sidebar (Dashboard or AI Chat with Smooth Spring Transitions)
             if showOutline, let currentNote = note {
+                ResizableSidebarDivider(
+                    width: $dashboardSidebarWidth,
+                    minWidth: 240,
+                    maxWidth: 380
+                )
+
                 DashboardView(
                     note: currentNote,
                     text: Binding(
@@ -204,15 +212,32 @@ struct ContentView: View {
                         set: { currentNote.content = $0 }
                     )
                 )
-                .frame(minWidth: 240, maxWidth: 300, maxHeight: .infinity)
+                .frame(width: CGFloat(dashboardSidebarWidth))
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                ))
             } else if showChatPanel {
+                ResizableSidebarDivider(
+                    width: $chatPanelSidebarWidth,
+                    minWidth: 300,
+                    maxWidth: 480
+                )
+
                 ChatPanelView(
                     controller: editorController,
                     note: note,
                     isPresented: $showChatPanel
                 )
+                .frame(width: CGFloat(chatPanelSidebarWidth))
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                ))
             }
         }
+        .animation(.spring(response: 0.35, dampingFraction: 0.82), value: showOutline)
+        .animation(.spring(response: 0.35, dampingFraction: 0.82), value: showChatPanel)
         .preferredColorScheme(currentTheme.colorScheme)
         .toolbarBackground(.hidden, for: .windowToolbar)
         .toolbarRole(.editor)  // 关键：确保编辑器工具栏在窗口最右侧
@@ -307,7 +332,7 @@ struct ContentView: View {
 
                 // 7. AI 对话窗口 (Chat Panel Toggle)
                 Button(action: {
-                    withAnimation {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
                         if showChatPanel {
                             showChatPanel = false
                         } else {
@@ -324,7 +349,7 @@ struct ContentView: View {
 
                 // 8. 大纲 (Dashboard toggle)
                 Button(action: {
-                    withAnimation {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
                         if showOutline {
                             showOutline = false
                         } else {
@@ -371,7 +396,7 @@ struct ContentView: View {
             editorController.findPrevious()
         }
         .onReceive(NotificationCenter.default.publisher(for: .toggleAIChat)) { _ in
-            withAnimation {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
                 if showChatPanel {
                     showChatPanel = false
                 } else {
@@ -592,4 +617,51 @@ struct MarkdownPackageDocument: FileDocument {
         return rootWrapper
     }
 }
+
+// MARK: - Resizable Sidebar Divider
+
+struct ResizableSidebarDivider: View {
+    @Binding var width: Double
+    let minWidth: Double
+    let maxWidth: Double
+    @State private var startWidth: Double? = nil
+
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color.primary.opacity(0.08))
+                .frame(width: 1)
+
+            Rectangle()
+                .fill(Color.clear)
+                .frame(width: 8)
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture(minimumDistance: 1)
+                        .onChanged { value in
+                            if startWidth == nil {
+                                startWidth = width
+                            }
+                            if let start = startWidth {
+                                let newWidth = start - Double(value.translation.width)
+                                width = min(max(newWidth, minWidth), maxWidth)
+                            }
+                        }
+                        .onEnded { _ in
+                            startWidth = nil
+                        }
+                )
+        }
+        .frame(width: 1)
+        .ignoresSafeArea(.all, edges: .top)
+        .onHover { inside in
+            if inside {
+                NSCursor.resizeLeftRight.push()
+            } else {
+                NSCursor.pop()
+            }
+        }
+    }
+}
+
 

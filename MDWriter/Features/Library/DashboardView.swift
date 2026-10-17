@@ -21,6 +21,20 @@ enum DashboardTab: String, CaseIterable, Identifiable {
     #endif
 
     var id: String { rawValue }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .overview: return LocalizedStringKey("Overview")
+        case .statistics: return LocalizedStringKey("Statistics")
+        case .outline: return LocalizedStringKey("Outline")
+        case .links: return LocalizedStringKey("Links")
+        case .media: return LocalizedStringKey("Media")
+        case .notes: return LocalizedStringKey("Notes")
+        #if canImport(FoundationModels)
+            case .ai: return LocalizedStringKey("AI Assistant")
+        #endif
+        }
+    }
 }
 
 struct DashboardView: View {
@@ -37,34 +51,37 @@ struct DashboardView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 4) {
+            // MARK: - Top Tab Bar (Pinned to window toolbar height 52pt)
+            HStack(spacing: 3) {
                 ForEach(DashboardTab.allCases) { tab in
                     Button {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        withAnimation(.spring(response: 0.28, dampingFraction: 0.78)) {
                             selectedTab = tab
                         }
                     } label: {
-                        VStack(spacing: 4) {
-                            Image(systemName: tab.rawValue)
-                                .font(.system(size: 14, weight: .medium))
-
+                        ZStack {
                             if selectedTab == tab {
-                                Circle()
-                                    .fill(Color.accentColor)
-                                    .frame(width: 4, height: 4)
+                                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                    .fill(Color.accentColor.opacity(0.14))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                            .strokeBorder(Color.accentColor.opacity(0.25), lineWidth: 0.5)
+                                    )
                             }
+                            Image(systemName: tab.rawValue)
+                                .font(.system(size: 13, weight: selectedTab == tab ? .semibold : .regular))
+                                .foregroundColor(selectedTab == tab ? .accentColor : .secondary)
                         }
-                        .foregroundColor(selectedTab == tab ? .accentColor : .secondary)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 40)
-                        .background(selectedTab == tab ? Color.accentColor.opacity(0.1) : Color.clear)
-                        .cornerRadius(8)
+                        .frame(height: 30)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
+                    .help(tab.title)
                 }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 10)
+            .frame(height: 52)
             .background(.ultraThinMaterial)
 
             Divider()
@@ -143,5 +160,6 @@ struct DashboardView: View {
             .background(.ultraThinMaterial)
         }
         .frame(minWidth: 260)
+        .ignoresSafeArea(.all, edges: .top)
     }
 }
