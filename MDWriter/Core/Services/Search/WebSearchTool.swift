@@ -333,4 +333,137 @@ final class WebSearchTool: Sendable {
             return SearchResult(title: title, url: url, snippet: val.snippet ?? "")
         }
     }
+
+    // MARK: - Webpage Fetching & Markdown Conversion
+
+    /// Fetch webpage at URL and convert its HTML body into clean Markdown.
+    func fetchWebpageMarkdown(urlString: String, maxLength: Int = 8000) async throws -> String {
+        guard let url = URL(string: urlString.trimmingCharacters(in: .whitespacesAndNewlines)),
+              let scheme = url.scheme?.lowercased(),
+              scheme == "http" || scheme == "https" else {
+            throw NSError(domain: "WebSearchTool", code: 400, userInfo: [NSLocalizedDescriptionKey: "Invalid URL: must start with http:// or https://"])
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 15.0
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
+        request.setValue("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", forHTTPHeaderField: "Accept")
+
+        let (data, response) = try await session.data(for: request)
+        guard let httpRes = response as? HTTPURLResponse, (200...299).contains(httpRes.statusCode) else {
+            let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+            throw NSError(domain: "WebSearchTool", code: code, userInfo: [NSLocalizedDescriptionKey: "HTTP request failed with status code \(code)"])
+        }
+
+        let htmlString = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .isoLatin1) ?? ""
+        guard !htmlString.isEmpty else {
+            return "(Empty webpage content)"
+        }
+
+        return convertHTMLToMarkdown(htmlString, sourceURL: url, maxLength: maxLength)
+    }
+
+    private func convertHTMLToMarkdown(_ html: String, sourceURL: URL, maxLength: Int) -> String {
+        var text = html
+
+        // 1. Extract title if present
+        var pageTitle = ""
+        if let titleRange = text.range(of: "(?is)<title[^>]*>(.*?)</title>", options: .regularExpression) {
+            let fullMatch = String(text[titleRange])
+            pageTitle = fullMatch
+                .replacingOccurrences(of: "(?is)<[^>]+>", with: "", options: .regularExpression)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+
+        // 2. Remove script, style, noscript, svg, nav, header, footer
+        let removePatterns = [
+            "(?is)<script[^>]*>.*?</script>",
+            "(?is)<style[^>]*>.*?</style>",
+            "(?is)<noscript[^>]*>.*?</noscript>",
+            "(?is)<svg[^>]*>.*?</svg>",
+            "(?is)<nav[^>]*>.*?</nav>",
+            "(?is)<header[^>]*>.*?</header>",
+            "(?is)<footer[^>]*>.*?</footer>"
+        ]
+        for pattern in removePatterns {
+            text = text.replacingOccurrences(of: pattern, with: "", options: .regularExpression)
+        }
+
+        // 3. Headings
+        for i in (1...6).reversed() {
+            let tag = "h\(i)"
+            let hashPrefix = String(repeating: "#", count: i)
+            text = text.replacingOccurrences(of: "(?is)<\(tag)[^>]*>(.*?)</\(tag)>", with: "\n\n\(hashPrefix) $1\n\n", options: .regularExpression)
+        }
+
+        // 4. Pre / Code blocks
+        text = text.replacingOccurrences(of: "(?is)<pre[^>]*><code[^>]*>(.*?)</code></pre>", with: "\n```\n$1\n```\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<pre[^>]*>(.*?)</pre>", with: "\n```\n$1\n```\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<code[^>]*>(.*?)</code>", with: "`$1`", options: .regularExpression)
+
+        // 5. Blockquotes & Lists
+        text = text.replacingOccurrences(of: "(?is)<blockquote[^>]*>(.*?)</blockquote>", with: "\n> $1\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<li[^>]*>(.*?)</li>", with: "\n- $1", options: .regularExpression)
+
+        // 6. Links & Bold / Italic
+        text = text.replacingOccurrences(of: "(?is)<a [^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", with: "[$2]($1)", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<(strong|b)[^>]*>(.*?)</\\1>", with: "**$2**", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<(em|i)[^>]*>(.*?)</\\1>", with: "*$2*", options: .regularExpression)
+
+        // 7. Paragraphs and breaks
+        text = text.replacingOccurrences(of: "(?is)<br\\s*/?>", with: "\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "(?is)<p[^>]*>(.*?)</p>", with: "\n\n$1\n\n", options: .regularExpression)
+
+        // 8. Strip all remaining tags
+        text = text.replacingOccurrences(of: "(?is)<[^>]+>", with: "", options: .regularExpression)
+
+        // 9. Decode HTML entities
+        let entities = [
+            "&nbsp;": " ",
+            "&amp;": "&",
+            "&lt;": "<",
+            "&gt;": ">",
+            "&quot;": "\"",
+            "&#39;": "'",
+            "&apos;": "'",
+            "&mdash;": "—",
+            "&ndash;": "–",
+            "&bull;": "•",
+            "&copy;": "©"
+        ]
+        for (entity, val) in entities {
+            text = text.replacingOccurrences(of: entity, with: val)
+        }
+
+        // 10. Clean line spaces and multiple newlines
+        let lines = text.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespaces) }
+        var cleanedLines: [String] = []
+        var blankCount = 0
+        for line in lines {
+            if line.isEmpty {
+                blankCount += 1
+                if blankCount <= 2 {
+                    cleanedLines.append("")
+                }
+            } else {
+                blankCount = 0
+                cleanedLines.append(line)
+            }
+        }
+        var markdownResult = cleanedLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if !pageTitle.isEmpty && !markdownResult.hasPrefix("#") {
+            markdownResult = "# \(pageTitle)\n\nURL: \(sourceURL.absoluteString)\n\n" + markdownResult
+        } else {
+            markdownResult = "URL: \(sourceURL.absoluteString)\n\n" + markdownResult
+        }
+
+        if markdownResult.count > maxLength {
+            let truncated = String(markdownResult.prefix(maxLength))
+            return truncated + "\n\n...(Content truncated at \(maxLength) characters)"
+        }
+
+        return markdownResult
+    }
 }

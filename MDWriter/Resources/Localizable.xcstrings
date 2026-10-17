@@ -1,29 +1,6 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "···": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "···"
-          }
-        }
-      }
-    },
-    "(%@ tools)": {},
-    "(%lld tools)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "(%lld 个工具)"
-          }
-        }
-      }
-    },
     "%@": {
       "extractionState": "manual",
       "localizations": {
@@ -45,6 +22,7 @@
         }
       }
     },
+    "%@ Search Sources": {},
     "%@ pt": {
       "extractionState": "manual",
       "localizations": {
@@ -63,29 +41,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ 像素"
-          }
-        }
-      }
-    },
-    "%@ Search Sources": {},
-    "%lld pt": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 磅"
-          }
-        }
-      }
-    },
-    "%lld px": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 像素"
           }
         }
       }
@@ -112,6 +67,40 @@
         }
       }
     },
+    "%lld pt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 磅"
+          }
+        }
+      }
+    },
+    "%lld px": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 像素"
+          }
+        }
+      }
+    },
+    "(%@ tools)": {},
+    "(%lld tools)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%lld 个工具)"
+          }
+        }
+      }
+    },
     "A complete overhaul of the editor core for massive stability and performance gains.": {
       "extractionState": "manual",
       "localizations": {
@@ -119,6 +108,133 @@
           "stringUnit": {
             "state": "translated",
             "value": "全面重构核心编辑器，带来巨大的稳定性与性能提升。"
+          }
+        }
+      }
+    },
+    "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AES-256 全库加密备份 (.mdwbk) 与 Dropbox 端到端零知识加密（E2EE）同步。"
+          }
+        }
+      }
+    },
+    "AI": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI"
+          }
+        }
+      }
+    },
+    "AI Assistant": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 助手"
+          }
+        }
+      }
+    },
+    "AI Chat": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 对话"
+          }
+        }
+      }
+    },
+    "AI Chat & Tool Calling": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 对话与 Tool Calling"
+          }
+        }
+      }
+    },
+    "AI Context & Prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 上下文与提示词"
+          }
+        }
+      }
+    },
+    "AI Features Disabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 功能已禁用"
+          }
+        }
+      }
+    },
+    "AI Ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 就绪"
+          }
+        }
+      }
+    },
+    "AI Summary": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 摘要"
+          }
+        }
+      }
+    },
+    "AI Unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 不可用"
+          }
+        }
+      }
+    },
+    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
           }
         }
       }
@@ -178,6 +294,17 @@
         }
       }
     },
+    "Add MCP Extension": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 MCP 扩展"
+          }
+        }
+      }
+    },
     "Add MCP Server": {
       "extractionState": "manual",
       "localizations": {
@@ -185,6 +312,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加 MCP 服务器"
+          }
+        }
+      }
+    },
+    "Add Recommended MCP Extension": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一键添加推荐 MCP 扩展"
           }
         }
       }
@@ -218,94 +356,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "语气调整"
-          }
-        }
-      }
-    },
-    "AI": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI"
-          }
-        }
-      }
-    },
-    "AI Assistant": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 助手"
-          }
-        }
-      }
-    },
-    "AI Chat": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 对话"
-          }
-        }
-      }
-    },
-    "AI Features Disabled": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 功能已禁用"
-          }
-        }
-      }
-    },
-    "AI features use Apple Intelligence for on-device processing. No data is sent to the cloud.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 功能使用 Apple 智能进行端侧处理，不会发送任何数据到云端。"
-          }
-        }
-      }
-    },
-    "AI Ready": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 就绪"
-          }
-        }
-      }
-    },
-    "AI Summary": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 摘要"
-          }
-        }
-      }
-    },
-    "AI Unavailable": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 不可用"
           }
         }
       }
@@ -448,6 +498,23 @@
         }
       }
     },
+    "Auto Sync Frequency": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto Sync Frequency"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动同步频率"
+          }
+        }
+      }
+    },
     "Auto Tags": {
       "extractionState": "manual",
       "localizations": {
@@ -481,6 +548,40 @@
         }
       }
     },
+    "Backup & Sync": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup & Sync"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "备份与同步"
+          }
+        }
+      }
+    },
+    "Backup Exported": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup Exported"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "备份已导出"
+          }
+        }
+      }
+    },
     "Backup Library...": {
       "extractionState": "manual",
       "localizations": {
@@ -488,6 +589,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "备份文稿库..."
+          }
+        }
+      }
+    },
+    "Bing Search API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bing Search API Key"
+          }
+        }
+      }
+    },
+    "Bing Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bing Web Search"
           }
         }
       }
@@ -525,6 +648,28 @@
         }
       }
     },
+    "Brave Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brave Search"
+          }
+        }
+      }
+    },
+    "Brave Search API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brave Search API Key"
+          }
+        }
+      }
+    },
     "Browse Versions...": {
       "extractionState": "manual",
       "localizations": {
@@ -536,6 +681,17 @@
         }
       }
     },
+    "Browse...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览..."
+          }
+        }
+      }
+    },
     "Built-in Web Search": {
       "extractionState": "manual",
       "localizations": {
@@ -543,6 +699,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "内置网络搜索"
+          }
+        }
+      }
+    },
+    "Built-in Web Search allows local LLMs to fetch live information directly without uploading personal documents.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络搜索允许本地大模型直接获取实时信息，且无需上传任何个人文档。"
           }
         }
       }
@@ -580,6 +747,23 @@
         }
       }
     },
+    "CJK Italic & Export Alignment": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CJK Italic & Export Alignment"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中文斜体与导出换行对齐"
+          }
+        }
+      }
+    },
     "Cancel": {
       "extractionState": "manual",
       "localizations": {
@@ -602,13 +786,35 @@
         }
       }
     },
-    "chars": {
+    "Chat with AI to edit selections, manage library notes, update metadata, or format Markdown tables.": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "字符"
+            "value": "与 AI 对话操控选区、管理文稿库笔记、更新元数据或一键插入 Markdown 表格。"
+          }
+        }
+      }
+    },
+    "Check Grammar with Spelling": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查拼写和语法"
+          }
+        }
+      }
+    },
+    "Check Spelling While Typing": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键入时检查拼写"
           }
         }
       }
@@ -635,24 +841,19 @@
         }
       }
     },
-    "Check Grammar with Spelling": {
+    "Choose Folder...": {
       "extractionState": "manual",
       "localizations": {
-        "zh-Hans": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "检查拼写和语法"
+            "value": "Choose Folder..."
           }
-        }
-      }
-    },
-    "Check Spelling While Typing": {
-      "extractionState": "manual",
-      "localizations": {
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "键入时检查拼写"
+            "value": "选择文件夹..."
           }
         }
       }
@@ -763,6 +964,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "配置文件已保存至 ~/Library/Application Support/MDWriter/mcp.json"
+          }
+        }
+      }
+    },
+    "Confirm Master Password": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm Master Password"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认主加密密码"
+          }
+        }
+      }
+    },
+    "Connect to Ollama, LM Studio, oMLX, llama.cpp, MLX, and Jan with complete privacy and zero cloud uploads.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持连接 Ollama、LM Studio、oMLX、llama.cpp、MLX 和 Jan 等本地引擎，数据零上云，隐私百分百安全。"
           }
         }
       }
@@ -888,6 +1117,23 @@
         }
       }
     },
+    "Create Backup (.mdwbk)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Backup (.mdwbk)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建备份 (.mdwbk)"
+          }
+        }
+      }
+    },
     "Custom SearXNG Instance URL (Optional)": {
       "extractionState": "manual",
       "localizations": {
@@ -895,6 +1141,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "自定义 SearXNG 实例 URL (可选)"
+          }
+        }
+      }
+    },
+    "Custom System Prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义系统提示词"
+          }
+        }
+      }
+    },
+    "Custom instructions are appended to the system prompt. LLMs automatically receive document context according to the selected level.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义指令将附加在系统提示词末尾。大模型将根据选定的级别自动接收文档上下文。"
           }
         }
       }
@@ -938,13 +1206,19 @@
         }
       }
     },
-    "Deep grammar and spelling correction": {
+    "Decrypt & Restore": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decrypt & Restore"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "深度语法与拼写校对"
+            "value": "解密并恢复"
           }
         }
       }
@@ -956,6 +1230,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "深度校对"
+          }
+        }
+      }
+    },
+    "Deep grammar and spelling correction": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深度语法与拼写校对"
           }
         }
       }
@@ -1015,6 +1300,17 @@
         }
       }
     },
+    "Document Context Level": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文档上下文级别"
+          }
+        }
+      }
+    },
     "Done": {
       "extractionState": "manual",
       "localizations": {
@@ -1033,6 +1329,96 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dracula"
+          }
+        }
+      }
+    },
+    "Dropbox API Access Token:": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox API Access Token:"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox API 访问令牌："
+          }
+        }
+      }
+    },
+    "Dropbox Cloud Synchronization": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox Cloud Synchronization"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox 云端同步"
+          }
+        }
+      }
+    },
+    "Dropbox Folder Path:": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox Folder Path:"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox 同步目录路径："
+          }
+        }
+      }
+    },
+    "Dropbox REST API Token": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox REST API Token"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox REST API Token"
+          }
+        }
+      }
+    },
+    "DuckDuckGo (Built-in Free)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuckDuckGo (内置免费)"
+          }
+        }
+      }
+    },
+    "DuckDuckGo (Built-in Zero API Key)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuckDuckGo (内置零 API Key)"
           }
         }
       }
@@ -1104,6 +1490,23 @@
         }
       }
     },
+    "Enable Dropbox Sync": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Dropbox Sync"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用 Dropbox 同步"
+          }
+        }
+      }
+    },
     "Enable Local LLM Engine": {
       "extractionState": "manual",
       "localizations": {
@@ -1137,6 +1540,74 @@
         }
       }
     },
+    "Encrypt document backups and Dropbox sync data using AES-256-GCM.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypt document backups and Dropbox sync data using AES-256-GCM."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 AES-256-GCM 加密文档库备份及 Dropbox 同步数据。"
+          }
+        }
+      }
+    },
+    "Encrypted Backup & Dropbox Sync": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypted Backup & Dropbox Sync"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加密备份与 Dropbox 同步"
+          }
+        }
+      }
+    },
+    "Encrypted Backup File": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypted Backup File"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加密备份文件"
+          }
+        }
+      }
+    },
+    "End-to-End Encrypted Sync (E2EE)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End-to-End Encrypted Sync (E2EE)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端到端数据加密 (E2EE)"
+          }
+        }
+      }
+    },
     "Engine Provider": {
       "extractionState": "manual",
       "localizations": {
@@ -1159,6 +1630,96 @@
         }
       }
     },
+    "Enter Dropbox Bearer Token": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Dropbox Bearer Token"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入 Dropbox Bearer Token"
+          }
+        }
+      }
+    },
+    "Every 1 hour": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every 1 hour"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每 1 小时"
+          }
+        }
+      }
+    },
+    "Every 15 minutes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every 15 minutes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每 15 分钟"
+          }
+        }
+      }
+    },
+    "Every 5 minutes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every 5 minutes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每 5 分钟"
+          }
+        }
+      }
+    },
+    "Exa API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exa API Key"
+          }
+        }
+      }
+    },
+    "Exa Search (AI)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exa Search (AI 专用)"
+          }
+        }
+      }
+    },
     "Excluding spaces": {
       "extractionState": "manual",
       "localizations": {
@@ -1177,6 +1738,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "可执行命令"
+          }
+        }
+      }
+    },
+    "Executable Command (e.g. npx / uvx)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可执行命令 (例如 npx 或 uvx)"
           }
         }
       }
@@ -1231,6 +1803,68 @@
         }
       }
     },
+    "Export Error": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Error"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出错误"
+          }
+        }
+      }
+    },
+    "Export Library Backup": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Library Backup"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出文档库备份"
+          }
+        }
+      }
+    },
+    "Export your full document library as an encrypted .mdwbk snapshot or restore from a previous backup.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export your full document library as an encrypted .mdwbk snapshot or restore from a previous backup."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出完整的文档库为加密 .mdwbk 快照，或从历史备份中恢复。"
+          }
+        }
+      }
+    },
+    "Extend AI with local filesystem access, web fetch, Puppeteer, and custom stdio server tools.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于 MCP 协议扩展 AI 能力，支持本地文件系统、网页抓取、Puppeteer 渲染与自定义工具。"
+          }
+        }
+      }
+    },
     "Extended Syntax": {
       "extractionState": "manual",
       "localizations": {
@@ -1238,6 +1872,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "扩展语法"
+          }
+        }
+      }
+    },
+    "Failed to save password to Keychain.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to save password to Keychain."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未能将密码保存至 Keychain。"
           }
         }
       }
@@ -1260,6 +1911,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "快速端侧翻译"
+          }
+        }
+      }
+    },
+    "Fetch real-time web info with DuckDuckGo, SearXNG, Brave, Tavily, Exa, Google, or Bing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持 DuckDuckGo、SearXNG、Brave、Tavily、Exa、Google 及 Bing 实时获取网络最新资讯。"
           }
         }
       }
@@ -1441,6 +2103,17 @@
         }
       }
     },
+    "Full Doc": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整文档"
+          }
+        }
+      }
+    },
     "Full Document": {
       "extractionState": "manual",
       "localizations": {
@@ -1493,6 +2166,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "GitHub"
+          }
+        }
+      }
+    },
+    "Google API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google API Key"
+          }
+        }
+      }
+    },
+    "Google Custom Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Custom Search"
+          }
+        }
+      }
+    },
+    "Google Engine ID (CX)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google 搜索引擎 ID (CX)"
+          }
+        }
+      }
+    },
+    "HTML": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HTML"
           }
         }
       }
@@ -1701,13 +2418,13 @@
         }
       }
     },
-    "HTML": {
+    "IME Stability": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "HTML"
+            "value": "输入法稳定性"
           }
         }
       }
@@ -1741,17 +2458,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "图片"
-          }
-        }
-      }
-    },
-    "IME Stability": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "输入法稳定性"
           }
         }
       }
@@ -1844,17 +2550,6 @@
         }
       }
     },
-    "Insert at Cursor": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在光标处插入"
-          }
-        }
-      }
-    },
     "Insert Image": {
       "extractionState": "manual",
       "localizations": {
@@ -1873,6 +2568,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "插入结果"
+          }
+        }
+      }
+    },
+    "Insert at Cursor": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在光标处插入"
           }
         }
       }
@@ -1955,6 +2661,40 @@
         }
       }
     },
+    "Library Backup & Restore": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Library Backup & Restore"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文档库备份与恢复"
+          }
+        }
+      }
+    },
+    "Library Restored": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Library Restored"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文档库已恢复"
+          }
+        }
+      }
+    },
     "Light": {
       "extractionState": "manual",
       "localizations": {
@@ -1962,6 +2702,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "浅色"
+          }
+        }
+      }
+    },
+    "Lightweight summaries, title generation, auto-tagging, and fast translation running on-device.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于端侧模型高效完成快速摘要、标题生成、智能标签提取与多语言翻译。"
           }
         }
       }
@@ -2043,6 +2794,23 @@
         }
       }
     },
+    "Local Dropbox Directory": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local Dropbox Directory"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地 Dropbox 目录"
+          }
+        }
+      }
+    },
     "Local LLM (Complex Operations)": {
       "extractionState": "manual",
       "localizations": {
@@ -2061,6 +2829,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "本地大模型引擎"
+          }
+        }
+      }
+    },
+    "Local LLM Engines": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地大模型引擎接入"
+          }
+        }
+      }
+    },
+    "MCP": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MCP"
+          }
+        }
+      }
+    },
+    "MCP Servers": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MCP 服务器"
+          }
+        }
+      }
+    },
+    "MDWriter Help": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 帮助"
           }
         }
       }
@@ -2132,24 +2944,53 @@
         }
       }
     },
-    "MCP Servers": {
+    "Master Encryption Password is set in macOS Keychain.": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Master Encryption Password is set in macOS Keychain."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MCP 服务器"
+            "value": "主加密密码已安全存储于 macOS Keychain 钥匙串。"
           }
         }
       }
     },
-    "MDWriter Help": {
+    "Master Password & AES-256 Encryption": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Master Password & AES-256 Encryption"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MDWriter 帮助"
+            "value": "主密码与 AES-256 加密"
+          }
+        }
+      }
+    },
+    "Master Password saved successfully.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Master Password saved successfully."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主密码保存成功。"
           }
         }
       }
@@ -2161,6 +3002,39 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体"
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元数据"
+          }
+        }
+      }
+    },
+    "Metadata (Title, Tags, Stats)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元数据（标题、标签、字数）"
+          }
+        }
+      }
+    },
+    "Model Context Protocol (MCP)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model Context Protocol (MCP) 扩展"
           }
         }
       }
@@ -2194,6 +3068,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "移动到废纸篓"
+          }
+        }
+      }
+    },
+    "Multi-Engine Web Search": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多引擎隐私网络搜索"
+          }
+        }
+      }
+    },
+    "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持中文字符倾斜斜体渲染，且 PDF/HTML 导出排版与编辑器 100% 保持一致。"
           }
         }
       }
@@ -2275,6 +3177,17 @@
         }
       }
     },
+    "No MCP servers configured yet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂未配置 MCP 服务器。"
+          }
+        }
+      }
+    },
     "No MCP servers configured. Click 'Add Server' to integrate external tools.": {
       "extractionState": "manual",
       "localizations": {
@@ -2282,6 +3195,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "未配置 MCP 服务器。点击“添加服务器”以集成外部工具。"
+          }
+        }
+      }
+    },
+    "No Selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无选择"
+          }
+        }
+      }
+    },
+    "No Structure": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无结构"
           }
         }
       }
@@ -2315,28 +3250,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "无大纲内容"
-          }
-        }
-      }
-    },
-    "No Selection": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无选择"
-          }
-        }
-      }
-    },
-    "No Structure": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无结构"
           }
         }
       }
@@ -2385,6 +3298,45 @@
         }
       }
     },
+    "Off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
+        }
+      }
+    },
+    "Off (No Context)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭（无上下文）"
+          }
+        }
+      }
+    },
+    "On-Device Apple Intelligence": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端侧 Apple Intelligence"
+          }
+        }
+      }
+    },
     "Ordered List": {
       "extractionState": "manual",
       "localizations": {
@@ -2403,6 +3355,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "大纲"
+          }
+        }
+      }
+    },
+    "PDF": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF文档"
           }
         }
       }
@@ -2451,6 +3414,40 @@
         }
       }
     },
+    "Password": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "密码"
+          }
+        }
+      }
+    },
+    "Passwords do not match.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords do not match."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "密码不一致。"
+          }
+        }
+      }
+    },
     "Paste": {
       "extractionState": "manual",
       "localizations": {
@@ -2480,17 +3477,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "粘贴自"
-          }
-        }
-      }
-    },
-    "PDF": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PDF文档"
           }
         }
       }
@@ -2600,17 +3586,6 @@
         }
       }
     },
-    "pt": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " 磅"
-          }
-        }
-      }
-    },
     "Pure": {
       "extractionState": "manual",
       "localizations": {
@@ -2618,17 +3593,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "纯净"
-          }
-        }
-      }
-    },
-    "px": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " 像素"
           }
         }
       }
@@ -2673,6 +3637,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "阅读时间"
+          }
+        }
+      }
+    },
+    "Ready to sync": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to sync"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "就绪"
+          }
+        }
+      }
+    },
+    "Remove Password": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Password"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除密码"
           }
         }
       }
@@ -2755,6 +3753,40 @@
         }
       }
     },
+    "Restore Backup (.mdwbk)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Backup (.mdwbk)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从备份恢复 (.mdwbk)"
+          }
+        }
+      }
+    },
+    "Restore Error": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Error"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复错误"
+          }
+        }
+      }
+    },
     "Restore Library": {
       "extractionState": "manual",
       "localizations": {
@@ -2762,6 +3794,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "还原文稿库"
+          }
+        }
+      }
+    },
+    "Restore Library Backup": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Library Backup"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从备份恢复文档库"
           }
         }
       }
@@ -2843,13 +3892,19 @@
         }
       }
     },
-    "Save as PDF...": {
+    "Save Master Password": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Master Password"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保存为PDF…"
+            "value": "保存主密码"
           }
         }
       }
@@ -2861,6 +3916,39 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存版本"
+          }
+        }
+      }
+    },
+    "Save as PDF...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存为PDF…"
+          }
+        }
+      }
+    },
+    "SearXNG (Self-Hosted)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SearXNG (自建实例)"
+          }
+        }
+      }
+    },
+    "SearXNG Instance URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SearXNG 实例 URL"
           }
         }
       }
@@ -2877,6 +3965,17 @@
         }
       }
     },
+    "Search Engine": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索引擎"
+          }
+        }
+      }
+    },
     "Seconds": {
       "extractionState": "manual",
       "localizations": {
@@ -2884,6 +3983,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "秒"
+          }
+        }
+      }
+    },
+    "Security & Data Encryption": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security & Data Encryption"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "数据安全与加密"
+          }
+        }
+      }
+    },
+    "Select Dropbox Sync Directory": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Dropbox Sync Directory"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 Dropbox 同步目录"
+          }
+        }
+      }
+    },
+    "Select Folder": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文件夹"
+          }
+        }
+      }
+    },
+    "Select Template": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择预设模板"
           }
         }
       }
@@ -2983,6 +4138,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "服务器名称"
+          }
+        }
+      }
+    },
+    "Set Master Password": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Master Password"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置主加密密码"
           }
         }
       }
@@ -3358,6 +4530,40 @@
         }
       }
     },
+    "Successfully decrypted and restored document library.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Successfully decrypted and restored document library."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已成功解密并恢复文档库。"
+          }
+        }
+      }
+    },
+    "Successfully restored document library.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Successfully restored document library."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已成功从备份恢复文档库。"
+          }
+        }
+      }
+    },
     "Suggest keyword tags for the document": {
       "extractionState": "manual",
       "localizations": {
@@ -3409,6 +4615,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "在学术、随性或专业语气间切换"
+          }
+        }
+      }
+    },
+    "Sync Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Mode"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步模式"
+          }
+        }
+      }
+    },
+    "Sync Now": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Now"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即同步"
+          }
+        }
+      }
+    },
+    "Synchronizing...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronizing..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在同步..."
           }
         }
       }
@@ -3474,6 +4731,28 @@
         }
       }
     },
+    "Tags": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标签"
+          }
+        }
+      }
+    },
+    "Target Folder Path": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标文件夹路径"
+          }
+        }
+      }
+    },
     "Task List": {
       "extractionState": "manual",
       "localizations": {
@@ -3492,6 +4771,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "任务列表"
+          }
+        }
+      }
+    },
+    "Tavily API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tavily API Key"
+          }
+        }
+      }
+    },
+    "Tavily Search (AI)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tavily Search (AI 专用)"
           }
         }
       }
@@ -3529,17 +4830,6 @@
         }
       }
     },
-    "Theme drives the editor canvas, preview background and exported PDF/RTF.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "主题会作用于编辑器画布、预览背景与导出的 PDF / RTF。"
-          }
-        }
-      }
-    },
     "Theme Selection": {
       "extractionState": "manual",
       "localizations": {
@@ -3551,6 +4841,56 @@
         }
       }
     },
+    "Theme drives the editor canvas, preview background and exported PDF/RTF.": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题会作用于编辑器画布、预览背景与导出的 PDF / RTF。"
+          }
+        }
+      }
+    },
+    "Thinking": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考"
+          }
+        }
+      }
+    },
+    "Thinking...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考中..."
+          }
+        }
+      }
+    },
+    "This backup file is encrypted with AES-256. Please enter the decryption password to restore.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This backup file is encrypted with AES-256. Please enter the decryption password to restore."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此备份文件已通过 AES-256 加密，请输入解密密码以进行恢复。"
+          }
+        }
+      }
+    },
     "This will replace your current library with the backup. This action cannot be undone.": {
       "extractionState": "manual",
       "localizations": {
@@ -3558,6 +4898,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "此操作将用备份文件替换您当前的文稿库。该操作无法撤销。"
+          }
+        }
+      }
+    },
+    "Thought Process": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考过程"
+          }
+        }
+      }
+    },
+    "Toggle Document Context Level": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换文档上下文级别"
           }
         }
       }
@@ -3822,6 +5184,34 @@
         }
       }
     },
+    "What's New in MDWriter 3.0": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 3.0 新特性"
+          }
+        }
+      }
+    },
+    "What's New in MDWriter 3.1": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's New in MDWriter 3.1"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 3.1 新特性"
+          }
+        }
+      }
+    },
     "Words": {
       "extractionState": "manual",
       "localizations": {
@@ -3855,255 +5245,46 @@
         }
       }
     },
-    "简体中文": {
+    "chars": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "简体中文"
+            "value": "字符"
           }
         }
       }
     },
-    "Search Engine": {
+    "pt": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜索引擎"
+            "value": " 磅"
           }
         }
       }
     },
-    "DuckDuckGo (Built-in Zero API Key)": {
+    "px": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "DuckDuckGo (内置零 API Key)"
+            "value": " 像素"
           }
         }
       }
     },
-    "SearXNG (Self-Hosted)": {
+    "···": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "SearXNG (自建实例)"
-          }
-        }
-      }
-    },
-    "SearXNG Instance URL": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "SearXNG 实例 URL"
-          }
-        }
-      }
-    },
-    "Built-in Web Search allows local LLMs to fetch live information directly without uploading personal documents.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "网络搜索允许本地大模型直接获取实时信息，且无需上传任何个人文档。"
-          }
-        }
-      }
-    },
-    "DuckDuckGo (Built-in Free)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DuckDuckGo (内置免费)"
-          }
-        }
-      }
-    },
-    "Brave Search": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brave Search"
-          }
-        }
-      }
-    },
-    "Tavily Search (AI)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tavily Search (AI 专用)"
-          }
-        }
-      }
-    },
-    "Exa Search (AI)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exa Search (AI 专用)"
-          }
-        }
-      }
-    },
-    "Google Custom Search": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google Custom Search"
-          }
-        }
-      }
-    },
-    "Bing Web Search": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bing Web Search"
-          }
-        }
-      }
-    },
-    "Brave Search API Key": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brave Search API Key"
-          }
-        }
-      }
-    },
-    "Tavily API Key": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tavily API Key"
-          }
-        }
-      }
-    },
-    "Exa API Key": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exa API Key"
-          }
-        }
-      }
-    },
-    "Google API Key": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google API Key"
-          }
-        }
-      }
-    },
-    "Google Engine ID (CX)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google 搜索引擎 ID (CX)"
-          }
-        }
-      }
-    },
-    "Bing Search API Key": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bing Search API Key"
-          }
-        }
-      }
-    },
-    "💡 What is MCP? Model Context Protocol (MCP) is an open plugin standard that lets local LLMs securely access local files, web scraping tools, or external APIs.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "💡 什么是 MCP？Model Context Protocol (MCP) 是一种开放扩展协议，允许本地大模型安全地访问你的本地文件、网页抓取工具或第三方 API。"
-          }
-        }
-      }
-    },
-    "No MCP servers configured yet.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂未配置 MCP 服务器。"
-          }
-        }
-      }
-    },
-    "Add Recommended MCP Extension": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一键添加推荐 MCP 扩展"
-          }
-        }
-      }
-    },
-    "Add MCP Extension": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加 MCP 扩展"
-          }
-        }
-      }
-    },
-    "📦 Recommended Presets": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "📦 推荐预设"
+            "value": "···"
           }
         }
       }
@@ -4119,134 +5300,13 @@
         }
       }
     },
-    "Select Template": {
+    "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择预设模板"
-          }
-        }
-      }
-    },
-    "Target Folder Path": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "目标文件夹路径"
-          }
-        }
-      }
-    },
-    "Browse...": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "浏览..."
-          }
-        }
-      }
-    },
-    "Select Folder": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择文件夹"
-          }
-        }
-      }
-    },
-    "Executable Command (e.g. npx / uvx)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "可执行命令 (例如 npx 或 uvx)"
-          }
-        }
-      }
-    },
-    "📁 本地文件夹管理 (Filesystem)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "📁 本地文件夹管理 (Filesystem)"
-          }
-        }
-      }
-    },
-    "🌐 网页内容抓取 (Fetch)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🌐 网页内容抓取 (Fetch)"
-          }
-        }
-      }
-    },
-    "🖥️ 浏览器渲染 (Puppeteer)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🖥️ 浏览器渲染 (Puppeteer)"
-          }
-        }
-      }
-    },
-    "🔍 Brave 网络搜索 (Brave)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🔍 Brave 网络搜索 (Brave)"
-          }
-        }
-      }
-    },
-    "🐙 GitHub 仓库集成 (GitHub)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🐙 GitHub 仓库集成 (GitHub)"
-          }
-        }
-      }
-    },
-    "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件"
-          }
-        }
-      }
-    },
-    "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容"
+            "value": "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力"
           }
         }
       }
@@ -4262,13 +5322,13 @@
         }
       }
     },
-    "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力": {
+    "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力"
+            "value": "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件"
           }
         }
       }
@@ -4284,1139 +5344,1801 @@
         }
       }
     },
-    "What's New in MDWriter 3.0": {
+    "简体中文": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MDWriter 3.0 新特性"
+            "value": "简体中文"
           }
         }
       }
     },
-    "Local LLM Engines": {
+    "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "本地大模型引擎接入"
+            "value": "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容"
           }
         }
       }
     },
-    "Connect to Ollama, LM Studio, oMLX, llama.cpp, MLX, and Jan with complete privacy and zero cloud uploads.": {
+    "🌐 网页内容抓取 (Fetch)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "支持连接 Ollama、LM Studio、oMLX、llama.cpp、MLX 和 Jan 等本地引擎，数据零上云，隐私百分百安全。"
+            "value": "🌐 网页内容抓取 (Fetch)"
           }
         }
       }
     },
-    "AI Chat & Tool Calling": {
+    "🐙 GitHub 仓库集成 (GitHub)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "AI 对话与 Tool Calling"
+            "value": "🐙 GitHub 仓库集成 (GitHub)"
           }
         }
       }
     },
-    "Chat with AI to edit selections, manage library notes, update metadata, or format Markdown tables.": {
+    "💡 What is MCP? Model Context Protocol (MCP) is an open plugin standard that lets local LLMs securely access local files, web scraping tools, or external APIs.": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "与 AI 对话操控选区、管理文稿库笔记、更新元数据或一键插入 Markdown 表格。"
+            "value": "💡 什么是 MCP？Model Context Protocol (MCP) 是一种开放扩展协议，允许本地大模型安全地访问你的本地文件、网页抓取工具或第三方 API。"
           }
         }
       }
     },
-    "Model Context Protocol (MCP)": {
+    "📁 本地文件夹管理 (Filesystem)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Model Context Protocol (MCP) 扩展"
+            "value": "📁 本地文件夹管理 (Filesystem)"
           }
         }
       }
     },
-    "Extend AI with local filesystem access, web fetch, Puppeteer, and custom stdio server tools.": {
+    "📦 Recommended Presets": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "基于 MCP 协议扩展 AI 能力，支持本地文件系统、网页抓取、Puppeteer 渲染与自定义工具。"
+            "value": "📦 推荐预设"
           }
         }
       }
     },
-    "Multi-Engine Web Search": {
+    "🔍 Brave 网络搜索 (Brave)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "多引擎隐私网络搜索"
+            "value": "🔍 Brave 网络搜索 (Brave)"
           }
         }
       }
     },
-    "Fetch real-time web info with DuckDuckGo, SearXNG, Brave, Tavily, Exa, Google, or Bing.": {
+    "🖥️ 浏览器渲染 (Puppeteer)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "支持 DuckDuckGo、SearXNG、Brave、Tavily、Exa、Google 及 Bing 实时获取网络最新资讯。"
+            "value": "🖥️ 浏览器渲染 (Puppeteer)"
           }
         }
       }
     },
-    "On-Device Apple Intelligence": {
+    "Pin to Top": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "端侧 Apple Intelligence"
+            "value": "置顶笔记"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pin to Top"
           }
         }
       }
     },
-    "Lightweight summaries, title generation, auto-tagging, and fast translation running on-device.": {
+    "Unpin": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "基于端侧模型高效完成快速摘要、标题生成、智能标签提取与多语言翻译。"
+            "value": "取消置顶"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unpin"
           }
         }
       }
     },
-    "Backup & Sync": {
+    "Blank Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空白笔记"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blank Note"
+          }
+        }
+      }
+    },
+    "Meeting Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会议纪要"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meeting Notes"
+          }
+        }
+      }
+    },
+    "Daily Log": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日日志"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Log"
+          }
+        }
+      }
+    },
+    "Technical RFC / Design": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "技术方案 / RFC"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Technical RFC / Design"
+          }
+        }
+      }
+    },
+    "Weekly Summary": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作周报"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly Summary"
+          }
+        }
+      }
+    },
+    "Reading Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读书笔记"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading Notes"
+          }
+        }
+      }
+    },
+    "New Note (or choose template)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建笔记（或选择模板）"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note (or choose template)"
+          }
+        }
+      }
+    },
+    "PDF Document": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF 文档"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF Document"
+          }
+        }
+      }
+    },
+    "Social Card (Image)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "社交长图（图片）"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Social Card (Image)"
+          }
+        }
+      }
+    },
+    "Rendering Social Card...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在生成长图..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rendering Social Card..."
+          }
+        }
+      }
+    },
+    "Copy Image": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拷贝长图"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Image"
+          }
+        }
+      }
+    },
+    "Copied!": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已拷贝！"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied!"
+          }
+        }
+      }
+    },
+    "Save as Image...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出为长图..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save as Image..."
+          }
+        }
+      }
+    },
+    "Export Preview (PDF / Image)...": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出预览（PDF / 长图）..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Preview (PDF / Image)..."
+          }
+        }
+      }
+    },
+    "Mention": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mention"
+          }
+        }
+      }
+    },
+    "Insert Note Reference": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用笔记全文"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Note Reference"
+          }
+        }
+      }
+    },
+    "Insert Folder Reference": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用文件夹大纲"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Folder Reference"
+          }
+        }
+      }
+    },
+    "Insert Active Memos (@Memo)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用当前附注 (@Memo)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Active Memos (@Memo)"
+          }
+        }
+      }
+    },
+    "Mention Note, Folder, or Memos (@)": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用笔记、文件夹或附注 (@)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mention Note, Folder, or Memos (@)"
+          }
+        }
+      }
+    },
+    "Inline AI Assistant": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Backup & Sync"
+            "value": "Inline AI Assistant"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "备份与同步"
+            "value": "内联 AI 助手"
           }
         }
       }
     },
-    "Security & Data Encryption": {
+    "Inline AI Assistant (⌘K)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Security & Data Encryption"
+            "value": "Inline AI Assistant (⌘K)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "数据安全与加密"
+            "value": "内联 AI 助手 (⌘K)"
           }
         }
       }
     },
-    "Master Password & AES-256 Encryption": {
+    "Ask AI to write, brainstorm, or outline...": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Master Password & AES-256 Encryption"
+            "value": "Ask AI to write, brainstorm, or outline..."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "主密码与 AES-256 加密"
+            "value": "让 AI 续写、头脑风暴或列大纲..."
           }
         }
       }
     },
-    "Encrypt document backups and Dropbox sync data using AES-256-GCM.": {
+    "Ask AI to edit, polish, or rewrite selection...": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Encrypt document backups and Dropbox sync data using AES-256-GCM."
+            "value": "Ask AI to edit, polish, or rewrite selection..."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用 AES-256-GCM 加密文档库备份及 Dropbox 同步数据。"
+            "value": "向 AI 提问、润色或改写选中文本..."
           }
         }
       }
     },
-    "Master Encryption Password is set in macOS Keychain.": {
+    "Review AI Suggestions": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Master Encryption Password is set in macOS Keychain."
+            "value": "Review AI Suggestions"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "主加密密码已安全存储于 macOS Keychain 钥匙串。"
+            "value": "审阅 AI 建议"
           }
         }
       }
     },
-    "Remove Password": {
+    "Toggle Diff View": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Remove Password"
+            "value": "Toggle Diff View"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "移除密码"
+            "value": "切换差异视图"
           }
         }
       }
     },
-    "Set Master Password": {
+    "Copy suggested text": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Set Master Password"
+            "value": "Copy suggested text"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置主加密密码"
+            "value": "拷贝建议文本"
           }
         }
       }
     },
-    "Confirm Master Password": {
+    "Retry generation (⌘R)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Confirm Master Password"
+            "value": "Retry generation (⌘R)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "确认主加密密码"
+            "value": "重新生成 (⌘R)"
           }
         }
       }
     },
-    "Save Master Password": {
+    "Reject (Esc)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Save Master Password"
+            "value": "Reject (Esc)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保存主密码"
+            "value": "放弃 (Esc)"
           }
         }
       }
     },
-    "Library Backup & Restore": {
+    "Accept (⏎)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Library Backup & Restore"
+            "value": "Accept (⏎)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "文档库备份与恢复"
+            "value": "采纳 (⏎)"
           }
         }
       }
     },
-    "Export your full document library as an encrypted .mdwbk snapshot or restore from a previous backup.": {
+    "Original": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Export your full document library as an encrypted .mdwbk snapshot or restore from a previous backup."
+            "value": "Original"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "导出完整的文档库为加密 .mdwbk 快照，或从历史备份中恢复。"
+            "value": "修改前"
           }
         }
       }
     },
-    "Create Backup (.mdwbk)": {
+    "Suggested": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Create Backup (.mdwbk)"
+            "value": "Suggested"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "创建备份 (.mdwbk)"
+            "value": "建议内容"
           }
         }
       }
     },
-    "Restore Backup (.mdwbk)": {
+    "Shorten": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore Backup (.mdwbk)"
+            "value": "Shorten"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "从备份恢复 (.mdwbk)"
+            "value": "精简"
           }
         }
       }
     },
-    "Dropbox Cloud Synchronization": {
+    "Expand": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox Cloud Synchronization"
+            "value": "Expand"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox 云端同步"
+            "value": "扩写"
           }
         }
       }
     },
-    "Enable Dropbox Sync": {
+    "Fix Grammar": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enable Dropbox Sync"
+            "value": "Fix Grammar"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "启用 Dropbox 同步"
+            "value": "纠错"
           }
         }
       }
     },
-    "Sync Mode": {
+    "Professional": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sync Mode"
+            "value": "Professional"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "同步模式"
+            "value": "专业语气"
           }
         }
       }
     },
-    "Local Dropbox Directory": {
+    "Casual": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Local Dropbox Directory"
+            "value": "Casual"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "本地 Dropbox 目录"
+            "value": "日常语气"
           }
         }
       }
     },
-    "Dropbox REST API Token": {
+    "Stop generation (Esc)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox REST API Token"
+            "value": "Stop generation (Esc)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox REST API Token"
+            "value": "停止生成 (Esc)"
           }
         }
       }
     },
-    "Dropbox Folder Path:": {
+    "Submit (⏎)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox Folder Path:"
+            "value": "Submit (⏎)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox 同步目录路径："
+            "value": "提交 (⏎)"
           }
         }
       }
     },
-    "Choose Folder...": {
+    "Close (Esc)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose Folder..."
+            "value": "Close (Esc)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择文件夹..."
+            "value": "关闭 (Esc)"
           }
         }
       }
     },
-    "Dropbox API Access Token:": {
+    "Detach selection": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox API Access Token:"
+            "value": "Detach selection"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dropbox API 访问令牌："
+            "value": "分离选区"
           }
         }
       }
     },
-    "Enter Dropbox Bearer Token": {
+    "No content generated. Please try again.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter Dropbox Bearer Token"
+            "value": "No content generated. Please try again."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "输入 Dropbox Bearer Token"
+            "value": "未生成任何内容，请重试。"
           }
         }
       }
     },
-    "End-to-End Encrypted Sync (E2EE)": {
+    "Backlinks": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "End-to-End Encrypted Sync (E2EE)"
+            "value": "Backlinks"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "端到端数据加密 (E2EE)"
+            "value": "反向链接"
           }
         }
       }
     },
-    "Auto Sync Frequency": {
+    "No other notes reference this note yet.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Auto Sync Frequency"
+            "value": "No other notes reference this note yet."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自动同步频率"
+            "value": "暂无其他笔记引用当前笔记。"
           }
         }
       }
     },
-    "Off": {
+    "Outgoing Links": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Off"
+            "value": "Outgoing Links"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭"
+            "value": "正向链接"
           }
         }
       }
     },
-    "Every 5 minutes": {
+    "No outgoing WikiLinks found.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Every 5 minutes"
+            "value": "No outgoing WikiLinks found."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "每 5 分钟"
+            "value": "未发现正向 WikiLinks 链接。"
           }
         }
       }
     },
-    "Every 15 minutes": {
+    "Type [[Note Title]] in your writing to connect ideas.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Every 15 minutes"
+            "value": "Type [[Note Title]] in your writing to connect ideas."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "每 15 分钟"
+            "value": "在写作中输入 [[笔记标题]] 即可关联笔记。"
           }
         }
       }
     },
-    "Every 1 hour": {
+    "Create": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Every 1 hour"
+            "value": "Create"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "每 1 小时"
+            "value": "创建"
           }
         }
       }
     },
-    "Sync Now": {
+    "Open": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sync Now"
+            "value": "Open"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "立即同步"
+            "value": "打开"
           }
         }
       }
     },
-    "Ready to sync": {
+    "Compiled Book": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ready to sync"
+            "value": "Compiled Book"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "就绪"
+            "value": "合订本文稿"
           }
         }
       }
     },
-    "Synchronizing...": {
+    "Generated with MDWriter Book Mode": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Synchronizing..."
+            "value": "Generated with MDWriter Book Mode"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在同步..."
+            "value": "由 MDWriter 合订模式生成"
           }
         }
       }
     },
-    "Encrypted Backup File": {
+    "chapters": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Encrypted Backup File"
+            "value": "chapters"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "加密备份文件"
+            "value": "个章节"
           }
         }
       }
     },
-    "This backup file is encrypted with AES-256. Please enter the decryption password to restore.": {
+    "Table of Contents": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This backup file is encrypted with AES-256. Please enter the decryption password to restore."
+            "value": "Table of Contents"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "此备份文件已通过 AES-256 加密，请输入解密密码以进行恢复。"
+            "value": "目录"
           }
         }
       }
     },
-    "Password": {
+    "Chapter": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Password"
+            "value": "Chapter"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "密码"
+            "value": "章节"
           }
         }
       }
     },
-    "Decrypt & Restore": {
+    "External Folders": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Decrypt & Restore"
+            "value": "External Folders"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "解密并恢复"
+            "value": "外部文件夹"
           }
         }
       }
     },
-    "Passwords do not match.": {
+    "Mount Local Folder...": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Passwords do not match."
+            "value": "Mount Local Folder..."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "密码不一致。"
+            "value": "挂载本地文件夹..."
           }
         }
       }
     },
-    "Master Password saved successfully.": {
+    "Mount Folder": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Master Password saved successfully."
+            "value": "Mount Folder"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "主密码保存成功。"
+            "value": "挂载文件夹"
           }
         }
       }
     },
-    "Failed to save password to Keychain.": {
+    "Choose a folder containing Markdown files to mount.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Failed to save password to Keychain."
+            "value": "Choose a folder containing Markdown files to mount."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "未能将密码保存至 Keychain。"
+            "value": "选择包含 Markdown 文件的本地文件夹进行挂载。"
           }
         }
       }
     },
-    "Export Library Backup": {
+    "Reveal in Finder": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Export Library Backup"
+            "value": "Reveal in Finder"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "导出文档库备份"
+            "value": "在访达中显示"
           }
         }
       }
     },
-    "Backup Exported": {
+    "Sync Files": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Backup Exported"
+            "value": "Sync Files"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "备份已导出"
+            "value": "同步文件"
           }
         }
       }
     },
-    "Export Error": {
+    "Unmount": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Export Error"
+            "value": "Unmount"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "导出错误"
+            "value": "卸载"
           }
         }
       }
     },
-    "Restore Library Backup": {
+    "Add Group or Mount Folder": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore Library Backup"
+            "value": "Add Group or Mount Folder"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "从备份恢复文档库"
+            "value": "新建分组或挂载文件夹"
           }
         }
       }
     },
-    "Library Restored": {
+    "iCloud Sync (CloudKit)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Library Restored"
+            "value": "iCloud Sync (CloudKit)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "文档库已恢复"
+            "value": "iCloud 同步 (CloudKit)"
           }
         }
       }
     },
-    "Successfully restored document library.": {
+    "iCloud CloudKit Synchronization": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Successfully restored document library."
+            "value": "iCloud CloudKit Synchronization"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已成功从备份恢复文档库。"
+            "value": "iCloud CloudKit 云端同步"
           }
         }
       }
     },
-    "Successfully decrypted and restored document library.": {
+    "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Successfully decrypted and restored document library."
+            "value": "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已成功解密并恢复文档库。"
+            "value": "通过 Apple 私有云数据库在 macOS 和 iOS 之间无缝同步笔记。"
           }
         }
       }
     },
-    "Restore Error": {
+    "Check Status": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore Error"
+            "value": "Check Status"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢复错误"
+            "value": "检查状态"
           }
         }
       }
     },
-    "Select Dropbox Sync Directory": {
+    "Disabled (Local-First)": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Select Dropbox Sync Directory"
+            "value": "Disabled (Local-First)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择 Dropbox 同步目录"
+            "value": "已停用 (本地优先)"
           }
         }
       }
     },
-    "What's New in MDWriter 3.1": {
+    "Apple Developer Signature Required": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "What's New in MDWriter 3.1"
+            "value": "Apple Developer Signature Required"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MDWriter 3.1 新特性"
+            "value": "需要 Apple 开发者签名"
           }
         }
       }
     },
-    "Encrypted Backup & Dropbox Sync": {
+    "iCloud Account Ready": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Encrypted Backup & Dropbox Sync"
+            "value": "iCloud Account Ready"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "加密备份与 Dropbox 同步"
+            "value": "iCloud 账户就绪"
           }
         }
       }
     },
-    "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization.": {
+    "No iCloud Account Signed In": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization."
+            "value": "No iCloud Account Signed In"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "AES-256 全库加密备份 (.mdwbk) 与 Dropbox 端到端零知识加密（E2EE）同步。"
+            "value": "未登录 iCloud 账户"
           }
         }
       }
     },
-    "CJK Italic & Export Alignment": {
+    "iCloud Access Restricted": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "CJK Italic & Export Alignment"
+            "value": "iCloud Access Restricted"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "中文斜体与导出换行对齐"
+            "value": "iCloud 访问受限"
           }
         }
       }
     },
-    "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports.": {
+    "Syncing with iCloud...": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports."
+            "value": "Syncing with iCloud..."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "支持中文字符倾斜斜体渲染，且 PDF/HTML 导出排版与编辑器 100% 保持一致。"
+            "value": "正在同步至 iCloud..."
           }
         }
       }
     },
-    "Tags": {
+    "All Changes Synced": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Changes Synced"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "标签"
+            "value": "全部更改已同步"
           }
         }
       }
     },
-    "Thinking": {
+    "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode.": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "思考"
+            "value": "iCloud 同步需要付费 Apple 开发者证书与已配置的 CloudKit 容器权利。当前默认保持本地优先存储模式。"
           }
         }
       }
     },
-    "MCP": {
+    "Quick Entry": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Entry"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "MCP"
+            "value": "快速速记"
           }
         }
       }
     },
-    "Metadata": {
+    "Saved to Inbox": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved to Inbox"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "元数据"
+            "value": "已保存至收集箱"
           }
         }
       }
     },
-    "Full Doc": {
+    "Title (Optional)": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title (Optional)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "完整文档"
+            "value": "标题 (可选)"
           }
         }
       }
     },
-    "Toggle Document Context Level": {
+    "Write a quick thought, memo or markdown note...": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write a quick thought, memo or markdown note..."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "切换文档上下文级别"
+            "value": "记录瞬间灵感、备忘随笔或 Markdown 笔记..."
           }
         }
       }
     },
-    "Document Context Level": {
+    "Inbox (Default)": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inbox (Default)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "文档上下文级别"
+            "value": "收集箱 (默认)"
           }
         }
       }
     },
-    "Off (No Context)": {
+    "Save Note": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Note"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭（无上下文）"
+            "value": "保存笔记"
           }
         }
       }
     },
-    "Metadata (Title, Tags, Stats)": {
+    "Quick Note": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Note"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "元数据（标题、标签、字数）"
+            "value": "快速速记"
           }
         }
       }
     },
-    "Custom System Prompt": {
+    "Untitled Note": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled Note"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自定义系统提示词"
+            "value": "无标题笔记"
           }
         }
       }
     },
-    "AI Context & Prompt": {
+    "Create Note in MDWriter": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Note in MDWriter"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "AI 上下文与提示词"
+            "value": "在 MDWriter 中新建笔记"
           }
         }
       }
     },
-    "Custom instructions are appended to the system prompt. LLMs automatically receive document context according to the selected level.": {
+    "Search Notes in MDWriter": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Notes in MDWriter"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自定义指令将附加在系统提示词末尾。大模型将根据选定的级别自动接收文档上下文。"
+            "value": "在 MDWriter 中搜索笔记"
+          }
+        }
+      }
+    },
+    "Append Text to Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Append Text to Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向笔记追加文本"
+          }
+        }
+      }
+    },
+    "Accept (Tab ⇥)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accept (Tab ⇥)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "采纳 (Tab ⇥)"
+          }
+        }
+      }
+    },
+    "AI Inline Writing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Inline Writing"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 实时续写"
+          }
+        }
+      }
+    },
+    "OCR Image Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OCR Image Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片文字识别 (OCR)"
+          }
+        }
+      }
+    },
+    "What's New in MDWriter 4.0": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's New in MDWriter 4.0"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 4.0 新特性"
+          }
+        }
+      }
+    },
+    "Inline AI & Diff Review (⌘K)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline AI & Diff Review (⌘K)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内联 AI 与 Diff 审阅 (⌘K)"
+          }
+        }
+      }
+    },
+    "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在光标处呼出浮动指令栏与选区胶囊，行级 Diff 直观审阅 AI 建议，采纳前自动创建去重版本安全快照。"
+          }
+        }
+      }
+    },
+    "Local RAG & [[WikiLinks]]": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local RAG & [[WikiLinks]]"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地 RAG 与 [[WikiLinks]] 双向链接"
+          }
+        }
+      }
+    },
+    "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于 Apple 原生句子向量实现离线段落级语义检索，支持双向链接与反向链接面板。"
+          }
+        }
+      }
+    },
+    "Vision OCR & Ghost Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vision OCR & Ghost Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地视觉 OCR 与 Ghost Text 实时续写"
+          }
+        }
+      }
+    },
+    "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端侧离线高精度识别图片/PDF 文字，光标停顿时实时预测续写建议，按下 Tab 键瞬间采纳。"
+          }
+        }
+      }
+    },
+    "External Folders & Quick Entry": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "External Folders & Quick Entry"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部文件夹挂载与全局速记"
+          }
+        }
+      }
+    },
+    "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原生挂载本地外部 Markdown 文件夹原地双向同步，并可通过菜单栏浮窗 (⌥⇧N) 随时记录速记。"
+          }
+        }
+      }
+    },
+    "LaTeX & Mermaid Rendering": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaTeX & Mermaid Rendering"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaTeX 数学公式与 Mermaid 图表渲染"
+          }
+        }
+      }
+    },
+    "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原生渲染 KaTeX 数学公式与 Mermaid 图表，并支持多文档拼接导出完整合订本。"
           }
         }
       }

@@ -30,6 +30,7 @@ struct LibraryView: View {
     // 移除 @Query allNotes 以避免一次性加载所有笔记，提高性能。
     // 笔记列表现在由 NoteListView 管理，它使用带谓词的 @Query 按需加载。
 
+    @ObservedObject private var externalFolderManager = ExternalFolderManager.shared
     @State private var selectedFolder: Folder?
     @State private var selectedNote: Note?
     @State private var selectionMode: SelectionMode = .all
@@ -40,6 +41,7 @@ struct LibraryView: View {
         case trash
         case folder(Folder)
         case tag(String)
+        case externalFolder(ExternalFolder)
     }
 
     @SceneStorage("columnVisibility") private var columnVisibilityRaw: String = "all"
@@ -110,6 +112,48 @@ struct LibraryView: View {
                     }
                 }
 
+                Section {
+                    ForEach(externalFolderManager.mountedFolders) { folder in
+                        Label(folder.name, systemImage: "folder.badge.gearshape")
+                            .tag(SelectionMode.externalFolder(folder))
+                            .contextMenu {
+                                Button {
+                                    if let url = folder.resolveURL() {
+                                        NSWorkspace.shared.activateFileViewerSelecting([url])
+                                    }
+                                } label: {
+                                    Label(LocalizedStringKey("Reveal in Finder"), systemImage: "arrow.up.forward.app")
+                                }
+                                Button {
+                                    _ = externalFolderManager.syncExternalNotes(for: folder, in: modelContext)
+                                } label: {
+                                    Label(LocalizedStringKey("Sync Files"), systemImage: "arrow.clockwise")
+                                }
+                                Divider()
+                                Button(role: .destructive) {
+                                    externalFolderManager.unmountFolder(folder)
+                                } label: {
+                                    Label(LocalizedStringKey("Unmount"), systemImage: "eject")
+                                }
+                            }
+                    }
+                } header: {
+                    HStack {
+                        Text(LocalizedStringKey("External Folders"))
+                        Spacer()
+                        Button {
+                            if let mounted = externalFolderManager.pickAndMountFolder() {
+                                _ = externalFolderManager.syncExternalNotes(for: mounted, in: modelContext)
+                                selectionMode = .externalFolder(mounted)
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .buttonStyle(.plain)
+                        .help(LocalizedStringKey("Mount Local Folder..."))
+                    }
+                }
+
                 if !allTagsWithCount.isEmpty {
                     Section(LocalizedStringKey("Tags")) {
                         ForEach(allTagsWithCount, id: \.tag) { item in
@@ -129,14 +173,26 @@ struct LibraryView: View {
             .navigationTitle(LocalizedStringKey("Library"))
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button(action: {
-                        let folder = Folder(name: String(localized: "New Group"))
-                        if case .folder(let parent) = selectionMode { folder.parent = parent }
-                        modelContext.insert(folder)
-                    }) {
+                    Menu {
+                        Button(action: {
+                            let folder = Folder(name: String(localized: "New Group"))
+                            if case .folder(let parent) = selectionMode { folder.parent = parent }
+                            modelContext.insert(folder)
+                        }) {
+                            Label(LocalizedStringKey("New Group"), systemImage: "folder.badge.plus")
+                        }
+                        Button(action: {
+                            if let mounted = externalFolderManager.pickAndMountFolder() {
+                                _ = externalFolderManager.syncExternalNotes(for: mounted, in: modelContext)
+                                selectionMode = .externalFolder(mounted)
+                            }
+                        }) {
+                            Label(LocalizedStringKey("Mount Local Folder..."), systemImage: "folder.badge.gearshape")
+                        }
+                    } label: {
                         Image(systemName: "folder.badge.plus")
                     }
-                    .help(LocalizedStringKey("New Group"))
+                    .help(LocalizedStringKey("Add Group or Mount Folder"))
                 }
             }
             .background(.ultraThinMaterial)
@@ -162,9 +218,24 @@ struct LibraryView: View {
                                     Image(systemName: "trash.slash")
                                 }
                             } else {
-                                Button(action: createNewNote) {
+                                Menu {
+                                    Button(action: createNewNote) {
+                                        Label(LocalizedStringKey("Blank Note"), systemImage: "doc")
+                                    }
+                                    Divider()
+                                    ForEach(NoteTemplate.allTemplates.filter { $0.id != "blank" }) { template in
+                                        Button {
+                                            createNoteFromTemplate(template)
+                                        } label: {
+                                            Label(template.localizedKey, systemImage: template.icon)
+                                        }
+                                    }
+                                } label: {
                                     Image(systemName: "square.and.pencil")
+                                } primaryAction: {
+                                    createNewNote()
                                 }
+                                .help(LocalizedStringKey("New Note (or choose template)"))
                             }
                         }
                     }
@@ -191,6 +262,11 @@ struct LibraryView: View {
                 showLibrary = isVisible
             }
         }
+        .onChange(of: selectionMode) { _, newMode in
+            if case .externalFolder(let folder) = newMode {
+                _ = externalFolderManager.syncExternalNotes(for: folder, in: modelContext)
+            }
+        }
         .onAppear {
             // Sync initial state
             if showLibrary {
@@ -204,6 +280,21 @@ struct LibraryView: View {
             let folder = Folder(name: String(localized: "New Group"))
             if case .folder(let parent) = selectionMode { folder.parent = parent }
             modelContext.insert(folder)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("OpenNoteByTitle"))) { notification in
+            guard let title = notification.object as? String, !title.isEmpty else { return }
+            let descriptor = FetchDescriptor<Note>()
+            let notes = (try? modelContext.fetch(descriptor)) ?? []
+            if let matched = notes.first(where: { !$0.isTrashed && $0.title.caseInsensitiveCompare(title) == .orderedSame }) {
+                withAnimation {
+                    selectedNote = matched
+                    if let folder = matched.folder {
+                        selectionMode = .folder(folder)
+                    } else {
+                        selectionMode = .all
+                    }
+                }
+            }
         }
         .alert(isPresented: $showEmptyTrashAlert) {
             Alert(
@@ -247,7 +338,24 @@ struct LibraryView: View {
         }
         .focusedSceneValue(\.hasSelectedNote, selectedNote != nil)
         .onOpenURL { url in
-            importSingleNote(from: url)
+            if url.scheme == "mdwriter", url.host == "note" {
+                let idString = url.lastPathComponent
+                if let data = Data(base64Encoded: idString),
+                   let id = try? JSONDecoder().decode(PersistentIdentifier.self, from: data),
+                   let note = modelContext.model(for: id) as? Note,
+                   !note.isTrashed {
+                    withAnimation {
+                        selectedNote = note
+                        if let folder = note.folder {
+                            selectionMode = .folder(folder)
+                        } else {
+                            selectionMode = .all
+                        }
+                    }
+                }
+            } else {
+                importSingleNote(from: url)
+            }
         }
     }
 
@@ -302,10 +410,21 @@ struct LibraryView: View {
         case .trash: return String(localized: "Trash")
         case .folder(let folder): return folder.name
         case .tag(let tag): return "# \(tag)"
+        case .externalFolder(let folder): return folder.name
         }
     }
 
     private func createNewNote() {
+        if case .externalFolder(let folder) = selectionMode {
+            if let newFileURL = try? externalFolderManager.createExternalMarkdownFile(in: folder, title: String(localized: "New Note")) {
+                let synced = externalFolderManager.syncExternalNotes(for: folder, in: modelContext)
+                if let createdNote = synced.first(where: { $0.externalFilePath == newFileURL.path }) {
+                    selectedNote = createdNote
+                    return
+                }
+            }
+        }
+
         // 计算新的 order 值，使其出现在最顶部（当前最小 order - 1）
         let fetchDescriptor = FetchDescriptor<Note>(sortBy: [
             SortDescriptor(\.order, order: .forward)
@@ -322,6 +441,39 @@ struct LibraryView: View {
         selectedNote = newNote
     }
 
+    private func createNoteFromTemplate(_ template: NoteTemplate) {
+        if case .externalFolder(let folder) = selectionMode {
+            let templateTitle = String(localized: String.LocalizationValue(template.localizedNameKey))
+            if let newFileURL = try? externalFolderManager.createExternalMarkdownFile(in: folder, title: templateTitle, content: template.defaultContent) {
+                let synced = externalFolderManager.syncExternalNotes(for: folder, in: modelContext)
+                if let createdNote = synced.first(where: { $0.externalFilePath == newFileURL.path }) {
+                    selectedNote = createdNote
+                    return
+                }
+            }
+        }
+
+        let fetchDescriptor = FetchDescriptor<Note>(sortBy: [
+            SortDescriptor(\.order, order: .forward)
+        ])
+        let allNotes = (try? modelContext.fetch(fetchDescriptor)) ?? []
+
+        let minOrder = allNotes.first?.order ?? 0
+        let newOrder = minOrder - 1
+
+        let targetFolder: Folder? = if case .folder(let folder) = selectionMode { folder } else { nil }
+
+        let newNote = Note(
+            title: String(localized: String.LocalizationValue(template.localizedNameKey)),
+            content: template.defaultContent,
+            folder: targetFolder,
+            order: newOrder
+        )
+        modelContext.insert(newNote)
+        try? modelContext.save()
+        selectedNote = newNote
+    }
+
     private func moveNote(_ note: Note, to folder: Folder?) {
         note.folder = folder
         note.isTrashed = false
@@ -331,15 +483,18 @@ struct LibraryView: View {
     private func moveNoteToTrash(_ note: Note) {
         note.isTrashed = true
         try? modelContext.save()
+        SpotlightIndexer.shared.removeNote(note)
         if selectedNote == note { selectedNote = nil }
     }
 
     private func restoreNote(_ note: Note) {
         note.isTrashed = false
         try? modelContext.save()
+        SpotlightIndexer.shared.indexNote(note)
     }
 
     private func deleteNotePermanently(_ note: Note) {
+        SpotlightIndexer.shared.removeNote(note)
         modelContext.delete(note)
         try? modelContext.save()
         if selectedNote == note { selectedNote = nil }
@@ -349,7 +504,10 @@ struct LibraryView: View {
         // 使用 FetchDescriptor 手动获取废纸篓中的笔记，避免在视图中保留所有笔记的引用
         let descriptor = FetchDescriptor<Note>(predicate: #Predicate { $0.isTrashed })
         if let trashedNotes = try? modelContext.fetch(descriptor) {
-            trashedNotes.forEach { modelContext.delete($0) }
+            trashedNotes.forEach {
+                SpotlightIndexer.shared.removeNote($0)
+                modelContext.delete($0)
+            }
             try? modelContext.save()
         }
         selectedNote = nil
@@ -559,11 +717,16 @@ struct NoteRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
+            HStack(spacing: 6) {
                 Text(note.title)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .lineLimit(1)
                     .foregroundColor(titleColor)
+                if note.isPinned {
+                    Image(systemName: "pin.fill")
+                        .font(.system(size: 10))
+                        .foregroundStyle(isSelected ? (usesMutedSelectionText ? Color.accentColor : .white) : Color.accentColor)
+                }
                 Spacer()
                 Text(note.modifiedAt, style: .date)
                     .font(.system(size: 10, weight: .medium))

@@ -34,6 +34,7 @@ struct ChatPanelView: View {
                             }
 
                             if llmService.isProcessing && !llmService.currentStreamingText.isEmpty {
+                                let parsedStream = ThinkingContentParser.parse(llmService.currentStreamingText)
                                 HStack {
                                     VStack(alignment: .leading, spacing: 6) {
                                         HStack(spacing: 6) {
@@ -44,9 +45,18 @@ struct ChatPanelView: View {
                                                 .foregroundStyle(.secondary)
                                         }
 
-                                        Text(llmService.currentStreamingText)
-                                            .font(.system(size: 13))
-                                            .lineSpacing(3)
+                                        if let thinking = parsedStream.thinking, !thinking.isEmpty {
+                                            ThinkingBlockView(
+                                                thinkingText: thinking,
+                                                isStreaming: parsedStream.isThinkingInProgress
+                                            )
+                                        }
+
+                                        if !parsedStream.answer.isEmpty || parsedStream.thinking == nil {
+                                            Text(parsedStream.answer.isEmpty ? llmService.currentStreamingText : parsedStream.answer)
+                                                .font(.system(size: 13))
+                                                .lineSpacing(3)
+                                        }
                                     }
                                     .padding(12)
                                     .background(Color.secondary.opacity(0.06))

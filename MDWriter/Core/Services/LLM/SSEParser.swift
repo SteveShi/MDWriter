@@ -5,9 +5,10 @@
 
 import Foundation
 
-/// Data structure representing incremental content or tool call updates from OpenAI-compatible SSE streams.
+/// Data structure representing incremental content, reasoning, or tool call updates from OpenAI-compatible SSE streams.
 struct ChatStreamDelta: Sendable {
     let content: String?
+    let reasoningContent: String?
     let toolCalls: [ToolCallDelta]?
     let finishReason: String?
 }
@@ -42,10 +43,14 @@ private struct SSEServerChoice: Codable {
 
 private struct SSEServerDelta: Codable {
     let content: String?
+    let reasoningContent: String?
+    let reasoning: String?
     let toolCalls: [ToolCallDelta]?
 
     enum CodingKeys: String, CodingKey {
         case content
+        case reasoningContent = "reasoning_content"
+        case reasoning
         case toolCalls = "tool_calls"
     }
 }
@@ -74,8 +79,10 @@ final class SSEParser: Sendable {
                         guard let data = payload.data(using: .utf8) else { continue }
                         if let response = try? decoder.decode(SSEServerResponse.self, from: data),
                            let choice = response.choices?.first {
+                            let reasoningChunk = choice.delta?.reasoningContent ?? choice.delta?.reasoning
                             let delta = ChatStreamDelta(
                                 content: choice.delta?.content,
+                                reasoningContent: reasoningChunk,
                                 toolCalls: choice.delta?.toolCalls,
                                 finishReason: choice.finishReason
                             )

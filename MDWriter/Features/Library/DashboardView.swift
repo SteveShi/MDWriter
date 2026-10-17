@@ -13,6 +13,7 @@ enum DashboardTab: String, CaseIterable, Identifiable {
     case overview = "square.grid.2x2"
     case statistics = "chart.xyaxis.line"
     case outline = "list.bullet"
+    case links = "link"
     case media = "photo.on.rectangle"
     case notes = "text.bubble"
     #if canImport(FoundationModels)
@@ -85,6 +86,9 @@ struct DashboardView: View {
                                 .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .outline:
                             StructureTab(text: text)
+                                .transition(.opacity.combined(with: .move(edge: .trailing)))
+                        case .links:
+                            DashboardLinksTab(note: note, text: text)
                                 .transition(.opacity.combined(with: .move(edge: .trailing)))
                         case .media:
                             MediaTab(text: text)

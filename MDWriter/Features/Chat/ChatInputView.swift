@@ -3,6 +3,7 @@
 //  MDWriter
 //
 
+import SwiftData
 import SwiftUI
 
 struct ChatInputView: View {
@@ -12,6 +13,12 @@ struct ChatInputView: View {
     var onCancel: () -> Void
     @ObservedObject var controller: EditorController
     var note: Note?
+
+    @Query(filter: #Predicate<Note> { !$0.isTrashed }, sort: \Note.modifiedAt, order: .reverse)
+    private var recentNotes: [Note]
+
+    @Query(sort: \Folder.name)
+    private var folders: [Folder]
 
     @AppStorage("aiThinkingEnabled") private var isThinkingEnabled: Bool = false
     @AppStorage("searchEnabled") private var searchEnabled: Bool = true
@@ -53,6 +60,57 @@ struct ChatInputView: View {
                     mcpToolsEnabled.toggle()
                 }
 
+                // Mention Context Menu
+                Menu {
+                    if !recentNotes.isEmpty {
+                        Menu(LocalizedStringKey("Insert Note Reference")) {
+                            ForEach(recentNotes.prefix(8)) { n in
+                                Button {
+                                    insertMention("@Note: \"\(n.title)\" ")
+                                } label: {
+                                    Label(n.title, systemImage: "doc.text")
+                                }
+                            }
+                        }
+                    }
+
+                    if !folders.isEmpty {
+                        Menu(LocalizedStringKey("Insert Folder Reference")) {
+                            ForEach(folders) { f in
+                                Button {
+                                    insertMention("@Folder: \"\(f.name)\" ")
+                                } label: {
+                                    Label(f.name, systemImage: "folder")
+                                }
+                            }
+                        }
+                    }
+
+                    if let note = note, !note.memos.isEmpty {
+                        Button {
+                            insertMention("@Memo ")
+                        } label: {
+                            Label(LocalizedStringKey("Insert Active Memos (@Memo)"), systemImage: "note.text")
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 3) {
+                        Image(systemName: "at")
+                            .font(.system(size: 10, weight: .bold))
+                        Text(LocalizedStringKey("Mention"))
+                            .font(.system(size: 10, weight: .medium))
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.secondary.opacity(0.08))
+                    )
+                    .foregroundStyle(Color.secondary)
+                }
+                .buttonStyle(.plain)
+                .help(LocalizedStringKey("Mention Note, Folder, or Memos (@)"))
+
                 // Context Level Cycle Toggle
                 Button {
                     cycleContextLevel()
@@ -73,6 +131,27 @@ struct ChatInputView: View {
                 }
                 .buttonStyle(.plain)
                 .help(LocalizedStringKey("Toggle Document Context Level"))
+
+                // Vision OCR Button
+                Button {
+                    importAndRecognizeImage()
+                } label: {
+                    HStack(spacing: 3) {
+                        Image(systemName: "camera.viewfinder")
+                            .font(.system(size: 10, weight: .bold))
+                        Text(LocalizedStringKey("OCR"))
+                            .font(.system(size: 10, weight: .medium))
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.secondary.opacity(0.08))
+                    )
+                    .foregroundStyle(Color.secondary)
+                }
+                .buttonStyle(.plain)
+                .help(LocalizedStringKey("Extract text from image using on-device OCR"))
 
                 Spacer()
             }
@@ -118,6 +197,39 @@ struct ChatInputView: View {
         case .none: contextLevelRaw = AIContextLevel.metadata.rawValue
         case .metadata: contextLevelRaw = AIContextLevel.full.rawValue
         case .full: contextLevelRaw = AIContextLevel.none.rawValue
+        }
+    }
+
+    private func insertMention(_ token: String) {
+        if text.isEmpty || text.hasSuffix(" ") || text.hasSuffix("\n") {
+            text += token
+        } else {
+            text += " " + token
+        }
+    }
+
+    private func importAndRecognizeImage() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.image, .png, .jpeg, .tiff]
+        panel.prompt = String(localized: "Select Image")
+
+        if panel.runModal() == .OK, let url = panel.url {
+            Task { @MainActor in
+                do {
+                    let result = try await VisionOCRService.shared.recognizeText(fromFileURL: url)
+                    if !result.recognizedText.isEmpty {
+                        if !text.isEmpty {
+                            text += "\n\n"
+                        }
+                        text += "[OCR Extracted Text]:\n" + result.recognizedText
+                    }
+                } catch {
+                    print("OCR Error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }

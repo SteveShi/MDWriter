@@ -66,7 +66,14 @@ final class LLMService {
         // 2. Prepare conversation history for OpenAI request
         var openAIMessages: [OpenAIMessage] = []
 
-        let systemPrompt = buildSystemPrompt(note: note, editorController: editorController)
+        var systemPrompt = buildSystemPrompt(note: note, editorController: editorController)
+
+        // Resolve @Note, @Folder, @Memo mentions in user message and inject into context
+        let mentionContext = resolveMentions(in: trimmed, modelContext: modelContext, activeNote: note)
+        if !mentionContext.isEmpty {
+            systemPrompt += "\n\n" + mentionContext
+        }
+
         openAIMessages.append(OpenAIMessage(role: "system", content: systemPrompt))
 
         // Inject past messages for current note
@@ -129,11 +136,25 @@ final class LLMService {
             )
 
             var accumulatedText = ""
+            var accumulatedReasoning = ""
             var accumulatedToolCalls: [Int: (id: String, name: String, args: String)] = [:]
 
             for try await delta in stream {
+                if let reasoningChunk = delta.reasoningContent, !reasoningChunk.isEmpty {
+                    accumulatedReasoning += reasoningChunk
+                }
+
                 if let textChunk = delta.content {
                     accumulatedText += textChunk
+                }
+
+                if !accumulatedReasoning.isEmpty {
+                    if accumulatedText.isEmpty {
+                        currentStreamingText = "<think>\(accumulatedReasoning)"
+                    } else {
+                        currentStreamingText = "<think>\(accumulatedReasoning)</think>\n\n\(accumulatedText)"
+                    }
+                } else {
                     currentStreamingText = accumulatedText
                 }
 
@@ -149,11 +170,18 @@ final class LLMService {
                 }
             }
 
+            let finalAssistantContent: String
+            if !accumulatedReasoning.isEmpty && !accumulatedText.contains("<think>") {
+                finalAssistantContent = "<think>\n\(accumulatedReasoning.trimmingCharacters(in: .whitespacesAndNewlines))\n</think>\n\n\(accumulatedText)"
+            } else {
+                finalAssistantContent = accumulatedText
+            }
+
             // Case A: LLM produced assistant text response
-            if !accumulatedText.isEmpty {
+            if !finalAssistantContent.isEmpty {
                 let assistantMsg = ChatMessage(
                     role: "assistant",
-                    content: accumulatedText,
+                    content: finalAssistantContent,
                     modelName: model,
                     providerName: config.provider.displayName,
                     note: note
@@ -225,6 +253,12 @@ final class LLMService {
             Always format responses in clean Markdown.
             """
 
+        if config.isThinkingEnabled {
+            prompt += "\n\n[Reasoning Mode: Enabled]\nThink carefully step-by-step inside <think>...</think> tags before providing your final response."
+        } else {
+            prompt += "\n\n[Reasoning Mode: Concise]\nRespond directly without extended <think> blocks. /no_think"
+        }
+
         let custom = config.customSystemPrompt.trimmingCharacters(in: .whitespacesAndNewlines)
         if !custom.isEmpty {
             prompt += "\n\n[User Custom Instructions]\n\(custom)"
@@ -255,5 +289,74 @@ final class LLMService {
         }
 
         return prompt
+    }
+
+    // MARK: - Mention Resolver (@Note, @Folder, @Memo)
+
+    private func resolveMentions(in text: String, modelContext: ModelContext?, activeNote: Note?) -> String {
+        guard let context = modelContext else { return "" }
+        var sections: [String] = []
+
+        // 1. @Note: "title" or @Note:title
+        let notePattern = #"(?i)@Note:\s*\"([^\"]+)\"|@Note:([^\s]+)"#
+        if let regex = try? NSRegularExpression(pattern: notePattern) {
+            let nsText = text as NSString
+            let matches = regex.matches(in: text, range: NSRange(location: 0, length: nsText.length))
+            for match in matches {
+                let noteTitle: String
+                if match.range(at: 1).location != NSNotFound {
+                    noteTitle = nsText.substring(with: match.range(at: 1))
+                } else if match.range(at: 2).location != NSNotFound {
+                    noteTitle = nsText.substring(with: match.range(at: 2))
+                } else {
+                    continue
+                }
+
+                let fetchDesc = FetchDescriptor<Note>(predicate: #Predicate { $0.title == noteTitle && !$0.isTrashed })
+                if let matchedNote = (try? context.fetch(fetchDesc))?.first {
+                    sections.append("[Referenced Note: \"\(matchedNote.title)\"]\n\(matchedNote.content)")
+                }
+            }
+        }
+
+        // 2. @Folder: "name" or @Folder:name
+        let folderPattern = #"(?i)@Folder:\s*\"([^\"]+)\"|@Folder:([^\s]+)"#
+        if let regex = try? NSRegularExpression(pattern: folderPattern) {
+            let nsText = text as NSString
+            let matches = regex.matches(in: text, range: NSRange(location: 0, length: nsText.length))
+            for match in matches {
+                let folderName: String
+                if match.range(at: 1).location != NSNotFound {
+                    folderName = nsText.substring(with: match.range(at: 1))
+                } else if match.range(at: 2).location != NSNotFound {
+                    folderName = nsText.substring(with: match.range(at: 2))
+                } else {
+                    continue
+                }
+
+                let fetchDesc = FetchDescriptor<Folder>(predicate: #Predicate { $0.name == folderName })
+                if let matchedFolder = (try? context.fetch(fetchDesc))?.first {
+                    var summary = "[Referenced Folder: \"\(matchedFolder.name)\" (Contains \(matchedFolder.notes.count) notes)]\n"
+                    for n in matchedFolder.notes.filter({ !$0.isTrashed }) {
+                        let snippet = n.content.count > 300 ? String(n.content.prefix(300)) + "..." : n.content
+                        summary += "- **\(n.title)**: \(snippet)\n"
+                    }
+                    sections.append(summary)
+                }
+            }
+        }
+
+        // 3. @Memo
+        if text.localizedCaseInsensitiveContains("@Memo") {
+            if let memos = activeNote?.memos, !memos.isEmpty {
+                var memoText = "[Referenced Memos for Active Note: \"\(activeNote?.title ?? "")\"]\n"
+                for (idx, m) in memos.enumerated() {
+                    memoText += "\(idx + 1). \(m.content)\n"
+                }
+                sections.append(memoText)
+            }
+        }
+
+        return sections.isEmpty ? "" : "[Referenced Context via @ Mentions]\n" + sections.joined(separator: "\n\n")
     }
 }

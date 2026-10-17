@@ -266,9 +266,11 @@ final class Note {
     var createdAt: Date
     var modifiedAt: Date
     var isTrashed: Bool = false
+    var isPinned: Bool = false  // 置顶状态
     var order: Int = 0  // 用于记录手动排序顺序
     var tags: [String] = []  // Keywords
     var folder: Folder?
+    var externalFilePath: String? = nil  // 外部挂载文件夹关联路径
 
     @Relationship(deleteRule: .cascade, inverse: \Snapshot.note)
     var snapshots: [Snapshot] = []
@@ -279,12 +281,13 @@ final class Note {
     @Relationship(deleteRule: .cascade, inverse: \ChatMessage.note)
     var chatMessages: [ChatMessage] = []
 
-    init(title: String, content: String = "", folder: Folder? = nil, order: Int = 0) {
+    init(title: String, content: String = "", folder: Folder? = nil, order: Int = 0, isPinned: Bool = false) {
         self.title = title
         self.content = content
         self.createdAt = Date()
         self.modifiedAt = Date()
         self.isTrashed = false
+        self.isPinned = isPinned
         self.folder = folder
         self.order = order
     }

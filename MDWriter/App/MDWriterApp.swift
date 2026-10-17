@@ -65,6 +65,9 @@ struct MDWriterApp: App {
                 .onReceive(NotificationCenter.default.publisher(for: .showWhatsNew)) { _ in
                     showWhatsNewSheet = true
                 }
+                .onAppear {
+                    QuickEntryManager.shared.setupStatusItem(modelContainer: container)
+                }
                 .onChange(of: scenePhase) { _, newPhase in
                     if newPhase != .active {
                         saveMainContext()

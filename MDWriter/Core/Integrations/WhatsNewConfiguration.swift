@@ -17,47 +17,47 @@ struct WhatsNewItem: Identifiable {
 struct WhatsNewSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
-    let title: String = String(localized: "What's New in MDWriter 3.1")
+    let title: String = String(localized: "What's New in MDWriter 4.0")
 
     let features: [WhatsNewItem] = [
         WhatsNewItem(
-            icon: "cpu.fill",
-            title: String(localized: "Local LLM Engines"),
+            icon: "sparkles",
+            title: String(localized: "Inline AI & Diff Review (⌘K)"),
             subtitle: String(
                 localized:
-                    "Connect to Ollama, LM Studio, oMLX, llama.cpp, MLX, and Jan with complete privacy and zero cloud uploads."
+                    "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots."
             )
         ),
         WhatsNewItem(
-            icon: "bubble.left.and.bubble.right.fill",
-            title: String(localized: "AI Chat & Tool Calling"),
+            icon: "link",
+            title: String(localized: "Local RAG & [[WikiLinks]]"),
             subtitle: String(
                 localized:
-                    "Chat with AI to edit selections, manage library notes, update metadata, or format Markdown tables."
+                    "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector."
             )
         ),
         WhatsNewItem(
-            icon: "network",
-            title: String(localized: "Model Context Protocol (MCP)"),
+            icon: "text.viewfinder",
+            title: String(localized: "Vision OCR & Ghost Text"),
             subtitle: String(
                 localized:
-                    "Extend AI with local filesystem access, web fetch, Puppeteer, and custom stdio server tools."
+                    "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key."
             )
         ),
         WhatsNewItem(
-            icon: "lock.shield.fill",
-            title: String(localized: "Encrypted Backup & Dropbox Sync"),
+            icon: "folder.badge.gearshape",
+            title: String(localized: "External Folders & Quick Entry"),
             subtitle: String(
                 localized:
-                    "AES-256 encrypted library backups (.mdwbk) and zero-knowledge E2EE Dropbox cloud synchronization."
+                    "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N)."
             )
         ),
         WhatsNewItem(
-            icon: "textformat.italic",
-            title: String(localized: "CJK Italic & Export Alignment"),
+            icon: "function",
+            title: String(localized: "LaTeX & Mermaid Rendering"),
             subtitle: String(
                 localized:
-                    "Native obliqueness slant for Chinese italic text and 100% line break alignment in PDF/HTML exports."
+                    "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export."
             )
         ),
     ]

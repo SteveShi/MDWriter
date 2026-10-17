@@ -1,5 +1,50 @@
 # CHANGELOG
 
+## [4.0.0] - 2026-10-18
+
+### Added
+- **Inline AI Assistant & Visual Diff Review (`⌘K`)**: Seamlessly invoke AI anywhere in the editor with a native floating command bar and selection pill. Supports 8 preset actions (Polish, Shorten, Expand, Fix Grammar, Translate, Professional, Casual, Continue) or custom prompts. Review changes with unified red-green line diffs, word delta counters, one-click accept (`⏎`), reject (`Esc`), retry (`⌘R`), and deduplicated safety snapshots.
+- **Local RAG & Paragraph-Level Semantic Search**: Built-in vector embedding engine powered by Apple `NaturalLanguage`. Automatically chunks library notes and caches 640-dim (Chinese) and 512-dim (English) sentence vectors for lightning-fast offline semantic search, hybrid keyword fusion, and autonomous tool calling via `semantic_search_library`.
+- **Bidirectional [[WikiLinks]] & Backlinks Panel**: Full Obsidian-style internal linking. Type `[[Note Title]]` to navigate or instantly create new notes. Dedicated Backlinks inspector tab in the right dashboard lists referring documents with contextual excerpts.
+- **On-Device Vision OCR**: Offline high-precision text recognition for local images and PDFs using Apple Vision (`VNRecognizeTextRequest`). Includes a new `ocr_image_content` tool expanding the built-in tool suite to 29 tools.
+- **Proactive Ghost Text Writing Predictions**: Lightweight inline auto-completion controller. After a 1.2s typing pause, predicts next sentences using local LLMs; press `Tab ⇥` to accept predictions instantly.
+- **External Local Folders Mounting**: Mount arbitrary local folders with security-scoped bookmarks. Two-way synchronization between external files and MDWriter with atomic disk write-backs.
+- **Menu Bar Quick Entry (`⌥⇧N`)**: Lightweight menu bar popover (`NSStatusItem`) for capturing fleeting thoughts, memos, or markdown notes directly into Inbox with `⌘⏎`.
+- **CoreSpotlight System Search & Deep Linking**: Real-time macOS Spotlight indexing for all notes, keywords, and folders. Search globally via Spotlight and jump directly to notes via `mdwriter://note/<id>`.
+- **macOS App Intents & Shortcuts Integration**: Native Shortcuts and Siri actions including `CreateNoteIntent`, `SearchNotesIntent`, and `AppendToNoteIntent`.
+- **KaTeX Formulas & Mermaid Diagram Rendering**: Native LaTeX math rendering (`$...$` and `$$...$$`) and Mermaid visual diagram generation in previews, PDF exports, and image cards.
+- **Multi-Document Combined Book Export**: Merge multiple sheets or entire folders into structured books with auto-generated tables of contents and chapter breaks.
+- **Note Pinning, Note Templates & Social Card Export**: Pin critical documents to the top, create notes from customizable templates, and export beautiful social media card images.
+- **iCloud (CloudKit) Sync Architecture**: Ready-to-use CloudKit private database synchronization architecture and status diagnostics (defaults to Local-First mode without requiring paid developer credentials).
+
+### Improved & Fixed
+- Streaming thinking model support: Smoothly parse and fold `<think>` tags and `reasoning_content` in chat.
+- Context mentions: Type `@` in chat to mention specific `@Note`, `@Folder`, or `@Memo`.
+- Full Swift 6 strict concurrency compliance and zero-hardcoded bilingual localization.
+
+---
+
+### Chinese
+### 新增
+- **编辑器内联 AI 与行级 Diff 审阅卡片 (`⌘K`)**：原生毛玻璃悬浮指令栏与选区胶囊工具条，支持 8 项写作预设与自由提问；统一红绿行级 Diff 审阅卡片，支持实时增减字数统计、`Accept (⏎)` 采纳、`Reject (Esc)` 放弃、`Retry (⌘R)` 重试及修改前自动去重快照备份。
+- **本地向量语义检索引擎 (Local RAG via Apple `NaturalLanguage`)**：基于 Apple 原生系统句子向量（中文 640 维、英文 512 维），实现本地全库段落级向量切片、增量内存缓存、余弦相似度计算与关键字混合加权重排序（Hybrid Fusion），AI 可自主跨笔记调取全库知识切片。
+- **`[[WikiLinks]]` 双向链接与反向链接面板 (Backlinks)**：支持正向链接跳转与未创建笔记一键新建；右侧大纲面板新增专属 Links Tab，全库检索引用当前文档的上下文摘录卡片。
+- **本地多模态视觉 (Vision OCR)**：基于 Apple 原生 Vision 框架实现中文/英文毫秒级离线图片/PDF 文本识别与图表结构化转 Markdown，内置 Tool Calling 工具链扩充至 29 个。
+- **Ghost Text 实时写作续写建议**：光标停止输入 1.2s 防抖触发，智能结合上下文预测生成 1~2 句续写内容，悬浮胶囊展示，按下 `Tab ⇥` 键瞬间采纳。
+- **外部本地文件夹直接挂载 (External Folders)**：原生支持挂载任意本地目录并利用 Security-Scoped Bookmarks 持久化；外部磁盘改动双向同步，应用内编辑原子防抖写回磁盘对应 `.md` 文件。
+- **菜单栏全局速记窗口 (Quick Entry ⌥⇧N)**：系统菜单栏常驻笔墨图标，弹出极简毛玻璃浮动卡片，支持 `⌘⏎` 秒速保存至收集箱并自动收起。
+- **CoreSpotlight 系统级搜索索引与深度链接**：全自动建立 macOS 系统聚焦（Spotlight）索引，全局搜索笔记标题、正文与标签，点击通过 `mdwriter://` 瞬间唤醒定位打开文档。
+- **macOS App Intents 原生快捷指令**：提供新建笔记、搜索笔记、追加文本至笔记等系统 Shortcuts 与 Siri 动作。
+- **KaTeX 数学公式与 Mermaid 图表原生渲染**：导出 PDF、长图与 HTML 预览均原生解析渲染 `$...$` 公式与 Mermaid 图表。
+- **多文档合订导出 (Book Mode)**：支持按文件夹或手动排序将多篇独立笔记拼接为包含总目录、规范章节标题与分隔线的合订本长文。
+- **笔记置顶、笔记模板与社交长图卡片导出**：笔记列表置顶、多场景开箱即用模板，以及一键导出精致社交分享长图卡片。
+- **iCloud (CloudKit) 同步架构**：完整实现 CloudKit 云端同步状态机与偏好设置面板（默认保持本地优先 Local-First 安全模式，无需付费开发者证书即可稳定运行）。
+
+### 优化与修复
+- 思考模型流式解析：优雅折叠 `<think>` 思考过程与 `reasoning_content`。
+- 上下文引用系统：聊天框输入 `@` 瞬间联想并引用 `@Note`、`@Folder` 或 `@Memo`。
+- 全量 Swift 6 严格并发检查通过与 100% 界面双语本地化覆盖。
+
 ## [3.2.1] - 2026-07-30
 
 ### Added

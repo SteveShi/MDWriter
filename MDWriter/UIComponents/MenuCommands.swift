@@ -50,6 +50,11 @@ struct FileCommands: Commands {
             }
             .keyboardShortcut("n", modifiers: [.command, .shift])
 
+            Button(LocalizedStringKey("Quick Entry")) {
+                QuickEntryManager.shared.togglePopover()
+            }
+            .keyboardShortcut("n", modifiers: [.option, .shift])
+
             Divider()
 
             Button(LocalizedStringKey("Save Version")) {
@@ -162,6 +167,11 @@ struct ViewCommands: Commands {
                 NotificationCenter.default.post(name: .toggleAIChat, object: nil)
             }
             .keyboardShortcut("l", modifiers: [.command, .shift])
+
+            Button(LocalizedStringKey("Inline AI Assistant")) {
+                NotificationCenter.default.post(name: .toggleInlineAI, object: nil)
+            }
+            .keyboardShortcut("k", modifiers: .command)
         }
 
         CommandGroup(replacing: .toolbar) {
@@ -368,6 +378,7 @@ extension Notification.Name {
     static let showKeyboardShortcuts = Notification.Name("showKeyboardShortcuts")
     static let showWhatsNew = Notification.Name("showWhatsNew")
     static let toggleAIChat = Notification.Name("toggleAIChat")
+    static let toggleInlineAI = Notification.Name("toggleInlineAI")
 
     // File
     static let newNote = Notification.Name("newNote")

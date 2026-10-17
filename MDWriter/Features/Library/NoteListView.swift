@@ -92,12 +92,43 @@ struct NoteListView: View {
                             || note.title.localizedStandardContains(queryText)
                             || note.content.localizedStandardContains(queryText))
                 }, sort: \.order)
+        case .externalFolder:
+            _notes = Query(
+                filter: #Predicate<Note> { note in
+                    note.externalFilePath != nil && !note.isTrashed
+                        && (isEmpty
+                            || note.title.localizedStandardContains(queryText)
+                            || note.content.localizedStandardContains(queryText))
+                }, sort: \.modifiedAt, order: .reverse)
+        }
+    }
+
+    private var displayedNotes: [Note] {
+        let filtered: [Note]
+        if case .externalFolder(let folder) = selectionMode {
+            let folderPath = folder.resolveURL()?.path ?? ""
+            filtered = notes.filter { note in
+                guard let path = note.externalFilePath else { return false }
+                return folderPath.isEmpty || path.hasPrefix(folderPath)
+            }
+        } else {
+            filtered = notes
+        }
+
+        return filtered.sorted { a, b in
+            if a.isPinned != b.isPinned {
+                return a.isPinned && !b.isPinned
+            }
+            if case .trash = selectionMode {
+                return a.modifiedAt > b.modifiedAt
+            }
+            return a.order < b.order
         }
     }
 
     var body: some View {
         List(selection: $selectedNote) {
-            ForEach(notes) { note in
+            ForEach(displayedNotes) { note in
                 NoteRowView(note: note, searchText: searchText, isSelected: selectedNote == note, isListFocused: isListFocused)
                     .tag(note)
                     .draggable(NoteTransfer(id: note.persistentModelID))
@@ -118,6 +149,16 @@ struct NoteListView: View {
                             }
                         } else {
                             Button {
+                                note.isPinned.toggle()
+                                try? modelContext.save()
+                            } label: {
+                                Label(
+                                    note.isPinned ? LocalizedStringKey("Unpin") : LocalizedStringKey("Pin to Top"),
+                                    systemImage: note.isPinned ? "pin.slash" : "pin"
+                                )
+                            }
+                            Divider()
+                            Button {
                                 onRename(note)
                             } label: {
                                 Label(LocalizedStringKey("Rename"), systemImage: "pencil")
@@ -137,7 +178,7 @@ struct NoteListView: View {
     }
 
     private func moveNotes(from source: IndexSet, to destination: Int) {
-        var updatedNotes = notes
+        var updatedNotes = displayedNotes
         updatedNotes.move(fromOffsets: source, toOffset: destination)
 
         for reverseIndex in 0..<updatedNotes.count {

@@ -35,7 +35,9 @@ let project = Project(
             dependencies: [
                 .package(product: "MDEditorKit"),
                 .package(product: "Sparkle"),
-                .package(product: "MCP")
+                .package(product: "MCP"),
+                .sdk(name: "AppIntents", type: .framework),
+                .sdk(name: "CoreSpotlight", type: .framework)
             ],
             settings: .settings(
                 base: [
@@ -46,8 +48,8 @@ let project = Project(
                     "ENABLE_HARDENED_RUNTIME": "YES",
                     "OTHER_LDFLAGS": ["-framework", "Sparkle"],
                     "CODE_SIGN_ENTITLEMENTS": "MDWriter/App/MDWriter.entitlements",
-                    "MARKETING_VERSION": "$(MARKETING_VERSION)",
-                    "CURRENT_PROJECT_VERSION": "$(CURRENT_PROJECT_VERSION)"
+                    "MARKETING_VERSION": "4.0.0",
+                    "CURRENT_PROJECT_VERSION": "400"
                 ]
             )
         )

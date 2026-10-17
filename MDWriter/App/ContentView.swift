@@ -47,6 +47,8 @@ struct ContentView: View {
     @State private var updateInfoTask: Task<Void, Never>? = nil
 
     @StateObject private var editorController = EditorController()
+    @StateObject private var inlineAIController = InlineAIController()
+    @ObservedObject private var ghostTextController = GhostTextController.shared
     @ObservedObject private var editorSettings = EditorSettings.shared
 
     @AppStorage("appTheme") private var currentTheme: AppTheme = .light
@@ -118,6 +120,9 @@ struct ContentView: View {
                         note.modifiedAt = Date()
                         scheduleAutoSave()
                     }
+                    .onChange(of: editorController.selectedRange) { _, _ in
+                        ghostTextController.handleEditorChange(controller: editorController)
+                    }
                 } else {
                     // 无选择时的占位符
                     ContentUnavailableView {
@@ -148,10 +153,15 @@ struct ContentView: View {
                     .allowsHitTesting(false)
                 }
 
-                // Ulysses-style Context-Sensitive Markup Bar
+                // Ulysses-style Context-Sensitive Markup Bar & Ghost Text Suggestion
                 if note != nil {
-                    VStack(spacing: 0) {
+                    VStack(spacing: 8) {
                         Spacer()
+
+                        GhostTextSuggestionBar(
+                            ghostController: ghostTextController,
+                            editorController: editorController
+                        )
 
                         UlyssesMarkupBar(controller: editorController)
                             .background(canvasPaperColor.opacity(0.8))
@@ -175,6 +185,13 @@ struct ContentView: View {
                     }
                     .zIndex(100)
                 }
+
+                // MARK: - Inline AI Overlay (Command Bar, Diff Review & Selection Pill)
+                InlineAIOverlayView(
+                    editorController: editorController,
+                    inlineController: inlineAIController,
+                    note: note
+                )
             }
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
 
@@ -249,8 +266,9 @@ struct ContentView: View {
                 // 4. 导出
                 Menu {
                     Button(action: { showExportPreview = true }) {
-                        Label(LocalizedStringKey("PDF"), systemImage: "doc.text")
+                        Label(LocalizedStringKey("Export Preview (PDF / Image)..."), systemImage: "doc.viewfinder")
                     }
+                    Divider()
                     Button(action: { export(as: .rtf) }) {
                         Label(LocalizedStringKey("Rich Text (Word)"), systemImage: "doc.richtext")
                     }
@@ -275,20 +293,17 @@ struct ContentView: View {
                 .disabled(note == nil)
                 .help(LocalizedStringKey("Find and Replace"))
 
-                // 6. AI 助手 (Apple Intelligence)
-                #if canImport(FoundationModels)
-                    if #available(macOS 26.0, *) {
-                        Button(action: { showAIAssistant.toggle() }) {
-                            Image(systemName: "sparkles")
-                                .foregroundColor(showAIAssistant ? .accentColor : .primary)
-                        }
-                        .disabled(note == nil)
-                        .help(LocalizedStringKey("AI Assistant"))
-                        .popover(isPresented: $showAIAssistant) {
-                            AIAssistantView(controller: editorController, note: note)
-                        }
+                // 6. 内联 AI 助手 (Inline AI Assistant ⌘K)
+                Button(action: {
+                    withAnimation(.spring(response: 0.32, dampingFraction: 0.82)) {
+                        inlineAIController.toggle(from: editorController)
                     }
-                #endif
+                }) {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(inlineAIController.state != .hidden ? .accentColor : .primary)
+                }
+                .disabled(note == nil)
+                .help(LocalizedStringKey("Inline AI Assistant (⌘K)"))
 
                 // 7. AI 对话窗口 (Chat Panel Toggle)
                 Button(action: {
@@ -365,12 +380,23 @@ struct ContentView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .toggleInlineAI)) { _ in
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.82)) {
+                inlineAIController.toggle(from: editorController)
+            }
+        }
     }
 
     private func scheduleAutoSave() {
         autosaveTask?.cancel()
         autosaveTask = Task { @MainActor in
             try? await Task.sleep(nanoseconds: 350_000_000)
+            if let currentNote = note {
+                if currentNote.externalFilePath != nil {
+                    ExternalFolderManager.shared.saveExternalNote(currentNote)
+                }
+                SpotlightIndexer.shared.indexNote(currentNote)
+            }
             do {
                 try modelContext.save()
             } catch {
@@ -381,6 +407,9 @@ struct ContentView: View {
 
     private func flushAutoSave() {
         autosaveTask?.cancel()
+        if let currentNote = note, currentNote.externalFilePath != nil {
+            ExternalFolderManager.shared.saveExternalNote(currentNote)
+        }
         do {
             try modelContext.save()
         } catch {

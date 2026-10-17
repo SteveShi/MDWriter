@@ -41,12 +41,80 @@ final class ToolExecutor {
             }
             return "(Empty document)"
 
+        case "get_document_outline":
+            let content = (editorController?.fullText.isEmpty == false ? editorController?.fullText : currentNote?.content) ?? ""
+            if content.isEmpty {
+                return "(Empty document)"
+            }
+            let headers = MDHeaderParser.parseHeaders(from: content)
+            let stats = DocumentStatistics.calculate(from: content)
+            let outlineItems: [[String: Any]] = headers.map {
+                [
+                    "level": $0.level,
+                    "heading": String(repeating: "#", count: $0.level) + " " + $0.title,
+                    "title": $0.title,
+                    "line_index": $0.lineIndex
+                ]
+            }
+            let payload: [String: Any] = [
+                "characters": stats.characters,
+                "words": stats.words,
+                "estimated_reading_minutes": stats.readingTime,
+                "headings": outlineItems
+            ]
+            let jsonData = (try? JSONSerialization.data(withJSONObject: payload)) ?? Data()
+            return String(data: jsonData, encoding: .utf8) ?? "{}"
+
         case "replace_selection":
             guard let text = argsDict["text"] as? String else {
                 return "Error: missing 'text' parameter"
             }
+            createSafetySnapshotIfNeeded()
             editorController?.proxy.insert(text)
-            return "Successfully replaced selected text."
+            return "Saved safety snapshot and replaced selected text."
+
+        case "search_and_replace_in_doc":
+            guard let search = argsDict["search"] as? String, !search.isEmpty,
+                  let replace = argsDict["replace"] as? String else {
+                return "Error: missing 'search' or 'replace' parameter"
+            }
+            let isRegex = (argsDict["is_regex"] as? Bool) ?? false
+            let currentText = (editorController?.fullText.isEmpty == false ? editorController?.fullText : currentNote?.content) ?? ""
+            guard !currentText.isEmpty else {
+                return "Document is empty."
+            }
+
+            createSafetySnapshotIfNeeded()
+
+            if isRegex {
+                do {
+                    let regex = try NSRegularExpression(pattern: search, options: [])
+                    let range = NSRange(currentText.startIndex..<currentText.endIndex, in: currentText)
+                    let matches = regex.numberOfMatches(in: currentText, options: [], range: range)
+                    guard matches > 0 else {
+                        return "No regex matches found for '\(search)'."
+                    }
+                    let updated = regex.stringByReplacingMatches(in: currentText, options: [], range: range, withTemplate: replace)
+                    applyFullDocumentUpdate(updated)
+                    return "Saved safety snapshot and replaced \(matches) regex match(es) for '\(search)'."
+                } catch {
+                    return "Invalid regular expression '\(search)': \(error.localizedDescription)"
+                }
+            } else {
+                guard currentText.contains(search) else {
+                    return "No exact matches found for '\(search)'."
+                }
+                let occurrences = max(0, currentText.components(separatedBy: search).count - 1)
+                if let controller = editorController {
+                    controller.proxy.replaceAll(search: search, with: replace)
+                    currentNote?.modifiedAt = Date()
+                    try? modelContext?.save()
+                } else {
+                    let updated = currentText.replacingOccurrences(of: search, with: replace)
+                    applyFullDocumentUpdate(updated)
+                }
+                return "Saved safety snapshot and replaced \(occurrences) occurrence(s) of '\(search)'."
+            }
 
         case "insert_at_cursor":
             guard let text = argsDict["text"] as? String else {
@@ -85,12 +153,21 @@ final class ToolExecutor {
                 return "Error: missing 'title' parameter"
             }
             let content = (argsDict["content"] as? String) ?? ""
-            let newNote = Note(title: title, content: content)
+            var targetFolder: Folder? = nil
+            if let folderName = argsDict["folder_name"] as? String, !folderName.isEmpty {
+                let folderDesc = FetchDescriptor<Folder>()
+                let folders = (try? modelContext?.fetch(folderDesc)) ?? []
+                targetFolder = folders.first(where: { $0.name.localizedCaseInsensitiveCompare(folderName) == .orderedSame })
+            }
+            let newNote = Note(title: title, content: content, folder: targetFolder)
             if let tags = argsDict["tags"] as? [String] {
                 newNote.tags = tags
             }
             modelContext?.insert(newNote)
             try? modelContext?.save()
+            if let fName = targetFolder?.name {
+                return "Successfully created note '\(title)' in folder '\(fName)'."
+            }
             return "Successfully created note '\(title)'."
 
         case "delete_note":
@@ -124,15 +201,26 @@ final class ToolExecutor {
             let descriptor = FetchDescriptor<Note>()
             let notes = ((try? modelContext?.fetch(descriptor)) ?? []).filter { !$0.isTrashed }
             let tagFilter = argsDict["tag"] as? String
+            let folderFilter = argsDict["folder_name"] as? String
             let keywordFilter = argsDict["keyword"] as? String
 
             let filtered = notes.filter { n in
                 if let t = tagFilter, !n.tags.contains(t) { return false }
+                if let f = folderFilter, !f.isEmpty {
+                    let noteFolder = n.folder?.name ?? "Inbox"
+                    if noteFolder.localizedCaseInsensitiveCompare(f) != .orderedSame { return false }
+                }
                 if let k = keywordFilter, !n.title.localizedCaseInsensitiveContains(k) { return false }
                 return true
             }
 
-            let resultList = filtered.map { ["title": $0.title, "tags": $0.tags.joined(separator: ", ")] }
+            let resultList = filtered.map {
+                [
+                    "title": $0.title,
+                    "folder": $0.folder?.name ?? "Inbox",
+                    "tags": $0.tags.joined(separator: ", ")
+                ]
+            }
             let jsonData = (try? JSONSerialization.data(withJSONObject: resultList)) ?? Data()
             return String(data: jsonData, encoding: .utf8) ?? "[]"
 
@@ -157,7 +245,122 @@ final class ToolExecutor {
             let jsonData = (try? JSONSerialization.data(withJSONObject: results)) ?? Data()
             return String(data: jsonData, encoding: .utf8) ?? "[]"
 
-        // MARK: - Metadata Tools
+        case "semantic_search_library":
+            guard let query = argsDict["query"] as? String else {
+                return "Error: missing 'query' parameter"
+            }
+            let limit = (argsDict["limit"] as? Int) ?? 5
+            let minSim = (argsDict["min_similarity"] as? Double) ?? 0.25
+
+            let descriptor = FetchDescriptor<Note>()
+            let allNotes = ((try? modelContext?.fetch(descriptor)) ?? []).filter { !$0.isTrashed }
+            let results = SemanticSearchService.shared.search(
+                query: query,
+                notes: allNotes,
+                limit: max(1, min(limit, 10)),
+                minSimilarity: minSim
+            )
+
+            if results.isEmpty {
+                return "No semantically matching notes found for '\(query)'."
+            }
+
+            var output = "### Semantic Search Results for \"\(query)\":\n\n"
+            for (idx, r) in results.enumerated() {
+                let scorePercent = Int(r.similarity * 100)
+                let folderInfo = r.folderName != nil ? " [Folder: \(r.folderName!)]" : ""
+                output += "\(idx + 1). **\(r.noteTitle)**\(folderInfo) — Match: \(scorePercent)%\n"
+                output += "   > \(r.snippet.replacingOccurrences(of: "\n", with: "\n   > "))\n\n"
+            }
+            return output
+
+        case "ocr_image_content":
+            guard let imagePath = argsDict["image_path"] as? String else {
+                return "Error: missing 'image_path' parameter"
+            }
+            let url = imagePath.hasPrefix("file://") ? (URL(string: imagePath) ?? URL(fileURLWithPath: imagePath)) : URL(fileURLWithPath: imagePath)
+            do {
+                let result = try await VisionOCRService.shared.recognizeText(fromFileURL: url)
+                if result.recognizedText.isEmpty {
+                    return "No readable text detected in image '\(imagePath)'."
+                }
+                return """
+                ### OCR Recognition Result:
+                Lines detected: \(result.lineCount), Confidence: \(Int(result.confidence * 100))%
+
+                \(result.recognizedText)
+                """
+            } catch {
+                return "OCR Error for '\(imagePath)': \(error.localizedDescription)"
+            }
+
+        case "manage_folders":
+            guard let action = argsDict["action"] as? String else {
+                return "Error: missing 'action' parameter"
+            }
+            let folderDesc = FetchDescriptor<Folder>()
+            let folders = (try? modelContext?.fetch(folderDesc)) ?? []
+
+            switch action {
+            case "list":
+                let list: [[String: Any]] = folders.map { f in
+                    [
+                        "name": f.name,
+                        "note_count": f.notes.filter { !$0.isTrashed }.count
+                    ]
+                }
+                let jsonData = (try? JSONSerialization.data(withJSONObject: list)) ?? Data()
+                return String(data: jsonData, encoding: .utf8) ?? "[]"
+
+            case "create":
+                guard let folderName = argsDict["folder_name"] as? String,
+                      !folderName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    return "Error: missing 'folder_name' parameter"
+                }
+                if folders.contains(where: { $0.name.localizedCaseInsensitiveCompare(folderName) == .orderedSame }) {
+                    return "Folder '\(folderName)' already exists."
+                }
+                let newFolder = Folder(name: folderName)
+                modelContext?.insert(newFolder)
+                try? modelContext?.save()
+                return "Created folder '\(folderName)'."
+
+            case "move_note":
+                let noteTitle = argsDict["note_title"] as? String
+                let targetNote: Note?
+                if let title = noteTitle, !title.isEmpty {
+                    let noteDesc = FetchDescriptor<Note>()
+                    let allNotes = (try? modelContext?.fetch(noteDesc)) ?? []
+                    targetNote = allNotes.first(where: { $0.title == title && !$0.isTrashed })
+                } else {
+                    targetNote = currentNote
+                }
+                guard let note = targetNote else {
+                    return "Target note not found."
+                }
+                let folderName = (argsDict["folder_name"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                if folderName.isEmpty || folderName.localizedCaseInsensitiveCompare("Inbox") == .orderedSame {
+                    note.folder = nil
+                    try? modelContext?.save()
+                    return "Moved note '\(note.title)' to Inbox."
+                }
+                if let existingFolder = folders.first(where: { $0.name.localizedCaseInsensitiveCompare(folderName) == .orderedSame }) {
+                    note.folder = existingFolder
+                    try? modelContext?.save()
+                    return "Moved note '\(note.title)' to folder '\(existingFolder.name)'."
+                } else {
+                    let createdFolder = Folder(name: folderName)
+                    modelContext?.insert(createdFolder)
+                    note.folder = createdFolder
+                    try? modelContext?.save()
+                    return "Created folder '\(folderName)' and moved note '\(note.title)' into it."
+                }
+
+            default:
+                return "Unknown folder action: \(action)"
+            }
+
+        // MARK: - Metadata, Memos & Snapshot Tools
         case "set_document_title":
             guard let title = argsDict["title"] as? String else {
                 return "Error: missing 'title' parameter"
@@ -185,6 +388,58 @@ final class ToolExecutor {
             try? modelContext?.save()
             return "Updated tags: \(note.tags.joined(separator: ", "))"
 
+        case "manage_memos":
+            guard let action = argsDict["action"] as? String,
+                  let note = currentNote else {
+                return "Error: missing 'action' parameter or no active note"
+            }
+            switch action {
+            case "list":
+                let memos = note.memos.sorted(by: { $0.createdAt < $1.createdAt })
+                let items = memos.enumerated().map { idx, m in
+                    ["index": idx + 1, "content": m.content]
+                }
+                let jsonData = (try? JSONSerialization.data(withJSONObject: items)) ?? Data()
+                return String(data: jsonData, encoding: .utf8) ?? "[]"
+
+            case "add":
+                guard let content = argsDict["content"] as? String,
+                      !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    return "Error: missing 'content' parameter for adding memo"
+                }
+                let memo = Memo(content: content, note: note)
+                modelContext?.insert(memo)
+                note.memos.append(memo)
+                try? modelContext?.save()
+                return "Added memo to note '\(note.title)'."
+
+            case "delete":
+                guard let matchText = argsDict["content"] as? String, !matchText.isEmpty else {
+                    return "Error: missing 'content' substring to match memo for deletion"
+                }
+                if let targetMemo = note.memos.first(where: { $0.content.localizedCaseInsensitiveContains(matchText) }) {
+                    note.memos.removeAll(where: { $0 == targetMemo })
+                    modelContext?.delete(targetMemo)
+                    try? modelContext?.save()
+                    return "Deleted matching memo from note '\(note.title)'."
+                }
+                return "No memo matching '\(matchText)' found on current note."
+
+            default:
+                return "Unknown memo action: \(action)"
+            }
+
+        case "create_snapshot":
+            guard let note = currentNote else {
+                return "No active note to snapshot."
+            }
+            let content = (editorController?.fullText.isEmpty == false ? editorController?.fullText : note.content) ?? note.content
+            let snapshot = Snapshot(content: content, note: note)
+            modelContext?.insert(snapshot)
+            note.snapshots.append(snapshot)
+            try? modelContext?.save()
+            return "Created version snapshot for '\(note.title)' (\(content.count) chars)."
+
         // MARK: - Markdown Tools
         case "insert_table":
             guard let headers = argsDict["headers"] as? [String],
@@ -204,7 +459,7 @@ final class ToolExecutor {
             editorController?.proxy.insert(codeBlockMD)
             return "Inserted code block."
 
-        // MARK: - Web Search Tool
+        // MARK: - Web Search & Fetch Tools
         case "web_search":
             guard let query = argsDict["query"] as? String else {
                 return "Error: missing 'query' parameter"
@@ -212,6 +467,47 @@ final class ToolExecutor {
             let searchResults = try await webSearchTool.search(query: query)
             let resultData = try JSONEncoder().encode(searchResults)
             return String(data: resultData, encoding: .utf8) ?? "[]"
+
+        case "fetch_webpage_markdown":
+            guard let urlString = argsDict["url"] as? String else {
+                return "Error: missing 'url' parameter"
+            }
+            let maxLength = (argsDict["max_length"] as? Int) ?? 8000
+            return try await webSearchTool.fetchWebpageMarkdown(urlString: urlString, maxLength: maxLength)
+
+        // MARK: - Export & Snapshot Tools
+        case "export_document":
+            guard let format = argsDict["format"] as? String else {
+                return "Error: missing 'format' parameter"
+            }
+            let destPath = argsDict["destination_path"] as? String
+            let docText = (editorController?.fullText.isEmpty == false ? editorController?.fullText : currentNote?.content) ?? ""
+            let docTitle = currentNote?.title ?? "Document"
+            return try await ExportService.shared.exportDocument(
+                text: docText,
+                title: docTitle,
+                formatString: format,
+                destinationPath: destPath
+            )
+
+        case "diff_with_latest_snapshot":
+            let currentText = (editorController?.fullText.isEmpty == false ? editorController?.fullText : currentNote?.content) ?? ""
+            guard let latestSnapshot = currentNote?.snapshots.sorted(by: { $0.createdAt > $1.createdAt }).first else {
+                return "No history snapshot found for note '\(currentNote?.title ?? "Untitled")'."
+            }
+            let snapshotText = latestSnapshot.content
+            if snapshotText == currentText {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                formatter.timeStyle = .medium
+                return "Current document is identical to the latest snapshot (recorded at \(formatter.string(from: latestSnapshot.createdAt))). No changes detected."
+            }
+
+            return computeUnifiedDiff(
+                oldText: snapshotText,
+                newText: currentText,
+                snapshotDate: latestSnapshot.createdAt
+            )
 
         // MARK: - MCP Management Tools
         case "add_mcp_server":
@@ -256,6 +552,39 @@ final class ToolExecutor {
         }
     }
 
+    // MARK: - Private Helpers
+
+    /// Automatically saves a version snapshot of the current note before destructive AI edits,
+    /// avoiding duplicate snapshots if the latest snapshot already has identical content.
+    private func createSafetySnapshotIfNeeded() {
+        guard let note = currentNote else { return }
+        let currentContent = (editorController?.fullText.isEmpty == false ? editorController?.fullText : note.content) ?? note.content
+        guard !currentContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+
+        if let latest = note.snapshots.sorted(by: { $0.createdAt > $1.createdAt }).first,
+           latest.content == currentContent {
+            return
+        }
+
+        let snapshot = Snapshot(content: currentContent, note: note)
+        modelContext?.insert(snapshot)
+        note.snapshots.append(snapshot)
+        try? modelContext?.save()
+    }
+
+    /// Replaces the entire active document text in both the editor and SwiftData Note model.
+    private func applyFullDocumentUpdate(_ updatedText: String) {
+        if let controller = editorController {
+            controller.selectAll()
+            controller.insert(updatedText)
+        }
+        if let note = currentNote {
+            note.content = updatedText
+            note.modifiedAt = Date()
+            try? modelContext?.save()
+        }
+    }
+
     private func generateMarkdownTable(headers: [String], rows: [[String]]) -> String {
         var sb = "| " + headers.joined(separator: " | ") + " |\n"
         sb += "| " + headers.map { _ in "---" }.joined(separator: " | ") + " |\n"
@@ -263,5 +592,60 @@ final class ToolExecutor {
             sb += "| " + row.joined(separator: " | ") + " |\n"
         }
         return sb + "\n"
+    }
+
+    private func computeUnifiedDiff(oldText: String, newText: String, snapshotDate: Date) -> String {
+        let oldLines = oldText.components(separatedBy: "\n")
+        let newLines = newText.components(separatedBy: "\n")
+        let diff = newLines.difference(from: oldLines)
+
+        var insertedCount = 0
+        var removedCount = 0
+        for change in diff {
+            switch change {
+            case .insert: insertedCount += 1
+            case .remove: removedCount += 1
+            }
+        }
+
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        let dateStr = formatter.string(from: snapshotDate)
+
+        var diffOutput = """
+        --- Snapshot (\(dateStr))
+        +++ Current Document
+        Summary: +\(insertedCount) lines added, -\(removedCount) lines removed.
+        \n
+        """
+
+        var removedDict: [Int: String] = [:]
+        var insertedDict: [Int: String] = [:]
+        for change in diff {
+            switch change {
+            case .remove(let offset, let element, _):
+                removedDict[offset] = element
+            case .insert(let offset, let element, _):
+                insertedDict[offset] = element
+            }
+        }
+
+        var diffLines: [String] = []
+        for (offset, line) in removedDict.sorted(by: { $0.key < $1.key }) {
+            diffLines.append("-\t[L\(offset + 1)] \(line)")
+        }
+        for (offset, line) in insertedDict.sorted(by: { $0.key < $1.key }) {
+            diffLines.append("+\t[L\(offset + 1)] \(line)")
+        }
+
+        if diffLines.count > 100 {
+            let truncatedLines = diffLines.prefix(100).joined(separator: "\n")
+            diffOutput += truncatedLines + "\n...(Diff truncated, showing first 100 changes out of \(diffLines.count))"
+        } else {
+            diffOutput += diffLines.joined(separator: "\n")
+        }
+
+        return diffOutput
     }
 }

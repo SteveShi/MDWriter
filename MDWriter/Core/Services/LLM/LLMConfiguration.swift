@@ -26,6 +26,8 @@ enum AIContextLevel: String, CaseIterable, Identifiable, Sendable {
 @Observable
 @MainActor
 final class LLMConfiguration {
+    static let shared = LLMConfiguration()
+
     // MARK: - Properties
 
     var provider: LLMProvider {
