@@ -60,6 +60,11 @@ enum CloudKitSyncStatus: Equatable, Sendable {
 final class CloudKitSyncManager: ObservableObject {
     static let shared = CloudKitSyncManager()
 
+    /// 【开发者代码启用总开关】
+    /// 默认为 false，UI 完全隐藏且不启动 CloudKit。
+    /// 当开通付费 Apple 开发者账户并配置 Team ID & Entitlements 后，只需将此处改为 `true` 即可直接通过代码启用整个 iCloud 同步功能。
+    public static let isFeatureAvailable: Bool = false
+
     /// 同步开关：默认为 false，保证在无付费开发者签名环境下的零崩溃与 Local-First 安全
     @AppStorage("mdwriter_cloudkit_sync_enabled") var isCloudKitSyncEnabled: Bool = false {
         didSet {
@@ -125,7 +130,7 @@ final class CloudKitSyncManager: ObservableObject {
     /// 创建 SwiftData 的 ModelConfiguration
     /// 依据 isCloudKitSyncEnabled 安全切换，未启用时使用纯本地存储
     func makeModelConfiguration(schema: Schema, url: URL? = nil) -> ModelConfiguration {
-        if isCloudKitSyncEnabled {
+        if Self.isFeatureAvailable && isCloudKitSyncEnabled {
             #if DEBUG
             print("[CloudKitSyncManager] Initializing with CloudKit database: private")
             #endif

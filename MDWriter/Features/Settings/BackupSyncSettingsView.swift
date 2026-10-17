@@ -121,61 +121,63 @@ struct BackupSyncSettingsView: View {
                 Text(LocalizedStringKey("Library Backup & Restore"))
             }
 
-            // MARK: - iCloud (CloudKit) Sync Section
-            Section {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(LocalizedStringKey("iCloud CloudKit Synchronization"))
-                                .font(.body.bold())
-                            Text(LocalizedStringKey("Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database."))
+            // MARK: - iCloud (CloudKit) Sync Section (Hidden until developer enables it via code)
+            if CloudKitSyncManager.isFeatureAvailable {
+                Section {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(LocalizedStringKey("iCloud CloudKit Synchronization"))
+                                    .font(.body.bold())
+                                Text(LocalizedStringKey("Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database."))
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            Toggle("", isOn: $cloudKitManager.isCloudKitSyncEnabled)
+                                .toggleStyle(.switch)
+                        }
+
+                        HStack(spacing: 8) {
+                            Circle()
+                                .fill(cloudKitManager.syncStatus.statusColor)
+                                .frame(width: 8, height: 8)
+                            Text(cloudKitManager.syncStatus.localizedDescription)
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                        }
-                        Spacer()
-                        Toggle("", isOn: $cloudKitManager.isCloudKitSyncEnabled)
-                            .toggleStyle(.switch)
-                    }
 
-                    HStack(spacing: 8) {
-                        Circle()
-                            .fill(cloudKitManager.syncStatus.statusColor)
-                            .frame(width: 8, height: 8)
-                        Text(cloudKitManager.syncStatus.localizedDescription)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                            Spacer()
 
-                        Spacer()
-
-                        Button {
-                            Task {
-                                await cloudKitManager.checkiCloudAccountStatus()
+                            Button {
+                                Task {
+                                    await cloudKitManager.checkiCloudAccountStatus()
+                                }
+                            } label: {
+                                if cloudKitManager.isCheckingAccount {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                } else {
+                                    Label(LocalizedStringKey("Check Status"), systemImage: "arrow.clockwise")
+                                        .font(.caption)
+                                }
                             }
-                        } label: {
-                            if cloudKitManager.isCheckingAccount {
-                                ProgressView()
-                                    .controlSize(.small)
-                            } else {
-                                Label(LocalizedStringKey("Check Status"), systemImage: "arrow.clockwise")
-                                    .font(.caption)
+                            .disabled(cloudKitManager.isCheckingAccount)
+                        }
+
+                        if !cloudKitManager.isCloudKitSyncEnabled {
+                            HStack(spacing: 6) {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.secondary)
+                                Text(LocalizedStringKey("iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode."))
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
                             }
                         }
-                        .disabled(cloudKitManager.isCheckingAccount)
                     }
-
-                    if !cloudKitManager.isCloudKitSyncEnabled {
-                        HStack(spacing: 6) {
-                            Image(systemName: "info.circle")
-                                .foregroundColor(.secondary)
-                            Text(LocalizedStringKey("iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode."))
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                    }
+                    .padding(.vertical, 4)
+                } header: {
+                    Text(LocalizedStringKey("iCloud Sync (CloudKit)"))
                 }
-                .padding(.vertical, 4)
-            } header: {
-                Text(LocalizedStringKey("iCloud Sync (CloudKit)"))
             }
 
             // MARK: - Dropbox Cloud Sync Section
