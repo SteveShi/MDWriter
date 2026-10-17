@@ -48,8 +48,8 @@ struct AISettingsView: View {
                     Picker(LocalizedStringKey("Translation Target Language"), selection: $translationTarget) {
                         Text(LocalizedStringKey("Auto Detect")).tag("auto")
                         Divider()
-                        Text("English").tag("en")
-                        Text("简体中文").tag("zh-Hans")
+                        Text(LocalizedStringKey("English")).tag("en")
+                        Text(LocalizedStringKey("Simplified Chinese")).tag("zh-Hans")
                     }
                     .pickerStyle(.menu)
                 } header: {

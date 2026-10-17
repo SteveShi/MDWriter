@@ -124,7 +124,7 @@ struct DashboardView: View {
                         Text(LocalizedStringKey("Display Levels"))
                         Picker(LocalizedStringKey("Levels"), selection: $outlineMaxDepth) {
                             ForEach(1...6, id: \.self) { level in
-                                Text(LocalizedStringKey("Heading \(level)")).tag(level)
+                                Text("Heading \(level)").tag(level)
                             }
                         }
                     default:

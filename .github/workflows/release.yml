@@ -137,7 +137,7 @@ jobs:
             codesign --force --sign - --options=runtime Build/Universal/MDWriter.app/Contents/Frameworks/Sparkle.framework/Versions/B/Helpers/Updater.app 2>/dev/null || true
             codesign --force --sign - --options=runtime Build/Universal/MDWriter.app/Contents/Frameworks/Sparkle.framework/Versions/B 2>/dev/null || true
           fi
-          codesign --force --deep --sign - --options=runtime Build/Universal/MDWriter.app
+          codesign --force --sign - --options=runtime --entitlements MDWriter/App/MDWriter.entitlements Build/Universal/MDWriter.app
           
           # 1. Universal ZIP & DMG
           cd Build/Universal
@@ -160,7 +160,7 @@ jobs:
             codesign --force --sign - --options=runtime Build/arm64/MDWriter.app/Contents/Frameworks/Sparkle.framework/Versions/B/Helpers/Updater.app 2>/dev/null || true
             codesign --force --sign - --options=runtime Build/arm64/MDWriter.app/Contents/Frameworks/Sparkle.framework/Versions/B 2>/dev/null || true
           fi
-          codesign --force --deep --sign - --options=runtime Build/arm64/MDWriter.app
+          codesign --force --sign - --options=runtime --entitlements MDWriter/App/MDWriter.entitlements Build/arm64/MDWriter.app
 
           # arm64 ZIP & DMG
           cd Build/arm64

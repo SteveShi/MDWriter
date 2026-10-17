@@ -99,7 +99,7 @@ struct InlineAICommandBar: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
 
-                    Text("(\(inlineController.originalText.count) chars)")
+                    Text(String(localized: "(\(inlineController.originalText.count) chars)"))
                         .font(.system(size: 10))
                         .foregroundStyle(.tertiary)
 

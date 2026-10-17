@@ -219,7 +219,7 @@ struct DashboardLinksTab: View {
                                         .foregroundStyle(.primary)
 
                                     if let alias = link.alias {
-                                        Text("Alias: \(alias)")
+                                        Text(String(localized: "Alias: \(alias)"))
                                             .font(.system(size: 10))
                                             .foregroundStyle(.tertiary)
                                     }
