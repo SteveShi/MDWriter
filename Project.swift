@@ -31,7 +31,10 @@ let project = Project(
             bundleId: "listentotherain.MDWriter",
             deploymentTargets: .macOS("14.0"),
             sources: ["MDWriter/**"],
-            resources: ["MDWriter/Assets.xcassets"],
+            resources: [
+                "MDWriter/Assets.xcassets",
+                "MDWriter/Resources/**"
+            ],
             dependencies: [
                 .package(product: "MDEditorKit"),
                 .package(product: "Sparkle"),
