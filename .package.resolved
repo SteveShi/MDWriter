@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Lakr233/Litext",
       "state" : {
-        "revision" : "0d6d24ffb4b6b21ed3252b9030f02cc1dd9dadc4",
-        "version" : "1.3.0"
+        "revision" : "130b4eef642d76a3d2dcf07ab966f32f08e14b90",
+        "version" : "2.2.1"
       }
     },
     {
@@ -40,10 +40,10 @@
     {
       "identity" : "markdownview",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SteveShi/MarkdownView.git",
+      "location" : "https://github.com/Lakr233/MarkdownView.git",
       "state" : {
-        "revision" : "e0cd01cb1fcaf47c2aeb14625065773846f7136a",
-        "version" : "1.0.0"
+        "revision" : "782352446014a579d64f2c5508aa7434747845e8",
+        "version" : "4.3.1"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SteveShi/MDEditorKit.git",
       "state" : {
-        "revision" : "2ecf6317ac05c53dbed5453d431a10e1a33535ca",
-        "version" : "2.1.0"
+        "revision" : "9c2055b9f9300d8ed857669a8cc088de76980509",
+        "version" : "2.2.0"
       }
     },
     {
