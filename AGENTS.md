@@ -165,3 +165,10 @@ Maintain the brain as part of normal coding work — not as a separate task. Whi
 
 The brain skills (`brain-setup`, `brain-page`, `brain-ingest`, `brain-bootstrap`) are installed in your global skills directory. Prefer `brain init` to scaffold a new project.
 <!-- END brain.md -->
+
+## XERJ (code search)
+
+This project uses XERJ for reference coding. Before writing code that touches
+unfamiliar territory: `xerj def "<symbol>"` for go-to-definition, or
+`xerj search "<plain words>"` for ranked, definition-first passages.
+Index a repo with `xerj autoindex <folder>`. Cite file:line for anything you rely on.
