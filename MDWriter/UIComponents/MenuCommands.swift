@@ -172,6 +172,13 @@ struct ViewCommands: Commands {
                 NotificationCenter.default.post(name: .toggleInlineAI, object: nil)
             }
             .keyboardShortcut("k", modifiers: .command)
+
+            Divider()
+
+            Button(LocalizedStringKey("Show All Markup")) {
+                NotificationCenter.default.post(name: .showAllMarkup, object: nil)
+            }
+            .keyboardShortcut("\\", modifiers: .command)
         }
 
         CommandGroup(replacing: .toolbar) {
@@ -181,6 +188,18 @@ struct ViewCommands: Commands {
                 }
                 Button(action: { currentTheme = .dark }) {
                     Label(LocalizedStringKey("Dark"), systemImage: "moon")
+                }
+            }
+
+            Menu(LocalizedStringKey("Focus Mode")) {
+                Button(LocalizedStringKey("Off")) {
+                    EditorSettings.shared.focusMode = .off
+                }
+                Button(LocalizedStringKey("Sentence")) {
+                    EditorSettings.shared.focusMode = .sentence
+                }
+                Button(LocalizedStringKey("Paragraph")) {
+                    EditorSettings.shared.focusMode = .paragraph
                 }
             }
         }
@@ -296,7 +315,7 @@ struct FormatCommands: Commands {
 
             Divider()
 
-            // Links & Media
+            // Links, Math & Media
             Button(LocalizedStringKey("Link...")) {
                 NotificationCenter.default.post(name: .insertLink, object: nil)
             }
@@ -306,6 +325,33 @@ struct FormatCommands: Commands {
                 NotificationCenter.default.post(name: .insertImage, object: nil)
             }
             .keyboardShortcut("i", modifiers: [.command, .shift])
+
+            Button(LocalizedStringKey("Inline Math")) {
+                NotificationCenter.default.post(name: .insertInlineMath, object: nil)
+            }
+            .keyboardShortcut("m", modifiers: [.command, .control])
+
+            Button(LocalizedStringKey("Display Math")) {
+                NotificationCenter.default.post(name: .insertDisplayMath, object: nil)
+            }
+            .keyboardShortcut("m", modifiers: [.command, .control, .shift])
+
+            Button(LocalizedStringKey("Edit Link or Formula")) {
+                NotificationCenter.default.post(name: .editEntityAtCaret, object: nil)
+            }
+            .keyboardShortcut("e", modifiers: .command)
+
+            Divider()
+
+            Button(LocalizedStringKey("Move Paragraph Up")) {
+                NotificationCenter.default.post(name: .moveParagraphUp, object: nil)
+            }
+            .keyboardShortcut(.upArrow, modifiers: [.command, .option])
+
+            Button(LocalizedStringKey("Move Paragraph Down")) {
+                NotificationCenter.default.post(name: .moveParagraphDown, object: nil)
+            }
+            .keyboardShortcut(.downArrow, modifiers: [.command, .option])
 
             Divider()
 
@@ -372,6 +418,12 @@ extension Notification.Name {
     static let insertLink = Notification.Name("insertLink")
     static let insertImage = Notification.Name("insertImage")
     static let insertHorizontalRule = Notification.Name("insertHorizontalRule")
+    static let insertInlineMath = Notification.Name("insertInlineMath")
+    static let insertDisplayMath = Notification.Name("insertDisplayMath")
+    static let editEntityAtCaret = Notification.Name("editEntityAtCaret")
+    static let moveParagraphUp = Notification.Name("moveParagraphUp")
+    static let moveParagraphDown = Notification.Name("moveParagraphDown")
+    static let showAllMarkup = Notification.Name("showAllMarkup")
 
     // Other
     static let printDocument = Notification.Name("printDocument")

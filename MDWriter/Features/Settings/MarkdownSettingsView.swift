@@ -57,6 +57,9 @@ private let markupCatalog: [MarkupElement] = [
     .init(title: "Task List", example: "- [ ] todo", category: .list),
 
     .init(title: "Strikethrough", example: "~~struck~~", category: .extended),
+    .init(title: "Inline Math", example: "$E = mc^2$", category: .extended),
+    .init(title: "Display Math", example: "$$\\sum_{i=1}^n i$$", category: .extended),
+    .init(title: "WikiLink", example: "[[Note Title]]", category: .extended),
     .init(title: "Table", example: "| a | b |\\n|---|---|", category: .extended),
     .init(title: "Footnote", example: "text[^1]", category: .extended),
 ]
@@ -74,6 +77,10 @@ struct MarkdownSettingsView: View {
 
     // 标记可见性（Ulysses: Show/Hide Markup）
     @AppStorage("markdownShowMarkup") private var showMarkup: Bool = true
+
+    // 默认导出出版风格与纸张尺寸（独立于编辑器配色）
+    @AppStorage("exportStyle") private var defaultExportStyleRaw: String = ExportStyle.swiss.rawValue
+    @AppStorage("exportPaperSize") private var defaultPaperSizeRaw: String = ExportPaperSize.a4.rawValue
 
     // 折叠状态
     @State private var showMarkupReference: Bool = false
@@ -123,6 +130,31 @@ struct MarkdownSettingsView: View {
                 Text(
                     LocalizedStringKey(
                         "Theme drives the editor canvas, preview background and exported PDF/RTF."
+                    )
+                )
+                .font(.caption2)
+                .foregroundColor(.secondary)
+            }
+
+            // MARK: 默认导出排版风格
+            Section {
+                Picker(LocalizedStringKey("Export Style"), selection: $defaultExportStyleRaw) {
+                    ForEach(ExportStyle.allCases) { style in
+                        Label(style.displayName, systemImage: style.iconName)
+                            .tag(style.rawValue)
+                    }
+                }
+                Picker(LocalizedStringKey("Paper Size"), selection: $defaultPaperSizeRaw) {
+                    ForEach(ExportPaperSize.allCases) { paper in
+                        Text(paper.displayName).tag(paper.rawValue)
+                    }
+                }
+            } header: {
+                Text(LocalizedStringKey("Export Typography"))
+            } footer: {
+                Text(
+                    LocalizedStringKey(
+                        "Export typography is decoupled from editor color schemes and applies to PDF, HTML, and Social Card exports."
                     )
                 )
                 .font(.caption2)

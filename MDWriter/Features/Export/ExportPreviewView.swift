@@ -2,6 +2,10 @@
 //  ExportPreviewView.swift
 //  MDWriter
 //
+//  真正的所见即所得导出预览（借鉴 Ulysses 导出样式选择器）：
+//  - PDF / HTML 预览直接渲染与最终导出同源的 HTML + 出版样式 CSS
+//  - 支持独立切换 6 套出版导出风格与 A4 / US Letter 纸张规格
+//
 
 import AppKit
 import Foundation
@@ -12,6 +16,7 @@ import WebKit
 
 enum ExportPreviewMode: String, CaseIterable, Identifiable {
     case pdf = "PDF"
+    case html = "HTML"
     case image = "Social Card"
 
     var id: String { rawValue }
@@ -19,6 +24,7 @@ enum ExportPreviewMode: String, CaseIterable, Identifiable {
     var localizedName: LocalizedStringKey {
         switch self {
         case .pdf: return LocalizedStringKey("PDF Document")
+        case .html: return LocalizedStringKey("HTML")
         case .image: return LocalizedStringKey("Social Card (Image)")
         }
     }
@@ -29,45 +35,96 @@ struct ExportPreviewView: View {
     let fileName: String
     @Environment(\.dismiss) var dismiss
 
+    @AppStorage("exportStyle") private var selectedStyleRaw: String = ExportStyle.swiss.rawValue
+    @AppStorage("exportPaperSize") private var selectedPaperRaw: String = ExportPaperSize.a4.rawValue
+    @AppStorage("markdownTheme") private var markdownThemeRaw: String = MarkdownTheme.pure.rawValue
+
     @State private var mode: ExportPreviewMode = .pdf
     @State private var isExporting = false
     @State private var showPDFExporter = false
+    @State private var showHTMLExporter = false
     @State private var showImageExporter = false
     @State private var pdfData: Data?
+    @State private var htmlData: Data?
     @State private var pngData: Data?
     @State private var cardPreviewImage: NSImage?
+    @State private var renderedHTML: String = ""
     @State private var hasCopied = false
 
-    @ObservedObject private var editorSettings = EditorSettings.shared
+    private var selectedStyle: ExportStyle {
+        ExportStyle(rawValue: selectedStyleRaw) ?? .swiss
+    }
+
+    private var selectedPaper: ExportPaperSize {
+        ExportPaperSize(rawValue: selectedPaperRaw) ?? .a4
+    }
+
+    private var activeEditorTheme: MarkdownTheme {
+        MarkdownTheme(rawValue: markdownThemeRaw) ?? .pure
+    }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Mode Selector Bar
-                Picker("", selection: $mode) {
-                    ForEach(ExportPreviewMode.allCases) { m in
-                        Text(m.localizedName).tag(m)
+                // 顶部控制栏：格式切换 + 出版风格选择 + 纸张尺寸
+                HStack(spacing: 14) {
+                    Picker("", selection: $mode) {
+                        ForEach(ExportPreviewMode.allCases) { m in
+                            Text(m.localizedName).tag(m)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(maxWidth: 320)
+
+                    Spacer()
+
+                    // 出版导出风格选择器（Ulysses 风格解耦设计）
+                    Picker(LocalizedStringKey("Export Style"), selection: $selectedStyleRaw) {
+                        ForEach(ExportStyle.allCases) { style in
+                            Label(style.displayName, systemImage: style.iconName)
+                                .tag(style.rawValue)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .frame(width: 155)
+
+                    if mode == .pdf {
+                        Picker(LocalizedStringKey("Paper Size"), selection: $selectedPaperRaw) {
+                            ForEach(ExportPaperSize.allCases) { paper in
+                                Text(paper.displayName).tag(paper.rawValue)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .frame(width: 105)
                     }
                 }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
                 .background(.ultraThinMaterial)
 
                 Divider()
 
-                // Content Preview Area
+                // 预览画布（PDF/HTML 使用与最终导出完全同源的 WebKit 渲染）
                 Group {
-                    if mode == .pdf {
-                        ScrollView {
-                            MarkdownViewWrapper(
-                                text: text,
-                                configuration: editorSettings.configuration
-                            )
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                            .padding(32)
+                    if mode == .pdf || mode == .html {
+                        ZStack {
+                            Color(NSColor.underPageBackgroundColor)
+
+                            ExportWebPreview(html: renderedHTML)
+                                .frame(
+                                    maxWidth: mode == .pdf
+                                        ? (selectedPaper.sizeInPoints.width + 64)
+                                        : .infinity
+                                )
+                                .background(Color.white)
+                                .cornerRadius(mode == .pdf ? 8 : 0)
+                                .shadow(
+                                    color: .black.opacity(mode == .pdf ? 0.12 : 0),
+                                    radius: mode == .pdf ? 10 : 0,
+                                    x: 0, y: 4
+                                )
+                                .padding(mode == .pdf ? 20 : 0)
                         }
-                        .background(Color(NSColor.windowBackgroundColor))
                     } else {
                         ScrollView {
                             VStack {
@@ -102,7 +159,8 @@ struct ExportPreviewView: View {
                 }
 
                 ToolbarItemGroup(placement: .primaryAction) {
-                    if mode == .image {
+                    switch mode {
+                    case .image:
                         Button {
                             copyImageToClipboard()
                         } label: {
@@ -123,7 +181,15 @@ struct ExportPreviewView: View {
                             }
                         }
                         .disabled(isExporting)
-                    } else {
+
+                    case .html:
+                        Button {
+                            prepareHTMLExport()
+                        } label: {
+                            Text(LocalizedStringKey("Save as HTML..."))
+                        }
+
+                    case .pdf:
                         Button {
                             preparePDFExport()
                         } label: {
@@ -138,17 +204,23 @@ struct ExportPreviewView: View {
                 }
             }
         }
-        .frame(minWidth: 640, minHeight: 740)
+        .frame(minWidth: 740, minHeight: 780)
         .fileExporter(
             isPresented: $showPDFExporter,
             document: ExportPDFDocument(data: pdfData ?? Data()),
             contentType: .pdf,
             defaultFilename: fileName
         ) { result in
-            if case .success = result {
-                dismiss()
-            }
+            if case .success = result { dismiss() }
             isExporting = false
+        }
+        .fileExporter(
+            isPresented: $showHTMLExporter,
+            document: ExportHTMLDocument(data: htmlData ?? Data()),
+            contentType: .html,
+            defaultFilename: fileName
+        ) { result in
+            if case .success = result { dismiss() }
         }
         .fileExporter(
             isPresented: $showImageExporter,
@@ -156,28 +228,45 @@ struct ExportPreviewView: View {
             contentType: .png,
             defaultFilename: "\(fileName)-card"
         ) { result in
-            if case .success = result {
-                dismiss()
-            }
+            if case .success = result { dismiss() }
             isExporting = false
         }
-        .onChange(of: mode) { _, newMode in
-            if newMode == .image && cardPreviewImage == nil {
-                generateCardPreview()
-            }
-        }
         .onAppear {
-            if mode == .image {
-                generateCardPreview()
-            }
+            refreshPreview()
+        }
+        .onChange(of: mode) { _, _ in
+            refreshPreview()
+        }
+        .onChange(of: selectedStyleRaw) { _, _ in
+            cardPreviewImage = nil
+            refreshPreview()
+        }
+        .onChange(of: selectedPaperRaw) { _, _ in
+            refreshPreview()
+        }
+    }
+
+    // MARK: - Refresh & Export Actions
+
+    private func refreshPreview() {
+        renderedHTML = ExportService.shared.renderHTML(
+            from: text,
+            style: selectedStyle,
+            theme: activeEditorTheme,
+            paperSize: selectedPaper
+        )
+        if mode == .image && cardPreviewImage == nil {
+            generateCardPreview()
         }
     }
 
     private func generateCardPreview() {
-        let storedThemeID = UserDefaults.standard.string(forKey: "markdownTheme")
-        let theme = storedThemeID.flatMap(MarkdownTheme.init(rawValue:)) ?? .pure
-
-        ExportService.shared.createImage(from: text, title: fileName, theme: theme) { result in
+        ExportService.shared.createImage(
+            from: text,
+            title: fileName,
+            style: selectedStyle,
+            theme: activeEditorTheme
+        ) { result in
             DispatchQueue.main.async {
                 if case .success(let image) = result {
                     self.cardPreviewImage = image
@@ -188,7 +277,12 @@ struct ExportPreviewView: View {
 
     private func preparePDFExport() {
         isExporting = true
-        ExportService.shared.createPDF(from: text) { result in
+        ExportService.shared.createPDF(
+            from: text,
+            style: selectedStyle,
+            theme: activeEditorTheme,
+            paperSize: selectedPaper
+        ) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -202,21 +296,35 @@ struct ExportPreviewView: View {
         }
     }
 
+    private func prepareHTMLExport() {
+        let html = ExportService.shared.renderHTML(
+            from: text,
+            style: selectedStyle,
+            theme: activeEditorTheme,
+            paperSize: selectedPaper
+        )
+        self.htmlData = html.data(using: .utf8) ?? Data()
+        self.showHTMLExporter = true
+    }
+
     private func prepareImageExport() {
         if let existing = cardPreviewImage,
            let tiff = existing.tiffRepresentation,
            let rep = NSBitmapImageRep(data: tiff),
-           let png = rep.representation(using: .png, properties: [:]) {
+           let png = rep.representation(using: .png, properties: [:])
+        {
             self.pngData = png
             self.showImageExporter = true
             return
         }
 
         isExporting = true
-        let storedThemeID = UserDefaults.standard.string(forKey: "markdownTheme")
-        let theme = storedThemeID.flatMap(MarkdownTheme.init(rawValue:)) ?? .pure
-
-        ExportService.shared.createImage(from: text, title: fileName, theme: theme) { result in
+        ExportService.shared.createImage(
+            from: text,
+            title: fileName,
+            style: selectedStyle,
+            theme: activeEditorTheme
+        ) { result in
             DispatchQueue.main.async {
                 self.isExporting = false
                 switch result {
@@ -224,7 +332,8 @@ struct ExportPreviewView: View {
                     self.cardPreviewImage = image
                     if let tiff = image.tiffRepresentation,
                        let rep = NSBitmapImageRep(data: tiff),
-                       let png = rep.representation(using: .png, properties: [:]) {
+                       let png = rep.representation(using: .png, properties: [:])
+                    {
                         self.pngData = png
                         self.showImageExporter = true
                     }
@@ -248,10 +357,12 @@ struct ExportPreviewView: View {
         }
 
         isExporting = true
-        let storedThemeID = UserDefaults.standard.string(forKey: "markdownTheme")
-        let theme = storedThemeID.flatMap(MarkdownTheme.init(rawValue:)) ?? .pure
-
-        ExportService.shared.createImage(from: text, title: fileName, theme: theme) { result in
+        ExportService.shared.createImage(
+            from: text,
+            title: fileName,
+            style: selectedStyle,
+            theme: activeEditorTheme
+        ) { result in
             DispatchQueue.main.async {
                 self.isExporting = false
                 if case .success(let image) = result {
@@ -269,7 +380,37 @@ struct ExportPreviewView: View {
     }
 }
 
-// MARK: - PDF Document Wrapper
+// MARK: - Live WYSIWYG WebKit Export Preview
+
+private struct ExportWebPreview: NSViewRepresentable {
+    let html: String
+
+    final class Coordinator {
+        var lastHTML: String = ""
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    func makeNSView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.setValue(false, forKey: "drawsBackground")
+        context.coordinator.lastHTML = html
+        webView.loadHTMLString(html, baseURL: nil)
+        return webView
+    }
+
+    func updateNSView(_ webView: WKWebView, context: Context) {
+        guard context.coordinator.lastHTML != html else { return }
+        context.coordinator.lastHTML = html
+        webView.loadHTMLString(html, baseURL: nil)
+    }
+}
+
+// MARK: - File Documents
+
 struct ExportPDFDocument: FileDocument {
     static var readableContentTypes: [UTType] { [.pdf] }
     var data: Data
@@ -283,11 +424,27 @@ struct ExportPDFDocument: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        return FileWrapper(regularFileWithContents: data)
+        FileWrapper(regularFileWithContents: data)
     }
 }
 
-// MARK: - Image Document Wrapper
+struct ExportHTMLDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.html] }
+    var data: Data
+
+    init(data: Data) {
+        self.data = data
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        self.data = configuration.file.regularFileContents ?? Data()
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: data)
+    }
+}
+
 struct ExportImageDocument: FileDocument {
     static var readableContentTypes: [UTType] { [.png] }
     var data: Data
@@ -301,6 +458,6 @@ struct ExportImageDocument: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        return FileWrapper(regularFileWithContents: data)
+        FileWrapper(regularFileWithContents: data)
     }
 }

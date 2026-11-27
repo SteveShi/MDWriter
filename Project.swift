@@ -3,7 +3,7 @@ import ProjectDescription
 let project = Project(
     name: "MDWriter",
     packages: [
-        .package(url: "https://github.com/SteveShi/MDEditorKit.git", from: "2.2.0"),
+        .package(url: "https://github.com/SteveShi/MDEditorKit.git", from: "2.3.1"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.4"),
         .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.12.1")
     ],
@@ -51,8 +51,8 @@ let project = Project(
                     "ENABLE_HARDENED_RUNTIME": "YES",
                     "OTHER_LDFLAGS": ["-framework", "Sparkle"],
                     "CODE_SIGN_ENTITLEMENTS": "MDWriter/App/MDWriter.entitlements",
-                    "MARKETING_VERSION": "4.0.0",
-                    "CURRENT_PROJECT_VERSION": "400"
+                    "MARKETING_VERSION": "4.0.1",
+                    "CURRENT_PROJECT_VERSION": "401"
                 ]
             )
         )

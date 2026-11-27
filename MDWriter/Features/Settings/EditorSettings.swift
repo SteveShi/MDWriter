@@ -23,9 +23,34 @@ class EditorSettings: ObservableObject {
         didSet { notifyChange() }
     }
 
-    // 行为
+    // 行为与写作专注模式
     @AppStorage("editorTypewriterMode") var typewriterMode: Bool = true {
         didSet { notifyChange() }
+    }
+    @AppStorage("editorTypewriterAnchor") var typewriterAnchorRaw: String = TypewriterAnchor.center.rawValue {
+        didSet { notifyChange() }
+    }
+    @AppStorage("editorFocusMode") var focusModeRaw: String = EditorFocusMode.off.rawValue {
+        didSet { notifyChange() }
+    }
+    @AppStorage("editorOutdentSyntaxMarkers") var outdentSyntaxMarkers: Bool = true {
+        didSet { notifyChange() }
+    }
+    @AppStorage("editorHighlightCurrentLine") var highlightCurrentLine: Bool = false {
+        didSet { notifyChange() }
+    }
+    @AppStorage("editorRenderMathInline") var renderMathInline: Bool = true {
+        didSet { notifyChange() }
+    }
+
+    var typewriterAnchor: TypewriterAnchor {
+        get { TypewriterAnchor(rawValue: typewriterAnchorRaw) ?? .center }
+        set { typewriterAnchorRaw = newValue.rawValue }
+    }
+
+    var focusMode: EditorFocusMode {
+        get { EditorFocusMode(rawValue: focusModeRaw) ?? .off }
+        set { focusModeRaw = newValue.rawValue }
     }
 
     // 配色主题（与预览/导出一致）
@@ -58,13 +83,16 @@ class EditorSettings: ObservableObject {
             contentWidth: 750.0,
             paragraphSpacing: 18.0,
             typewriterMode: true,
+            typewriterAnchor: .center,
+            focusMode: .off,
+            outdentSyntaxMarkers: true,
+            highlightCurrentLine: false,
+            renderMathInline: true,
             theme: MarkdownTheme.pure.editorTheme(for: AppTheme.light)
         )
 
-        // Initial sync
         self.updateConfiguration()
 
-        // Observe external UserDefaults changes
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
             .sink { [weak self] _ in
                 DispatchQueue.main.async {
@@ -96,6 +124,11 @@ class EditorSettings: ObservableObject {
             contentWidth: CGFloat(contentWidth),
             paragraphSpacing: CGFloat(paragraphSpacing),
             typewriterMode: typewriterMode,
+            typewriterAnchor: typewriterAnchor,
+            focusMode: focusMode,
+            outdentSyntaxMarkers: outdentSyntaxMarkers,
+            highlightCurrentLine: highlightCurrentLine,
+            renderMathInline: renderMathInline,
             theme: theme,
             imageProvider: { filename in
                 ImageManager.shared.loadImage(named: filename)

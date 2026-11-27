@@ -129,6 +129,23 @@
         }
       }
     },
+    "(%lld chars)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%lld chars)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%lld 字符)"
+          }
+        }
+      }
+    },
     "(%lld tools)": {
       "extractionState": "manual",
       "localizations": {
@@ -147,6 +164,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "全面重构核心编辑器，带来巨大的稳定性与性能提升。"
+          }
+        }
+      }
+    },
+    "A4": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A4"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A4"
           }
         }
       }
@@ -175,6 +209,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "AI"
+          }
+        }
+      }
+    },
+    "AI (⌘K)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI (⌘K)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI (⌘K)"
           }
         }
       }
@@ -234,6 +285,23 @@
         }
       }
     },
+    "AI Inline Writing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Inline Writing"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 实时续写"
+          }
+        }
+      }
+    },
     "AI Ready": {
       "extractionState": "manual",
       "localizations": {
@@ -289,6 +357,74 @@
         }
       }
     },
+    "Academic": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Academic"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "学术论文"
+          }
+        }
+      }
+    },
+    "Accept": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accept"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "采纳"
+          }
+        }
+      }
+    },
+    "Accept (Tab ⇥)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accept (Tab ⇥)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "采纳 (Tab ⇥)"
+          }
+        }
+      }
+    },
+    "Accept (⏎)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accept (⏎)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "采纳 (⏎)"
+          }
+        }
+      }
+    },
     "Active Model": {
       "extractionState": "manual",
       "localizations": {
@@ -318,6 +454,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加并连接"
+          }
+        }
+      }
+    },
+    "Add Group or Mount Folder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Group or Mount Folder"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建分组或挂载文件夹"
           }
         }
       }
@@ -399,6 +552,23 @@
         }
       }
     },
+    "Alias: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alias: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "别名: %@"
+          }
+        }
+      }
+    },
     "All": {
       "extractionState": "manual",
       "localizations": {
@@ -416,6 +586,23 @@
         }
       }
     },
+    "All Changes Synced": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Changes Synced"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部更改已同步"
+          }
+        }
+      }
+    },
     "All Documents": {
       "extractionState": "manual",
       "localizations": {
@@ -423,6 +610,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "所有文稿"
+          }
+        }
+      }
+    },
+    "Allow AI to read and manage Markdown notes and files in selected local folders": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow AI to read and manage Markdown notes and files in selected local folders"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件"
+          }
+        }
+      }
+    },
+    "Alt Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alt Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "替代文本"
           }
         }
       }
@@ -445,6 +666,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "外观:"
+          }
+        }
+      }
+    },
+    "Append Text to Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Append Text to Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向笔记追加文本"
+          }
+        }
+      }
+    },
+    "Apple Developer Signature Required": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Developer Signature Required"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 Apple 开发者签名"
           }
         }
       }
@@ -478,6 +733,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apple Intelligence 提供端侧轻量级摘要、标题生成与自动标签。数据绝不出门。"
+          }
+        }
+      }
+    },
+    "Apply": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用"
           }
         }
       }
@@ -522,6 +794,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "询问 AI 任何问题或输入 Prompt..."
+          }
+        }
+      }
+    },
+    "Ask AI to edit, polish, or rewrite selection...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask AI to edit, polish, or rewrite selection..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向 AI 提问、润色或改写选中文本..."
+          }
+        }
+      }
+    },
+    "Ask AI to write, brainstorm, or outline...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask AI to write, brainstorm, or outline..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 AI 续写、头脑风暴或列大纲..."
           }
         }
       }
@@ -583,6 +889,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "平均"
+          }
+        }
+      }
+    },
+    "Backlinks": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backlinks"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反向链接"
           }
         }
       }
@@ -654,6 +977,23 @@
         }
       }
     },
+    "Blank Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blank Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空白笔记"
+          }
+        }
+      }
+    },
     "Block Elements": {
       "extractionState": "manual",
       "localizations": {
@@ -683,6 +1023,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "粗体"
+          }
+        }
+      }
+    },
+    "Bottom": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bottom"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "底部"
           }
         }
       }
@@ -786,6 +1143,23 @@
         }
       }
     },
+    "Business": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Business"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "商务报告"
+          }
+        }
+      }
+    },
     "CJK Italic & Export Alignment": {
       "extractionState": "manual",
       "localizations": {
@@ -810,6 +1184,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消"
+          }
+        }
+      }
+    },
+    "Casual": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casual"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日常语气"
+          }
+        }
+      }
+    },
+    "Center": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Center"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "居中"
+          }
+        }
+      }
+    },
+    "Chapter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chapter"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "章节"
           }
         }
       }
@@ -858,6 +1283,23 @@
         }
       }
     },
+    "Check Status": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check Status"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查状态"
+          }
+        }
+      }
+    },
     "Check for Updates...": {
       "extractionState": "manual",
       "localizations": {
@@ -897,6 +1339,23 @@
         }
       }
     },
+    "Choose a folder containing Markdown files to mount.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a folder containing Markdown files to mount."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择包含 Markdown 文件的本地文件夹进行挂载。"
+          }
+        }
+      }
+    },
     "Choose the look and feel of the application interface.": {
       "extractionState": "manual",
       "localizations": {
@@ -904,6 +1363,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择应用程序界面的外观和感觉。"
+          }
+        }
+      }
+    },
+    "Classic serif with formal typography": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic serif with formal typography"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "经典衬线与正式学术版式"
+          }
+        }
+      }
+    },
+    "Clean geometric sans-serif": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clean geometric sans-serif"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "利落无衬线几何排版"
           }
         }
       }
@@ -952,6 +1445,23 @@
         }
       }
     },
+    "Close (Esc)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close (Esc)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭 (Esc)"
+          }
+        }
+      }
+    },
     "Code": {
       "extractionState": "manual",
       "localizations": {
@@ -992,6 +1502,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "注释"
+          }
+        }
+      }
+    },
+    "Compiled Book": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compiled Book"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "合订本文稿"
           }
         }
       }
@@ -1079,6 +1606,23 @@
         }
       }
     },
+    "Copied!": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied!"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已拷贝！"
+          }
+        }
+      }
+    },
     "Copy": {
       "extractionState": "manual",
       "localizations": {
@@ -1101,6 +1645,23 @@
         }
       }
     },
+    "Copy Image": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Image"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拷贝长图"
+          }
+        }
+      }
+    },
     "Copy Message": {
       "extractionState": "manual",
       "localizations": {
@@ -1108,6 +1669,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "复制消息"
+          }
+        }
+      }
+    },
+    "Copy suggested text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy suggested text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拷贝建议文本"
           }
         }
       }
@@ -1156,6 +1734,40 @@
         }
       }
     },
+    "Create": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建"
+          }
+        }
+      }
+    },
+    "Create \"%@\"": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create \"%@\""
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建「%@」"
+          }
+        }
+      }
+    },
     "Create Backup (.mdwbk)": {
       "extractionState": "manual",
       "localizations": {
@@ -1173,6 +1785,23 @@
         }
       }
     },
+    "Create Note in MDWriter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Note in MDWriter"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 MDWriter 中新建笔记"
+          }
+        }
+      }
+    },
     "Custom SearXNG Instance URL (Optional)": {
       "extractionState": "manual",
       "localizations": {
@@ -1180,6 +1809,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "自定义 SearXNG 实例 URL (可选)"
+          }
+        }
+      }
+    },
+    "Custom Server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom Server"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义服务"
           }
         }
       }
@@ -1213,6 +1859,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "剪切"
+          }
+        }
+      }
+    },
+    "Daily Log": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Log"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日日志"
           }
         }
       }
@@ -1258,6 +1921,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "解密并恢复"
+          }
+        }
+      }
+    },
+    "Decryption failed. Please check if the password is correct.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decryption failed. Please check if the password is correct."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解密失败，请检查密码是否正确。"
           }
         }
       }
@@ -1317,6 +1997,40 @@
         }
       }
     },
+    "Detach selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detach selection"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分离选区"
+          }
+        }
+      }
+    },
+    "Disabled (Local-First)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disabled (Local-First)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已停用 (本地优先)"
+          }
+        }
+      }
+    },
     "Disconnected": {
       "extractionState": "manual",
       "localizations": {
@@ -1328,6 +2042,23 @@
         }
       }
     },
+    "Display ($$...$$)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display ($$...$$)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "块级 ($$...$$)"
+          }
+        }
+      }
+    },
     "Display Levels": {
       "extractionState": "manual",
       "localizations": {
@@ -1335,6 +2066,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示层级"
+          }
+        }
+      }
+    },
+    "Display Math": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display Math"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "块级公式"
+          }
+        }
+      }
+    },
+    "Display Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display Mode"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示模式"
+          }
+        }
+      }
+    },
+    "Display Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示文字"
           }
         }
       }
@@ -1357,6 +2139,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "完成"
+          }
+        }
+      }
+    },
+    "Double-spaced editorial draft": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-spaced editorial draft"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "双倍行距等宽审校手稿"
           }
         }
       }
@@ -1385,6 +2184,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dropbox API 访问令牌："
+          }
+        }
+      }
+    },
+    "Dropbox API Token is missing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dropbox API Token is missing."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未填写 Dropbox API 令牌。"
           }
         }
       }
@@ -1473,6 +2289,91 @@
         }
       }
     },
+    "Edit Formula": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Formula"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑公式"
+          }
+        }
+      }
+    },
+    "Edit Image": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Image"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑图片"
+          }
+        }
+      }
+    },
+    "Edit LaTeX Formula": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit LaTeX Formula"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑 LaTeX 公式"
+          }
+        }
+      }
+    },
+    "Edit Link": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Link"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑链接"
+          }
+        }
+      }
+    },
+    "Edit Link or Formula": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Link or Formula"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑链接或公式"
+          }
+        }
+      }
+    },
     "Editor": {
       "comment": "Editor",
       "extractionState": "manual",
@@ -1481,6 +2382,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑器"
+          }
+        }
+      }
+    },
+    "Editor Theme": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editor Theme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随编辑器配色"
+          }
+        }
+      }
+    },
+    "Editorial": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editorial"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "杂志书评"
           }
         }
       }
@@ -1525,6 +2460,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "请在 设置 > AI 中启用 AI 功能"
+          }
+        }
+      }
+    },
+    "Enable AI to directly fetch HTML and Markdown content from the web": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable AI to directly fetch HTML and Markdown content from the web"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容"
           }
         }
       }
@@ -1630,6 +2582,40 @@
         }
       }
     },
+    "Encryption failed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encryption failed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加密失败。"
+          }
+        }
+      }
+    },
+    "Encryption password is required.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encryption password is required."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "必须提供加密密码。"
+          }
+        }
+      }
+    },
     "End-to-End Encrypted Sync (E2EE)": {
       "extractionState": "manual",
       "localizations": {
@@ -1688,6 +2674,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "输入 Dropbox Bearer Token"
+          }
+        }
+      }
+    },
+    "Enter LaTeX expression...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter LaTeX expression..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入 LaTeX 数学表达式…"
+          }
+        }
+      }
+    },
+    "Equip AI with real-time web search capabilities using Brave Search API": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Equip AI with real-time web search capabilities using Brave Search API"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力"
+          }
+        }
+      }
+    },
+    "Espresso": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espresso"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深焙"
           }
         }
       }
@@ -1798,6 +2835,23 @@
         }
       }
     },
+    "Expand": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expand"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扩写"
+          }
+        }
+      }
+    },
     "Expand Content": {
       "extractionState": "manual",
       "localizations": {
@@ -1882,6 +2936,74 @@
         }
       }
     },
+    "Export Preview (PDF / Image)...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Preview (PDF / Image)..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出预览（PDF / 长图）..."
+          }
+        }
+      }
+    },
+    "Export Style": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Style"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出风格"
+          }
+        }
+      }
+    },
+    "Export Typography": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Typography"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出排版风格"
+          }
+        }
+      }
+    },
+    "Export typography is decoupled from editor color schemes and applies to PDF, HTML, and Social Card exports.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export typography is decoupled from editor color schemes and applies to PDF, HTML, and Social Card exports."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出排版风格与写作配色相互独立，统一应用于 PDF、HTML 与长图卡片导出。"
+          }
+        }
+      }
+    },
     "Export your full document library as an encrypted .mdwbk snapshot or restore from a previous backup.": {
       "extractionState": "manual",
       "localizations": {
@@ -1917,6 +3039,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "扩展语法"
+          }
+        }
+      }
+    },
+    "External Folders": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "External Folders"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部文件夹"
+          }
+        }
+      }
+    },
+    "External Folders & Quick Entry": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "External Folders & Quick Entry"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部文件夹挂载与全局速记"
+          }
+        }
+      }
+    },
+    "Extract text from image using on-device OCR": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extract text from image using on-device OCR"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用端侧离线 OCR 提取图片文本"
           }
         }
       }
@@ -1978,6 +3151,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件"
+          }
+        }
+      }
+    },
+    "Filter markup...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter markup..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索标记语法…"
+          }
+        }
+      }
+    },
+    "Final Confirmation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Confirmation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最终确认"
           }
         }
       }
@@ -2049,6 +3256,23 @@
         }
       }
     },
+    "Find and Replace": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find and Replace"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查找与替换"
+          }
+        }
+      }
+    },
     "Find...": {
       "extractionState": "manual",
       "localizations": {
@@ -2056,6 +3280,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "查找..."
+          }
+        }
+      }
+    },
+    "Fix Grammar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fix Grammar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "纠错"
+          }
+        }
+      }
+    },
+    "Focus Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus Mode"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "专注模式"
           }
         }
       }
@@ -2148,6 +3406,23 @@
         }
       }
     },
+    "Fraction": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fraction"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分数"
+          }
+        }
+      }
+    },
     "Full Doc": {
       "extractionState": "manual",
       "localizations": {
@@ -2204,6 +3479,23 @@
         }
       }
     },
+    "Generated with MDWriter Book Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generated with MDWriter Book Mode"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由 MDWriter 合订模式生成"
+          }
+        }
+      }
+    },
     "GitHub": {
       "extractionState": "manual",
       "localizations": {
@@ -2255,6 +3547,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "HTML"
+          }
+        }
+      }
+    },
+    "Hangs heading and list markers into the left margin so body text aligns cleanly.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangs heading and list markers into the left margin so body text aligns cleanly."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将标题与列表标记悬挂到正文左侧边距外，使正文左边缘严格对齐。"
           }
         }
       }
@@ -2452,6 +3761,23 @@
         }
       }
     },
+    "Highlight Current Line": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Highlight Current Line"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高亮当前行"
+          }
+        }
+      }
+    },
     "Horizontal Rule": {
       "extractionState": "manual",
       "localizations": {
@@ -2481,6 +3807,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "图片"
+          }
+        }
+      }
+    },
+    "Image Path or URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image Path or URL"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片路径或链接"
+          }
+        }
+      }
+    },
+    "Image description": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image description"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片描述"
           }
         }
       }
@@ -2540,6 +3900,23 @@
         }
       }
     },
+    "Inbox (Default)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inbox (Default)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "收集箱 (默认)"
+          }
+        }
+      }
+    },
     "Indent:": {
       "extractionState": "manual",
       "localizations": {
@@ -2547,6 +3924,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "缩进:"
+          }
+        }
+      }
+    },
+    "Inline ($...$)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline ($...$)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行内 ($...$)"
+          }
+        }
+      }
+    },
+    "Inline AI & Diff Review (⌘K)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline AI & Diff Review (⌘K)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内联 AI 与 Diff 审阅 (⌘K)"
+          }
+        }
+      }
+    },
+    "Inline AI Assistant": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline AI Assistant"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内联 AI 助手"
+          }
+        }
+      }
+    },
+    "Inline AI Assistant (⌘K)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline AI Assistant (⌘K)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内联 AI 助手 (⌘K)"
           }
         }
       }
@@ -2584,6 +4029,23 @@
         }
       }
     },
+    "Inline Math": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline Math"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行内公式"
+          }
+        }
+      }
+    },
     "Insert": {
       "extractionState": "manual",
       "localizations": {
@@ -2595,6 +4057,40 @@
         }
       }
     },
+    "Insert Active Memos (@Memo)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Active Memos (@Memo)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用当前附注 (@Memo)"
+          }
+        }
+      }
+    },
+    "Insert Folder Reference": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Folder Reference"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用文件夹大纲"
+          }
+        }
+      }
+    },
     "Insert Image": {
       "extractionState": "manual",
       "localizations": {
@@ -2602,6 +4098,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "插入图片"
+          }
+        }
+      }
+    },
+    "Insert Note Reference": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert Note Reference"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用笔记全文"
           }
         }
       }
@@ -2628,6 +4141,74 @@
         }
       }
     },
+    "Integral": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integral"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "积分"
+          }
+        }
+      }
+    },
+    "Invalid LaTeX syntax": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid LaTeX syntax"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaTeX 语法有误"
+          }
+        }
+      }
+    },
+    "Invalid backup format or corrupted file header.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid backup format or corrupted file header."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "备份文件格式无效或文件头损坏。"
+          }
+        }
+      }
+    },
+    "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在光标处呼出浮动指令栏与选区胶囊，行级 Diff 直观审阅 AI 建议，采纳前自动创建去重版本安全快照。"
+          }
+        }
+      }
+    },
     "Italic": {
       "extractionState": "manual",
       "localizations": {
@@ -2639,6 +4220,23 @@
         }
       }
     },
+    "Keeps the active line anchored vertically while typing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keeps the active line anchored vertically while typing."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入时将当前编辑行固定在垂直锚点位置。"
+          }
+        }
+      }
+    },
     "Keeps the cursor centered vertically in the editor.": {
       "extractionState": "manual",
       "localizations": {
@@ -2646,6 +4244,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "使光标始终保持在编辑器垂直居中位置。"
+          }
+        }
+      }
+    },
+    "Key derivation failed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key derivation failed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "密钥派生失败。"
           }
         }
       }
@@ -2668,6 +4283,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "关键字"
+          }
+        }
+      }
+    },
+    "LaTeX & Mermaid Rendering": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaTeX & Mermaid Rendering"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaTeX 数学公式与 Mermaid 图表渲染"
+          }
+        }
+      }
+    },
+    "Last synced: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last synced: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次同步时间: %@"
           }
         }
       }
@@ -2740,6 +4389,23 @@
         }
       }
     },
+    "Library has been restored successfully.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Library has been restored successfully."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "知识库已成功恢复。"
+          }
+        }
+      }
+    },
     "Light": {
       "extractionState": "manual",
       "localizations": {
@@ -2795,6 +4461,40 @@
         }
       }
     },
+    "Link title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link title"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "链接标题"
+          }
+        }
+      }
+    },
+    "Link to Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link to Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "链接到笔记"
+          }
+        }
+      }
+    },
     "Link...": {
       "extractionState": "manual",
       "localizations": {
@@ -2802,6 +4502,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "链接..."
+          }
+        }
+      }
+    },
+    "Links": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "链接"
           }
         }
       }
@@ -2889,6 +4606,23 @@
         }
       }
     },
+    "Local RAG & [[WikiLinks]]": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local RAG & [[WikiLinks]]"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地 RAG 与 [[WikiLinks]] 双向链接"
+          }
+        }
+      }
+    },
     "MCP": {
       "extractionState": "manual",
       "localizations": {
@@ -2929,6 +4663,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "大标题"
+          }
+        }
+      }
+    },
+    "Manuscript": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuscript"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "书稿手稿"
           }
         }
       }
@@ -3040,6 +4791,74 @@
         }
       }
     },
+    "Matches your active editor color scheme": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matches your active editor color scheme"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留当前编辑器明暗配色"
+          }
+        }
+      }
+    },
+    "Math": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Math"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "公式"
+          }
+        }
+      }
+    },
+    "Math & Insert": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Math & Insert"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "公式与插入"
+          }
+        }
+      }
+    },
+    "Math Block": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Math Block"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "公式块"
+          }
+        }
+      }
+    },
     "Media": {
       "extractionState": "manual",
       "localizations": {
@@ -3047,6 +4866,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体"
+          }
+        }
+      }
+    },
+    "Meeting Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meeting Notes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会议纪要"
+          }
+        }
+      }
+    },
+    "Mention": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mention"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用"
+          }
+        }
+      }
+    },
+    "Mention Note, Folder, or Memos (@)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mention Note, Folder, or Memos (@)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用笔记、文件夹或附注 (@)"
           }
         }
       }
@@ -3095,6 +4965,23 @@
         }
       }
     },
+    "Monochrome": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monochrome"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "素墨"
+          }
+        }
+      }
+    },
     "Monokai": {
       "extractionState": "manual",
       "localizations": {
@@ -3102,6 +4989,108 @@
           "stringUnit": {
             "state": "translated",
             "value": "Monokai"
+          }
+        }
+      }
+    },
+    "More Markup...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More Markup..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多语法…"
+          }
+        }
+      }
+    },
+    "Mount Folder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mount Folder"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "挂载文件夹"
+          }
+        }
+      }
+    },
+    "Mount Local Folder...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mount Local Folder..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "挂载本地文件夹..."
+          }
+        }
+      }
+    },
+    "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原生挂载本地外部 Markdown 文件夹原地双向同步，并可通过菜单栏浮窗 (⌥⇧N) 随时记录速记。"
+          }
+        }
+      }
+    },
+    "Move Paragraph Down": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Paragraph Down"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移段落"
+          }
+        }
+      }
+    },
+    "Move Paragraph Up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Paragraph Up"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移段落"
           }
         }
       }
@@ -3124,6 +5113,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "多引擎隐私网络搜索"
+          }
+        }
+      }
+    },
+    "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原生渲染 KaTeX 数学公式与 Mermaid 图表，并支持多文档拼接导出完整合订本。"
           }
         }
       }
@@ -3174,6 +5180,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "新建笔记"
+          }
+        }
+      }
+    },
+    "New Note (or choose template)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note (or choose template)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建笔记（或选择模板）"
           }
         }
       }
@@ -3266,6 +5289,74 @@
         }
       }
     },
+    "No content generated. Please try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No content generated. Please try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未生成任何内容，请重试。"
+          }
+        }
+      }
+    },
+    "No iCloud Account Signed In": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No iCloud Account Signed In"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未登录 iCloud 账户"
+          }
+        }
+      }
+    },
+    "No matching markup": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matching markup"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有匹配的语法项"
+          }
+        }
+      }
+    },
+    "No matching notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matching notes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有匹配的笔记"
+          }
+        }
+      }
+    },
     "No models found": {
       "extractionState": "manual",
       "localizations": {
@@ -3288,6 +5379,40 @@
         }
       }
     },
+    "No other notes reference this note yet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No other notes reference this note yet."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无其他笔记引用当前笔记。"
+          }
+        }
+      }
+    },
+    "No outgoing WikiLinks found.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No outgoing WikiLinks found."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未发现正向 WikiLinks 链接。"
+          }
+        }
+      }
+    },
     "No outline content": {
       "extractionState": "manual",
       "localizations": {
@@ -3306,6 +5431,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "暂无历史版本"
+          }
+        }
+      }
+    },
+    "None": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无"
           }
         }
       }
@@ -3343,6 +5485,57 @@
         }
       }
     },
+    "OCR": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OCR"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字识别"
+          }
+        }
+      }
+    },
+    "OCR Image Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OCR Image Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片文字识别 (OCR)"
+          }
+        }
+      }
+    },
+    "OK": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
+      }
+    },
     "Off": {
       "extractionState": "manual",
       "localizations": {
@@ -3371,6 +5564,23 @@
         }
       }
     },
+    "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基于 Apple 原生句子向量实现离线段落级语义检索，支持双向链接与反向链接面板。"
+          }
+        }
+      }
+    },
     "On-Device Apple Intelligence": {
       "extractionState": "manual",
       "localizations": {
@@ -3378,6 +5588,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "端侧 Apple Intelligence"
+          }
+        }
+      }
+    },
+    "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端侧离线高精度识别图片/PDF 文字，光标停顿时实时预测续写建议，按下 Tab 键瞬间采纳。"
+          }
+        }
+      }
+    },
+    "Open": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开"
+          }
+        }
+      }
+    },
+    "Open URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open URL"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开链接"
           }
         }
       }
@@ -3393,6 +5654,74 @@
         }
       }
     },
+    "Organize": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organize"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编排"
+          }
+        }
+      }
+    },
+    "Original": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改前"
+          }
+        }
+      }
+    },
+    "Outdent Syntax Markers": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outdent Syntax Markers"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "悬挂缩进语法标记"
+          }
+        }
+      }
+    },
+    "Outgoing Links": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outgoing Links"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正向链接"
+          }
+        }
+      }
+    },
     "Outline": {
       "extractionState": "manual",
       "localizations": {
@@ -3400,6 +5729,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "大纲"
+          }
+        }
+      }
+    },
+    "Overview": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overview"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "概览"
           }
         }
       }
@@ -3415,6 +5761,23 @@
         }
       }
     },
+    "PDF Document": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF Document"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF 文档"
+          }
+        }
+      }
+    },
     "Pages": {
       "extractionState": "manual",
       "localizations": {
@@ -3422,6 +5785,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "页面"
+          }
+        }
+      }
+    },
+    "Paper Size": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paper Size"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "纸张尺寸"
           }
         }
       }
@@ -3537,6 +5917,40 @@
         }
       }
     },
+    "Pin to Top": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pin to Top"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "置顶笔记"
+          }
+        }
+      }
+    },
+    "Plain Paragraph": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plain Paragraph"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "普通正文"
+          }
+        }
+      }
+    },
     "Plain Text": {
       "extractionState": "manual",
       "localizations": {
@@ -3609,6 +6023,23 @@
         }
       }
     },
+    "Professional": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Professional"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "专业语气"
+          }
+        }
+      }
+    },
     "Progress": {
       "extractionState": "manual",
       "localizations": {
@@ -3653,6 +6084,40 @@
         }
       }
     },
+    "Quick Entry": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Entry"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速速记"
+          }
+        }
+      }
+    },
+    "Quick Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速速记"
+          }
+        }
+      }
+    },
     "Quick Translate": {
       "extractionState": "manual",
       "localizations": {
@@ -3671,6 +6136,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "原始源"
+          }
+        }
+      }
+    },
+    "Reading Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading Notes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读书笔记"
           }
         }
       }
@@ -3703,6 +6185,23 @@
         }
       }
     },
+    "Reject (Esc)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reject (Esc)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃 (Esc)"
+          }
+        }
+      }
+    },
     "Remove Password": {
       "extractionState": "manual",
       "localizations": {
@@ -3727,6 +6226,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "重命名"
+          }
+        }
+      }
+    },
+    "Render LaTeX Math Inline": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Render LaTeX Math Inline"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行内渲染 LaTeX 数学公式"
+          }
+        }
+      }
+    },
+    "Render dynamic web pages and execute actions using a headless browser": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Render dynamic web pages and execute actions using a headless browser"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用无头浏览器渲染高级动态网页并执行页面操作"
+          }
+        }
+      }
+    },
+    "Rendering Social Card...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rendering Social Card..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在生成长图..."
           }
         }
       }
@@ -3787,6 +6337,23 @@
         }
       }
     },
+    "Reset": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置"
+          }
+        }
+      }
+    },
     "Restore": {
       "extractionState": "manual",
       "localizations": {
@@ -3815,6 +6382,23 @@
         }
       }
     },
+    "Restore Complete": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Complete"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复完成"
+          }
+        }
+      }
+    },
     "Restore Error": {
       "extractionState": "manual",
       "localizations": {
@@ -3828,6 +6412,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢复错误"
+          }
+        }
+      }
+    },
+    "Restore Failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Failed"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复失败"
           }
         }
       }
@@ -3893,6 +6494,74 @@
         }
       }
     },
+    "Retry": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试"
+          }
+        }
+      }
+    },
+    "Retry generation (⌘R)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry generation (⌘R)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新生成 (⌘R)"
+          }
+        }
+      }
+    },
+    "Reveal in Finder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveal in Finder"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在访达中显示"
+          }
+        }
+      }
+    },
+    "Review AI Suggestions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review AI Suggestions"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "审阅 AI 建议"
+          }
+        }
+      }
+    },
     "Review Mode": {
       "extractionState": "manual",
       "localizations": {
@@ -3954,6 +6623,23 @@
         }
       }
     },
+    "Save Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存笔记"
+          }
+        }
+      }
+    },
     "Save Version": {
       "extractionState": "manual",
       "localizations": {
@@ -3965,6 +6651,40 @@
         }
       }
     },
+    "Save as HTML...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save as HTML..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存为 HTML…"
+          }
+        }
+      }
+    },
+    "Save as Image...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save as Image..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出为长图..."
+          }
+        }
+      }
+    },
     "Save as PDF...": {
       "extractionState": "manual",
       "localizations": {
@@ -3972,6 +6692,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存为PDF…"
+          }
+        }
+      }
+    },
+    "Saved to Inbox": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved to Inbox"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已保存至收集箱"
+          }
+        }
+      }
+    },
+    "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过 Apple 私有云数据库在 macOS 和 iOS 之间无缝同步笔记。"
           }
         }
       }
@@ -4017,6 +6771,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "搜索引擎"
+          }
+        }
+      }
+    },
+    "Search GitHub repositories, code files, issues, and pull requests": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search GitHub repositories, code files, issues, and pull requests"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持搜索 GitHub 仓库、代码文件、Issues 和 Pull Requests"
+          }
+        }
+      }
+    },
+    "Search Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Notes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索笔记"
+          }
+        }
+      }
+    },
+    "Search Notes in MDWriter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Notes in MDWriter"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 MDWriter 中搜索笔记"
           }
         }
       }
@@ -4073,6 +6878,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择文件夹"
+          }
+        }
+      }
+    },
+    "Select Image": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Image"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择图片"
           }
         }
       }
@@ -4139,6 +6961,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "所选文本"
+          }
+        }
+      }
+    },
+    "Sentence": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sentence"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前句"
           }
         }
       }
@@ -4212,6 +7051,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置..."
+          }
+        }
+      }
+    },
+    "Shorten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shorten"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精简"
+          }
+        }
+      }
+    },
+    "Show All Markup": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All Markup"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示全部标记"
+          }
+        }
+      }
+    },
+    "Show All Markup (⌘\\)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All Markup (⌘\\)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示全部标记 (⌘\\)"
           }
         }
       }
@@ -4376,6 +7266,23 @@
         }
       }
     },
+    "Simplified Chinese": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simplified Chinese"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "简体中文"
+          }
+        }
+      }
+    },
     "Size:": {
       "extractionState": "manual",
       "localizations": {
@@ -4426,6 +7333,23 @@
         }
       }
     },
+    "Social Card (Image)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Social Card (Image)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "社交长图（图片）"
+          }
+        }
+      }
+    },
     "Solarized Dark": {
       "extractionState": "manual",
       "localizations": {
@@ -4470,6 +7394,23 @@
         }
       }
     },
+    "Square Root": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Square Root"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平方根"
+          }
+        }
+      }
+    },
     "Standard": {
       "extractionState": "manual",
       "localizations": {
@@ -4488,6 +7429,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "开始朗读"
+          }
+        }
+      }
+    },
+    "Statistics": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistics"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "统计"
           }
         }
       }
@@ -4525,6 +7483,23 @@
         }
       }
     },
+    "Stop generation (Esc)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop generation (Esc)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止生成 (Esc)"
+          }
+        }
+      }
+    },
     "Strikethrough": {
       "extractionState": "manual",
       "localizations": {
@@ -4543,6 +7518,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "结构"
+          }
+        }
+      }
+    },
+    "Structured report with crisp tables": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Structured report with crisp tables"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "商务报告与清晰数据表"
+          }
+        }
+      }
+    },
+    "Studio Gray": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Studio Gray"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "柔灰"
           }
         }
       }
@@ -4571,6 +7580,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "副标题"
+          }
+        }
+      }
+    },
+    "Submit (⏎)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submit (⏎)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提交 (⏎)"
           }
         }
       }
@@ -4609,6 +7635,23 @@
         }
       }
     },
+    "Successfully saved library backup to %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Successfully saved library backup to %@."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已成功将知识库备份保存至 %@。"
+          }
+        }
+      }
+    },
     "Suggest keyword tags for the document": {
       "extractionState": "manual",
       "localizations": {
@@ -4616,6 +7659,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "为文档建议关键词标签"
+          }
+        }
+      }
+    },
+    "Suggested": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggested"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建议内容"
           }
         }
       }
@@ -4642,6 +7702,23 @@
         }
       }
     },
+    "Summation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "求和"
+          }
+        }
+      }
+    },
     "Supports Ollama, LM Studio, oMLX, llama.cpp, MLX, Jan, and custom OpenAI-compatible local endpoints.": {
       "extractionState": "manual",
       "localizations": {
@@ -4653,6 +7730,23 @@
         }
       }
     },
+    "Swiss": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swiss"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "瑞士现代"
+          }
+        }
+      }
+    },
     "Switch between academic, casual, or professional tone": {
       "extractionState": "manual",
       "localizations": {
@@ -4660,6 +7754,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "在学术、随性或专业语气间切换"
+          }
+        }
+      }
+    },
+    "Sync Files": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Files"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步文件"
           }
         }
       }
@@ -4698,6 +7809,23 @@
         }
       }
     },
+    "Sync error: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync error: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步错误: %@"
+          }
+        }
+      }
+    },
     "Synchronizing...": {
       "extractionState": "manual",
       "localizations": {
@@ -4711,6 +7839,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在同步..."
+          }
+        }
+      }
+    },
+    "Syncing with iCloud...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncing with iCloud..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在同步至 iCloud..."
           }
         }
       }
@@ -4761,6 +7906,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "表格项"
+          }
+        }
+      }
+    },
+    "Table of Contents": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Table of Contents"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目录"
           }
         }
       }
@@ -4838,6 +8000,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tavily Search (AI 专用)"
+          }
+        }
+      }
+    },
+    "Technical RFC / Design": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Technical RFC / Design"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "技术方案 / RFC"
           }
         }
       }
@@ -4958,6 +8137,40 @@
         }
       }
     },
+    "Title (Optional)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title (Optional)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标题 (可选)"
+          }
+        }
+      }
+    },
+    "Toggle Diff View": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle Diff View"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换差异视图"
+          }
+        }
+      }
+    },
     "Toggle Document Context Level": {
       "extractionState": "manual",
       "localizations": {
@@ -4965,6 +8178,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "切换文档上下文级别"
+          }
+        }
+      }
+    },
+    "Toggle Extended Thinking Reasoning": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle Extended Thinking Reasoning"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换深度思考推理"
+          }
+        }
+      }
+    },
+    "Toggle Model Context Protocol (MCP) Tools": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle Model Context Protocol (MCP) Tools"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换 MCP 工具扩展"
+          }
+        }
+      }
+    },
+    "Toggle Web Search Grounding": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toggle Web Search Grounding"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换联网搜索增强"
           }
         }
       }
@@ -4987,6 +8251,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "工具调用 (%lld)"
+          }
+        }
+      }
+    },
+    "Top": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Top"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顶部"
           }
         }
       }
@@ -5057,6 +8338,23 @@
         }
       }
     },
+    "Type [[Note Title]] in your writing to connect ideas.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type [[Note Title]] in your writing to connect ideas."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在写作中输入 [[笔记标题]] 即可关联笔记。"
+          }
+        }
+      }
+    },
     "Type and press Enter to add...": {
       "extractionState": "manual",
       "localizations": {
@@ -5064,6 +8362,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "输入并回车添加..."
+          }
+        }
+      }
+    },
+    "Typesets $...$ and $$...$$ LaTeX equations natively in the editor.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typesets $...$ and $$...$$ LaTeX equations natively in the editor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在编辑器内直接以原生矢量排版渲染 $...$ 与 $$...$$ 公式。"
           }
         }
       }
@@ -5079,6 +8394,23 @@
         }
       }
     },
+    "Typewriter Position": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typewriter Position"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打字机锚点位置"
+          }
+        }
+      }
+    },
     "Typography": {
       "extractionState": "manual",
       "localizations": {
@@ -5086,6 +8418,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "排版"
+          }
+        }
+      }
+    },
+    "URL": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "链接地址"
+          }
+        }
+      }
+    },
+    "US Letter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "US Letter"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "US Letter"
           }
         }
       }
@@ -5101,6 +8467,23 @@
         }
       }
     },
+    "Unmount": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unmount"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卸载"
+          }
+        }
+      }
+    },
     "Unordered List": {
       "extractionState": "manual",
       "localizations": {
@@ -5112,6 +8495,23 @@
         }
       }
     },
+    "Unpin": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unpin"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消置顶"
+          }
+        }
+      }
+    },
     "Untitled": {
       "extractionState": "manual",
       "localizations": {
@@ -5119,6 +8519,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "未命名文稿"
+          }
+        }
+      }
+    },
+    "Untitled Note": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled Note"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无标题笔记"
           }
         }
       }
@@ -5190,6 +8607,57 @@
         }
       }
     },
+    "Vision OCR & Ghost Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vision OCR & Ghost Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地视觉 OCR 与 Ghost Text 实时续写"
+          }
+        }
+      }
+    },
+    "Warm Paper": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warm Paper"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暖纸"
+          }
+        }
+      }
+    },
+    "Warm magazine-grade serif": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warm magazine-grade serif"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "温暖书刊级衬线排版"
+          }
+        }
+      }
+    },
     "Web Search": {
       "extractionState": "manual",
       "localizations": {
@@ -5197,6 +8665,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "网络搜索"
+          }
+        }
+      }
+    },
+    "Weekly Summary": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly Summary"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作周报"
           }
         }
       }
@@ -5257,6 +8742,40 @@
         }
       }
     },
+    "What's New in MDWriter 4.0": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's New in MDWriter 4.0"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MDWriter 4.0 新特性"
+          }
+        }
+      }
+    },
+    "WikiLink": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WikiLink"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "双向链接"
+          }
+        }
+      }
+    },
     "Words": {
       "extractionState": "manual",
       "localizations": {
@@ -5264,6 +8783,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "字"
+          }
+        }
+      }
+    },
+    "Write a quick thought, memo or markdown note...": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write a quick thought, memo or markdown note..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录瞬间灵感、备忘随笔或 Markdown 笔记..."
+          }
+        }
+      }
+    },
+    "Yes, Replace All Data": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yes, Replace All Data"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "是的，替换全部数据"
           }
         }
       }
@@ -5290,6 +8843,23 @@
         }
       }
     },
+    "chapters": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "chapters"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "个章节"
+          }
+        }
+      }
+    },
     "chars": {
       "extractionState": "manual",
       "localizations": {
@@ -5297,6 +8867,108 @@
           "stringUnit": {
             "state": "translated",
             "value": "字符"
+          }
+        }
+      }
+    },
+    "iCloud Access Restricted": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Access Restricted"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 访问受限"
+          }
+        }
+      }
+    },
+    "iCloud Account Ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Account Ready"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 账户就绪"
+          }
+        }
+      }
+    },
+    "iCloud CloudKit Synchronization": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud CloudKit Synchronization"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud CloudKit 云端同步"
+          }
+        }
+      }
+    },
+    "iCloud Sync (CloudKit)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Sync (CloudKit)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 同步 (CloudKit)"
+          }
+        }
+      }
+    },
+    "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 同步需要付费 Apple 开发者证书与已配置的 CloudKit 容器权利。当前默认保持本地优先存储模式。"
+          }
+        }
+      }
+    },
+    "image.png or https://": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "image.png or https://"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "image.png 或 https://"
           }
         }
       }
@@ -5411,6 +9083,23 @@
         }
       }
     },
+    "🌐 Web Content Fetcher (Fetch)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🌐 Web Content Fetcher (Fetch)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🌐 网页内容抓取 (Fetch)"
+          }
+        }
+      }
+    },
     "🌐 网页内容抓取 (Fetch)": {
       "extractionState": "manual",
       "localizations": {
@@ -5418,6 +9107,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "🌐 网页内容抓取 (Fetch)"
+          }
+        }
+      }
+    },
+    "🐙 GitHub Integration (GitHub)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🐙 GitHub Integration (GitHub)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🐙 GitHub 仓库集成 (GitHub)"
           }
         }
       }
@@ -5444,6 +9150,23 @@
         }
       }
     },
+    "📁 Local Filesystem (Filesystem)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📁 Local Filesystem (Filesystem)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📁 本地文件夹管理 (Filesystem)"
+          }
+        }
+      }
+    },
     "📁 本地文件夹管理 (Filesystem)": {
       "extractionState": "manual",
       "localizations": {
@@ -5466,9 +9189,15 @@
         }
       }
     },
-    "🔍 Brave 网络搜索 (Brave)": {
+    "🔍 Brave Web Search (Brave)": {
       "extractionState": "manual",
       "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔍 Brave Web Search (Brave)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -5477,2257 +9206,13 @@
         }
       }
     },
-    "🖥️ 浏览器渲染 (Puppeteer)": {
+    "🔍 Brave 网络搜索 (Brave)": {
       "extractionState": "manual",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "🖥️ 浏览器渲染 (Puppeteer)"
-          }
-        }
-      }
-    },
-    "Pin to Top": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "置顶笔记"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pin to Top"
-          }
-        }
-      }
-    },
-    "Unpin": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取消置顶"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unpin"
-          }
-        }
-      }
-    },
-    "Blank Note": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "空白笔记"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Blank Note"
-          }
-        }
-      }
-    },
-    "Meeting Notes": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "会议纪要"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meeting Notes"
-          }
-        }
-      }
-    },
-    "Daily Log": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每日日志"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Daily Log"
-          }
-        }
-      }
-    },
-    "Technical RFC / Design": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "技术方案 / RFC"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Technical RFC / Design"
-          }
-        }
-      }
-    },
-    "Weekly Summary": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "工作周报"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weekly Summary"
-          }
-        }
-      }
-    },
-    "Reading Notes": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "读书笔记"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reading Notes"
-          }
-        }
-      }
-    },
-    "New Note (or choose template)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新建笔记（或选择模板）"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Note (or choose template)"
-          }
-        }
-      }
-    },
-    "PDF Document": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PDF 文档"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PDF Document"
-          }
-        }
-      }
-    },
-    "Social Card (Image)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "社交长图（图片）"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Social Card (Image)"
-          }
-        }
-      }
-    },
-    "Rendering Social Card...": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在生成长图..."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rendering Social Card..."
-          }
-        }
-      }
-    },
-    "Copy Image": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拷贝长图"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy Image"
-          }
-        }
-      }
-    },
-    "Copied!": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已拷贝！"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copied!"
-          }
-        }
-      }
-    },
-    "Save as Image...": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "导出为长图..."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save as Image..."
-          }
-        }
-      }
-    },
-    "Export Preview (PDF / Image)...": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "导出预览（PDF / 长图）..."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Export Preview (PDF / Image)..."
-          }
-        }
-      }
-    },
-    "Mention": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "引用"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mention"
-          }
-        }
-      }
-    },
-    "Insert Note Reference": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "引用笔记全文"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Insert Note Reference"
-          }
-        }
-      }
-    },
-    "Insert Folder Reference": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "引用文件夹大纲"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Insert Folder Reference"
-          }
-        }
-      }
-    },
-    "Insert Active Memos (@Memo)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "引用当前附注 (@Memo)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Insert Active Memos (@Memo)"
-          }
-        }
-      }
-    },
-    "Mention Note, Folder, or Memos (@)": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "引用笔记、文件夹或附注 (@)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mention Note, Folder, or Memos (@)"
-          }
-        }
-      }
-    },
-    "Inline AI Assistant": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inline AI Assistant"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "内联 AI 助手"
-          }
-        }
-      }
-    },
-    "Inline AI Assistant (⌘K)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inline AI Assistant (⌘K)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "内联 AI 助手 (⌘K)"
-          }
-        }
-      }
-    },
-    "Ask AI to write, brainstorm, or outline...": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ask AI to write, brainstorm, or outline..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让 AI 续写、头脑风暴或列大纲..."
-          }
-        }
-      }
-    },
-    "Ask AI to edit, polish, or rewrite selection...": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ask AI to edit, polish, or rewrite selection..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "向 AI 提问、润色或改写选中文本..."
-          }
-        }
-      }
-    },
-    "Review AI Suggestions": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Review AI Suggestions"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "审阅 AI 建议"
-          }
-        }
-      }
-    },
-    "Toggle Diff View": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toggle Diff View"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切换差异视图"
-          }
-        }
-      }
-    },
-    "Copy suggested text": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy suggested text"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拷贝建议文本"
-          }
-        }
-      }
-    },
-    "Retry generation (⌘R)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retry generation (⌘R)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重新生成 (⌘R)"
-          }
-        }
-      }
-    },
-    "Reject (Esc)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reject (Esc)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "放弃 (Esc)"
-          }
-        }
-      }
-    },
-    "Accept (⏎)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accept (⏎)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "采纳 (⏎)"
-          }
-        }
-      }
-    },
-    "Original": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Original"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "修改前"
-          }
-        }
-      }
-    },
-    "Suggested": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Suggested"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "建议内容"
-          }
-        }
-      }
-    },
-    "Shorten": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shorten"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "精简"
-          }
-        }
-      }
-    },
-    "Expand": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Expand"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "扩写"
-          }
-        }
-      }
-    },
-    "Fix Grammar": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fix Grammar"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "纠错"
-          }
-        }
-      }
-    },
-    "Professional": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Professional"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "专业语气"
-          }
-        }
-      }
-    },
-    "Casual": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Casual"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "日常语气"
-          }
-        }
-      }
-    },
-    "Stop generation (Esc)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stop generation (Esc)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止生成 (Esc)"
-          }
-        }
-      }
-    },
-    "Submit (⏎)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Submit (⏎)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提交 (⏎)"
-          }
-        }
-      }
-    },
-    "Close (Esc)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close (Esc)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "关闭 (Esc)"
-          }
-        }
-      }
-    },
-    "Detach selection": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detach selection"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "分离选区"
-          }
-        }
-      }
-    },
-    "No content generated. Please try again.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No content generated. Please try again."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未生成任何内容，请重试。"
-          }
-        }
-      }
-    },
-    "Backlinks": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Backlinks"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "反向链接"
-          }
-        }
-      }
-    },
-    "No other notes reference this note yet.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No other notes reference this note yet."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无其他笔记引用当前笔记。"
-          }
-        }
-      }
-    },
-    "Outgoing Links": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Outgoing Links"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正向链接"
-          }
-        }
-      }
-    },
-    "No outgoing WikiLinks found.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No outgoing WikiLinks found."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未发现正向 WikiLinks 链接。"
-          }
-        }
-      }
-    },
-    "Type [[Note Title]] in your writing to connect ideas.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Type [[Note Title]] in your writing to connect ideas."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在写作中输入 [[笔记标题]] 即可关联笔记。"
-          }
-        }
-      }
-    },
-    "Create": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "创建"
-          }
-        }
-      }
-    },
-    "Open": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开"
-          }
-        }
-      }
-    },
-    "Compiled Book": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compiled Book"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "合订本文稿"
-          }
-        }
-      }
-    },
-    "Generated with MDWriter Book Mode": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Generated with MDWriter Book Mode"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "由 MDWriter 合订模式生成"
-          }
-        }
-      }
-    },
-    "chapters": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "chapters"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "个章节"
-          }
-        }
-      }
-    },
-    "Table of Contents": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Table of Contents"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "目录"
-          }
-        }
-      }
-    },
-    "Chapter": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chapter"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "章节"
-          }
-        }
-      }
-    },
-    "External Folders": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "External Folders"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外部文件夹"
-          }
-        }
-      }
-    },
-    "Mount Local Folder...": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mount Local Folder..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "挂载本地文件夹..."
-          }
-        }
-      }
-    },
-    "Mount Folder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mount Folder"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "挂载文件夹"
-          }
-        }
-      }
-    },
-    "Choose a folder containing Markdown files to mount.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose a folder containing Markdown files to mount."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择包含 Markdown 文件的本地文件夹进行挂载。"
-          }
-        }
-      }
-    },
-    "Reveal in Finder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reveal in Finder"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在访达中显示"
-          }
-        }
-      }
-    },
-    "Sync Files": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sync Files"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同步文件"
-          }
-        }
-      }
-    },
-    "Unmount": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unmount"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "卸载"
-          }
-        }
-      }
-    },
-    "Add Group or Mount Folder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Group or Mount Folder"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新建分组或挂载文件夹"
-          }
-        }
-      }
-    },
-    "iCloud Sync (CloudKit)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud Sync (CloudKit)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud 同步 (CloudKit)"
-          }
-        }
-      }
-    },
-    "iCloud CloudKit Synchronization": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud CloudKit Synchronization"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud CloudKit 云端同步"
-          }
-        }
-      }
-    },
-    "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seamlessly sync notes across macOS and iOS via your Apple Private Cloud Database."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通过 Apple 私有云数据库在 macOS 和 iOS 之间无缝同步笔记。"
-          }
-        }
-      }
-    },
-    "Check Status": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Check Status"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "检查状态"
-          }
-        }
-      }
-    },
-    "Disabled (Local-First)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disabled (Local-First)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已停用 (本地优先)"
-          }
-        }
-      }
-    },
-    "Apple Developer Signature Required": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Developer Signature Required"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要 Apple 开发者签名"
-          }
-        }
-      }
-    },
-    "iCloud Account Ready": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud Account Ready"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud 账户就绪"
-          }
-        }
-      }
-    },
-    "No iCloud Account Signed In": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No iCloud Account Signed In"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未登录 iCloud 账户"
-          }
-        }
-      }
-    },
-    "iCloud Access Restricted": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud Access Restricted"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud 访问受限"
-          }
-        }
-      }
-    },
-    "Syncing with iCloud...": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Syncing with iCloud..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在同步至 iCloud..."
-          }
-        }
-      }
-    },
-    "All Changes Synced": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All Changes Synced"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "全部更改已同步"
-          }
-        }
-      }
-    },
-    "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud sync requires a paid Apple Developer certificate and active CloudKit container entitlements. Default is Local-First storage mode."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud 同步需要付费 Apple 开发者证书与已配置的 CloudKit 容器权利。当前默认保持本地优先存储模式。"
-          }
-        }
-      }
-    },
-    "Quick Entry": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick Entry"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快速速记"
-          }
-        }
-      }
-    },
-    "Saved to Inbox": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Saved to Inbox"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已保存至收集箱"
-          }
-        }
-      }
-    },
-    "Title (Optional)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Title (Optional)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "标题 (可选)"
-          }
-        }
-      }
-    },
-    "Write a quick thought, memo or markdown note...": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Write a quick thought, memo or markdown note..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "记录瞬间灵感、备忘随笔或 Markdown 笔记..."
-          }
-        }
-      }
-    },
-    "Inbox (Default)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inbox (Default)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "收集箱 (默认)"
-          }
-        }
-      }
-    },
-    "Save Note": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save Note"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存笔记"
-          }
-        }
-      }
-    },
-    "Quick Note": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick Note"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快速速记"
-          }
-        }
-      }
-    },
-    "Untitled Note": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Untitled Note"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无标题笔记"
-          }
-        }
-      }
-    },
-    "Create Note in MDWriter": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create Note in MDWriter"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在 MDWriter 中新建笔记"
-          }
-        }
-      }
-    },
-    "Search Notes in MDWriter": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search Notes in MDWriter"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在 MDWriter 中搜索笔记"
-          }
-        }
-      }
-    },
-    "Append Text to Note": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Append Text to Note"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "向笔记追加文本"
-          }
-        }
-      }
-    },
-    "Accept (Tab ⇥)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accept (Tab ⇥)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "采纳 (Tab ⇥)"
-          }
-        }
-      }
-    },
-    "AI Inline Writing": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI Inline Writing"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI 实时续写"
-          }
-        }
-      }
-    },
-    "OCR Image Text": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OCR Image Text"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "图片文字识别 (OCR)"
-          }
-        }
-      }
-    },
-    "What's New in MDWriter 4.0": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "What's New in MDWriter 4.0"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MDWriter 4.0 新特性"
-          }
-        }
-      }
-    },
-    "Inline AI & Diff Review (⌘K)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inline AI & Diff Review (⌘K)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "内联 AI 与 Diff 审阅 (⌘K)"
-          }
-        }
-      }
-    },
-    "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invoke AI directly at cursor with floating command bar and selection capsule. Review line-by-line diffs with deduplicated safety snapshots."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在光标处呼出浮动指令栏与选区胶囊，行级 Diff 直观审阅 AI 建议，采纳前自动创建去重版本安全快照。"
-          }
-        }
-      }
-    },
-    "Local RAG & [[WikiLinks]]": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Local RAG & [[WikiLinks]]"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本地 RAG 与 [[WikiLinks]] 双向链接"
-          }
-        }
-      }
-    },
-    "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Offline paragraph-level semantic search powered by Apple NaturalLanguage, plus bidirectional WikiLinks and backlinks inspector."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "基于 Apple 原生句子向量实现离线段落级语义检索，支持双向链接与反向链接面板。"
-          }
-        }
-      }
-    },
-    "Vision OCR & Ghost Text": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vision OCR & Ghost Text"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本地视觉 OCR 与 Ghost Text 实时续写"
-          }
-        }
-      }
-    },
-    "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "On-device Vision OCR for images/PDFs and proactive real-time inline ghost text predictions accepted with a single Tab key."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "端侧离线高精度识别图片/PDF 文字，光标停顿时实时预测续写建议，按下 Tab 键瞬间采纳。"
-          }
-        }
-      }
-    },
-    "External Folders & Quick Entry": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "External Folders & Quick Entry"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外部文件夹挂载与全局速记"
-          }
-        }
-      }
-    },
-    "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N).": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mount local Markdown folders with direct disk sync, and capture quick thoughts via the menu bar popover (⌥⇧N)."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "原生挂载本地外部 Markdown 文件夹原地双向同步，并可通过菜单栏浮窗 (⌥⇧N) 随时记录速记。"
-          }
-        }
-      }
-    },
-    "LaTeX & Mermaid Rendering": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "LaTeX & Mermaid Rendering"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "LaTeX 数学公式与 Mermaid 图表渲染"
-          }
-        }
-      }
-    },
-    "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Native KaTeX mathematical formula rendering, Mermaid diagram visual generation, and multi-document combined book export."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "原生渲染 KaTeX 数学公式与 Mermaid 图表，并支持多文档拼接导出完整合订本。"
-          }
-        }
-      }
-    },
-    "(%lld chars)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "(%lld chars)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "(%lld 字符)"
-          }
-        }
-      }
-    },
-    "Accept": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accept"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "采纳"
-          }
-        }
-      }
-    },
-    "Retry": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retry"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重试"
-          }
-        }
-      }
-    },
-    "AI (⌘K)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI (⌘K)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AI (⌘K)"
-          }
-        }
-      }
-    },
-    "Custom Server": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Custom Server"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自定义服务"
-          }
-        }
-      }
-    },
-    "Find and Replace": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Find and Replace"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "查找与替换"
-          }
-        }
-      }
-    },
-    "Reset": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重置"
-          }
-        }
-      }
-    },
-    "OK": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "好"
-          }
-        }
-      }
-    },
-    "OCR": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OCR"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字识别"
-          }
-        }
-      }
-    },
-    "Extract text from image using on-device OCR": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Extract text from image using on-device OCR"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用端侧离线 OCR 提取图片文本"
-          }
-        }
-      }
-    },
-    "Select Image": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select Image"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择图片"
-          }
-        }
-      }
-    },
-    "Final Confirmation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Final Confirmation"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最终确认"
-          }
-        }
-      }
-    },
-    "Yes, Replace All Data": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yes, Replace All Data"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "是的，替换全部数据"
-          }
-        }
-      }
-    },
-    "Restore Complete": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore Complete"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "恢复完成"
-          }
-        }
-      }
-    },
-    "Library has been restored successfully.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Library has been restored successfully."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "知识库已成功恢复。"
-          }
-        }
-      }
-    },
-    "Restore Failed": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore Failed"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "恢复失败"
-          }
-        }
-      }
-    },
-    "Alias: %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alias: %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "别名: %@"
-          }
-        }
-      }
-    },
-    "Invalid backup format or corrupted file header.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invalid backup format or corrupted file header."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "备份文件格式无效或文件头损坏。"
-          }
-        }
-      }
-    },
-    "Key derivation failed.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Key derivation failed."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "密钥派生失败。"
-          }
-        }
-      }
-    },
-    "Encryption failed.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Encryption failed."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "加密失败。"
-          }
-        }
-      }
-    },
-    "Decryption failed. Please check if the password is correct.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Decryption failed. Please check if the password is correct."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "解密失败，请检查密码是否正确。"
-          }
-        }
-      }
-    },
-    "Encryption password is required.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Encryption password is required."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "必须提供加密密码。"
-          }
-        }
-      }
-    },
-    "Dropbox API Token is missing.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dropbox API Token is missing."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未填写 Dropbox API 令牌。"
-          }
-        }
-      }
-    },
-    "Last synced: %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Last synced: %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "上次同步时间: %@"
-          }
-        }
-      }
-    },
-    "Sync error: %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sync error: %@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同步错误: %@"
-          }
-        }
-      }
-    },
-    "Successfully saved library backup to %@.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Successfully saved library backup to %@."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已成功将知识库备份保存至 %@。"
-          }
-        }
-      }
-    },
-    "Search Notes": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search Notes"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "搜索笔记"
-          }
-        }
-      }
-    },
-    "Simplified Chinese": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simplified Chinese"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "简体中文"
-          }
-        }
-      }
-    },
-    "📁 Local Filesystem (Filesystem)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "📁 Local Filesystem (Filesystem)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "📁 本地文件夹管理 (Filesystem)"
-          }
-        }
-      }
-    },
-    "Allow AI to read and manage Markdown notes and files in selected local folders": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allow AI to read and manage Markdown notes and files in selected local folders"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "允许 AI 读取与操作指定本地文件夹中的 Markdown 笔记与文件"
-          }
-        }
-      }
-    },
-    "🌐 Web Content Fetcher (Fetch)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🌐 Web Content Fetcher (Fetch)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🌐 网页内容抓取 (Fetch)"
-          }
-        }
-      }
-    },
-    "Enable AI to directly fetch HTML and Markdown content from the web": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enable AI to directly fetch HTML and Markdown content from the web"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "让 AI 能直接读取互联网任意网页的 HTML 与 Markdown 内容"
+            "value": "🔍 Brave 网络搜索 (Brave)"
           }
         }
       }
@@ -7749,206 +9234,13 @@
         }
       }
     },
-    "Render dynamic web pages and execute actions using a headless browser": {
+    "🖥️ 浏览器渲染 (Puppeteer)": {
       "extractionState": "manual",
       "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Render dynamic web pages and execute actions using a headless browser"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用无头浏览器渲染高级动态网页并执行页面操作"
-          }
-        }
-      }
-    },
-    "🔍 Brave Web Search (Brave)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🔍 Brave Web Search (Brave)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🔍 Brave 网络搜索 (Brave)"
-          }
-        }
-      }
-    },
-    "Equip AI with real-time web search capabilities using Brave Search API": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Equip AI with real-time web search capabilities using Brave Search API"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Brave 官方 Search API 为 AI 赋予实时联网搜索能力"
-          }
-        }
-      }
-    },
-    "🐙 GitHub Integration (GitHub)": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🐙 GitHub Integration (GitHub)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "🐙 GitHub 仓库集成 (GitHub)"
-          }
-        }
-      }
-    },
-    "Search GitHub repositories, code files, issues, and pull requests": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search GitHub repositories, code files, issues, and pull requests"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "支持搜索 GitHub 仓库、代码文件、Issues 和 Pull Requests"
-          }
-        }
-      }
-    },
-    "Overview": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Overview"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "概览"
-          }
-        }
-      }
-    },
-    "Statistics": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Statistics"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "统计"
-          }
-        }
-      }
-    },
-    "Links": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Links"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "链接"
-          }
-        }
-      }
-    },
-    "None": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "None"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无"
-          }
-        }
-      }
-    },
-    "Toggle Extended Thinking Reasoning": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toggle Extended Thinking Reasoning"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切换深度思考推理"
-          }
-        }
-      }
-    },
-    "Toggle Web Search Grounding": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toggle Web Search Grounding"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切换联网搜索增强"
-          }
-        }
-      }
-    },
-    "Toggle Model Context Protocol (MCP) Tools": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toggle Model Context Protocol (MCP) Tools"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切换 MCP 工具扩展"
+            "value": "🖥️ 浏览器渲染 (Puppeteer)"
           }
         }
       }

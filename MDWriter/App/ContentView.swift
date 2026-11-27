@@ -60,10 +60,13 @@ struct ContentView: View {
     // Animation namespace
     @Namespace private var animation
 
-    /// 纸面背景：优先尊重 markdownTheme，Pure 时回退到 AppTheme 的本来 paperColor，
-    /// 保证 8 个配色方案在编辑器画布上有可见差异。
+    /// 纸面背景：优先尊重 markdownTheme，Pure / Monochrome 随 AppTheme 明暗切换，
+    /// 保证所有内置配色方案在编辑器画布上有准确一致的呈现。
     private var canvasPaperColor: Color {
-        markdownTheme == .pure ? currentTheme.paperColor : markdownTheme.paperColor
+        if markdownTheme == .pure || markdownTheme == .monochrome {
+            return currentTheme.paperColor
+        }
+        return markdownTheme.paperColor
     }
 
     var body: some View {
@@ -92,8 +95,8 @@ struct ContentView: View {
                         configuration: editorSettings.configuration,
                         proxy: editorController.proxy
                     )
-                    // 强制 SwiftUI 在文档切换或配置变化时重启视图，确保状态干净且不串场
-                    .id("\(note.persistentModelID)\(editorSettings.configuration)")
+                    // 仅在切换文档时重建视图；配置/专注模式/打字机模式变化通过 updateNSView 原地应用，保留撤销栈与光标
+                    .id(note.persistentModelID)
                     .ignoresSafeArea()
                     .padding(.top, 40) // Add room for top fade/title
                     .onChange(of: note.content) { oldValue, newValue in
@@ -160,18 +163,62 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         Spacer()
 
+                        if let wikiQuery = editorController.cursorContext.wikiLinkQuery,
+                           inlineAIController.state == .hidden,
+                           editorController.activeEntityForPopover == nil
+                        {
+                            WikiLinkCompletionPopover(
+                                query: wikiQuery,
+                                currentNoteID: note?.persistentModelID,
+                                controller: editorController
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        }
+
                         GhostTextSuggestionBar(
                             ghostController: ghostTextController,
                             editorController: editorController
                         )
 
-                        UlyssesMarkupBar(controller: editorController)
-                            .background(canvasPaperColor.opacity(0.8))
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(12)
-                            .padding(.bottom, 20)
-                            .padding(.horizontal)
+                        UlyssesMarkupBar(
+                            controller: editorController,
+                            contentWidth: CGFloat(editorSettings.contentWidth),
+                            isHiddenByOverlay: inlineAIController.state != .hidden
+                        )
+                        .background(canvasPaperColor.opacity(0.8))
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(12)
+                        .padding(.bottom, 20)
+                        .padding(.horizontal)
                     }
+                }
+
+                // MARK: - Inline Entity Editor Popover (Link / Image / LaTeX Math)
+                if let activeEntity = editorController.activeEntityForPopover {
+                    ZStack {
+                        Color.black.opacity(0.001)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                editorController.activeEntityForPopover = nil
+                                editorController.focusEditor()
+                            }
+
+                        VStack {
+                            InlineEntityPopover(
+                                entity: activeEntity,
+                                controller: editorController,
+                                onDismiss: {
+                                    editorController.activeEntityForPopover = nil
+                                    editorController.focusEditor()
+                                }
+                            )
+                            .padding(.top, 76)
+
+                            Spacer()
+                        }
+                    }
+                    .zIndex(140)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
                 }
 
                 // MARK: - Find & Replace Overlay
@@ -242,6 +289,9 @@ struct ContentView: View {
         .toolbarBackground(.hidden, for: .windowToolbar)
         .toolbarRole(.editor)  // 关键：确保编辑器工具栏在窗口最右侧
         .onAppear {
+            if let content = note?.content {
+                editorController.syncInitialText(content)
+            }
             updateInfo()
         }
         .onDisappear {
@@ -249,6 +299,9 @@ struct ContentView: View {
         }
         .onChange(of: note?.persistentModelID) { _, _ in
             flushAutoSave()
+            if let content = note?.content {
+                editorController.syncInitialText(content)
+            }
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase != .active {
@@ -410,6 +463,13 @@ struct ContentView: View {
                 inlineAIController.toggle(from: editorController)
             }
         }
+        .modifier(
+            EditorFormatCommandModifier(
+                hasNote: note != nil,
+                editorController: editorController,
+                onInsertImage: insertImage
+            )
+        )
     }
 
     private func scheduleAutoSave() {
@@ -471,9 +531,29 @@ struct ContentView: View {
             }
 
             Toggle(LocalizedStringKey("Typewriter Mode"), isOn: $editorSettings.typewriterMode)
+
+            if editorSettings.typewriterMode {
+                Picker(LocalizedStringKey("Typewriter Position"), selection: $editorSettings.typewriterAnchor) {
+                    Text(LocalizedStringKey("Top")).tag(TypewriterAnchor.top)
+                    Text(LocalizedStringKey("Center")).tag(TypewriterAnchor.center)
+                    Text(LocalizedStringKey("Bottom")).tag(TypewriterAnchor.bottom)
+                }
+                .pickerStyle(.segmented)
+            }
+
+            Picker(LocalizedStringKey("Focus Mode"), selection: $editorSettings.focusMode) {
+                Text(LocalizedStringKey("Off")).tag(EditorFocusMode.off)
+                Text(LocalizedStringKey("Sentence")).tag(EditorFocusMode.sentence)
+                Text(LocalizedStringKey("Paragraph")).tag(EditorFocusMode.paragraph)
+            }
+            .pickerStyle(.segmented)
+
+            Toggle(LocalizedStringKey("Highlight Current Line"), isOn: $editorSettings.highlightCurrentLine)
+            Toggle(LocalizedStringKey("Outdent Syntax Markers"), isOn: $editorSettings.outdentSyntaxMarkers)
+            Toggle(LocalizedStringKey("Render LaTeX Math Inline"), isOn: $editorSettings.renderMathInline)
         }
         .padding()
-        .frame(width: 280)
+        .frame(width: 300)
     }
 
     // MARK: - Actions
@@ -615,6 +695,119 @@ struct MarkdownPackageDocument: FileDocument {
         }
 
         return rootWrapper
+    }
+}
+
+// MARK: - Editor Format Command Notifications Modifier
+
+private struct EditorFormatCommandModifier: ViewModifier {
+    let hasNote: Bool
+    @ObservedObject var editorController: EditorController
+    let onInsertImage: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .modifier(EditorInlineFormatNotifications(hasNote: hasNote, editorController: editorController))
+            .modifier(EditorBlockFormatNotifications(hasNote: hasNote, editorController: editorController, onInsertImage: onInsertImage))
+    }
+}
+
+private struct EditorInlineFormatNotifications: ViewModifier {
+    let hasNote: Bool
+    @ObservedObject var editorController: EditorController
+
+    func body(content: Content) -> some View {
+        content
+            .onReceive(NotificationCenter.default.publisher(for: .showAllMarkup)) { _ in
+                guard hasNote else { return }
+                editorController.showAllMarkupPopover.toggle()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatBold)) { _ in
+                guard hasNote else { return }
+                editorController.toggleBold()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatItalic)) { _ in
+                guard hasNote else { return }
+                editorController.toggleItalic()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatStrikethrough)) { _ in
+                guard hasNote else { return }
+                editorController.toggleStrikethrough()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatHighlight)) { _ in
+                guard hasNote else { return }
+                editorController.toggleHighlight()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatInlineCode)) { _ in
+                guard hasNote else { return }
+                editorController.toggleInlineCode()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .insertInlineMath)) { _ in
+                guard hasNote else { return }
+                editorController.insertInlineMath()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .insertDisplayMath)) { _ in
+                guard hasNote else { return }
+                editorController.insertDisplayMath()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .editEntityAtCaret)) { _ in
+                guard hasNote else { return }
+                editorController.activateEntityAtCaret()
+            }
+    }
+}
+
+private struct EditorBlockFormatNotifications: ViewModifier {
+    let hasNote: Bool
+    @ObservedObject var editorController: EditorController
+    let onInsertImage: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onReceive(NotificationCenter.default.publisher(for: .formatHeading)) { notif in
+                guard hasNote, let level = notif.object as? Int else { return }
+                let hashes = String(repeating: "#", count: max(1, min(6, level))) + " "
+                editorController.applyBlockPrefix(hashes)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatBulletList)) { _ in
+                guard hasNote else { return }
+                editorController.applyBlockPrefix("- ")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatNumberedList)) { _ in
+                guard hasNote else { return }
+                editorController.applyBlockPrefix("1. ")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatTaskList)) { _ in
+                guard hasNote else { return }
+                editorController.applyBlockPrefix("- [ ] ")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatBlockquote)) { _ in
+                guard hasNote else { return }
+                editorController.applyBlockPrefix("> ")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .formatCodeBlock)) { _ in
+                guard hasNote else { return }
+                editorController.toggleCodeBlock()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .insertLink)) { _ in
+                guard hasNote else { return }
+                editorController.insertLinkMarkup()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .insertImage)) { _ in
+                onInsertImage()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .insertHorizontalRule)) { _ in
+                guard hasNote else { return }
+                editorController.insertMarkup("\n---\n")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .moveParagraphUp)) { _ in
+                guard hasNote else { return }
+                editorController.moveParagraphUp()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .moveParagraphDown)) { _ in
+                guard hasNote else { return }
+                editorController.moveParagraphDown()
+            }
     }
 }
 
