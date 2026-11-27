@@ -18,7 +18,7 @@
 ---
 [中文版](./README_ZH.md)
 
-MDWriter is a modern, elegant, and powerful Markdown writing desk for macOS, built purely with SwiftUI, SwiftData, and TextKit 2. Inspired by professional tools like Ulysses and Obsidian, it delivers a quiet, distraction-free environment paired with deep local-first AI intelligence, bidirectional linking, on-device vision OCR, external folder mounting, and rich publishing workflows.
+MDWriter is a modern, elegant, and powerful Markdown writing desk for macOS, built purely with SwiftUI, SwiftData, and TextKit 2. Designed for focused long-form writing and personal knowledge management, it delivers a quiet, distraction-free environment paired with deep local-first AI intelligence, bidirectional linking, on-device vision OCR, external folder mounting, and rich publishing workflows.
 
 ---
 
@@ -60,7 +60,7 @@ MDWriter is a modern, elegant, and powerful Markdown writing desk for macOS, bui
 * **Model Context Protocol (MCP)**: Native MCP Host powered by `mcp-swift-sdk @ 0.12.1`. Connect local filesystem, web fetchers, Puppeteer, and custom stdio tools.
 * **Privacy-First Web Search**: DuckDuckGo (zero API key), SearXNG, Brave, Tavily, Exa, Google, and Bing search with source citation cards.
 
-### ✍️ Professional Ulysses-Style Editor
+### ✍️ Focused Native Markdown Editor
 * **Typography First**: Carefully tuned optical sizing, leading, and paragraph spacing optimized for Latin and CJK typography.
 * **8 Curated Themes**: Pure, Solarized Light/Dark, GitHub, Dracula, Nord, Monokai, and Night Owl.
 * **Typewriter Mode**: Keeps your active line vertically centered in the viewport.

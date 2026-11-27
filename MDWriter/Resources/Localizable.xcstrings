@@ -1863,6 +1863,40 @@
         }
       }
     },
+    "D22": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D22"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D22 高对比"
+          }
+        }
+      }
+    },
+    "D26 Mono": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D26 Mono"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "极简单色"
+          }
+        }
+      }
+    },
     "Daily Log": {
       "extractionState": "manual",
       "localizations": {
@@ -1960,6 +1994,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "深度语法与拼写校对"
+          }
+        }
+      }
+    },
+    "Default": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认"
           }
         }
       }
@@ -2780,6 +2831,23 @@
         }
       }
     },
+    "Every built-in color scheme includes calibrated Light and Dark palettes that adapt automatically with your Appearance setting.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every built-in color scheme includes calibrated Light and Dark palettes that adapt automatically with your Appearance setting."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每套内置配色均包含独立调校的浅色与深色双色板，随系统或应用外观自动切换。"
+          }
+        }
+      }
+    },
     "Exa API Key": {
       "extractionState": "manual",
       "localizations": {
@@ -3419,6 +3487,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "分数"
+          }
+        }
+      }
+    },
+    "Freestraction": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Freestraction"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "柔灰专注"
           }
         }
       }
@@ -7350,6 +7435,23 @@
         }
       }
     },
+    "Solarized": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solarized"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solarized"
+          }
+        }
+      }
+    },
     "Solarized Dark": {
       "extractionState": "manual",
       "localizations": {
@@ -7882,6 +7984,23 @@
         }
       }
     },
+    "System": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
+          }
+        }
+      }
+    },
     "System Font": {
       "extractionState": "manual",
       "localizations": {
@@ -7895,6 +8014,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统字体"
+          }
+        }
+      }
+    },
+    "System automatically adapts both the interface and every editor color scheme to macOS Light and Dark Mode.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System automatically adapts both the interface and every editor color scheme to macOS Light and Dark Mode."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择「跟随系统」时，窗口界面与所有内置编辑器配色均会自动适配 macOS 浅色与深色模式。"
           }
         }
       }
@@ -8072,6 +8208,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "主题会作用于编辑器画布、预览背景与导出的 PDF / RTF。"
+          }
+        }
+      }
+    },
+    "Theme drives the editor canvas, quick action bar, and 'Editor Theme' export mode.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme drives the editor canvas, quick action bar, and 'Editor Theme' export mode."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题同时作用于编辑器纸面、底部快捷栏以及「跟随编辑器主题」导出模式。"
           }
         }
       }
@@ -8456,17 +8609,6 @@
         }
       }
     },
-    "Ulysses-style syntax highlighting with elegant faders for a distraction-free experience.": {
-      "extractionState": "manual",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ulysses 风格的语法高亮与优雅的淡入淡出，打造无干扰写作体验。"
-          }
-        }
-      }
-    },
     "Unmount": {
       "extractionState": "manual",
       "localizations": {
@@ -8817,6 +8959,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "是的，替换全部数据"
+          }
+        }
+      }
+    },
+    "Yosemite": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yosemite"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yosemite"
           }
         }
       }

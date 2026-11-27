@@ -3,11 +3,12 @@
 ## [4.0.1] - 2026-11-27
 
 ### Added
-- **Ulysses-Inspired Editor Engine (MDEditorKit 2.3.1)**: Upgraded inline writing experience with smart auto-pairing and overtype skip, empty-pair backspace cleanup, automatic list/quote continuation with ordered-list renumbering, hanging-indent syntax markers (outdent tags), zero-reflow Focus Mode (Sentence / Line / Paragraph), current-line highlight band, enhanced typewriter anchor with scroll-wheel browse pause, two-stage Home (`⌘←`), and paragraph reordering (`⌥⌘↑` / `⌥⌘↓`).
+- **Next-Gen Native Editor Engine (MDEditorKit 2.4.0)**: Upgraded inline writing experience with smart auto-pairing and overtype skip, empty-pair backspace cleanup, automatic list/quote continuation with ordered-list renumbering, hanging-indent syntax markers (outdent tags), zero-reflow Focus Mode (Sentence / Line / Paragraph), current-line highlight band, enhanced typewriter anchor with scroll-wheel browse pause, two-stage Home (`⌘←`), and paragraph reordering (`⌥⌘↑` / `⌥⌘↓`).
 - **Native Offline LaTeX Math Rendering**: Real-time inline (`$...$`) and display (`$$...$$`) LaTeX math rendering inside the editor with baseline-aligned CoreGraphics vector output, caret-aware raw editing, and `$$` block expansion—zero WebView overhead and 100% offline.
 - **Inline Entity Editor & `[[WikiLink]]` Autocomplete Popovers**: Edit links, images, and live-preview LaTeX formulas inline via a focused floating popover (`⌘⇧E`), and insert or create linked notes instantaneously while typing `[[`.
-- **Unified Quick Action Bar & Command Popover**: Refactored the bottom markup bar around a single action registry with cursor-context highlighting, searchable keyboard-first command popover, and quick math block snippets.
-- **4 New Built-In Writing Themes**: Added **Warm Paper**, **Studio Gray**, **Monochrome**, and **Espresso** themes inspired by classic writer palettes (bringing the built-in collection to 12 themes).
+- **Context-Aware Docked Quick Action Bar & Command Popover**: Redesigned the bottom markup bar as a full-width docked bar seamlessly matching the editor canvas with subtle fade-out, accurate horizontal centering, live 5-state cursor-context switching (empty line / paragraph start / inline prose / selection / multi-paragraph / math block), active-state toggling, and a scope-aware searchable keyboard-first command popover.
+- **System Appearance & 8 Dual-Mode Writing Themes**: Added **System** appearance mode alongside Light and Dark, and rebuilt all 8 built-in writing themes (**Default**, **Warm Paper**, **Freestraction**, **D26 Mono**, **D22**, **Solarized**, **Yosemite**, and **Nord**) with calibrated Light & Dark dual palettes and split theme preview swatches.
+- **Refined 3-Pane macOS Interface**: Polished native sidebar vibrancy, redesigned the middle sheet list with calm selection highlights and crisp hairline dividers, and fixed top title clipping in the editor.
 - **Publication-Grade Export Styles & Paginated Vector PDF**: Introduced 6 curated export typography themes (**Swiss**, **Academic**, **Manuscript**, **Editorial**, **Business**, and **Editor Theme**) with A4 / US Letter paper sizes. Rebuilt PDF export using native `WKWebView` print pagination for crisp multi-page vector PDFs, full offline LaTeX & Base64 local image embedding, and WYSIWYG preview.
 
 ### Improved & Fixed
@@ -19,11 +20,12 @@
 
 ### Chinese
 ### 新增
-- **Ulysses 风格原生编辑引擎升级（MDEditorKit 2.3.1）**：全面增强行内写作体验，支持智能成对符号补全与越过、空配对退格清除、列表/引用自动续行与有序列表重排、行首语法标记悬挂缩进（Outdent Tags）、零重排专注模式（按句/按行/按段高亮）、当前行背景带、打字机锚点与滚轮浏览暂停、两段式行首跳转（`⌘←`）以及段落上下移动（`⌥⌘↑` / `⌥⌘↓`）。
+- **原生编辑引擎全面升级（MDEditorKit 2.4.0）**：全面增强行内写作体验，支持智能成对符号补全与越过、空配对退格清除、列表/引用自动续行与有序列表重排、行首语法标记悬挂缩进（Outdent Tags）、零重排专注模式（按句/按行/按段高亮）、当前行背景带、打字机锚点与滚轮浏览暂停、两段式行首跳转（`⌘←`）以及段落上下移动（`⌥⌘↑` / `⌥⌘↓`）。
 - **离线原生 LaTeX 数学公式渲染**：编辑器内直接实时渲染行内公式（`$...$`）与块级公式（`$$...$$`），采用基于 CoreGraphics 的基线对齐矢量渲染与光标避让源码编辑，并支持 `$$` 自动展开，100% 离线零 WebView 开销。
 - **行内实体编辑弹窗与 `[[WikiLink]]` 自动补全**：新增链接、图片及带实时预览的 LaTeX 公式悬浮编辑弹窗（`⌘⇧E`）；输入 `[[` 时实时弹出笔记联想列表，支持一键跳转或新建关联笔记。
-- **统一快捷符号栏与可搜索命令面板**：重构底部快捷符号栏，基于统一指令注册表实现光标上下文状态同步、支持键盘搜索的快捷命令弹窗以及数学公式块快捷插入。
-- **新增 4 套内置写作配色主题**：引入 **Warm Paper**、**Studio Gray**、**Monochrome** 与 **Espresso** 四套经典写作配色（内置主题总数扩充至 12 套）。
+- **上下文感知底部停靠快捷栏与命令面板**：重构底部快捷符号栏为全宽贴底、与纸面同色无缝融合并精准居中的停靠底栏；按 5 态光标几何位置自动切换精简 3 项快捷动作（空行 / 段落行首 / 正文句中与段尾 / 局部选区 / 多段选区 / 公式块），支持当前块状态高亮与点击取消前缀，内置随上下文动态排序的可搜索键盘命令面板。
+- **跟随系统外观与 8 套全双模式写作主题**：新增 **跟随系统 (System)** 外观模式，全面重构 8 套内置写作配色（**默认**、**暖书纸**、**柔灰专注**、**极简单色**、**D22 高对比**、**Solarized**、**Yosemite**、**Nord**），每套均内建精调的浅色与深色双色板并提供双色分屏预览卡片，切换日夜模式整窗无缝适配。
+- **三栏界面视觉重塑**：恢复左侧边栏原生毛玻璃层次，重做中栏文稿列表为克制柔和选中态与极细分隔线，修复编辑器顶部标题裁切问题。
 - **出版级导出样式与原生分页矢量 PDF**：新增 6 套排版导出主题（**Swiss**、**Academic**、**Manuscript**、**Editorial**、**Business**、**跟随编辑器主题**）及 A4 / US Letter 纸张切换；全面重构 PDF 导出管线，改用原生 `WKWebView` 打印分页输出高清多页矢量 PDF，完整保留 Markdown 排版、离线 LaTeX 公式与本地图片内嵌，并提供所见即所得实时预览。
 
 ### 优化与修复

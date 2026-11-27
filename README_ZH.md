@@ -18,7 +18,7 @@
 ---
 [English](./README.md)
 
-MDWriter 是一款专为 macOS 深度定制的现代、沉浸且功能完备的原生 Markdown 写作台，完全采用 SwiftUI、SwiftData 和 TextKit 2 原生打造。灵感汲取自 Ulysses 与 Obsidian 等专业工具，将纯粹安静的创作环境与本地优先 AI 智能、双向链接、端侧多模态 OCR、外部本地文件夹挂载及全功能出版级排版工作流融为一体。
+MDWriter 是一款专为 macOS 深度定制的现代、沉浸且功能完备的原生 Markdown 写作台，完全采用 SwiftUI、SwiftData 和 TextKit 2 原生打造。围绕沉浸式长文创作与个人知识管理设计，将纯粹安静的写作环境与本地优先 AI 智能、双向链接、端侧多模态 OCR、外部本地文件夹挂载及全功能出版级排版工作流融为一体。
 
 ---
 
@@ -60,7 +60,7 @@ MDWriter 是一款专为 macOS 深度定制的现代、沉浸且功能完备的�
 * **Model Context Protocol (MCP) 扩展支持**：基于 `mcp-swift-sdk @ 0.12.1` 实现原生 MCP 宿主，提供文件系统、网页抓取、Puppeteer 等预设扩展。
 * **多引擎隐私网络搜索**：支持 DuckDuckGo（内置免 Key）、SearXNG、Brave、Tavily、Exa、Google、Bing 等 7 大搜索引擎，附带搜索来源引用卡片。
 
-### ✍️ 专业 Ulysses 风格编辑器
+### ✍️ 沉浸式原生 Markdown 编辑器
 * **排版至上**：针对英文与中日韩 (CJK) 文字定制的行高、段落间距与字体渲染规范。
 * **8 款精选主题**：Pure, Solarized Light/Dark, GitHub, Dracula, Nord, Monokai, Night Owl。
 * **打字机模式**：使当前光标所在行始终居中呈现，沉浸创作。

@@ -53,22 +53,35 @@ class EditorSettings: ObservableObject {
         set { focusModeRaw = newValue.rawValue }
     }
 
-    // 配色主题（与预览/导出一致）
+    // 配色主题（每套均原生支持亮色与暗色双色板，与预览/导出一致）
     @AppStorage("markdownTheme") var markdownThemeRaw: String = MarkdownTheme.pure.rawValue {
         didSet { notifyChange() }
     }
 
-    // 应用明暗主题（与 AppTheme 同源），用于决定 Pure 主题下编辑器文字颜色
-    @AppStorage("appTheme") var appThemeRaw: String = AppTheme.light.rawValue {
+    // 应用外观模式（跟随系统 / 亮色 / 暗色）
+    @AppStorage("appTheme") var appThemeRaw: String = AppTheme.system.rawValue {
         didSet { notifyChange() }
     }
 
+    /// 由 SwiftUI 根视图同步过来的系统当前明暗状态，避免在 System 模式下读取延迟。
+    private var observedSystemIsDark: Bool?
+
     private var currentMarkdownTheme: MarkdownTheme {
-        MarkdownTheme(rawValue: markdownThemeRaw) ?? .pure
+        MarkdownTheme.fromStorage(markdownThemeRaw)
     }
 
     private var currentAppTheme: AppTheme {
-        AppTheme(rawValue: appThemeRaw) ?? .light
+        AppTheme(rawValue: appThemeRaw) ?? .system
+    }
+
+    /// 当前最终生效的暗色状态（兼顾 System / Light / Dark）。
+    var effectiveIsDark: Bool {
+        switch currentAppTheme {
+        case .light: return false
+        case .dark: return true
+        case .system:
+            return observedSystemIsDark ?? currentAppTheme.resolvedIsDark()
+        }
     }
 
     // 对外发布的配置快照
@@ -88,7 +101,7 @@ class EditorSettings: ObservableObject {
             outdentSyntaxMarkers: true,
             highlightCurrentLine: false,
             renderMathInline: true,
-            theme: MarkdownTheme.pure.editorTheme(for: AppTheme.light)
+            theme: MarkdownTheme.pure.editorTheme(isDark: AppTheme.system.resolvedIsDark())
         )
 
         self.updateConfiguration()
@@ -100,6 +113,26 @@ class EditorSettings: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+
+        // 监听 macOS 系统亮/暗外观切换，保证 System 模式下编辑器即时变色
+        DistributedNotificationCenter.default()
+            .publisher(for: Notification.Name("AppleInterfaceThemeChangedNotification"))
+            .sink { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.observedSystemIsDark = nil
+                    self?.updateConfiguration()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    /// 供 ContentView 在 SwiftUI `@Environment(\.colorScheme)` 变更时立即同步。
+    func syncSystemColorScheme(_ scheme: ColorScheme) {
+        let isDark = (scheme == .dark)
+        if observedSystemIsDark != isDark {
+            observedSystemIsDark = isDark
+            updateConfiguration()
+        }
     }
 
     private func notifyChange() {
@@ -113,7 +146,7 @@ class EditorSettings: ObservableObject {
         let showMarkup =
             UserDefaults.standard.object(forKey: "markdownShowMarkup") as? Bool ?? true
 
-        var theme = currentMarkdownTheme.editorTheme(for: currentAppTheme)
+        var theme = currentMarkdownTheme.editorTheme(isDark: effectiveIsDark)
         if !showMarkup {
             theme.syntaxMarker = theme.syntaxMarker.opacity(0.0)
         }

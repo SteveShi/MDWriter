@@ -42,7 +42,7 @@ struct DashboardView: View {
     @Binding var text: String
     @State private var selectedTab: DashboardTab = .overview
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
 
     @AppStorage("dashboard.overview.showProgress") private var showProgressInOverview = true
     @AppStorage("dashboard.overview.showKeywords") private var showKeywordsInOverview = true
@@ -89,7 +89,7 @@ struct DashboardView: View {
             ZStack {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .overlay(currentTheme.paperColor.opacity(0.3))
+                    .overlay(currentTheme.paperColor(isDark: currentTheme.isDark(in: colorScheme)).opacity(0.22))
                     .ignoresSafeArea()
 
                 ScrollView {

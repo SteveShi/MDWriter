@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SteveShi/MDEditorKit.git",
       "state" : {
-        "revision" : "2acf6120b9251a874db7983880376ebd40a3b5db",
-        "version" : "2.3.1"
+        "revision" : "250a4741a8a68a278a997f2ed741a4e3ef948225",
+        "version" : "2.4.0"
       }
     },
     {

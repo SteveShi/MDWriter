@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GeneralSettingsView: View {
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
     @AppStorage("showOutline") private var showOutline: Bool = false
     @AppStorage("showLibrary") private var showLibrary: Bool = true
     @AppStorage("SUEnableAutomaticChecks") private var automaticallyCheckForUpdates: Bool = true
@@ -19,16 +19,16 @@ struct GeneralSettingsView: View {
             Section {
                 Picker(LocalizedStringKey("Appearance:"), selection: $currentTheme) {
                     ForEach(AppTheme.allCases) { theme in
-                        Text(LocalizedStringKey(theme.rawValue)).tag(theme)
+                        Label(theme.localizedName, systemImage: theme.icon).tag(theme)
                     }
                 }
-                .pickerStyle(.inline)
+                .pickerStyle(.segmented)
                 .labelsHidden()
                 
             } header: {
                 Text(LocalizedStringKey("Appearance"))
             } footer: {
-                Text(LocalizedStringKey("Choose the look and feel of the application interface."))
+                Text(LocalizedStringKey("System automatically adapts both the interface and every editor color scheme to macOS Light and Dark Mode."))
             }
             
             // Section 2: Sidebar & Panels

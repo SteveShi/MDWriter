@@ -183,6 +183,9 @@ struct ViewCommands: Commands {
 
         CommandGroup(replacing: .toolbar) {
             Menu(LocalizedStringKey("Theme")) {
+                Button(action: { currentTheme = .system }) {
+                    Label(LocalizedStringKey("System"), systemImage: "circle.lefthalf.filled")
+                }
                 Button(action: { currentTheme = .light }) {
                     Label(LocalizedStringKey("Light"), systemImage: "sun.max")
                 }

@@ -448,79 +448,104 @@ struct MDWMarkdownRenderer {
     }
 
     private func editorThemePalette(for theme: MarkdownTheme) -> StylePalette {
+        let isDark = EditorSettings.shared.effectiveIsDark
         switch theme {
         case .pure:
-            return StylePalette(
-                bg: "#ffffff", text: "#222222", heading: "#111111", muted: "#666666",
-                link: "#007aff", codeBg: "#f5f7f9", codeText: "#c7254e", border: "#e5e7eb",
-                tableHeaderBg: "#f6f8fa", quoteBg: "#f9fafb", markBg: "#fff3a8", isDark: false
-            )
+            return isDark
+                ? StylePalette(
+                    bg: "#1e1e1e", text: "#eaeaea", heading: "#ffffff", muted: "#8e8e93",
+                    link: "#0091ff", codeBg: "#2c2c2e", codeText: "#30d158", border: "#38383a",
+                    tableHeaderBg: "#262628", quoteBg: "#242426", markBg: "#5c4d1a", isDark: true
+                )
+                : StylePalette(
+                    bg: "#ffffff", text: "#262626", heading: "#141414", muted: "#6e6e73",
+                    link: "#0088ff", codeBg: "#f2f2f7", codeText: "#228b40", border: "#e5e5ea",
+                    tableHeaderBg: "#f5f5f7", quoteBg: "#f9f9fb", markBg: "#fff3a8", isDark: false
+                )
         case .paper:
-            return StylePalette(
-                bg: "#f3f1ed", text: "#3f3a34", heading: "#2e2924", muted: "#7a7167",
-                link: "#457ec9", codeBg: "#e8e4dc", codeText: "#aa4f32", border: "#dcd6cc",
-                tableHeaderBg: "#eae6de", quoteBg: "#ece8e0", markBg: "#efe79a", isDark: false
-            )
+            return isDark
+                ? StylePalette(
+                    bg: "#2e2a26", text: "#f3f1ed", heading: "#fcfaf5", muted: "#a89d90",
+                    link: "#61b6e0", codeBg: "#3e3832", codeText: "#dfac64", border: "#4d453d",
+                    tableHeaderBg: "#39342e", quoteBg: "#35302a", markBg: "#5c4d26", isDark: true
+                )
+                : StylePalette(
+                    bg: "#f3f1ed", text: "#3f3a34", heading: "#2e2924", muted: "#7a7167",
+                    link: "#459dc9", codeBg: "#e8e4dc", codeText: "#8e5f19", border: "#dcd6cc",
+                    tableHeaderBg: "#eae6de", quoteBg: "#ece8e0", markBg: "#efe79a", isDark: false
+                )
         case .studio:
-            return StylePalette(
-                bg: "#f3f3f3", text: "#4a4a4a", heading: "#262626", muted: "#767676",
-                link: "#0073a8", codeBg: "#e6e7e9", codeText: "#c43836", border: "#d8d8d8",
-                tableHeaderBg: "#eaeaea", quoteBg: "#ebebeb", markBg: "#fff1a8", isDark: false
-            )
+            return isDark
+                ? StylePalette(
+                    bg: "#1a1a1a", text: "#c7c7c7", heading: "#29b6e0", muted: "#85858a",
+                    link: "#d95ea4", codeBg: "#2a2c2f", codeText: "#4ba3ce", border: "#333338",
+                    tableHeaderBg: "#242428", quoteBg: "#212428", markBg: "#4a4320", isDark: true
+                )
+                : StylePalette(
+                    bg: "#f3f3f3", text: "#505050", heading: "#009bc9", muted: "#767676",
+                    link: "#c23184", codeBg: "#e6e7e9", codeText: "#0073a8", border: "#d8d8d8",
+                    tableHeaderBg: "#eaeaea", quoteBg: "#ebebeb", markBg: "#fff1a8", isDark: false
+                )
         case .monochrome:
-            return StylePalette(
-                bg: "#fcfcfc", text: "#262626", heading: "#111111", muted: "#6e6e73",
-                link: "#3a3a3c", codeBg: "#efefef", codeText: "#262626", border: "#dedede",
-                tableHeaderBg: "#f2f2f2", quoteBg: "#f6f6f6", markBg: "#e5e5ea", isDark: false
-            )
-        case .espresso:
-            return StylePalette(
-                bg: "#2a2622", text: "#efece6", heading: "#faf6ee", muted: "#a69c90",
-                link: "#74b5d5", codeBg: "#3a342e", codeText: "#e6b075", border: "#4a423b",
-                tableHeaderBg: "#36302a", quoteBg: "#332d27", markBg: "#5c4d26", isDark: true
-            )
-        case .solarizedLight:
-            return StylePalette(
-                bg: "#fdf6e3", text: "#586e75", heading: "#073642", muted: "#839496",
-                link: "#268bd2", codeBg: "#eee8d5", codeText: "#dc322f", border: "#dcd5c1",
-                tableHeaderBg: "#eee8d5", quoteBg: "#f5eed9", markBg: "#eee19a", isDark: false
-            )
-        case .solarizedDark:
-            return StylePalette(
-                bg: "#002b36", text: "#93a1a1", heading: "#eee8d5", muted: "#657b83",
-                link: "#268bd2", codeBg: "#073642", codeText: "#cb4b16", border: "#1b4956",
-                tableHeaderBg: "#073642", quoteBg: "#06323d", markBg: "#4a4419", isDark: true
-            )
-        case .github:
-            return StylePalette(
-                bg: "#f6f8fa", text: "#24292e", heading: "#11161b", muted: "#6a737d",
-                link: "#0366d6", codeBg: "#eaeef2", codeText: "#cf222e", border: "#d0d7de",
-                tableHeaderBg: "#eaeef2", quoteBg: "#f0f3f6", markBg: "#fff8c5", isDark: false
-            )
-        case .dracula:
-            return StylePalette(
-                bg: "#282a36", text: "#f8f8f2", heading: "#ff79c6", muted: "#9aa0c2",
-                link: "#8be9fd", codeBg: "#383a4a", codeText: "#50fa7b", border: "#44475a",
-                tableHeaderBg: "#343746", quoteBg: "#313341", markBg: "#574f24", isDark: true
-            )
+            return isDark
+                ? StylePalette(
+                    bg: "#1e1e1e", text: "#eaeaea", heading: "#ffffff", muted: "#8e8e93",
+                    link: "#d1d1d6", codeBg: "#2c2c2e", codeText: "#d8d8dc", border: "#3a3a3c",
+                    tableHeaderBg: "#262628", quoteBg: "#242426", markBg: "#48484a", isDark: true
+                )
+                : StylePalette(
+                    bg: "#fdfdfd", text: "#262626", heading: "#0d0d0d", muted: "#6e6e73",
+                    link: "#3a3a3c", codeBg: "#efefef", codeText: "#262626", border: "#dedede",
+                    tableHeaderBg: "#f2f2f2", quoteBg: "#f6f6f6", markBg: "#e5e5ea", isDark: false
+                )
+        case .d22:
+            return isDark
+                ? StylePalette(
+                    bg: "#000000", text: "#eaeaea", heading: "#ffffff", muted: "#8a8a8e",
+                    link: "#5ac8f5", codeBg: "#1c1c1e", codeText: "#0a84ff", border: "#2c2c2e",
+                    tableHeaderBg: "#141416", quoteBg: "#121418", markBg: "#4f4308", isDark: true
+                )
+                : StylePalette(
+                    bg: "#ffffff", text: "#262626", heading: "#000000", muted: "#76767a",
+                    link: "#0068da", codeBg: "#f1f4f9", codeText: "#007aff", border: "#e2e5ea",
+                    tableHeaderBg: "#f4f6f9", quoteBg: "#f6f8fb", markBg: "#fff2a6", isDark: false
+                )
+        case .solarized:
+            return isDark
+                ? StylePalette(
+                    bg: "#002b36", text: "#93a1a1", heading: "#eee8d5", muted: "#657b83",
+                    link: "#028ad4", codeBg: "#073642", codeText: "#ce4b00", border: "#1b4956",
+                    tableHeaderBg: "#073642", quoteBg: "#06323d", markBg: "#4a4419", isDark: true
+                )
+                : StylePalette(
+                    bg: "#fef7e2", text: "#556e75", heading: "#073642", muted: "#839496",
+                    link: "#028ad4", codeBg: "#eee8d5", codeText: "#ce4b00", border: "#dcd5c1",
+                    tableHeaderBg: "#eee8d5", quoteBg: "#f5eed9", markBg: "#eee19a", isDark: false
+                )
+        case .yosemite:
+            return isDark
+                ? StylePalette(
+                    bg: "#282828", text: "#d0d0d0", heading: "#009bc9", muted: "#8a8a8e",
+                    link: "#d95ea4", codeBg: "#353538", codeText: "#4ba3ce", border: "#3d3d42",
+                    tableHeaderBg: "#313134", quoteBg: "#2e3236", markBg: "#4d451c", isDark: true
+                )
+                : StylePalette(
+                    bg: "#ffffff", text: "#232323", heading: "#009bc9", muted: "#76767a",
+                    link: "#c23184", codeBg: "#f0f3f6", codeText: "#0073a8", border: "#e2e6ea",
+                    tableHeaderBg: "#f4f6f8", quoteBg: "#f6f9fb", markBg: "#fff3a8", isDark: false
+                )
         case .nord:
-            return StylePalette(
-                bg: "#2e3440", text: "#d8dee9", heading: "#eceff4", muted: "#9aa5b8",
-                link: "#88c0d0", codeBg: "#3b4252", codeText: "#8fbcbb", border: "#4c566a",
-                tableHeaderBg: "#3b4252", quoteBg: "#353c4a", markBg: "#574c2c", isDark: true
-            )
-        case .monokai:
-            return StylePalette(
-                bg: "#272822", text: "#f8f8f2", heading: "#f92672", muted: "#a6a695",
-                link: "#66d9ef", codeBg: "#383930", codeText: "#a6e22e", border: "#49483e",
-                tableHeaderBg: "#36372f", quoteBg: "#30312a", markBg: "#595324", isDark: true
-            )
-        case .nightOwl:
-            return StylePalette(
-                bg: "#011627", text: "#d6deeb", heading: "#ecc48d", muted: "#7e97ac",
-                link: "#82aaff", codeBg: "#0b2942", codeText: "#7fdbca", border: "#1d3b53",
-                tableHeaderBg: "#0b2942", quoteBg: "#072036", markBg: "#3b3a17", isDark: true
-            )
+            return isDark
+                ? StylePalette(
+                    bg: "#2e3440", text: "#d8dee9", heading: "#eceff4", muted: "#9aa5b8",
+                    link: "#88c0d0", codeBg: "#3b4252", codeText: "#8fbcbb", border: "#4c566a",
+                    tableHeaderBg: "#3b4252", quoteBg: "#353c4a", markBg: "#574c2c", isDark: true
+                )
+                : StylePalette(
+                    bg: "#eceff4", text: "#2e3440", heading: "#1f2530", muted: "#5e6a7e",
+                    link: "#5e81ac", codeBg: "#d8dee9", codeText: "#4c7a91", border: "#cfd6e3",
+                    tableHeaderBg: "#e5e9f0", quoteBg: "#e5e9f0", markBg: "#ebcb8b", isDark: false
+                )
         }
     }
 

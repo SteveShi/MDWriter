@@ -9,8 +9,7 @@ class ExportService: NSObject {
     private let renderer = MDWMarkdownRenderer()
 
     private var savedTheme: MarkdownTheme {
-        let raw = UserDefaults.standard.string(forKey: "markdownTheme")
-        return raw.flatMap(MarkdownTheme.init(rawValue:)) ?? .pure
+        MarkdownTheme.fromStorage(UserDefaults.standard.string(forKey: "markdownTheme"))
     }
 
     private var savedExportStyle: ExportStyle {

@@ -51,8 +51,8 @@ struct ContentView: View {
     @ObservedObject private var ghostTextController = GhostTextController.shared
     @ObservedObject private var editorSettings = EditorSettings.shared
 
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
-    @AppStorage("markdownTheme") private var markdownTheme: MarkdownTheme = .pure
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
+    @AppStorage("markdownTheme") private var markdownThemeRaw: String = MarkdownTheme.pure.rawValue
     @AppStorage("dashboardSidebarWidth") private var dashboardSidebarWidth: Double = 280
     @AppStorage("chatPanelSidebarWidth") private var chatPanelSidebarWidth: Double = 360
     @Environment(\.colorScheme) var systemScheme
@@ -60,13 +60,17 @@ struct ContentView: View {
     // Animation namespace
     @Namespace private var animation
 
-    /// 纸面背景：优先尊重 markdownTheme，Pure / Monochrome 随 AppTheme 明暗切换，
-    /// 保证所有内置配色方案在编辑器画布上有准确一致的呈现。
+    private var activeMarkdownTheme: MarkdownTheme {
+        MarkdownTheme.fromStorage(markdownThemeRaw)
+    }
+
+    private var effectiveIsDark: Bool {
+        currentTheme.isDark(in: systemScheme)
+    }
+
+    /// 纸面背景：所有内置主题均原生适配亮色与暗色双色板（对标官方 Ulysses 42.2）。
     private var canvasPaperColor: Color {
-        if markdownTheme == .pure || markdownTheme == .monochrome {
-            return currentTheme.paperColor
-        }
-        return markdownTheme.paperColor
+        activeMarkdownTheme.paperColor(isDark: effectiveIsDark)
     }
 
     var body: some View {
@@ -75,18 +79,6 @@ struct ContentView: View {
             ZStack(alignment: .topTrailing) {
                 canvasPaperColor
                     .ignoresSafeArea()
-
-                // Subtle Paper Gradient
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        canvasPaperColor,
-                        canvasPaperColor.opacity(0.95),
-                        canvasPaperColor
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
 
                 if let note = note {
                     @Bindable var bindableNote = note
@@ -98,7 +90,7 @@ struct ContentView: View {
                     // 仅在切换文档时重建视图；配置/专注模式/打字机模式变化通过 updateNSView 原地应用，保留撤销栈与光标
                     .id(note.persistentModelID)
                     .ignoresSafeArea()
-                    .padding(.top, 40) // Add room for top fade/title
+                    .padding(.top, 8)
                     .onChange(of: note.content) { oldValue, newValue in
                         // 使用防抖机制，避免每次输入都触发解析
                         updateInfoTask?.cancel()
@@ -139,11 +131,11 @@ struct ContentView: View {
                     .background(.ultraThinMaterial)
                 }
 
-                // Top Gradient Fade
+                // Top Gradient Fade（仅轻度覆盖标题栏区域，避免裁切文档第一行标题）
                 if note != nil {
                     VStack {
                         canvasPaperColor
-                            .frame(height: 50)
+                            .frame(height: 24)
                             .mask(
                                 LinearGradient(
                                     gradient: Gradient(colors: [.black, .black.opacity(0)]),
@@ -158,39 +150,39 @@ struct ContentView: View {
                     .allowsHitTesting(false)
                 }
 
-                // Ulysses-style Context-Sensitive Markup Bar & Ghost Text Suggestion
+                // Ulysses-style Context-Sensitive Docked Markup Bar & Floating Assist Popovers
                 if note != nil {
-                    VStack(spacing: 8) {
-                        Spacer()
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 0)
 
-                        if let wikiQuery = editorController.cursorContext.wikiLinkQuery,
-                           inlineAIController.state == .hidden,
-                           editorController.activeEntityForPopover == nil
-                        {
-                            WikiLinkCompletionPopover(
-                                query: wikiQuery,
-                                currentNoteID: note?.persistentModelID,
-                                controller: editorController
+                        VStack(spacing: 8) {
+                            if let wikiQuery = editorController.cursorContext.wikiLinkQuery,
+                               inlineAIController.state == .hidden,
+                               editorController.activeEntityForPopover == nil
+                            {
+                                WikiLinkCompletionPopover(
+                                    query: wikiQuery,
+                                    currentNoteID: note?.persistentModelID,
+                                    controller: editorController
+                                )
+                                .transition(.opacity.combined(with: .move(edge: .bottom)))
+                            }
+
+                            GhostTextSuggestionBar(
+                                ghostController: ghostTextController,
+                                editorController: editorController
                             )
-                            .transition(.opacity.combined(with: .move(edge: .bottom)))
                         }
-
-                        GhostTextSuggestionBar(
-                            ghostController: ghostTextController,
-                            editorController: editorController
-                        )
+                        .padding(.bottom, 8)
 
                         UlyssesMarkupBar(
                             controller: editorController,
+                            backgroundColor: canvasPaperColor,
                             contentWidth: CGFloat(editorSettings.contentWidth),
                             isHiddenByOverlay: inlineAIController.state != .hidden
                         )
-                        .background(canvasPaperColor.opacity(0.8))
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(12)
-                        .padding(.bottom, 20)
-                        .padding(.horizontal)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 }
 
                 // MARK: - Inline Entity Editor Popover (Link / Image / LaTeX Math)
@@ -289,10 +281,14 @@ struct ContentView: View {
         .toolbarBackground(.hidden, for: .windowToolbar)
         .toolbarRole(.editor)  // 关键：确保编辑器工具栏在窗口最右侧
         .onAppear {
+            editorSettings.syncSystemColorScheme(systemScheme)
             if let content = note?.content {
                 editorController.syncInitialText(content)
             }
             updateInfo()
+        }
+        .onChange(of: systemScheme) { _, newScheme in
+            editorSettings.syncSystemColorScheme(newScheme)
         }
         .onDisappear {
             flushAutoSave()
@@ -328,16 +324,39 @@ struct ContentView: View {
                 .disabled(note == nil)
                 .help(LocalizedStringKey("Insert Image"))
 
-                // 3. 主题选择 (即使未选文档也可更改 UI)
+                // 3. 外观与双模式写作主题选择
                 Menu {
-                    Button(action: { currentTheme = .light }) {
-                        Label(LocalizedStringKey("Light"), systemImage: "sun.max")
+                    Section(LocalizedStringKey("Appearance")) {
+                        ForEach(AppTheme.allCases) { appearance in
+                            Button {
+                                currentTheme = appearance
+                            } label: {
+                                if currentTheme == appearance {
+                                    Label(appearance.localizedName, systemImage: "checkmark")
+                                } else {
+                                    Label(appearance.localizedName, systemImage: appearance.icon)
+                                }
+                            }
+                        }
                     }
-                    Button(action: { currentTheme = .dark }) {
-                        Label(LocalizedStringKey("Dark"), systemImage: "moon")
+
+                    Divider()
+
+                    Section(LocalizedStringKey("Color Scheme")) {
+                        ForEach(MarkdownTheme.allCases) { theme in
+                            Button {
+                                markdownThemeRaw = theme.rawValue
+                            } label: {
+                                if activeMarkdownTheme == theme {
+                                    Label(theme.displayName, systemImage: "checkmark")
+                                } else {
+                                    Text(theme.displayName)
+                                }
+                            }
+                        }
                     }
                 } label: {
-                    Image(systemName: "circle.lefthalf.filled")
+                    Image(systemName: currentTheme.icon)
                 }
                 .help(LocalizedStringKey("Theme Selection"))
 

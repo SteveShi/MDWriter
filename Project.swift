@@ -3,7 +3,7 @@ import ProjectDescription
 let project = Project(
     name: "MDWriter",
     packages: [
-        .package(url: "https://github.com/SteveShi/MDEditorKit.git", from: "2.3.1"),
+        .package(url: "https://github.com/SteveShi/MDEditorKit.git", from: "2.4.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.4"),
         .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.12.1")
     ],

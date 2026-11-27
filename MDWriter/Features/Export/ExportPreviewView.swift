@@ -60,7 +60,7 @@ struct ExportPreviewView: View {
     }
 
     private var activeEditorTheme: MarkdownTheme {
-        MarkdownTheme(rawValue: markdownThemeRaw) ?? .pure
+        MarkdownTheme.fromStorage(markdownThemeRaw)
     }
 
     var body: some View {

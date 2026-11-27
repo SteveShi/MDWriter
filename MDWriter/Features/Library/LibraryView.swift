@@ -195,7 +195,6 @@ struct LibraryView: View {
                     .help(LocalizedStringKey("Add Group or Mount Folder"))
                 }
             }
-            .background(.ultraThinMaterial)
         } content: {
             Group {
                 // 使用优化后的 NoteListView 替代原来的 List
@@ -241,7 +240,6 @@ struct LibraryView: View {
                     }
                 }
             }
-            .background(.thinMaterial)
         } detail: {
             EditorWrapper(
                 note: selectedNote, searchText: $searchText, isSearching: $isSearching,
@@ -679,79 +677,119 @@ struct NoteRowView: View {
     let searchText: String
     var isSelected: Bool = false
     var isListFocused: Bool = false
+    var showBottomDivider: Bool = true
+    @State private var isHovered: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.controlActiveState) private var controlActiveState
 
-    private var usesMutedSelectionText: Bool {
-        isSelected && (controlActiveState != .key || !isListFocused) && colorScheme == .light
+    private var isActiveSelection: Bool {
+        isSelected && isListFocused && controlActiveState == .key
     }
 
-    private var titleColor: Color {
-        guard isSelected else { return .primary }
-        return usesMutedSelectionText ? .primary : .white
-    }
-
-    private var dateColor: Color {
-        guard isSelected else { return .secondary.opacity(0.8) }
-        return usesMutedSelectionText ? .secondary.opacity(0.85) : .white.opacity(0.8)
-    }
-
-    private var summaryColor: Color {
-        guard isSelected else { return .secondary }
-        return usesMutedSelectionText ? .secondary : .white.opacity(0.9)
+    private var selectionFill: Color {
+        if isActiveSelection {
+            return Color.accentColor.opacity(colorScheme == .dark ? 0.24 : 0.13)
+        }
+        if isSelected {
+            return Color.primary.opacity(colorScheme == .dark ? 0.095 : 0.065)
+        }
+        if isHovered {
+            // 对标 Ulysses Assets.car ULCustomMenuTableRowHover (5.1%)
+            return Color.primary.opacity(0.051)
+        }
+        return .clear
     }
 
     // 使用 AttributedString 进行高保真 Markdown 解析
     private var summaryAttributedString: AttributedString {
         let rawSummary = summary(from: note.content)
         do {
-            // 尝试将摘要解析为 AttributedString，支持内联 Markdown 样式
             return try AttributedString(
                 markdown: rawSummary,
                 options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
         } catch {
-            // 如果解析失败（例如 Markdown 语法不完整），回退到纯文本
             return AttributedString(rawSummary)
         }
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 6) {
-                Text(note.title)
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .lineLimit(1)
-                    .foregroundColor(titleColor)
-                if note.isPinned {
-                    Image(systemName: "pin.fill")
-                        .font(.system(size: 10))
-                        .foregroundStyle(isSelected ? (usesMutedSelectionText ? Color.accentColor : .white) : Color.accentColor)
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    if note.isPinned {
+                        Image(systemName: "pin.fill")
+                            .font(.system(size: 9.5))
+                            .foregroundStyle(Color.accentColor.opacity(0.85))
+                    }
+                    Text(note.title)
+                        .font(.system(size: 13.5, weight: .semibold))
+                        .lineLimit(1)
+                        .foregroundColor(.primary)
+                    Spacer(minLength: 6)
+                    Text(note.modifiedAt, style: .date)
+                        .font(.system(size: 10.5, weight: .regular))
+                        .foregroundColor(.secondary.opacity(0.75))
                 }
-                Spacer()
-                Text(note.modifiedAt, style: .date)
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(dateColor)
-            }
 
-            // 渲染解析后的 AttributedString
-            Text(summaryAttributedString)
-                .font(.system(size: 12))
-                .foregroundColor(summaryColor)
-                .lineLimit(2)
-                .frame(maxHeight: 32, alignment: .topLeading)
-                .lineSpacing(2)
+                let excerpt = summary(from: note.content)
+                if !excerpt.isEmpty {
+                    Text(summaryAttributedString)
+                        .font(.system(size: 12))
+                        .foregroundColor(.secondary.opacity(isSelected ? 0.92 : 0.80))
+                        .lineLimit(2)
+                        .lineSpacing(2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                if !note.tags.isEmpty {
+                    HStack(spacing: 4) {
+                        ForEach(note.tags.prefix(3), id: \.self) { tag in
+                            Text(tag)
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(isSelected ? .accentColor : .secondary)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 1.5)
+                                .background(
+                                    Capsule()
+                                        .fill(
+                                            isSelected
+                                                ? Color.accentColor.opacity(colorScheme == .dark ? 0.22 : 0.14)
+                                                : Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.055)
+                                        )
+                                )
+                        }
+                    }
+                    .padding(.top, 2)
+                }
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(selectionFill)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .strokeBorder(
+                        isActiveSelection ? Color.accentColor.opacity(colorScheme == .dark ? 0.40 : 0.28) : Color.clear,
+                        lineWidth: 0.75
+                    )
+            )
+            .padding(.horizontal, 8)
+            .padding(.vertical, 2)
+
+            if showBottomDivider {
+                Rectangle()
+                    .fill(Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.065))
+                    .frame(height: 0.5)
+                    .padding(.horizontal, 18)
+            }
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 12)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? Color.clear : Color.primary.opacity(colorScheme == .dark ? 0.05 : 0.03))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(isSelected ? Color.clear : Color.primary.opacity(0.05), lineWidth: 0.5)
-        )
-        .padding(.vertical, 4)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                isHovered = hovering
+            }
+        }
     }
 
     private func summary(from text: String) -> String {

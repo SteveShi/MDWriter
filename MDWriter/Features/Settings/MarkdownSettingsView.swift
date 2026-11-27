@@ -67,7 +67,11 @@ private let markupCatalog: [MarkupElement] = [
 // MARK: - 设置视图
 
 struct MarkdownSettingsView: View {
-    @AppStorage("markdownTheme") private var selectedTheme: MarkdownTheme = .pure
+    @AppStorage("markdownTheme") private var selectedThemeRaw: String = MarkdownTheme.pure.rawValue
+
+    private var selectedTheme: MarkdownTheme {
+        MarkdownTheme.fromStorage(selectedThemeRaw)
+    }
 
     // Ulysses 风格语法特性开关（影响 HTML 渲染层；编辑器侧由 MDEditor 包决定能否响应）
     @AppStorage("markdownFeatureStrikethrough") private var featureStrikethrough: Bool = true
@@ -86,37 +90,37 @@ struct MarkdownSettingsView: View {
     @State private var showMarkupReference: Bool = false
 
     private let themeColumns = [
-        GridItem(.adaptive(minimum: 80, maximum: 100))
+        GridItem(.adaptive(minimum: 102, maximum: 120), spacing: 14)
     ]
 
     var body: some View {
         Form {
 
-            // MARK: 配色方案
+            // MARK: 配色方案（Ulysses 风格双模式亮/暗色板卡片）
             Section {
-                VStack(alignment: .leading, spacing: 15) {
+                VStack(alignment: .leading, spacing: 14) {
                     Text(
                         LocalizedStringKey(
-                            "Select a color scheme for syntax highlighting and preview.")
+                            "Every built-in color scheme includes calibrated Light and Dark palettes that adapt automatically with your Appearance setting.")
                     )
                     .font(.caption)
                     .foregroundColor(.secondary)
 
-                    LazyVGrid(columns: themeColumns, spacing: 15) {
+                    LazyVGrid(columns: themeColumns, spacing: 14) {
                         ForEach(MarkdownTheme.allCases) { theme in
-                            VStack(spacing: 8) {
-                                ThemePreviewCircle(
-                                    theme: theme, isSelected: selectedTheme == theme
+                            VStack(spacing: 6) {
+                                ThemePreviewSwatch(
+                                    theme: theme,
+                                    isSelected: selectedTheme == theme
                                 )
                                 .onTapGesture {
-                                    selectedTheme = theme
+                                    selectedThemeRaw = theme.rawValue
                                 }
 
                                 Text(theme.displayName)
-                                    .font(.system(size: 10))
+                                    .font(.system(size: 11, weight: selectedTheme == theme ? .semibold : .regular))
                                     .multilineTextAlignment(.center)
-                                    .lineLimit(2)
-                                    .frame(height: 25, alignment: .top)
+                                    .lineLimit(1)
                                     .foregroundColor(
                                         selectedTheme == theme ? .primary : .secondary)
                             }
@@ -129,7 +133,7 @@ struct MarkdownSettingsView: View {
             } footer: {
                 Text(
                     LocalizedStringKey(
-                        "Theme drives the editor canvas, preview background and exported PDF/RTF."
+                        "Theme drives the editor canvas, quick action bar, and 'Editor Theme' export mode."
                     )
                 )
                 .font(.caption2)
@@ -222,30 +226,66 @@ struct MarkdownSettingsView: View {
     }
 }
 
-struct ThemePreviewCircle: View {
+/// Ulysses 风格双色板预览卡片：左侧展示亮色纸面与排版，右侧展示暗色纸面与排版。
+struct ThemePreviewSwatch: View {
     let theme: MarkdownTheme
     let isSelected: Bool
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(theme.paperColor)
-                .frame(width: 40, height: 40)
-                .overlay(
-                    Circle().stroke(Color.black.opacity(0.08), lineWidth: 0.5)
-                )
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        ZStack(alignment: .topTrailing) {
+            HStack(spacing: 0) {
+                halfPreview(isDark: false)
+                halfPreview(isDark: true)
+            }
+            .frame(width: 96, height: 56)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .strokeBorder(Color.primary.opacity(0.14), lineWidth: 0.75)
+            )
+            .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
 
             if isSelected {
-                Image(systemName: "checkmark")
-                    .foregroundColor(theme.isDark ? .white : .black)
-                    .font(.system(size: 14, weight: .bold))
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white, Color.accentColor)
+                    .offset(x: 4, y: -4)
             }
         }
-        .padding(3)
-        .background(
-            Circle()
+        .padding(2.5)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10.5, style: .continuous)
                 .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
         )
+    }
+
+    private func halfPreview(isDark: Bool) -> some View {
+        let bg = theme.paperColor(isDark: isDark)
+        let fg = theme.textColor(isDark: isDark)
+        let accent = theme.accentColor(isDark: isDark)
+
+        return VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 2) {
+                Text("#")
+                    .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+                    .foregroundColor(accent)
+                RoundedRectangle(cornerRadius: 1.5)
+                    .fill(fg.opacity(0.85))
+                    .frame(width: 22, height: 3.5)
+            }
+            RoundedRectangle(cornerRadius: 1)
+                .fill(fg.opacity(0.45))
+                .frame(width: 32, height: 2.5)
+            RoundedRectangle(cornerRadius: 1)
+                .fill(fg.opacity(0.35))
+                .frame(width: 26, height: 2.5)
+            RoundedRectangle(cornerRadius: 1)
+                .fill(accent.opacity(0.75))
+                .frame(width: 18, height: 2.5)
+        }
+        .padding(.horizontal, 7)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(bg)
     }
 }

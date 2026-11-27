@@ -213,18 +213,35 @@ enum EditorActionRegistry {
         allItems.first { $0.id == id }
     }
 
-    /// 根据 MDEditorKit 推送的上下文返回底栏快捷动作（最多 4 项，保持克制）。
+    /// 根据 MDEditorKit 推送的 5 态作用域返回底栏快捷动作（1:1 对齐 Ulysses 42.2「严格 3 项 + ···」策略）。
     static func quickItems(for context: EditorBlockContext) -> [EditorActionItem] {
         let ids: [String]
         switch context {
         case .empty(let suggestedLevel):
-            let headingID = suggestedLevel == 2 ? "heading2" : (suggestedLevel == 3 ? "heading3" : "heading1")
-            ids = [headingID, "bulletList", "blockquote", "inlineMath"]
+            // Scope 0（空行）：智能标题 + 无序列表 + 图片（官方: headingDef, UnorderedList, Image）
+            let headingID = headingItemID(for: suggestedLevel)
+            ids = [headingID, "bulletList", "image"]
+        case .paragraphText:
+            // Scope 1（正文句中/段尾，无选区）：粗体 + 链接 + 行内公式
+            ids = ["bold", "link", "inlineMath"]
+        case .inlineText:
+            // Scope 1（行内局部选区）：粗体 + 斜体 + 链接
+            ids = ["bold", "italic", "link"]
+        case .paragraphStart(let suggestedLevel), .fullLine(let suggestedLevel):
+            // Scope 2 & 3（段落行首 / 单整行选区）：智能标题 + 无序列表 + 引用（官方: headingDef, UnorderedList, Blockquote）
+            let headingID = headingItemID(for: suggestedLevel)
+            ids = [headingID, "bulletList", "blockquote"]
+        case .fullLines:
+            // Scope 4（跨多段选区）：无序列表 + 引用 + 代码块
+            ids = ["bulletList", "blockquote", "codeBlock"]
         case .headingLine:
+            // Scope 2 细化（标题行首）：H1 / H2 / H3（再次点击已激活项清除标题）
             ids = ["heading1", "heading2", "heading3"]
         case .listLine:
+            // Scope 2 细化（列表行首）：无序 / 有序 / 任务（再次点击已激活项退出列表）
             ids = ["bulletList", "orderedList", "taskList"]
         case .quoteLine:
+            // Scope 2 细化（引用行首）：引用 / 列表 / 标题
             ids = ["blockquote", "bulletList", "heading2"]
         case .codeBlock:
             ids = ["inlineCode", "codeBlock", "divider"]
@@ -242,24 +259,91 @@ enum EditorActionRegistry {
                     id: "mathSum", symbol: "\\sum", titleKey: "Summation", shortTitleKey: nil,
                     shortcut: nil, category: .mathAndInsert, isSecondary: false, keywords: []
                 ) { $0.insertMarkup("\\sum_{i=1}^{n}") },
-                EditorActionItem(
-                    id: "mathInt", symbol: "\\int", titleKey: "Integral", shortTitleKey: nil,
-                    shortcut: nil, category: .mathAndInsert, isSecondary: false, keywords: []
-                ) { $0.insertMarkup("\\int_{a}^{b}") },
+            ]
+        }
+        return Array(ids.compactMap { item(id: $0) }.prefix(3))
+    }
+
+    /// 按当前作用域动态划分「···」命令面板的主列表（对齐 Ulysses `primaryFilter` / `secondaryItems` 分层）。
+    static func partitionedItems(for context: EditorBlockContext) -> (primary: [EditorActionItem], secondary: [EditorActionItem]) {
+        let primaryIDs: [String]
+        switch context {
+        case .empty:
+            primaryIDs = [
+                "heading1", "heading2", "heading3",
+                "bulletList", "orderedList", "taskList", "blockquote", "codeBlock",
+                "image", "displayMath", "table", "divider"
+            ]
+        case .paragraphText:
+            primaryIDs = [
+                "bold", "italic", "strikethrough", "inlineCode", "highlight",
+                "link", "inlineMath", "image", "footnote"
             ]
         case .inlineText:
-            ids = ["bold", "italic", "link", "inlineMath"]
+            primaryIDs = [
+                "bold", "italic", "strikethrough", "inlineCode", "highlight",
+                "link", "inlineMath"
+            ]
+        case .paragraphStart, .fullLine, .headingLine, .listLine, .quoteLine:
+            primaryIDs = [
+                "heading1", "heading2", "heading3", "clearPrefix",
+                "bulletList", "orderedList", "taskList", "blockquote", "codeBlock",
+                "divider"
+            ]
         case .fullLines:
-            ids = ["heading2", "bulletList", "blockquote", "displayMath"]
+            primaryIDs = [
+                "bulletList", "orderedList", "taskList", "blockquote", "codeBlock",
+                "displayMath", "divider", "moveUp", "moveDown"
+            ]
+        case .codeBlock:
+            primaryIDs = ["inlineCode", "codeBlock", "divider", "clearPrefix"]
+        case .mathBlock:
+            primaryIDs = ["displayMath", "inlineMath", "editEntity", "divider"]
         }
-        return ids.compactMap { item(id: $0) }
+
+        let primarySet = Set(primaryIDs)
+        let primary = primaryIDs.compactMap { item(id: $0) }
+        let secondary = allItems.filter { !primarySet.contains($0.id) }
+        return (primary, secondary)
+    }
+
+    private static func headingItemID(for level: Int) -> String {
+        switch level {
+        case 2: return "heading2"
+        case 3: return "heading3"
+        default: return "heading1"
+        }
+    }
+
+    /// 返回当前光标所在块对应的激活按钮 ID（用于高亮当前段落格式，再次点击可取消前缀）。
+    static func activeItemID(for context: EditorBlockContext) -> String? {
+        switch context {
+        case .headingLine(let level):
+            switch level {
+            case 1: return "heading1"
+            case 2: return "heading2"
+            case 3: return "heading3"
+            default: return nil
+            }
+        case .listLine(let kind):
+            switch kind {
+            case .unordered: return "bulletList"
+            case .ordered: return "orderedList"
+            case .task: return "taskList"
+            }
+        case .quoteLine:
+            return "blockquote"
+        default:
+            return nil
+        }
     }
 }
 
-// MARK: - 主视图
+// MARK: - 主视图（Ulysses 风格全宽底部停靠快捷栏）
 
 struct UlyssesMarkupBar: View {
     @ObservedObject var controller: EditorController
+    var backgroundColor: Color = Color(nsColor: .textBackgroundColor)
     var contentWidth: CGFloat = 750
     var isHiddenByOverlay: Bool = false
 
@@ -270,55 +354,84 @@ struct UlyssesMarkupBar: View {
         Group {
             if !isHiddenByOverlay && !controller.isSearchVisible {
                 VStack(spacing: 0) {
-                    Rectangle()
-                        .fill(Color.primary.opacity(0.10))
-                        .frame(height: 0.5)
-                        .padding(.horizontal, 16)
+                    // 顶部柔和渐变淡出，让正文滚动到底部时自然隐入底栏而非生硬截断
+                    LinearGradient(
+                        colors: [backgroundColor.opacity(0), backgroundColor],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 14)
+                    .allowsHitTesting(false)
 
-                    HStack(spacing: 0) {
-                        Spacer(minLength: 8)
+                    // 停靠底栏主体（对标 ULQuickActionBarController.nib：全宽纸面同色 + 对齐正文宽度的顶部极细分隔线 + 居中 3 项 + ···）
+                    VStack(spacing: 0) {
+                        Rectangle()
+                            .fill(Color.primary.opacity(0.09))
+                            .frame(maxWidth: max(420, contentWidth))
+                            .frame(height: 0.5)
+                            .padding(.horizontal, 36)
 
-                        HStack(spacing: 24) {
-                            ForEach(EditorActionRegistry.quickItems(for: displayedContext)) { item in
-                                MarkupButton(
-                                    symbol: item.symbol,
-                                    label: item.localizedShortTitle,
-                                    shortcut: item.shortcut
-                                ) {
-                                    item.perform(controller)
-                                    controller.focusEditor()
+                        HStack(spacing: 0) {
+                            Spacer(minLength: 12)
+
+                            HStack(spacing: 18) {
+                                let activeID = EditorActionRegistry.activeItemID(for: displayedContext)
+
+                                ForEach(EditorActionRegistry.quickItems(for: displayedContext)) { item in
+                                    let isActive = (item.id == activeID)
+                                    MarkupButton(
+                                        symbol: item.symbol,
+                                        label: item.localizedShortTitle,
+                                        shortcut: item.shortcut,
+                                        isActive: isActive
+                                    ) {
+                                        if isActive {
+                                            // 再次点击当前激活的块级按钮，清除前缀回归普通正文（对标 Ulysses）
+                                            controller.applyBlockPrefix("")
+                                        } else {
+                                            item.perform(controller)
+                                        }
+                                        controller.focusEditor()
+                                    }
                                 }
-                            }
 
-                            if let entity = controller.cursorContext.activeEntity {
-                                Divider()
-                                    .frame(height: 12)
-                                    .opacity(0.4)
+                                if let entity = controller.cursorContext.activeEntity {
+                                    Rectangle()
+                                        .fill(Color.primary.opacity(0.12))
+                                        .frame(width: 0.5, height: 12)
 
-                                MarkupButton(
-                                    symbol: entity.kind == .link ? "↗" : "∑",
-                                    label: entityEditLabel(for: entity.kind),
-                                    shortcut: "⌘E"
-                                ) {
-                                    controller.activeEntityForPopover = entity
+                                    MarkupButton(
+                                        symbol: entity.kind == .link ? "↗" : "∑",
+                                        label: entityEditLabel(for: entity.kind),
+                                        shortcut: "⌘E",
+                                        isActive: true
+                                    ) {
+                                        controller.activeEntityForPopover = entity
+                                    }
                                 }
-                            }
 
-                            moreButton
+                                Rectangle()
+                                    .fill(Color.primary.opacity(0.12))
+                                    .frame(width: 0.5, height: 12)
+
+                                moreButton
+                            }
+                            .id(displayedContext)
+                            .transition(.opacity)
+
+                            Spacer(minLength: 12)
                         }
-                        .id(displayedContext)
-                        .transition(.opacity.combined(with: .scale(scale: 0.97)))
-
-                        Spacer(minLength: 8)
+                        .frame(height: 44)
                     }
-                    .padding(.vertical, 9)
+                    .frame(maxWidth: .infinity)
+                    .background(backgroundColor)
+                    .background(QuickActionBarCursorGuard())
                 }
-                .frame(maxWidth: max(420, contentWidth))
-                .background(QuickActionBarCursorGuard())
+                .frame(maxWidth: .infinity)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .animation(.spring(response: 0.28, dampingFraction: 0.84), value: displayedContext)
+        .animation(.easeOut(duration: 0.14), value: displayedContext)
         .animation(.easeInOut(duration: 0.18), value: isHiddenByOverlay || controller.isSearchVisible)
         .onReceive(controller.$cursorContext) { newContext in
             scheduleContextUpdate(newContext.blockContext)
@@ -335,7 +448,7 @@ struct UlyssesMarkupBar: View {
         guard next != displayedContext else { return }
         debounceTask?.cancel()
         debounceTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 60_000_000) // 60ms 防抖避免快速移动闪烁
+            try? await Task.sleep(nanoseconds: 40_000_000) // 40ms 轻量防抖，兼顾跟手响应与无闪烁
             guard !Task.isCancelled else { return }
             displayedContext = next
         }
@@ -352,19 +465,40 @@ struct UlyssesMarkupBar: View {
     // MARK: - 更多按钮
 
     private var moreButton: some View {
+        MoreMarkupButton(isPresented: $controller.showAllMarkupPopover) {
+            EditorActionCommandPopover(controller: controller)
+        }
+    }
+}
+
+private struct MoreMarkupButton<PopoverContent: View>: View {
+    @Binding var isPresented: Bool
+    @ViewBuilder let popoverContent: () -> PopoverContent
+    @State private var isHovered = false
+
+    var body: some View {
         Button {
-            controller.showAllMarkupPopover.toggle()
+            isPresented.toggle()
         } label: {
-            Text("···")
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.secondary.opacity(0.55))
-                .padding(.horizontal, 4)
+            Image(systemName: "ellipsis")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(isHovered || isPresented ? .primary.opacity(0.85) : .secondary.opacity(0.6))
+                .frame(width: 26, height: 22)
+                .background(
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(Color.primary.opacity(isHovered || isPresented ? 0.07 : 0))
+                )
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .help(LocalizedStringKey("Show All Markup (⌘\\)"))
-        .popover(isPresented: $controller.showAllMarkupPopover, arrowEdge: .top) {
-            EditorActionCommandPopover(controller: controller)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                isHovered = hovering
+            }
+        }
+        .popover(isPresented: $isPresented, arrowEdge: .top) {
+            popoverContent()
         }
     }
 }
@@ -391,32 +525,47 @@ private struct QuickActionBarCursorGuard: NSViewRepresentable {
     }
 }
 
-// MARK: - Markup 按钮（仿 Ulysses 样式）
+// MARK: - Markup 按钮（Ulysses 极简排版风格）
 
 struct MarkupButton: View {
     let symbol: String
     let label: String
     var shortcut: String? = nil
+    var isActive: Bool = false
     let action: () -> Void
 
     @State private var isHovered = false
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 3) {
+            HStack(spacing: 4) {
                 Text(symbol)
-                    .font(.system(size: 11.5, weight: .regular, design: .monospaced))
-                    .foregroundColor(.secondary.opacity(isHovered ? 0.65 : 0.45))
+                    .font(.system(size: 11.5, weight: .medium, design: .monospaced))
+                    .foregroundColor(
+                        isActive
+                            ? .accentColor
+                            : .secondary.opacity(isHovered ? 0.78 : 0.50)
+                    )
 
                 Text(label)
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(isHovered ? .primary.opacity(0.85) : .secondary.opacity(0.7))
+                    .font(.system(size: 12, weight: isActive ? .medium : .regular))
+                    .lineLimit(1)
+                    .foregroundColor(
+                        isActive
+                            ? .accentColor
+                            : (isHovered ? .primary.opacity(0.92) : .secondary.opacity(0.80))
+                    )
             }
-            .padding(.horizontal, 4)
-            .padding(.vertical, 2)
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3.5)
             .background(
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.primary.opacity(isHovered ? 0.05 : 0))
+                RoundedRectangle(cornerRadius: 5.5)
+                    .fill(
+                        isActive
+                            ? Color.accentColor.opacity(isHovered ? 0.16 : 0.10)
+                            : Color.primary.opacity(isHovered ? 0.051 : 0)
+                    )
             )
             .contentShape(Rectangle())
         }
@@ -441,20 +590,27 @@ struct EditorActionCommandPopover: View {
     @State private var selectedIndex: Int = 0
     @FocusState private var isSearchFocused: Bool
 
+    private var partitioned: (primary: [EditorActionItem], secondary: [EditorActionItem]) {
+        EditorActionRegistry.partitionedItems(for: controller.cursorContext.blockContext)
+    }
+
     private var visibleItems: [EditorActionItem] {
         let query = filterText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {
             // 有过滤词时搜索全量（主 + 次）动作
             return EditorActionRegistry.allItems.filter { $0.matches(query: query) }
         }
+        let split = partitioned
         if showSecondary {
-            return EditorActionRegistry.allItems
+            return split.primary + split.secondary
         }
-        return EditorActionRegistry.allItems.filter { !$0.isSecondary }
+        return split.primary
     }
 
     private var hasCollapsedSecondary: Bool {
-        filterText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !showSecondary
+        filterText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !showSecondary
+            && !partitioned.secondary.isEmpty
     }
 
     var body: some View {

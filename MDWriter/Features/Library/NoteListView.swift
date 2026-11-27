@@ -126,11 +126,33 @@ struct NoteListView: View {
         }
     }
 
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var sheetListBackground: Color {
+        colorScheme == .dark
+            ? Color(red: 0.141, green: 0.141, blue: 0.149) // #242426 沉稳暗灰，与 #1E1E1E 编辑器拉开微阶层次
+            : Color(red: 0.969, green: 0.969, blue: 0.973) // #F7F7F8 柔和浅灰，与纯白/纸色编辑器自然区分
+    }
+
     var body: some View {
-        List(selection: $selectedNote) {
-            ForEach(displayedNotes) { note in
-                NoteRowView(note: note, searchText: searchText, isSelected: selectedNote == note, isListFocused: isListFocused)
-                    .tag(note)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(Array(displayedNotes.enumerated()), id: \.element.id) { index, note in
+                    let isSelected = (selectedNote == note)
+                    let nextIsSelected = (index + 1 < displayedNotes.count && selectedNote == displayedNotes[index + 1])
+
+                    NoteRowView(
+                        note: note,
+                        searchText: searchText,
+                        isSelected: isSelected,
+                        isListFocused: isListFocused,
+                        showBottomDivider: !isSelected && !nextIsSelected && index < displayedNotes.count - 1
+                    )
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedNote = note
+                        isListFocused = true
+                    }
                     .draggable(NoteTransfer(id: note.persistentModelID))
                     .contextMenu {
                         if note.isTrashed {
@@ -170,11 +192,33 @@ struct NoteListView: View {
                             }
                         }
                     }
+                }
             }
-            .onMove(perform: moveNotes)
+            .padding(.vertical, 6)
         }
+        .background(sheetListBackground)
+        .focusable()
         .focused($isListFocused)
-        .listStyle(.inset)
+        .focusEffectDisabled()
+        .onKeyPress(.downArrow) {
+            selectAdjacentNote(offset: 1)
+            return .handled
+        }
+        .onKeyPress(.upArrow) {
+            selectAdjacentNote(offset: -1)
+            return .handled
+        }
+    }
+
+    private func selectAdjacentNote(offset: Int) {
+        let items = displayedNotes
+        guard !items.isEmpty else { return }
+        guard let current = selectedNote, let idx = items.firstIndex(of: current) else {
+            selectedNote = items.first
+            return
+        }
+        let nextIdx = max(0, min(items.count - 1, idx + offset))
+        selectedNote = items[nextIdx]
     }
 
     private func moveNotes(from source: IndexSet, to destination: Int) {

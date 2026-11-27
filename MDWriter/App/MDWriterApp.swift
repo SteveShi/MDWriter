@@ -22,7 +22,7 @@ struct MDWriterApp: App {
     @AppStorage("showOutline") var showOutline: Bool = false
     @AppStorage("textZoom") var textZoom: Double = 1.0
 
-    @AppStorage("appTheme") private var currentTheme: AppTheme = .light
+    @AppStorage("appTheme") private var currentTheme: AppTheme = .system
 
     @Environment(\.scenePhase) private var scenePhase
 
