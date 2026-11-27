@@ -79,7 +79,7 @@ class EditorController: ObservableObject {
         proxy.insert(markup)
     }
 
-    // MARK: - Block-level Prefix Switching (Ulysses-style)
+    // MARK: - Block-level Prefix Switching
 
     /// 将光标所在行的 block 前缀替换为 `prefix`，剥离已有的 heading / 列表 / 引用前缀。
     func applyBlockPrefix(_ prefix: String) {

@@ -2,7 +2,7 @@
 //  WikiLinkCompletionPopover.swift
 //  MDWriter
 //
-//  编辑器内 `[[` 双向链接自动补全浮层（对标 UlyssesUI.LinkCompletionCell）：
+//  编辑器内 `[[` 双向链接自动补全浮层：
 //  由 MDEditorKit 的轻量 EditorWikiLinkQuery 驱动，零全文扫描，支持键盘选择与快速建链。
 //
 

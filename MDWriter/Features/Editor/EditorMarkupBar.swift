@@ -1,12 +1,12 @@
 //
-//  UlyssesMarkupBar.swift
+//  EditorMarkupBar.swift
 //  MDWriter
 //
-//  Ulysses 风格的上下文敏感快捷符号栏（参考 ULQuickActionBarController / ULEditorActionWindow）：
-//  - 由 MDEditorKit 的轻量 EditorCursorContext 驱动（零全文重构 + 60ms 防抖）
+//  上下文敏感的底部停靠快捷符号栏与可搜索命令面板：
+//  - 由 MDEditorKit 的轻量 EditorCursorContext 驱动（零全文重构 + 40ms 防抖）
 //  - 快捷按钮与「···」命令面板共用统一的 EditorActionItem 注册表
-//  - 「···」面板支持实时搜索过滤、匹配高亮、全键盘导航与主/次动作分层折叠
-//  - 宽度对齐正文栏，搜索栏/内联 AI 弹出时自动隐藏，空白区拦截误触与光标抖动
+//  - 「···」面板支持按当前作用域动态排序、实时搜索过滤、匹配高亮、全键盘导航与主/次动作分层折叠
+//  - 顶置细线对齐正文栏宽，搜索栏/内联 AI 弹出时自动隐藏，空白区拦截误触与光标抖动
 //
 
 import AppKit
@@ -14,7 +14,7 @@ import Combine
 import MDEditorKit
 import SwiftUI
 
-// MARK: - 统一动作模型（对标 ULEditorActionItem / ULEditorActionConfiguration）
+// MARK: - 统一动作模型
 
 enum EditorActionCategory: String, CaseIterable, Identifiable {
     case headings
@@ -213,12 +213,12 @@ enum EditorActionRegistry {
         allItems.first { $0.id == id }
     }
 
-    /// 根据 MDEditorKit 推送的 5 态作用域返回底栏快捷动作（1:1 对齐 Ulysses 42.2「严格 3 项 + ···」策略）。
+    /// 根据 MDEditorKit 推送的 5 态作用域返回底栏快捷动作（精简 3 项 + ···）。
     static func quickItems(for context: EditorBlockContext) -> [EditorActionItem] {
         let ids: [String]
         switch context {
         case .empty(let suggestedLevel):
-            // Scope 0（空行）：智能标题 + 无序列表 + 图片（官方: headingDef, UnorderedList, Image）
+            // Scope 0（空行）：智能标题 + 无序列表 + 图片
             let headingID = headingItemID(for: suggestedLevel)
             ids = [headingID, "bulletList", "image"]
         case .paragraphText:
@@ -228,7 +228,7 @@ enum EditorActionRegistry {
             // Scope 1（行内局部选区）：粗体 + 斜体 + 链接
             ids = ["bold", "italic", "link"]
         case .paragraphStart(let suggestedLevel), .fullLine(let suggestedLevel):
-            // Scope 2 & 3（段落行首 / 单整行选区）：智能标题 + 无序列表 + 引用（官方: headingDef, UnorderedList, Blockquote）
+            // Scope 2 & 3（段落行首 / 单整行选区）：智能标题 + 无序列表 + 引用
             let headingID = headingItemID(for: suggestedLevel)
             ids = [headingID, "bulletList", "blockquote"]
         case .fullLines:
@@ -264,7 +264,7 @@ enum EditorActionRegistry {
         return Array(ids.compactMap { item(id: $0) }.prefix(3))
     }
 
-    /// 按当前作用域动态划分「···」命令面板的主列表（对齐 Ulysses `primaryFilter` / `secondaryItems` 分层）。
+    /// 按当前作用域动态划分「···」命令面板的主/次列表。
     static func partitionedItems(for context: EditorBlockContext) -> (primary: [EditorActionItem], secondary: [EditorActionItem]) {
         let primaryIDs: [String]
         switch context {
@@ -339,9 +339,9 @@ enum EditorActionRegistry {
     }
 }
 
-// MARK: - 主视图（Ulysses 风格全宽底部停靠快捷栏）
+// MARK: - 主视图（全宽底部停靠快捷栏）
 
-struct UlyssesMarkupBar: View {
+struct EditorMarkupBar: View {
     @ObservedObject var controller: EditorController
     var backgroundColor: Color = Color(nsColor: .textBackgroundColor)
     var contentWidth: CGFloat = 750
@@ -363,7 +363,7 @@ struct UlyssesMarkupBar: View {
                     .frame(height: 14)
                     .allowsHitTesting(false)
 
-                    // 停靠底栏主体（对标 ULQuickActionBarController.nib：全宽纸面同色 + 对齐正文宽度的顶部极细分隔线 + 居中 3 项 + ···）
+                    // 停靠底栏主体：全宽纸面同色 + 对齐正文宽度的顶部极细分隔线 + 居中 3 项 + ···
                     VStack(spacing: 0) {
                         Rectangle()
                             .fill(Color.primary.opacity(0.09))
@@ -386,7 +386,7 @@ struct UlyssesMarkupBar: View {
                                         isActive: isActive
                                     ) {
                                         if isActive {
-                                            // 再次点击当前激活的块级按钮，清除前缀回归普通正文（对标 Ulysses）
+                                            // 再次点击当前激活的块级按钮，清除前缀回归普通正文
                                             controller.applyBlockPrefix("")
                                         } else {
                                             item.perform(controller)
@@ -503,7 +503,7 @@ private struct MoreMarkupButton<PopoverContent: View>: View {
     }
 }
 
-// MARK: - 空白区域防穿透 + 恢复默认箭头光标（对标 ULQuickActionBarBackgroundView）
+// MARK: - 空白区域防穿透 + 恢复默认箭头光标
 
 private struct QuickActionBarCursorGuard: NSViewRepresentable {
     func makeNSView(context: Context) -> CursorGuardNSView {
@@ -525,7 +525,7 @@ private struct QuickActionBarCursorGuard: NSViewRepresentable {
     }
 }
 
-// MARK: - Markup 按钮（Ulysses 极简排版风格）
+// MARK: - Markup 按钮（极简排版风格）
 
 struct MarkupButton: View {
     let symbol: String
@@ -579,7 +579,7 @@ struct MarkupButton: View {
     }
 }
 
-// MARK: - 可搜索、全键盘驱动的命令面板（对标 ULEditorActionWindow）
+// MARK: - 可搜索、全键盘驱动的命令面板
 
 struct EditorActionCommandPopover: View {
     @ObservedObject var controller: EditorController

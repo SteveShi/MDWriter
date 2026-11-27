@@ -68,7 +68,7 @@ struct ContentView: View {
         currentTheme.isDark(in: systemScheme)
     }
 
-    /// 纸面背景：所有内置主题均原生适配亮色与暗色双色板（对标官方 Ulysses 42.2）。
+    /// 纸面背景：所有内置主题均原生适配亮色与暗色双色板。
     private var canvasPaperColor: Color {
         activeMarkdownTheme.paperColor(isDark: effectiveIsDark)
     }
@@ -150,7 +150,7 @@ struct ContentView: View {
                     .allowsHitTesting(false)
                 }
 
-                // Ulysses-style Context-Sensitive Docked Markup Bar & Floating Assist Popovers
+                // Context-Sensitive Docked Markup Bar & Floating Assist Popovers
                 if note != nil {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
@@ -175,7 +175,7 @@ struct ContentView: View {
                         }
                         .padding(.bottom, 8)
 
-                        UlyssesMarkupBar(
+                        EditorMarkupBar(
                             controller: editorController,
                             backgroundColor: canvasPaperColor,
                             contentWidth: CGFloat(editorSettings.contentWidth),
@@ -216,7 +216,7 @@ struct ContentView: View {
                 // MARK: - Find & Replace Overlay
                 if editorController.isSearchVisible {
                     VStack {
-                        UlyssesSearchBar(controller: editorController)
+                        EditorSearchBar(controller: editorController)
                             .padding(.top, 50) // Pin to top but below title bar
                             .background(.ultraThinMaterial)
                             .cornerRadius(10)

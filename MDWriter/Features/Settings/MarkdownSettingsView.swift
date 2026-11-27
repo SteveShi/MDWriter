@@ -8,7 +8,7 @@
 import MDEditorKit
 import SwiftUI
 
-// MARK: - Ulysses 风格语法元素描述
+// MARK: - Markdown 语法元素描述
 
 /// 单个 Markdown 元素的描述，用于「Markup Reference」清单。
 private struct MarkupElement: Identifiable, Sendable {
@@ -73,13 +73,13 @@ struct MarkdownSettingsView: View {
         MarkdownTheme.fromStorage(selectedThemeRaw)
     }
 
-    // Ulysses 风格语法特性开关（影响 HTML 渲染层；编辑器侧由 MDEditor 包决定能否响应）
+    // Markdown 语法特性开关（影响 HTML 渲染层；编辑器侧由 MDEditor 包决定能否响应）
     @AppStorage("markdownFeatureStrikethrough") private var featureStrikethrough: Bool = true
     @AppStorage("markdownFeatureTaskList") private var featureTaskList: Bool = true
     @AppStorage("markdownFeatureTable") private var featureTable: Bool = true
     @AppStorage("markdownFeatureFootnote") private var featureFootnote: Bool = false
 
-    // 标记可见性（Ulysses: Show/Hide Markup）
+    // 标记可见性（Show/Hide Markup）
     @AppStorage("markdownShowMarkup") private var showMarkup: Bool = true
 
     // 默认导出出版风格与纸张尺寸（独立于编辑器配色）
@@ -96,7 +96,7 @@ struct MarkdownSettingsView: View {
     var body: some View {
         Form {
 
-            // MARK: 配色方案（Ulysses 风格双模式亮/暗色板卡片）
+            // MARK: 配色方案（双模式亮/暗色板预览卡片）
             Section {
                 VStack(alignment: .leading, spacing: 14) {
                     Text(
@@ -226,7 +226,7 @@ struct MarkdownSettingsView: View {
     }
 }
 
-/// Ulysses 风格双色板预览卡片：左侧展示亮色纸面与排版，右侧展示暗色纸面与排版。
+/// 双色板预览卡片：左侧展示亮色纸面与排版，右侧展示暗色纸面与排版。
 struct ThemePreviewSwatch: View {
     let theme: MarkdownTheme
     let isSelected: Bool

@@ -5,7 +5,7 @@
 //  出版级 Markdown → HTML 渲染服务：
 //  - 100% 离线原生 LaTeX 数学公式渲染（通过 MDEditorKit.MathRenderer 输出高清 PNG Data URI + 精确基线对齐）
 //  - 本地图片自动转为 Base64 Data URI 内嵌，彻底解决 WebKit PDF/HTML 导出跨源拦截导致图片裂图的问题
-//  - 支持 6 套 Ulysses 风格出版排版样式（Swiss / Academic / Manuscript / Editorial / Business / Editor Theme）
+//  - 支持 6 套出版级排版样式（Swiss / Academic / Manuscript / Editorial / Business / Editor Theme）
 //  - 完整 @page 与 @media print 规则，保留背景色、表格排版与智能分页防断行
 //
 

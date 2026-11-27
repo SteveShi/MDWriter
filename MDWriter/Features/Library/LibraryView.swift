@@ -694,7 +694,6 @@ struct NoteRowView: View {
             return Color.primary.opacity(colorScheme == .dark ? 0.095 : 0.065)
         }
         if isHovered {
-            // 对标 Ulysses Assets.car ULCustomMenuTableRowHover (5.1%)
             return Color.primary.opacity(0.051)
         }
         return .clear

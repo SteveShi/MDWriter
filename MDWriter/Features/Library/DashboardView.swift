@@ -2,7 +2,7 @@
 //  DashboardView.swift
 //  MDWriter
 //
-//  Ulysses-style Dashboard Panel
+//  Document Inspector Dashboard Panel
 //  Replaces the simple outline view with a comprehensive toolset.
 //
 

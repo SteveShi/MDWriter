@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UlyssesSearchBar: View {
+struct EditorSearchBar: View {
     @ObservedObject var controller: EditorController
     @FocusState private var isFindFocused: Bool
     @FocusState private var isReplaceFocused: Bool

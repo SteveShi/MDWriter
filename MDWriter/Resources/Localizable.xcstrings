@@ -1880,23 +1880,6 @@
         }
       }
     },
-    "D26 Mono": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "D26 Mono"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "极简单色"
-          }
-        }
-      }
-    },
     "Daily Log": {
       "extractionState": "manual",
       "localizations": {
@@ -3487,23 +3470,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "分数"
-          }
-        }
-      }
-    },
-    "Freestraction": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Freestraction"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "柔灰专注"
           }
         }
       }

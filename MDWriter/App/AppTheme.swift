@@ -62,8 +62,8 @@ enum AppTheme: String, CaseIterable, Identifiable {
 
     func paperColor(isDark: Bool) -> Color {
         isDark
-            ? Color(red: 0.118, green: 0.118, blue: 0.118) // #1E1E1E (官方 Ulysses 默认暗色纸面)
-            : Color(red: 1.000, green: 1.000, blue: 1.000) // #FFFFFF (官方 Ulysses 默认亮色纸面)
+            ? Color(red: 0.118, green: 0.118, blue: 0.118) // #1E1E1E 默认暗色纸面
+            : Color(red: 1.000, green: 1.000, blue: 1.000) // #FFFFFF 默认亮色纸面
     }
 
     var paperColor: Color {

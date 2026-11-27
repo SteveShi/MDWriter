@@ -2,7 +2,7 @@
 //  InlineEntityPopover.swift
 //  MDWriter
 //
-//  Ulysses 风格内联实体编辑浮层（对标 ULAttributeEditor）：
+//  内联实体编辑浮层：
 //  支持编辑链接、图片以及带实时矢量预览的 LaTeX 数学公式（行内 / 块级切换）。
 //
 

@@ -2,7 +2,7 @@
 //  DashboardLinksTab.swift
 //  MDWriter
 //
-//  Bi-directional WikiLinks and Backlinks inspector for the Ulysses-style Dashboard.
+//  Bi-directional WikiLinks and Backlinks inspector for the Document Dashboard.
 //
 
 import SwiftData

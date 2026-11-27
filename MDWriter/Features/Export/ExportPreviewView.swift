@@ -2,7 +2,7 @@
 //  ExportPreviewView.swift
 //  MDWriter
 //
-//  真正的所见即所得导出预览（借鉴 Ulysses 导出样式选择器）：
+//  真正的所见即所得导出预览与出版样式选择器：
 //  - PDF / HTML 预览直接渲染与最终导出同源的 HTML + 出版样式 CSS
 //  - 支持独立切换 6 套出版导出风格与 A4 / US Letter 纸张规格
 //
@@ -78,7 +78,7 @@ struct ExportPreviewView: View {
 
                     Spacer()
 
-                    // 出版导出风格选择器（Ulysses 风格解耦设计）
+                    // 出版导出风格选择器（与编辑器配色解耦）
                     Picker(LocalizedStringKey("Export Style"), selection: $selectedStyleRaw) {
                         ForEach(ExportStyle.allCases) { style in
                             Label(style.displayName, systemImage: style.iconName)

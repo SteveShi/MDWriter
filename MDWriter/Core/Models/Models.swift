@@ -20,17 +20,16 @@ extension UTType {
     }
 }
 
-// Dual-Mode Theme Model (Every theme adapts natively to both Light & Dark appearances,
-// directly modeled on Ulysses 42.2's official dual-palette Theme.xml system).
+// Dual-Mode Theme Model (Every built-in theme adapts natively to both Light & Dark appearances).
 enum MarkdownTheme: String, CaseIterable, Identifiable {
-    case pure = "Pure"                 // Ulysses Default (default-macos-39)
-    case paper = "Warm Paper"          // Ulysses Simple (simple)
-    case studio = "Studio Gray"        // Ulysses Freestraction (freestraction)
-    case monochrome = "Monochrome"     // Ulysses D26 Mono (d26-mono)
-    case d22 = "D22"                   // Ulysses D22 (pure OLED dark)
-    case solarized = "Solarized"       // Ulysses Solarized (light + dark)
-    case yosemite = "Yosemite"         // Ulysses Yosemite (classic cyan/magenta)
-    case nord = "Nord"                 // Nord (Snow Storm light + Polar Night dark)
+    case pure = "Pure"                 // Default Light / Dark
+    case paper = "Warm Paper"          // Warm Book Paper / Espresso
+    case studio = "Studio Gray"        // Soft Gray / Charcoal
+    case monochrome = "Monochrome"     // Minimalist Monochrome
+    case d22 = "D22"                   // High Contrast / OLED Dark
+    case solarized = "Solarized"       // Solarized Light / Dark
+    case yosemite = "Yosemite"         // Classic Cyan & Magenta
+    case nord = "Nord"                 // Nord Snow Storm / Polar Night
 
     var id: String { rawValue }
 
@@ -54,8 +53,8 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
         switch self {
         case .pure: return LocalizedStringKey("Default")
         case .paper: return LocalizedStringKey("Warm Paper")
-        case .studio: return LocalizedStringKey("Freestraction")
-        case .monochrome: return LocalizedStringKey("D26 Mono")
+        case .studio: return LocalizedStringKey("Studio Gray")
+        case .monochrome: return LocalizedStringKey("Monochrome")
         case .d22: return LocalizedStringKey("D22")
         case .solarized: return LocalizedStringKey("Solarized")
         case .yosemite: return LocalizedStringKey("Yosemite")
@@ -182,7 +181,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
     func editorTheme(isDark: Bool) -> EditorTheme {
         switch self {
         case .pure:
-            // 官方 default-macos-39._ultheme
+            // 默认亮/暗色板
             if isDark {
                 let fg = EditorThemeColor(red: 0.918, green: 0.918, blue: 0.918) // #EAEAEA
                 return EditorTheme(
@@ -216,7 +215,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .paper:
-            // 官方 simple._ultheme (暖书纸 ↔ 深焙胡桃)
+            // 暖书纸 ↔ 深焙胡桃
             if isDark {
                 let fg = EditorThemeColor(red: 0.953, green: 0.945, blue: 0.929) // #F3F1ED
                 return EditorTheme(
@@ -250,7 +249,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .studio:
-            // 官方 freestraction._ultheme (柔灰纸 ↔ 深碳灰)
+            // 柔灰纸 ↔ 深碳灰
             if isDark {
                 let fg = EditorThemeColor(red: 0.780, green: 0.780, blue: 0.780)
                 return EditorTheme(
@@ -284,7 +283,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .monochrome:
-            // 官方 d26-mono._ultheme (极简无干扰单色)
+            // 极简无干扰单色
             if isDark {
                 let fg = EditorThemeColor(red: 0.918, green: 0.918, blue: 0.918)
                 return EditorTheme(
@@ -318,7 +317,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .d22:
-            // 官方 d22._ultheme (高对比纯白 ↔ OLED 纯黑)
+            // 高对比纯白 ↔ OLED 纯黑
             if isDark {
                 let fg = EditorThemeColor(red: 0.918, green: 0.918, blue: 0.918) // #EAEAEA
                 return EditorTheme(
@@ -352,7 +351,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .solarized:
-            // 官方 solarized._ultheme (Solarized Light ↔ Solarized Dark)
+            // Solarized Light ↔ Solarized Dark
             if isDark {
                 let fg = EditorThemeColor(red: 0.576, green: 0.631, blue: 0.631) // #93A1A1
                 return EditorTheme(
@@ -386,7 +385,7 @@ enum MarkdownTheme: String, CaseIterable, Identifiable {
             }
 
         case .yosemite:
-            // 官方 yosemite._ultheme
+            // 经典青蓝与紫红点缀
             if isDark {
                 let fg = EditorThemeColor(red: 0.816, green: 0.816, blue: 0.816) // #D0D0D0
                 return EditorTheme(
